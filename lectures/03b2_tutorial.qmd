@@ -1,0 +1,273 @@
+---
+title: "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+author: "Henrik Sveinsson"
+number-subsections: true
+---
+
+**Tutorial**  
+Vi skal jobbe med denne tutorial-oppgaven i undervisningen, så denne trenger dere ikke gjøre på forhånd. 
+
+I leseleksa så dere på logistisk regresjon og på hvordan man kan validere en modell. Dette skal vi nå jobbe med. Vi skal bruke  logistisk regresjon til å klassifisere individer som gode eller dårlige betalere av kredittkortregningen sin. 
+
+Logistisk regresjon er en klassifiseringsmetode. Det vil si at vi ønsker å predikere *kategoriske* utfall. Altså utfall slik som kjønn (mann/kvinne), blodtype (A/B/AB/0) osv. Det som kjennetegner slike utfall er at de ikke enkelt kan tilordnes en numerisk verdi på en skala. Det gir ikke mening å si at blodtype B ligger midt mellom A og AB. De er bare forskjellige blodtyper. Noen ganger kan det være uklart om et utfall må være kategorisk eller om det kunne vært numerisk. Det gjelder i tilfeller der vi vet hvordan vi skal sortere kategoriene. I slike tilfeller kan det gi mening å modellere kategoriske utfall som numeriske utfall.
+
+## Videoløsning
+Her er video med løsning av en tidligere, men ganske lik, versjon av denne tutorial-oppgaven. 
+ 
+{{< video https://youtu.be/DRDN3HBavvI >}}
+
+
+## Kategorisk vs. numerisk
+Hvilke av følgende utfall er kategoriske og hvilke er numeriske?
+
+- Temperatur
+- Navn på by
+- Vindstyrke
+- Vindretning
+- Politisk parti
+- Øltype
+- Karakterer
+- Farge
+- Kjønn
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+**Løsning:**
+
+**Kategoriske**
+
+- Navn på by
+- Politisk parti (kanskje de kunne sorteres, men usannsynlig)
+- Øltype (med mindre man kun ser på alkoholprosent)
+- Karakterer (kanskje, kanskje ikke)
+- Farge (kommen an på kontekst)
+- Kjønn
+
+**Numeriske**
+
+- Temperatur
+- Vindstyrke
+- Vindretning
+- Karakterer (vanligvis, man regner jo gjennomsnitt)
+- Farge (Om man ser på bølgelengden)
+:::
+
+## Logistisk/sigmoid funksjon
+Plott den logistiske funksjonen (s. 139 i ITSL). Hvorfor er denne funksjonen egnet til å predikere et binært kategorisk utfall?
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+Sigmoidfunksjonen / den logistiske funsjonen er 
+$p(x) = \frac{e^{\beta_0 + \beta_1 x}}{1+e^{\beta_0 + \beta_1 x}}$
+
+Denne funksjonen er godt egnet til å beregne binære utfall fordi den er begrenset til intervallet 0 til 1. Vi kan tolke estimatet som en sannsynlighet for det ene av utfallene. 
+
+```{python}
+#|echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+
+def logistisk(x, beta_0=0, beta_1=1):
+    z = beta_0 + beta_1*x
+    return np.exp(z) / (1 + np.exp(z))
+
+x = np.linspace(-10, 10, 100)
+y = logistisk(x)
+
+plt.plot(x, y)
+plt.xlabel('x')
+plt.ylabel('S(x)')
+plt.show()
+```
+
+:::
+
+## Parametrene $\beta_0$ og $\beta_1$
+Uforsk hvordan parametrene $\beta_0$ og $\beta_1$ flytter på funksjonen.
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+```{python}
+x = np.linspace(-10, 10, 100)
+
+beta_1 = 1
+# Utforsk effekten av beta_0
+for beta_0 in [-2, 0, 2]:
+    y = logistisk(x, beta_0=beta_0, beta_1=beta_1)
+    plt.plot(x, y, label=rf'$\beta_0={beta_0}, \beta_1={beta_1}$')
+
+plt.xlabel('x')
+plt.ylabel('S(x)')
+plt.legend()
+plt.title(r'Effekten av $\beta_0$')
+plt.show()
+
+beta_0=0
+# Utforsk effekten av beta_1
+for beta_1 in [0.5, 1, 2]:
+    y = logistisk(x, beta_0=beta_0, beta_1=beta_1)
+    plt.plot(x, y, label=rf'$\beta_0={beta_0}, \beta_1={beta_1}$')
+
+plt.xlabel('x')
+plt.ylabel('S(x)')
+plt.legend()
+plt.title(r'Effekten av $\beta_1$')
+plt.show()
+```
+:::
+
+## Datasett med kredittkortmislighold
+Last inn `default`-datasettet (zenodo.org/record/6199560/files/default.csv). Plott mislighold mot hvor mye kredittkortlån en person har (balance). Ser du noen sammenheng i dataene? 
+
+Litt starthjelp her: 
+```{python}
+import pandas as pd
+
+# Load the dataset
+url = 'https://zenodo.org/record/6199560/files/default.csv'
+data = pd.read_csv(url)
+```
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+```{python}
+# Plot default vs balance
+plt.scatter(data['balance'], data['default'])
+plt.xlabel('Balance')
+plt.ylabel('Default')
+plt.title('Default vs Balance')
+plt.show()
+```
+:::
+
+## Datavisualisering 
+Bruk funksjonen `np.histogram` til å lage et histogram over hvem som misligholder og ikke. Bruk deretter histogramverdiene til å regne ut hvor stor andel som misligholder kridittkortlånene innenfor hvert intervall av `balance`. Altså for hvert intervall i histogrammet.
+
+Vi kan hente ut arrayer med true/false på mislighold på denne måten: 
+```{python}
+import numpy as np
+x = np.linspace(0, 3000, 100)
+df_yes = data[data["default"] == "Yes"]
+df_no = data[data["default"] == "No"]
+```
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+```{python}
+
+import numpy as np
+x = np.linspace(0, 3000, 100)
+df_yes = data[data["default"] == "Yes"]
+df_no = data[data["default"] == "No"]
+hist_yes, edges = np.histogram(df_yes["balance"], bins=x)
+hist_no, edges = np.histogram(df_no["balance"], bins=x)
+midpoints = edges[:-1] + np.diff(edges)
+proportions = hist_yes/(hist_yes + hist_no)
+plt.plot(midpoints, hist_yes/(hist_yes + hist_no))
+```
+
+- Et hovedpoeng her er å se at data som er "ja"/"nei" kan konverteres til sannsynligheter for "ja"/"nei" om vi lager et histogram over "ja"/"nei". 
+:::
+
+
+## Tilpasse $\beta_0$ og $\beta_1$
+Prøv å finne gode verdier for parametrene $\beta_0$ og $\beta_1$ slik at du får tegnet en logistisk funksjon som følger dataene brukbart. Trenger ikke å fintune helt, bare finne en strek som er sånn noen lunde på rett sted.  
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+Vi prøver oss fram. Lista viser en rekke med forsøk inn mot noenlunde gode verdier
+```{python}
+
+beta_verdier= [[-2000, 1], [-100, 0.05], [-10, 0.005], [-10, 0.007], [-12, 0.006], [-13, 0.0067]]
+
+plt.plot(midpoints, hist_yes/(hist_yes + hist_no))
+
+for beta_0, beta_1 in beta_verdier:
+    print(beta_0, beta_1)
+    y = logistisk(midpoints, beta_0=beta_0, beta_1=beta_1)
+    plt.plot(midpoints, y, label=rf"$\beta_0={beta_0}, \beta_1={beta_1}$")
+plt.legend()
+```
+:::
+
+
+## Automatisk tilpassing
+Bruk scikit-learn sin metode for å gjøre logistisk regresjon for mislighold som funsjon av balansen på kredittkortet. 
+
+Litt kode til å komme i gang: 
+```{python}
+#| eval: false 
+from sklearn.linear_model import LogisticRegression
+my_regressor = LogisticRegression()
+my_fit = my_regressor.fit(x.reshape(-1,1), y.reshape(-1,1))
+```
+
+Men sett inn riktige tall! Det kjipeste med koden over er at `LogisticRegression`sin `fit`-funksjon forventer å få en array med potensielt flere prediktorer, ikke bare én (som her er "balance"). Derfor vil den ha en array med arrayer, og vi må gjøre `.reshape` for å lage en array med arrayer av lengde 1. Det er som å pakke bamsemums i cellofan før de går i godteposen. 
+
+Om tilpasningen har gått riktig, vil du nå kunne finne igjen $\beta_0$ og $\beta_1$ som henholdsvis `my_regressor.intercept_` og `my_regressor.coef_`. 
+
+Plott deretter den logistiske funksjonen sammen med grafen som viser andel "yes" for å verifisere at du har fått riktige koeffisienter. 
+
+Skriv også opp, med tall, hva som er likningen som beskriver modellen din for mislighold av kredittkortgjeld. 
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+```{python}
+from sklearn.linear_model import LogisticRegression
+
+x = data["balance"].array
+y = data["default"].array == "Yes"
+
+my_regressor = LogisticRegression()
+my_regressor.fit(x.reshape(-1,1), y.reshape(-1,1))
+print(my_regressor.coef_)
+print(my_regressor.intercept_)
+```
+:::
+Går det an å si noe vettugt om verdien på koeffisientene opp mot hva vi ser i plottet? 
+
+## Multippel logistisk regresjon 
+Til nå har vi tenkt av vi modellerer sannsynligheten for å misligholde kun som en funksjon av én forklaringsvariabel $x_1$, som er hvor stor kredittkortgjeld en person har. 
+$$f(x) = \frac{e^{\beta_0 + \beta_1 x_1}}{1 + e^{\beta_0 + \beta_1 x_1}}$$
+
+Vi skal nå utvide til også å ta med on den som har kredittkortet er student eller ikke:
+
+$$f(x) = \frac{e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2}}{1 + e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2}}$$
+
+der $x_2$ inneholder enten tallet 1, smo betyr *student* eller tallet 0, som betyr *ikke student*. 
+
+For å kunne sende forklaringsvariablene våre til `LogisticRegression` sin `fit`-funksjon, må vi pakke dataene på en måte som den godtar. Det gjør vi slik: 
+```{python}
+x_1 = data["balance"].array
+x_2 = data["student"].array == "Yes"
+y = data["default"].array == "Yes"
+X = np.array([x_1, x_2]).T
+```
+
+Print først `data`. Print så `x_1`, `x_2`, `y` og `X`, og forklar hva vi har gjort med dataene våre. 
+
+Gjør så logistisk regresjon på datasettet og les ut koeffisientene $\beta_0, \beta_1$ og $\beta_2$. 
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+```{python}
+my_fit = my_regressor.fit(X, y.reshape(-1,1))
+print(my_regressor.coef_)
+print(my_regressor.intercept_)
+```
+:::
+
+Plott så modellen som funsjon av `"balance"` for studenter og ikke-studenter separat. 
+
+- På hvilken måte kan kredittkortselskapet bruke det om en kunde er student eller ikke til å sette en fornuftig kredittgrense? 
+- Hva sier verdien av $\beta_2$ om hva det å være student har å si for sannsynligheten for å ikke betale kredittkortet sitt? 
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_03"}
+```{python}
+
+plt.plot(midpoints, proportions)
+
+x_1 = np.linspace(0, 3000, 100)
+x_2_student = np.ones(100)
+x_2_not_student = np.zeros(100)
+
+X_student = np.array([x_1, x_2_student]).T
+X_not_student = np.array([x_1, x_2_not_student]).T
+
+plt.plot(x_1, my_regressor.predict_proba(X_student)[:,1], label="Student")
+plt.plot(x_1, my_regressor.predict_proba(X_not_student)[:,1], label="Not student")
+plt.legend()
+```
+:::

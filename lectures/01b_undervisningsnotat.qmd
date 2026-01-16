@@ -1,0 +1,261 @@
+---
+jupyter: python3
+---
+
+
+# Introduksjon til databehandling i python {#sec-introduction}
+
+Her kommer notat fra undervisningstimen
+
+## Kjøre kode i Jupyter 
+- Sette celletype til "Code" (**Esc + y**)
+- Shift+Enter
+
+```{python}
+#| slideshow: {slide_type: '-'}
+a = 3
+b = 4
+c = a*b
+print("a*b = %i"%(a*b))
+```
+
+Noe slikt som dette 
+
+```python 
+a = 3 
+b = 4 
+c = a*b 
+print("%d*%d=%d" % (a, b, c))
+```
+```
+3*4=12
+```
+
+## Legge til ny/fjerne celle
+- Legge til ny celle over (**a**bove) aktiv celle: **Esc + a**
+- Legge til ny celle under (**b**elow) aktiv celle: **Esc + b**
+- Slette hele den aktive cellen: **Esc + x**
+
+## Bruke celle til tekst (inkl. latex)
+- Sette celletype til "Markdown" (**Esc + m**)
+- **Latex**: kan f.eks. skrive $\frac{2}{3}$ slik ```$\frac{2}{3}$```
+
+```{python}
+
+3*4
+```
+
+Dette er en markdown-celle hvor jeg kan bruke $\LaTeX$, $\TeX$
+
+Lag så en celle som er over denne (Esc + a)
+
+## Installere pakker i Jupyter
+- `!pip install <pakkenavn>`
+- Legge på `-q` for å ikke spamme output-cellen
+
+```{python}
+#| eval: false
+!pip install matplotlib
+```
+
+```
+!pip install -q matplotlib numpy pandas
+```
+Pakkene over trenger vi for å kunne plotte grafer
+
+## Feilmeldingsfellesskap
+
+Er det noen som har fått en feilmelding / ikke får det til å virke? 
+- Nå må vi være snille med hverandre
+
+## Lage pandas DataFrame manuelt  
+
+Om du har data i lister eller numpy-arrayer og vil ha dem over i et Pandas DataFrame. Dataframes er en type tabell. 
+
+Panda kommer fra (**pan**el **da**ta) - data samlet for ulike observasjoner/personer over tid 
+
+![](images/pandas_jesus.gif)
+
+## Live koding I
+### Lage pandas DataFrame manuelt  
+
+```{python}
+#| slideshow: {slide_type: '-'}
+import pandas as pd
+df = pd.DataFrame({"a": [2,3,4],
+                   "b": [1,2,3]}) 
+df
+```
+
+
+Når vi skal jobbe med data som passer på tabellformat kan livet vårt bli svært mye enklere om vi brukere et bibliotek som heter pandas. Det skal da lite kode til for å lese inn filer og for å gjøre enkle plots. Dessuten passer dataformatet i pandas sammen med flere kjente maskinlæringsbiblioteker som pytorch og scikit-learn. Dermed slipper vi å bruke tid på å manipulere data til å passe inn i spesifikke formater for hvert bibliotek vi skal bruke.
+
+Når man bruker kraftige biblioteker for databehnadling, vil det alltid være mange funksjoner man ikke kan navnet på, eller ikke vet hva gjør. Det er helt greit, og helt vanglig. Det er lov til å si at man “kan pandas” uten å vite hva alle funksjonene gjør, på samme måte som det er lov å si man kan engelsk selv om man ike vet betydningen av *floccinaucinihilipilification*. Derfor kommer det til å være mange ting jeg ikke vet om pandas, men jeg føler meg ganske komfortabel med å bruke det allikevel.
+
+Det viktigste konseptet i pandas er et DataFrame. Det lager vi på denne måten, og det er en type tabell. 
+
+```
+import pandas as pd
+df = pd.DataFrame({"a": [2,3,4],
+                   "b": [1,2,3]}) 
+
+```
+
+## Underveisoppgave
+Legg disse listene inn i et dataframe. 
+
+```{python}
+#| cell_style: center
+#| slideshow: {slide_type: '-'}
+innsats = [2, 4, 3, 7, 4, 1]
+talent = [4, 5, 3, 4, 6, 2]
+resultat = [24, 73, 25, 204, 93, 4]
+```
+
+#### Eksempelet fra forrige slide
+
+```{python}
+#| cell_style: center
+#| slideshow: {slide_type: '-'}
+import pandas as pd
+df = pd.DataFrame({"innsats": innsats,
+                   "talent": talent,
+                  "resultat":resultat}) 
+```
+
+## Live-koding II
+### Legge lister inn i DataFrame
+
+
+## Feilmeldingsfellesskap før løsningsforslag?
+
+Legg disse listene inn i et DataFrame
+- innsats = [2, 4, 3, 7, 4, 1]
+- talent = [4, 5, 3, 4, 6, 2]
+- resultat = [24, 73, 25, 204, 93, 4]
+
+```python 
+#Løsning 1
+df = pd.DataFrame({"innsats"   : [2, 4, 3, 7, 4, 1],
+                    "talent"   : [4, 5, 3, 4, 6, 2],
+                    "resultat" : [24, 73, 25, 204, 93, 4]})
+
+# Løsning 2 siden vi allerede har dataene i lister 
+innsats = [2, 4, 3, 7, 4, 1]
+talent = [4, 5, 3, 4, 6, 2]
+resultat = [24, 73, 25, 204, 93, 4]
+df = pd.DataFrame({"innsats"   : innsats,
+                    "talent"   : talent,
+                    "resultat" : resultat})
+```
+
+## Plotte datasettet  
+
+```python
+plt.plot(df["var1"], df["var2"])
+```
+
+## Live-koding III
+### Plotte datasettet
+
+
+```python 
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 8), facecolor="w")
+plt.scatter(df["innsats"], df["resultat"])
+plt.scatter(df["talent"], df["resultat"])
+```
+
+## Laste inn et datasett fra internett 
+| Modell       | Antall | Seter | Vingespenn | Marsjfart | Rekkevidde | Drivstofforbruk |
+|--------------|--------|-------|------------|-----------|------------|-----------------|
+| A319         | 4      | 150   | 34.1       | 850       | 5100       | 0.031           |
+| A320         | 11     | 168   | 34.1       | 850       | 3900       | 0.029           |
+| A320NEO      | 27     | 180   | 35.8       | 850       | 4600       | 0.024           |
+| A321         | 8      | 200   | 34.1       | 850       | 3800       | 0.029           |
+| A330-300     | 9      | 266   | 60.3       | 875       | 10100      | 0.033           |
+| A340-300     | 7      | 245   | 60.3       | 875       | 12800      | 0.039           |
+| 737-600      | 5      | 123   | 34.3       | 825       | 2400       | 0.038           |
+| 737-700      | 27     | 141   | 34.3       | 825       | 4400       | 0.032           |
+| 737-800      | 29     | 183   | 34.3       | 825       | 4200       | 0.029           |
+| CRJ900       | 24     | 90    | 23.4       | 840       | 2100       | 0.039           |
+| ATR-72-600   | 9      | 70    | 27.1       | 490       | 930        | 0.026           |
+
+: Oversikt over flyene til sas {.striped}
+
+Det ville være utrolig plundrete om vi hele tiden måtte bygge opp dataframes på denne måten. Det trenger vi heldigvis ikke! 
+
+## Live-koding IV
+### Laste inn et datasett fra internett
+
+url: https://programmering-i-skolen.github.io/programmeringiskolen/_static/datasett/sas_fly.txt
+turl:  https://tinyurl.com/yyvzg8tt
+
+```python
+import pandas as pd
+url = "https://tinyurl.com/yyvzg8tt"
+flydata = pd.read_table(url)
+flydata
+```
+
+## Live-koding V
+### Plotte sas-fly-datasettet 
+
+`plt.plot(df["Rekkevidde"], df["Drivstofforbruk"], "o")`
+
+- Laste inn, se tabellen
+- importere matplotlib
+- plotte forskjellige ting mot hverandre: Vingespenn, Marsjfart, Rekkevidde, Drivstofforbruk
+- scatter mer relevant
+
+```python 
+# La oss nå ta for oss datasettet vi nettop lastet inn: Det med SAS sine fly. 
+import pandas as pd
+url = "https://programmering-i-skolen.github.io/programmeringiskolen/_static/datasett/sas_fly.txt"
+flydata = pd.read_table(url)
+print(flydata.keys())
+import matplotlib.pyplot as plt 
+plt.plot(flydata["Rekkevidde"], flydata["Drivstofforbruk"])
+plt.scatter(flydata["Rekkevidde"], flydata["Drivstofforbruk"])
+```
+
+Underveisoppgave i feilmeldingsfellesskap. Jeg viser feilmeldingen, studentene foreslår hva vi kan gjøre. 
+- Problement med "Antall"-kolonnen. Til slutt fikse separator. Forklare s+
+
+## Underveisoppgave: Solflekker
+
+- Les inn datasettet fra https://programmering-i-skolen.github.io/programmeringiskolen/_static/datasett/solflekkdata.txt / https://tinyurl.com/yckuj2nv til et pandas DataFrame med pd.read_table. 
+- Plott PA (projected area). 
+- Kommentér resultatet.
+
+## Live-koding VI
+### Underveisoppgave: Solflekker
+
+Prøve og feile med studentene 
+
+Ting å tenke på:
+- Først bare lese inn read_table(url). Da blir det galt.
+- Så påpeke headeren
+- Deretter riktig separator (\s = mellomrom, +: 1 eller flere treff)
+    
+Så går vi til plotting
+- Plotte PA
+- Fikse de manglende datapunktene med logisk indeksering. Manglende datapunkter er her satt til -9999. 
+
+Løsningen blir 
+```python
+import pandas as pd
+url = "https://programmering-i-skolen.github.io/programmeringiskolen/_static/datasett/solflekkdata.txt"
+solflekker = pd.read_table(url, skiprows=1, sep="\s+")
+print(solflekker)
+import matplotlib.pyplot as plt 
+plt.plot(solflekker.YYYY[solflekker.PA>=0], solflekker.PA[solflekker.PA>=0])
+```
+
+## Etterarbeid: 
+- Gjør øvingsoppgavene som hører til denne undervisningsøkten. 
+
+## Neste gang: 
+- Lineær regresjon og modellering
+
+

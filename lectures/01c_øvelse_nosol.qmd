@@ -1,0 +1,96 @@
+---
+jupyter: python3
+---
+
+# Øvingsoppgaver uten løsning {.unnumbered #sec-oving-1}
+
+Her er øvingsopgaver som passer å gjøre etter første undervisningsøkt i kurset. Det er lov å sende mail og be om hjelp om du står fast! Eller spørre en medstudent. 
+
+## Trekke ut informasjon fra datasett
+
+**a)** Last ned filen "bestsellers with categories.xls" [her](https://www.kaggle.com/sootersaalu/amazon-top-50-bestselling-books-2009-2019), og les den inn med pandas.
+
+
+**b)** Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med `.drop_duplicates("Name")` - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser
+
+
+**c)** Plot - Gjennomsnittlig anmeldelsesskårer for fiksjon og sakprosa - Gjennomsnittlig anmeldelsesskårer for hvert utgivelsesår. - Antall bøker for hver score - Antall anmeldelser for hver score
+
+**d)** Hvor mange fiksjonsbøker fra 2017 fikk en score bedre enn 4.6?
+
+## Beregning av strømregning basert på forbruksdata og prisdata
+
+Har du betalt rett pris for strømmen din? Last ned [dette datasettet](data/meteringvalues-dec-2024.csv) som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra [Elhub](elhub.no).
+
+**a)** Plott strømforbruket som funksjon av tid.
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+df_forbruk = pd.read_csv("data/meteringvalues-dec-2024.csv", sep=";", decimal=",")
+plt.plot(df_forbruk['KWH 60 Forbruk'])
+```
+
+**b)** Vi kan så hente prisdata fra Nordpool. Vi har lastet ned prisene for desember 2024 for dere [her](data/nordpool-dec-24.csv).
+
+::: {.callout-warning collapse="true"}
+## Hvordan hentet vi data fra nordpool?
+
+```{python}
+#| eval: false 
+from nordpool import elspot
+import datetime
+price_list = []
+prices_spot = elspot.Prices(currency="NOK")
+for i in range(1, 32):
+    entry = prices_spot.hourly(end_date=datetime.datetime(2024, 12, i), areas=['NO1'], )
+    price_list.append(entry)
+```
+
+Så henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.
+
+```{python}
+#|eval: false
+import pandas as pd
+clean_list = []
+for element in price_list: 
+    clean_list += element["areas"]["NO1"]["values"]
+df_pris = pd.DataFrame(clean_list)
+df_pris.to_csv("data/nordpool-dec-24.csv")
+```
+:::
+
+- Hva er spotpriskostnaden for strømforbruket i desember 2024?
+
+
+
+**c)** For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?
+
+Tips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.
+
+**d)** Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt *frost*-API. Først oppretter du en bruker [her](https://frost.met.no/howto.html) (det går superfort). Så kan du hente data med følgende python-kode:
+
+```{python}
+#| echo: false
+client_id = 'e9735afb-203b-40e2-831a-f94585506361'
+```
+
+```{python}
+import requests
+import pandas as pd
+
+client_id = client_id
+endpoint = 'https://frost.met.no/observations/v0.jsonld'
+parameters = {
+    'sources': 'SN18700',
+    'elements': 'mean(air_temperature P1D)',
+    'referencetime': '2024-12-01/2025-01-01',
+}
+r = requests.get(endpoint, parameters, auth=(client_id,''))
+
+json = r.json()
+```
+
+
+**e)** Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?
+

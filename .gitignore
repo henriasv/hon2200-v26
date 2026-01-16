@@ -1,0 +1,13 @@
+/.quarto/
+/_book/
+/_site/
+/site_libs
+/tmp/
+/lectures/*_files/
+
+# OS / editor noise
+.DS_Store
+.vscode/
+
+# Quarto-rendered sidecar folders (generated)
+/oppgaver/*_files/

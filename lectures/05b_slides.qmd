@@ -1,0 +1,266 @@
+---
+title: "Forelesningsnotat: Beslutningstrær"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    number-sections: false
+    fontcolor: black
+    show-notes: false
+  revealjs:
+    theme: solarized
+    output-ext: revealjs.html # Changed
+---
+
+## Slide-versjon
+
+<iframe src="05b_slides.revealjs.html" width="960" height="540"></iframe>
+
+## Videre til beslutningstrær
+Vi skal først se på hva beslutningstrær er for noe, og prøve å designe et par slike. Så kjører vi litt live-programmering av beslutningstrær med scikit-learn. Vi venter med skoger og boosting til neste gang. 
+
+## Beslutningstre
+
+::::{.columns}
+:::{.column}
+*   En trestruktur for prediksjoner.
+*   Hver **node** representerer en test
+*   Hver **gren** representerer utfallet av testen
+*   Hvert **blad** representerer en prediksjon.
+:::
+
+:::{.column}
+```{mermaid}
+graph LR
+    A[Feature A > X?<br>Node] -->|Yes| B(Feature B ≤ Y?<br>Node)
+    A -->|No| C{Feature C > Z?<br>Node}
+    B -->|Yes| D((Class 1<br>Leaf))
+    B -->|No| E((Class 2<br>Leaf))
+    C -->|Yes| F((Class 3<br>Leaf))
+    C -->|No| G((Class 4<br>Leaf))
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#f9f,stroke:#333,stroke-width:2px
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#ccf,stroke:#333,stroke-width:2px
+    style E fill:#ccf,stroke:#333,stroke-width:2px
+    style F fill:#ccf,stroke:#333,stroke-width:2px
+    style G fill:#ccf,stroke:#333,stroke-width:2px
+```
+
+:::
+::::
+
+## Eksempel: Boston housing 
+```{python}
+#|echo: true
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv("data/HousingData.csv")
+
+print(df.drop(columns=["AGE", "CHAS", "ZN", "DIS"]))
+
+```
+
+## Verdi på husene 
+Vi ønsker å estimere median verdi på husene i et område, fra andre kolonner i datasettet. 
+```{python}
+print(f"Mean value: {np.mean(df.MEDV)}")
+print(f"Variance of value: {np.var(df.MEDV)}")
+```
+
+## Grunt beslutningstre
+```{python}
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.tree import plot_tree
+import matplotlib.pyplot as plt 
+
+df = pd.read_csv("data/HousingData.csv")
+
+X = df.drop(columns=["MEDV"]).values
+feature_names = df.drop(columns=["MEDV"]).columns
+y = df["MEDV"].values
+
+# Trener modellen
+tree = DecisionTreeRegressor(max_depth=2, random_state=4)
+tree.fit(X, y)
+
+feature_names = list(feature_names)
+feature_names[feature_names.index("RM")] = "Rooms per dwelling"
+
+plt.figure(figsize=(12, 7))
+plot_tree(tree, feature_names=feature_names, filled=True)
+
+plt.show()
+```
+
+## Litt dypere
+```{python}
+df = pd.read_csv("data/HousingData.csv")
+
+X = df.drop(columns=["MEDV"]).values
+feature_names = df.drop(columns=["MEDV"]).columns
+y = df["MEDV"].values
+
+# Trener modellen
+tree = DecisionTreeRegressor(max_depth=3, random_state=4)
+tree.fit(X, y)
+
+feature_names = list(feature_names)
+feature_names[feature_names.index("RM")] = "Rooms per dwelling"
+
+plt.figure(figsize=(12, 7))
+plot_tree(tree, feature_names=feature_names, filled=True)
+
+plt.show()
+```
+
+## Fordeler 
+*   **Intuitivt og lett å tolke:** Kan ligne  menneskelig beslutningstaking.
+*   Kan uten videre predikere flere klasser (i motsetning til vanlig logistisk regresjon)
+
+## Ulemper:
+*   **Tendens til overtilpasning:** Kan bli for komplekse og tilpasse seg treningsdataene for godt.
+*   **Ustabile:** Små endringer i dataene kan føre til store endringer i treet.
+*   **"Grådig" algoritme:** Lokal optimalisering, ikke garantert globalt optimalt tre.
+
+På grunn av disse ulempene lager man gjerne en *random forest* av beslutningstrær for å få en bedre prediktor. Det skal vi se på en annen dag. 
+
+## Eksempel: iris-datasettet
+
+```{python}
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from sklearn.datasets import load_iris
+prop_cycle = mpl.rcParams['axes.prop_cycle']
+colors = prop_cycle.by_key()['color']
+
+iris = load_iris()
+X, y = np.array(iris.data), np.array(iris.target)
+target_names = iris.target_names
+feature_names = iris.feature_names
+color_list = [colors[i] for i in y]
+names = [target_names[i] for i in y]
+
+df = pd.DataFrame({
+    feature_names[0] : X[:,0],
+    feature_names[1] : X[:,1],
+    feature_names[2] : X[:,2],
+    feature_names[3] : X[:,3],
+    "species" : names
+})
+
+plot_pairs = [[0,1], [2, 3], [0, 2], [0, 3], [1, 2], [1,3]]
+plt.figure(figsize=(10, 5))
+for i, pair in enumerate(plot_pairs):
+    plt.subplot(2,3,i+1)
+    for species, frame in df.groupby("species"):
+        plt.plot(frame[feature_names[pair[0]]], frame[feature_names[pair[1]]], "o", label=species)
+        plt.xlabel(feature_names[pair[0]])
+        plt.ylabel(feature_names[pair[1]])
+plt.legend()
+plt.tight_layout()
+```
+Er det potensiale for å bruke et beslutningstre for å vurdere iris-arter her? 
+
+## Lage beslutningstre med scikit-learn
+
+
+:::{.fragment}
+```{python}
+#| code-summary: "Vis Python kode for beslutningstre"
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
+
+# Laster inn Iris datasettet
+iris = load_iris()
+X, y = iris.data, iris.target
+predictor_names = ["sepal length"]
+
+# Initialiserer og trener et beslutningstre
+dtree = DecisionTreeClassifier(max_depth=3, random_state=0) # 
+
+#Begrenser dybden for visualisering
+dtree.fit(X, y)
+
+# Visualiserer beslutningstreet
+plt.figure(figsize=(12, 7))
+plot_tree(dtree, feature_names=iris.feature_names, class_names=iris.target_names, filled=True)
+plt.show()
+```
+:::
+
+:::{.notes}
+Kommer dette beslutningstreet til å score bra eller dårlig? 
+:::
+
+## Med test-train-split
+```{python}
+#|echo: true
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
+iris = load_iris()
+X, y = iris.data, iris.target
+dtree = DecisionTreeClassifier(max_depth=3, random_state=0) # 
+dtree.fit(X, y)
+dummy_prediction = dtree.predict([
+  [0.1, 0.1, 0.1, 0.1], 
+  [0.5, 0.5, 0.5, 0.9]])
+print(iris.target_names[dummy_prediction])
+print(iris.feature_names)
+```
+
+:::{.callout-note}
+Bruk `from sklearn.model_selection` sin `train_test_split` til å lage et beslutningstre med treningsdata og sjekk hvor god presisjon det har på valideringsdataene.
+:::
+
+## Visualisering av prediksjonen
+```{python}
+X_2d = X[:, 2:4] # Sepal length and sepal width
+# --- Visualisering av beslutningsgrenser og datapunkter ---
+# 1. Lag et meshgrid for å plotte beslutningsregionene
+x_min, x_max = X_2d[:, 0].min() - 1, X_2d[:, 0].max() + 1
+y_min, y_max = X_2d[:, 1].min() - 1, X_2d[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.02),
+                     np.arange(y_min, y_max, 0.02))
+
+# 2. Prediker klassen for hvert punkt i meshgridet
+Z = dtree.predict(np.c_[xx.ravel(), yy.ravel(), xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+# 3. Plot beslutningsregionene som en contour plot
+plt.figure(figsize=(10, 7))
+plt.contourf(xx, yy, Z, alpha=0.4, cmap=plt.cm.RdYlBu) # Fyll regionene med farger
+
+# 4. Plot de faktiske datapunktene oppå
+colors = ['r', 'y', 'b'] # Farger for hver Iris klasse
+for i, color in zip(range(len(target_names)), colors):
+    idx = np.where(y == i)
+    plt.scatter(X_2d[idx, 0], X_2d[idx, 1], c=color, label=target_names[i],
+                cmap=plt.cm.RdYlBu, edgecolor='black', s=20)
+
+# 5. Legg til labels og tittel
+plt.xlabel(feature_names[2])
+plt.ylabel(feature_names[3])
+plt.title('Beslutningstre beslutningsgrenser på Iris datasettet (2 features)')
+plt.legend(loc='best', shadow=False, scatterpoints=1)
+
+plt.xlim(xx.min(), xx.max())
+plt.ylim(yy.min(), yy.max())
+
+plt.show()
+```
+
+## Neste gang
+
+- Random forest og boosting
+- Hvordan lære noe av trær og skoger, feature importance, partial dependence. 

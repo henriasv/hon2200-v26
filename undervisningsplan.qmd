@@ -1,0 +1,21 @@
+# Undervisningsplan {.unnumbered}
+
+| Dato         | Tema   |
+|:-------------:|:--------|
+| 24. januar   | Introduksjon til databehandling med Pandas |
+| 31. januar   | Lineær regresjon og modellering |
+| 7. februar   | Logistisk regresjon og klassifisering | 
+| 14. februar  | Trening, testing, overtrening | 
+| 21. februar  | Kryssvalidering, beslutningstrær| 
+| 28. februar  | Skoger, boosting, feature importance, partial dependence  |
+| 7. mars      | Obligtime / repetisjon 
+| 14. mars     | Digital etikk | 
+| 21. mars     | Digital etikk | 
+| 28. mars     | Oppstart prosjekt del 1, frist for innlevering av oblig før denne timen| 
+| 4. april     | Prosjektveiledning  | 
+| 11. april    | Siste veiledningstime prosjekt del 1 | 
+| 25. april    | Oppstart prosjekt del 2 | 
+| 2. mai       | Prosjektveiledning | 
+| 9. mai       | Siste veiledningstime | 
+| 16. mai      | Oppsummering til eksamen | 
+: {tbl-colwidths="[25,75]" .striped}

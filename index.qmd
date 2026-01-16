@@ -1,0 +1,25 @@
+# Velkommen til HON2200 {.unnumbered}
+
+I dette kurset skal vi trene på å bruke data til å trekke slutninger, og å finne fram til hvor i overgangen fra tall og data til beslutninger og politikk vi gjør en etisk vurdering. 
+
+Kurset består av to hoveddeler:   
+
+## Del 1a – ferdighetstrening 
+De første ukene skal vi trene på å laste inn, utforske og visualisere datasett. Vi skal også se litt på hvordan vi holder orden i datakoden vår, og hvordan vi skiller mellom kode vi skriver for å utforske, og kode vi skriver for å gjøre analyser vi kan putte inn i en rapport. 
+
+## Del 1b – etikk
+Så skal vi lære om hvordan vi evaluerer etiske sider ved algoritmer, og lære å identifisere hvor en etisk vurdering er nødvendig. 
+
+## Del 2 – prosjekt 
+Her skal vi jobbe med et prosjekt der vi skal analysere COMPAS-algoritmen, som idag brukes i USA til å gjøre viktige beslutninger i rettssystemet. 
+
+Dere skal jobbe med prosjektet i grupper på 3-4 studenter. Emneansvarlig deler dere inn i grupper basert på faglig bakgrunn. 
+
+Første del av prosjektet er en oppgave der innholdet er relativt styrt, mens i andre del av prosjektet skal dere selv velge hvordan dere vil utvide prosjektet deres. 
+
+## Vurdering
+
+Emnet har én obligatorisk innlevering som må være godkjent før avsuttende eksamen.
+
+Eksamen er i form av en mappeeksamen bestående av en prosjektoppgave som skal leveres i to omganger samt presenteres muntlig. Begge innleveringene av prosjektoppgaven, samt presentasjonen, må være bestått for å bestå emnet.
+

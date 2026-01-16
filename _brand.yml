@@ -1,0 +1,40 @@
+color:
+  palette:
+    black: "#000000"
+    blue: "#0C0A3E" 
+    gray: "#2A2E45"
+    neutral: white
+    uio-light-blue: "#f4f6ff"
+    red: "#BA274A"
+    violet: "#4D6CFA"
+  background: neutral
+  foreground: black
+  primary: blue
+  secondary: violet
+  info: red
+
+logo: 
+  medium: hon_logo.svg
+
+typography:
+  fonts:
+    - family: Nunito Sans
+      source: google
+    - family: Montserrat
+      source: google
+    - family: Fira Code
+      source: google
+
+  base: 
+    family: Nunito Sans
+  headings:
+    family: Montserrat
+    weight: 700
+    color: black
+  monospace: 
+    family: Fira Code
+    background-color: uio-light-blue
+
+  link:
+    color: secondary
+    decoration: underline

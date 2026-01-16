@@ -1,0 +1,5 @@
+# Forberedelser {.unnumbered}
+
+- Gjør ferdig øvingsoppgavene fra ukene 1–3. Se over forelesningsnotatet fra forrige gang til men ikke med k-fold kryssvalidering. 
+
+- I statistikkboka: Les side 289–292 og 331–341. 

@@ -1,0 +1,498 @@
+---
+title: "Forelesningsnotat: Lineær regresjon og modellering"
+author: "Henrik Sveinsson"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    number-sections: false
+    fontcolor: black
+    show-notes: false
+  revealjs:
+    theme: solarized
+    output-ext: revealjs.html # Changed
+---
+
+## Slide-versjon
+
+<iframe src="02b_slides.revealjs.html" width="960" height="540"></iframe>
+
+
+## Forrige uke 
+- Datasett
+    - Numpy 
+    - Pandas
+    - Sette opp manuel/lese inn fra fil
+- Plotting 
+
+## I dag
+Hvordan kan vi lære noe av et datasett? 
+
+- Lineær regresjon
+- Estimere feilen i estimerte parametre
+
+:::{.callout-warning}
+## Husk
+Ikke alt dekkes i forelesninger. Noe er bare i boka
+:::
+
+## Forrige ukes oppgaver
+:::{.incremental}
+- Når ble varmepumpen installert? 
+- Og viktigst: Hvordan fant dere ut av det? Det krever litt kreativitet. 
+:::
+
+## En skisse av en løsning
+La oss anta at vi har lest inn prisdata fra nordpool og lagt dem i en csv-fil. Så begynner vi med prisen på strømmen. 
+```{python}
+#| echo: true
+import pandas as pd
+df_pris = pd.read_csv("data/nordpool-dec-24.csv")
+df_forbruk = pd.read_csv("data/meteringvalues-dec-2024.csv", sep=";", decimal=",")
+
+nettopris = sum(df_forbruk['KWH 60 Forbruk']*df_pris["value"])/1000
+med_moms = nettopris*1.25
+print(f"Spotpris på strømmen inkl. moms er {med_moms:.2f} kr")
+```
+
+## Hva med varmepumpa? 
+Først må vi ha værdata. Jeg antar vi har lagret det i en fil `weather_blindern.json`.
+```{python}
+#| echo: true
+import json 
+with open("data/weather_blindern.json") as ifile:
+    json_content = json.load(ifile)
+my_list = []
+for data in json_content["data"]:
+    my_list += data["observations"]
+df_temp = pd.DataFrame(my_list)
+df_temp = df_temp[df_temp["timeOffset"] == "PT6H"]
+print(df_temp.head())
+```
+
+## Kjøre sammen dataene
+
+```{python}
+#| echo: true
+from datetime import datetime
+def date_func(row): 
+    date_object = datetime.strptime(row["Fra"], "%d.%m.%Y %H:%M")
+    return date_object.date()
+
+df_forbruk["date"] = df_forbruk.apply(date_func, axis=1) 
+forbruk_per_dag = df_forbruk.groupby("date").sum()
+x = df_temp["value"]
+y = forbruk_per_dag["KWH 60 Forbruk"]
+```
+
+## Plotte
+```{python}
+import matplotlib.pyplot as plt 
+plt.scatter(x, y)
+plt.xlabel("Utetemperatur [$^\circ$C]")
+plt.ylabel("Strømforbruk [kWh]")
+```
+
+## Hva nå? 
+```{python}
+import numpy as np
+dag_varmepumpe_alternativer = np.arange(12, 21)
+
+for i, dag_varmepumpe in enumerate(dag_varmepumpe_alternativer):
+    plt.subplot(3,3, i+1)
+    forbruk_per_dag["is_varmepumpe"] = [0] * dag_varmepumpe+[1] * (31-dag_varmepumpe)
+    x = df_temp["value"]
+    y = forbruk_per_dag["KWH 60 Forbruk"]
+    plt.scatter(x, y, c=forbruk_per_dag["is_varmepumpe"])
+    plt.title(f"{dag_varmepumpe} desember")
+plt.tight_layout()
+```
+:::{.notes}
+Så stirrer vi på grafene og ser etter om det er noe valg som gir oss to klare grupper med datapunkter. 
+:::
+
+## Leseleksen
+- Skriv opp tre konsepter du forstod, og tre konsepter du ikke forstod
+
+:::{.callout-tip}
+## Oppgave
+- Skriv opp på tre forskjellige postit-lapper, konseptene du ikke forstod. Alle legger lappene sammen i en bunke. SÅ tar dere dem en og en og ser om dere kan få forklart dem på gruppa
+- Etterpå oppsummerer vi litt i plenum 
+:::
+
+
+
+## Ohms lov og lineær regresjon
+:::{.r-stack}
+:::{.fragment}
+Fra strøm i naturfag på vgs/ungdomsskolen vet vi at 
+$$U = RI \implies I = \frac{1}{R}U$$ 
+:::
+
+:::{.fragment .fade-up}
+Kan plotte:
+```{python}
+#| echo: false
+#| 
+import matplotlib.pyplot as plt 
+import numpy as np
+R = 0.3
+U = np.linspace(0, 10, 4)
+I = 1./R*U
+plt.plot(U, I)
+plt.xlabel("Spenning [V]")
+_ = plt.ylabel("Strøm [A]")
+```
+:::
+:::
+
+:::{.notes}
+Strøm $I$ er en lineær funksjon av spenning $U$, med invers motstand som proporsjonalitetskonstant. 
+:::
+
+## Måledata 
+Vi går på laben og finner en Ohmsk motstand, og måler, da forventer vi å finne noe slikt: 
+```{python}
+#| echo: false
+np.random.seed(0)
+R = 0.3
+U = np.random.random(10)*5
+I = 1./R*U
+plt.plot(U, I, "o")
+plt.xlabel("Spenning [V]")
+_ = plt.ylabel("Strøm [A]")
+
+```
+
+## Finne stigningstallet 
+:::{.r-stack}
+
+:::{.fragment .fade-out}
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(0)
+R = 0.3
+U = np.random.random(10) * 5
+I = 1.0 / R * U  # Current calculation
+
+# Plot points
+plt.plot(U, I, "o")
+plt.xlabel("Spenning [V]")
+plt.ylabel("Strøm [A]")
+
+# Select two points (first and second in the array)
+point1 = (U[0], I[0])
+point2 = (U[1], I[1])
+
+# Draw dashed arrows for Δx and Δy
+# Horizontal arrow (Δx)
+plt.annotate('', xy=point1, xytext=(point2[0], point1[1]),
+             arrowprops=dict(arrowstyle='<->', linestyle='--', color='k', lw=1))
+plt.text((point1[0] + point2[0])/2, point1[1] - 0.3, 
+         r'$\Delta x$', ha='center', va='top')
+
+# Vertical arrow (Δy)
+plt.annotate('', xy=(point2[0], point1[1]), xytext=point2,
+             arrowprops=dict(arrowstyle='<->', linestyle='--', color='k', lw=1))
+plt.text(point2[0] + 0.05, (point1[1] + point2[1])/2, 
+         r'$\Delta y$', ha='left', va='center')
+
+# Optional: Show slope calculation
+slope = (point2[1] - point1[1]) / (point2[0] - point1[0])
+plt.text(3.7,9, f'Stigning = $\Delta y / \Delta x = {slope:.2f}$', ha='left', backgroundcolor='white')
+
+plt.show()
+```
+Siden stigningen er 3.33..., så er motstanden $0.3 \Omega$. 
+:::
+
+:::{.fragment}
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(0)
+R = 0.3
+U = np.random.random(10) * 5
+I = 1.0 / R * U  # Current calculation
+
+# Plot points
+U_0 = np.linspace(2, 4.7, 3)
+plt.plot(U, I, "o")
+plt.plot(U_0, 1.0 / R * U_0)
+
+plt.xlabel("Spenning [V]")
+_=plt.ylabel("Strøm [A]")
+```
+Dermed kan vi plotte en linje sammen med datapunktene
+
+:::{.fragment}
+Men er det slik måleserier ser ut i virkeligheten?
+:::
+:::
+:::
+
+## Støy
+Vi får nok heller noe som ser slik ut: 
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(0)
+R = 0.3
+U = np.random.random(10) * 5
+I = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation
+plt.scatter(U, I)
+```
+
+## Er dette en god ide?
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(0)
+R = 0.3
+U = np.random.random(10) * 5
+I = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation
+p = np.polyfit(U, I, 10)
+x = np.linspace(np.min(U), np.max(U), 100)
+plt.scatter(U, I)
+plt.plot(x, np.polyval(p, x))
+```
+
+## Lineær regresjon
+Nå må vi forholde oss til verden slik den er. Det er alltid en viss usikkerhet vi ikke klarer å forklare uansett hvor god modell vi har. 
+$$y=f(x) + \varepsilon$$ 
+
+Der $\varepsilon$ representeter en usikkerhet som vi ikke klarer å plukke opp med vår modell av fenomenet. 
+
+## Lineær regresjon
+Vi ønsker å finne parametre $\beta_0$ og $\beta_1$ i funksjonen 
+$$f(x) = \beta_1 x + \beta_0$$
+
+Slik at når vi sier at $\hat{y} = f(x)$, så minimerer vi 
+
+$$\sum_{i=0}^N (y_i - \hat{y}_i)^2$$
+
+Dette heter minste kvadraters lineær regresjon. 
+
+## Lineær regresjon med numpy 
+```{python}
+#| echo: true
+import numpy as np
+p = np.polyfit(U, I, 1)
+print(p)
+```
+
+
+## Plotte sammen
+
+```{python}
+plt.scatter(U, I)
+I_fit = np.polyval(p, U)
+plt.plot(U, I_fit)
+```
+:::{.callout-note}
+## Oppgave
+Skriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon. 
+:::
+
+
+## Prøve flere ganger
+```{python}
+def f(x): 
+    return 2*x + 3
+
+N = 10
+slopes = []
+for i in range(N):
+    x = np.linspace(0, 10, 10)
+    y = f(x) + np.random.normal(0, 1.5, 10)
+    p = np.polyfit(x, y, 1)
+    slopes.append(p[0])
+    y_fit = np.polyval(p, x)
+    plt.plot(x, y_fit, linewidth=0.75, color="k")
+    plt.plot(x, f(x), color="r")
+
+plt.plot(x, y_fit, linewidth=0.75, color="k", label="Samples with n=10")
+plt.plot(x, f(x), color="r", label="Population mean")
+
+plt.legend()
+```
+
+## Trekke mange ganger
+
+:::{.callout-note}
+## Oppgave
+**a)** Lag deg en affin funsjon (f. eks $f(x) = 2x + 3$). Trekk 10 tilfeldige tall, beregn $f(x) + \varepsilon$ der du setter inn et tilfeldig normalfordelt tall som $\varepsilon$ med `np.random.normal(...)`. Verifiser med et plott at ting fungerer som de skal
+
+**b)**
+Gjør en lineærtilpasning med `np.polyfit(x, y, 1)`. Plott lineærtilpasningen sammen med de litt spredte punktene dine. 
+
+**c)**
+Gjenta mange ganger (f. eks 10000 i en for-løkke), og lagre stigningstallet som estimeres for hver enkelt linje. Plott et histogram over stigningstallene, med `plt.hist`. 
+:::
+
+## Løsningsforslag a og b
+
+```{python}
+#| echo: true
+def f(x): 
+    return 2*x + 3
+
+x = np.linspace(0, 10, 10)
+y = f(x) + np.random.normal(0, 1.5, 10)
+p = np.polyfit(x, y, 1)
+y_hat = np.polyval(p, x)
+plt.plot(x, y, "o")
+plt.plot(x, y_hat)
+```
+
+## Løsningforslag c
+
+```{python}
+_ = plt.figure()
+```
+```{python}
+#| echo: true
+#| output-location: column-fragment
+N = 10000
+slopes = []
+for i in range(N):
+    x = np.linspace(0, 10, 10)
+    y = f(x) + np.random.normal(0, 1.5, 10)
+    p = np.polyfit(x, y, 1)
+    slopes.append(p[0])
+_ = plt.hist(slopes, bins=30)
+```
+
+## Øke antallet punkter til 100 
+
+```{python}
+#| echo: true
+#| output-location: column-fragment
+N = 10000
+slopes = []
+for i in range(N):
+    x = np.linspace(0, 10, 100)
+    y = f(x) + np.random.normal(0, 1.5, 100)
+    p = np.polyfit(x, y, 1)
+    slopes.append(p[0])
+_ = plt.hist(slopes, 30)
+plt.xticks(fontsize=20)
+plt.yticks(fontsize=20)
+plt.savefig("figures/est_beta1.png")
+```
+
+:::{.fragment}
+Hva skjedde med fordelingen av stigningstall? 
+:::
+
+## Tolkning
+
+:::{.callout-note}
+## Kort diskusjonsoppgave
+**a)** Hva skjedde med fordelingen av stigningstall ved lineær regresjon da vi økte fra 10 til 100 punkter?
+
+**b)** Hvordan skal vi tolke dette? 
+:::
+
+## Feilestimat 
+Fra boka har vi følgende formel for forventet feil i stigningtallet: 
+$$\mathrm{SE}(\hat{\beta}_1) = \sqrt{\frac{\sigma^2}{\sum_{i=1}^n(x_i-\bar{x})^2}}$$
+
+der $\sigma$ er standardavviket til den tilfeldige variablen $\varepsilon$ i $y = f(x) + \varepsilon$
+
+## Anvendt på våre tall
+Vi trakk tilfeldige tall med $\sigma=1.5$ og hhv. 10 og 100 jevnt fordelte tall fra 0 til 10. 
+Altså: 
+```{python} 
+#| echo: true
+x = np.linspace(0, 10, 10)
+se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))
+print(f"Standard feil for n=10: {se}")
+
+x = np.linspace(0, 10, 100)
+se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))
+
+print(f"Standard feil for n=100: {se}")
+```
+
+## Normalfordelinger med disse parametrene: 
+```{python}
+def est_dist(x, mu, std):
+    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))
+
+for n, color  in zip([10, 100], ["red", "blue"]):
+    x = np.linspace(0, 10, n)
+    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))
+    est_vals = np.linspace(1.5, 2.5, 100)
+    plt.plot(est_vals, est_dist(2, est_vals, se), "--", color=color, label=f"n={n}")
+plt.legend()
+```
+
+## Normalfordelinger sammen med datasettene
+
+```{python}
+
+def est_dist(x, mu, std):
+    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))
+
+N = 10000
+for n, color  in zip([10, 100], ["red", "blue"]):
+    slopes = []
+    for i in range(N):
+        x = np.linspace(0, 10, n)
+        y = f(x) + np.random.normal(0, 1.5, n)
+        p = np.polyfit(x, y, 1)
+        slopes.append(p[0])
+    _ = plt.hist(slopes, 30, color=color, density=True)
+    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))
+    est_vals = np.linspace(1.5, 2.5, 50)
+    plt.plot(est_vals, est_dist(2, est_vals, se), "--", color=color, label=f"n={n}")
+plt.legend()
+```
+
+##
+Men om vi har målt noe, så har vi jo bare én måleserie. Hva kan vi gjøre da?  
+
+
+## Bootstrap
+
+```{python}
+#| echo: true
+#| output-location: column-fragment
+np.random.seed(16)
+x = np.linspace(0, 10, 100)
+y = f(x) + np.random.normal(0, 1, 100)
+slopes = []
+for i in range(1000):
+    selection = np.random.randint(0, len(x), 50)
+    x_c = x[selection]
+    y_c = y[selection]
+    p = np.polyfit(x_c, y_c, 1)
+    slopes.append(p[0])
+_ = plt.hist(slopes, bins=30)
+plt.xticks(fontsize=20)
+plt.yticks(fontsize=20)
+plt.savefig("figures/est_bootstrap.png")
+```
+
+
+## Tolkning
+
+![Random samples](figures/est_beta1.png){width=500}
+![Bootstrap](figures/est_bootstrap.png){width=500}
+
+:::{.callout-note}
+Se nøye på figurene, hva skjer her? 
+:::
+
+## Om tid
+- Begynne på ukesoppgavene

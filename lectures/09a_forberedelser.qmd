@@ -1,0 +1,19 @@
+---
+title: "Forberedelser"
+bibliography: ../references.bib
+csl: ../nature.csl
+format: html
+---
+
+Digital etikk med Aksel Sterri. 
+
+:::{.hidden}
+[@ballantyneHowShouldWe2020; @jonesNonrivalryEconomicsData2020]
+:::
+
+Send inn svar på [underveisevalueringen](https://nettskjema.no/a/504824) innen timen. 
+
+Les så følgende artikler før timen. 
+
+::: {#refs}
+:::

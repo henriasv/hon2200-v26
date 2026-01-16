@@ -1,0 +1,471 @@
+---
+title: "Forelesningsnotat – Obligatorisk oppgave"
+
+format:
+   html:
+     theme: cosmo
+     toc: true
+     toc-location: right
+     number-sections: false
+     fontcolor: black
+     show-notes: true
+   revealjs:
+     theme: solarized
+     output-ext: revealjs.html
+---
+
+## Titanic
+
+![](images/titanic.jpg){width=300px}
+
+:::{.notes}
+I filmen om titanic-forliset følger overlevelsen det mønsteret man godt kunne tenke seg. Kvinner på første klasse overlever, og menn på tredje klasse dør. Hvem hvor godt klarer vi å bruke det vi vet om en passaser til å predikere om vedkommende kommer til å overleve titanic-forliset? og kan vi bruke en slik modell til å forstå noe om hvordan de forskjellige egenskapene til en person, slik som kjønn, alder og pris på billetten, påvirker overlevelsen ved et forlis? 
+:::
+
+## Men før det
+- Høyde og lengde på forskjellige dyr
+```{python}
+#|echo: false
+import pandas as pd
+import numpy as np
+
+# Create multiple entries for each animal to make the dataset more analyzable
+animal_names = ['Lion', 'Tiger', 'Elephant', 'Giraffe', 'Zebra', 'Kangaroo', 'Panda', 'Koala', 'Penguin', 'Ostrich']
+animal_counts = [25, 25, 15, 15, 20, 20, 15, 15, 20, 20]  # Number of entries for each animal
+
+# Generate the dataset
+animal_data = pd.DataFrame({
+    'Animal': np.repeat(animal_names, animal_counts),
+    'Length': np.concatenate([np.random.uniform(2.3, 2.7, 25), np.random.uniform(2.6, 3.0, 25), np.random.uniform(3.3, 3.7, 15),
+                              np.random.uniform(2.8, 3.2, 15), np.random.uniform(2.1, 2.5, 20), np.random.uniform(1.4, 1.8, 20),
+                              np.random.uniform(1.3, 1.7, 15), np.random.uniform(0.6, 1.0, 15), np.random.uniform(0.5, 0.9, 20),
+                              np.random.uniform(1.9, 2.3, 20)]),
+    'Height': np.concatenate([np.random.uniform(1.0, 1.4, 25) + 0.9 * np.random.uniform(2.3, 2.7, 25), 
+                              np.random.uniform(0.9, 1.3, 25) + 0.9 * np.random.uniform(2.6, 3.0, 25), 
+                              np.random.uniform(2.8, 3.2, 15) + 0.9 * np.random.uniform(3.3, 3.7, 15),
+                              np.random.uniform(5.3, 5.7, 15) + 0.9 * np.random.uniform(2.8, 3.2, 15), 
+                              np.random.uniform(1.2, 1.6, 20) + 0.9 * np.random.uniform(2.1, 2.5, 20), 
+                              np.random.uniform(1.6, 2.0, 20) + 0.9 * np.random.uniform(1.4, 1.8, 20),
+                              np.random.uniform(0.7, 1.1, 15) + 0.9 * np.random.uniform(1.3, 1.7, 15), 
+                              np.random.uniform(0.5, 0.9, 15) + 0.9 * np.random.uniform(0.6, 1.0, 15), 
+                              np.random.uniform(0.4, 0.8, 20) + 0.9 * np.random.uniform(0.5, 0.9, 20),
+                              np.random.uniform(2.3, 2.7, 20) + 0.9 * np.random.uniform(1.9, 2.3, 20)])
+})
+# Define the average lengths and heights for each animal
+average_lengths = {
+    'Lion': 2.5, 'Tiger': 2.8, 'Elephant': 3.5, 'Giraffe': 3.0, 'Zebra': 2.3,
+    'Kangaroo': 1.6, 'Panda': 1.5, 'Koala': 0.8, 'Penguin': 0.7, 'Ostrich': 2.1
+}
+
+average_heights = {
+    'Lion': 1.2, 'Tiger': 1.1, 'Elephant': 3.0, 'Giraffe': 5.5, 'Zebra': 1.4,
+    'Kangaroo': 1.8, 'Panda': 0.9, 'Koala': 0.7, 'Penguin': 0.6, 'Ostrich': 2.5
+}
+
+# Update the heights to be a linear function of the lengths with some scatter
+animal_data['Height'] = animal_data.apply(
+    lambda row: average_heights[row['Animal']] + 0.5 * (row['Length'] - average_lengths[row['Animal']]) + np.random.normal(0, 0.1),
+    axis=1
+)
+
+# Save the dataset to a CSV file
+animal_data.to_csv('data/animal_data.csv', index=False)
+# Display the expanded synthetic dataset
+display(animal_data.sample(8))
+```
+:::{.notes}
+Vi har laget oss et datasett med lengde- og høydedata om forskjellige dyr. Det kan lastes ned [her](data/animal_data.csv). 
+:::
+
+## Plot
+```{python}
+import matplotlib.pyplot as plt
+# Load the dataset from the CSV file
+animal_data = pd.read_csv('data/animal_data.csv')
+plt.figure(figsize=(8, 5))
+plt.plot(animal_data["Length"], animal_data["Height"], "o")
+```
+
+## Med navn på dyrene
+```{python}
+# Lage scatter-plot fordelt på dyr 
+plt.figure(figsize=(8, 5))
+for animal in animal_data['Animal'].unique():
+    subset = animal_data[animal_data['Animal'] == animal]
+    plt.scatter(subset['Length'], subset['Height'], label=animal)
+
+# Pynt
+plt.title('Animal Length vs Height')
+plt.xlabel('Length (m)')
+plt.ylabel('Height (m)')
+plt.legend(title='Animal')
+plt.show()
+
+```
+
+## Envariabel lineær regresjon 
+```{python}
+from sklearn.linear_model import LinearRegression
+
+# Prepare the data for linear regression
+X = animal_data[['Length']]
+y = animal_data['Height']
+
+# Create and fit the model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict the heights using the model
+predicted_heights = model.predict(X)
+
+# Plot the original data and the linear regression model
+plt.figure(figsize=(8, 5))
+plt.scatter(animal_data['Length'], animal_data['Height'], label='Actual Data')
+plt.plot(animal_data['Length'], predicted_heights, color='red', label='Linear Regression Model')
+
+# Add labels and title
+plt.title('Linear Regression: Animal Length vs Height')
+plt.xlabel('Length (m)')
+plt.ylabel('Height (m)')
+plt.legend()
+plt.show()
+```
+
+:::{.absolute top=200 right=50 width="350" height="300"}
+$$H(L, N) = \beta_0 + \beta_1 L$$
+
+|  |               |
+|--------|--------------------------|
+| H      | Høyde                    |
+| L      | Lengde                   |
+| $\beta_i$ | Regresjonskoeffisienter |
+:::
+
+## Hvordan gjøre det bedre? 
+- forslag? 
+
+## Hva med å numerisk kode dyrene? 
+```{python}
+from sklearn.linear_model import LinearRegression
+
+# Encode the animal names as numbers
+animal_data['Animal_Code'] = animal_data['Animal'].astype('category').cat.codes
+# Display a random selection of 5 rows from the dataset
+display(animal_data.sample(10))
+```
+
+
+## Illustrasjon av datasettet med tallkoder
+```{python}
+# Plot the animal data with animal codes
+plt.figure(figsize=(10, 6))
+colors = plt.cm.get_cmap('tab10', len(animal_data['Animal'].unique()))
+
+for i, animal in enumerate(animal_data['Animal'].unique()):
+    subset = animal_data[animal_data['Animal'] == animal]
+    plt.scatter(subset['Length'], subset['Height'], label=animal, color=colors(i))
+    
+    # Print the animal code above the average length and height
+    avg_length = subset['Length'].mean()
+    avg_height = subset['Height'].mean()
+    plt.text(avg_length, avg_height + 0.3, f'{i}', fontsize=20, color=colors(i))
+
+# Add labels and title
+plt.title('Animal Length vs Height with Animal Codes')
+plt.xlabel('Length (m)')
+plt.ylabel('Height (m)')
+plt.legend(title='Animal')
+plt.show()
+```
+
+
+## Lineær regresjon med tallkoder
+```{python}
+# Prepare the data for linear regression
+X = animal_data[['Length', 'Animal_Code']]
+y = animal_data['Height']
+
+# Create and fit the model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict the heights using the model
+predicted_heights = model.predict(X)
+
+# Plot the original data and the linear regression model
+plt.figure(figsize=(10, 6))
+colors = plt.cm.get_cmap('tab10', len(animal_data['Animal'].unique()))
+
+for i, animal in enumerate(animal_data['Animal'].unique()):
+    subset = animal_data[animal_data['Animal'] == animal]
+    plt.scatter(subset['Length'], subset['Height'], label=animal, color=colors(i))
+    
+    # Predict heights for the subset
+    subset_X = subset[['Length', 'Animal_Code']]
+    subset_predicted_heights = model.predict(subset_X)
+    
+    # Plot the regression line for the subset
+    plt.plot(subset['Length'], subset_predicted_heights, color=colors(i))
+
+    # Print the animal code above the average length and height
+    avg_length = subset['Length'].mean()
+    avg_height = subset['Height'].mean()
+    plt.text(avg_length, avg_height + 0.3, f'{i}', fontsize=20, color=colors(i))
+
+# Add labels and title
+plt.title('Two Variable Linear Regression: Animal Length vs Height')
+plt.xlabel('Length (m)')
+plt.ylabel('Height (m)')
+plt.legend(title='Animal')
+plt.show()
+```
+
+- Hvordan gikk egentlig dette? Se nøye etter. 
+
+:::{.notes}
+Om vi ser på tallene, så ser vi at alle regresjonslinjene er sortert ettet tall. Det har altså noe å si hvordan dyrene er sortert. Bet blir litt rart. 
+:::
+
+## Ligning
+$$H(L, N) = \beta_0 + \beta_1 L + \beta_2 N$$
+
+| Symbol | Beskrivelse              |
+|--------|--------------------------|
+| H      | Høyde                    |
+| L      | Lengde                   |
+| N      | Numerisk kode for dyret  |
+| $\beta_i$ | Regresjonskoeffisienter |
+
+## Hvordan gjøre det bedre? 
+:::{.fragment}
+- One-hot-encoding
+:::
+
+## Med one-hot encoding
+Vi kan lage one-hot-kodet data med `pandas.get_dummies(...)`
+```{python}
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+
+transformed_data = pd.get_dummies(animal_data, columns=['Animal'], drop_first=False)
+display(transformed_data.sample(10))
+```
+
+## Regresjonsmodell med one-hot-coding
+```{python}
+X = transformed_data.drop(columns=['Height', 'Animal_Code'])
+y = transformed_data['Height']
+
+model = LinearRegression()
+model.fit(X, y)
+
+# Bruke modellen
+predicted_heights = model.predict(X)
+
+# Plot de originale dataene og den lineære regresjonsmodellen
+plt.figure(figsize=(8, 5))
+colors = plt.cm.get_cmap('tab10', len(animal_data['Animal'].unique()))
+
+for i, animal in enumerate(animal_data['Animal'].unique()):
+    subset = animal_data[animal_data['Animal'] == animal]
+    plt.scatter(subset['Length'], subset['Height'], label=animal, color=colors(i), edgecolor=colors(i), facecolors='none')
+    
+    # Prediker høyder for hvert dyr 
+    subset_X = transformed_data[transformed_data[f'Animal_{animal}'] == 1].drop(columns=['Height', 'Animal_Code'])
+    subset_predicted_heights = model.predict(subset_X)
+    
+    # Plot regresjonslinjen for hvert enkelt dyr
+    plt.plot(subset['Length'], subset_predicted_heights, color=np.array(colors(i))*0.9, linewidth=5)
+
+# Pynt 
+plt.title('Lineær regresjon med One-Hot Encoding: Dyrelengde vs Høyde')
+plt.xlabel('Lengde (m)')
+plt.ylabel('Høyde (m)')
+plt.legend(title='Dyr')
+plt.show()
+```
+
+## Likning 
+
+$$H(L, N) = \beta_0 + \beta_1 L + \sum_{\mathrm{i = \{Lion, Tiger, ...\}}}^{k} \beta_i [\text{er dette en }i\mathrm{?}]$$
+
+
+## La oss se på dette i et litt mindre datasett
+```{python}
+#|echo: true
+import pandas as pd
+import seaborn as sns
+health = sns.load_dataset('healthexp')
+display(health.sample(10))
+```
+
+Her bruker vi [seaborn](https://seaborn.pydata.org/examples/index.html) kun for å laste inn et datasett. Seaborn gir oss også noen muligheter til pen visualisering i statistikk, for dem som måtte være interessert i det. 
+
+## Underveisoppgave
+:::{.callout-note}
+1. Gjør one-hot encoding av *healthexp*-datasettet
+2. Gjør trenings-validerings-splitt av datasettet 
+3. Tren en lineær regresjonsmodell for å predikere *life expectancy*, med *spending* som forklaringsvariabel
+4. Ta med land som forklaringsvariabel i modellen
+5. Sammenligne nøyaktigehten til modellene
+:::
+```{python}
+#|echo: true
+import pandas as pd
+import seaborn as sns
+health = sns.load_dataset('healthexp')
+health_onehot = pd.get_dummies(health, columns=['Country'])
+display(health_onehot.sample(10))
+```
+
+```{python}
+for i, frame in health.groupby("Country"):
+    plt.scatter(frame["Spending_USD"], frame["Life_Expectancy"], marker="o", label=i)
+plt.xlabel("Expenditure (USD)")
+plt.ylabel("Life expectancy")
+plt.legend()
+```
+
+## Start på løsning 
+```{python}
+health_onehot = pd.get_dummies(health, columns=['Country'], drop_first=False)
+display(health.sample(10))
+```
+
+
+## Enkel regresjonsmodell
+```{python}
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+X = np.array(health_onehot["Spending_USD"]).reshape(-1,1)
+y = health_onehot['Life_Expectancy']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create and fit the model on the training data
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict the life expectancy using the model on the test data
+predicted_life_expectancy = model.predict(X_test)
+
+# Evaluate the model
+from sklearn.metrics import mean_squared_error, r2_score
+
+mse = mean_squared_error(y_test, predicted_life_expectancy)
+r2 = r2_score(y_test, predicted_life_expectancy)
+
+# Plot the original data and the linear regression model
+plt.figure(figsize=(8, 5))
+plt.scatter(X_test, y_test, color='blue', label='Actual Data')
+plt.plot(X_test, predicted_life_expectancy, color='red', label='Linear Regression Model')
+
+# Add labels and title
+plt.title('Linear Regression: Spending vs Life Expectancy')
+plt.xlabel('Spending (USD)')
+plt.ylabel('Life Expectancy (years)')
+plt.legend()
+plt.show()
+print(f'Mean Squared Error: {mse}')
+print(f'R^2 Score: {r2}')
+```
+
+
+## En påfallende "god" modell, hva har skjedd her? 
+```{python}
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+X = health_onehot.drop(columns=['Life_Expectancy'])
+y = health_onehot['Life_Expectancy']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create and fit the model on the training data
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict the life expectancy using the model on the test data
+predicted_life_expectancy = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, predicted_life_expectancy)
+r2 = r2_score(y_test, predicted_life_expectancy)
+
+
+# Plot the original data and the linear regression model predictions per country
+plt.figure(figsize=(8, 5))
+colors = plt.cm.get_cmap('tab20', len(health['Country'].unique()))
+
+for i, country in enumerate(health['Country'].unique()):
+    subset = health[health['Country'] == country]
+    plt.scatter(subset['Spending_USD'], subset['Life_Expectancy'], label=country, color=colors(i), edgecolor=colors(i), facecolors='none')
+    
+    # Predict life expectancy for the subset
+    subset_X = health_onehot[health_onehot[f'Country_{country}'] == 1].drop(columns=['Life_Expectancy'])
+    subset_predicted_life_expectancy = model.predict(subset_X)
+    
+    # Plot the regression line for the subset
+    plt.plot(subset['Spending_USD'], subset_predicted_life_expectancy, color=np.array(colors(i))*0.9, linewidth=2)
+
+# Add labels and title
+plt.title('Linear Regression with One-Hot Encoding: Spending vs Life Expectancy by Country')
+plt.xlabel('Spending (USD)')
+plt.ylabel('Life Expectancy (years)')
+plt.legend(title='Country', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.show()
+print(f'Mean Squared Error: {mse}')
+print(f'R^2 Score: {r2}')
+
+```
+
+## Uten år som forklaringsvariabel
+```{python}
+# Drop the 'Year' column from the dataset
+health_onehot_no_year = health_onehot.drop(columns=['Year'])
+
+# Prepare the data for linear regression
+X = health_onehot_no_year.drop(columns=['Life_Expectancy'])
+y = health_onehot_no_year['Life_Expectancy']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create and fit the model on the training data
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict the life expectancy using the model on the test data
+predicted_life_expectancy = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, predicted_life_expectancy)
+r2 = r2_score(y_test, predicted_life_expectancy)
+
+# Plot the original data and the linear regression model predictions per country
+plt.figure(figsize=(8, 5))
+colors = plt.cm.get_cmap('tab20', len(health['Country'].unique()))
+
+for i, country in enumerate(health['Country'].unique()):
+    subset = health[health['Country'] == country]
+    plt.scatter(subset['Spending_USD'], subset['Life_Expectancy'], label=country, color=colors(i), edgecolor=colors(i), facecolors='none')
+    
+    # Predict life expectancy for the subset
+    subset_X = health_onehot_no_year[health_onehot_no_year[f'Country_{country}'] == 1].drop(columns=['Life_Expectancy'])
+    subset_predicted_life_expectancy = model.predict(subset_X)
+    
+    # Plot the regression line for the subset
+    plt.plot(subset['Spending_USD'], subset_predicted_life_expectancy, color=np.array(colors(i))*0.9, linewidth=2)
+
+# Add labels and title
+plt.title('Linear Regression with One-Hot Encoding (No Year): Spending vs Life Expectancy by Country')
+plt.xlabel('Spending (USD)')
+plt.ylabel('Life Expectancy (years)')
+plt.legend(title='Country', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.show()
+print(f'Mean Squared Error: {mse}')
+print(f'R^2 Score: {r2}')
+```

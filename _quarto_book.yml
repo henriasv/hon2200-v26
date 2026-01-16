@@ -1,0 +1,66 @@
+project:
+  type: book
+
+book:
+  title: "HON2200"
+  author: "Henrik Sveinsson"
+  date: today
+
+  chapters:
+    - index.qmd 
+    - undervisningsplan.qmd   
+    - part: "Uke 1 – 24. januar"
+      collapsed: true
+      chapters: 
+        - lectures/01a_forberedelser.qmd
+        - lectures/01b1_slides.qmd
+        - lectures/01c_øvelse.qmd
+        - lectures/01c_øvelse_nosol.qmd
+    - part: "Uke 2 – 31. januar"
+      collapsed: true
+      chapters: 
+        - lectures/02a_forberedelser.qmd
+        - lectures/02b_slides.qmd
+        - lectures/02c_øvelse.qmd
+        - lectures/02c_øvelse_nosol.qmd
+    - part: "Uke 3 – 7. februar"
+      collapsed: true
+      chapters: 
+        - lectures/03a_forberedelser.qmd
+        - lectures/03b_slides.qmd
+        - lectures/03b2_tutorial.qmd
+    - part: "Uke 4 – 14. februar"
+      collapsed: true
+      chapters: 
+        - lectures/04a_forberedelser.qmd
+        - lectures/04b_slides.qmd
+    - part: "Uke 5 – 21. februar"
+      chapters: 
+        - lectures/05a_forberedelser.qmd
+        - lectures/05b_slides.qmd
+        - lectures/05c_øvelse.qmd
+    - part: "Uke 6 – 28. februar"
+      chapters: 
+        - lectures/06a_forberedelser.qmd
+        
+    - references.qmd
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    number-sections: false
+    fontcolor: black
+    show-notes: false
+    ipywidgets: true
+  revealjs: 
+    theme: solarized
+  
+exercise_solutions: 
+  week_01: false
+  week_02: false
+  week_03: false
+  week_04: false
+  week_05: false

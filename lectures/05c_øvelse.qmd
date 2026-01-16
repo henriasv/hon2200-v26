@@ -1,0 +1,30 @@
+# Øvingsoppgaver
+
+## Beslutningstre: eplekvalitet
+
+Vi skal bruke beslutningstrær på et datasett som inneholder informasjon om 4000 epler (størrelse, vekt, saftighet, søthet, syrlighet etc.) og lage en modell som kan si om eplet er av god eller dårlig kvalitet.
+
+Først må vi laste inn datasettet som en csv-fil. Dere kan laste det ned her [her](data/apple_quality.csv) og lese det rett inn slik
+
+```{python}
+#|echo: false
+import pandas as pd
+```
+
+```{python}
+df = pd.read_csv("./data/apple_quality.csv")
+```
+
+Vi ønsker å lage et beslutningstre som basert på alle parameterne kan si noe om kvaliteten på eplet.
+
+1. Undersøk datasettet. Inneholder det NaN eller ugyldige verdier? Fjern disse i såfall.
+2. Hvilke kategorier har vi for kvaliteten på eplene (*Quality*)?
+3. Definer prediktorene og responsen/target til modellen og definer nødvendige numpy-arrays. Er det noen kolonner som ikke bør tas med i modellen? Du bør også gjøre om definisjonen av kvalitet i respons-vektoren din til tall. F.eks. vha. lambda-funksjoner
+
+```{python}
+df['quality_num'] = df['Quality'].apply(lambda x: 1.0 if x == "good" else 0.0)
+```
+
+4. Lag et beslutningtree og vurder hvor god modellen er til å predikere kvaliteten på eplene.
+5. Bruk kryssvalidering til å finne ut hvor dypt du bør gjøre treet. 
+6. Hvilke variable/features er viktigst for å bestemme kvaliteten på eplene?

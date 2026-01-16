@@ -1,0 +1,74 @@
+# Forberedelser {.unnumbered}
+
+I første time skal vi se litt på hva data-drevne prosjekter er for noe, snakke litt om hvordan undervisningen gjennomføres og begynne så smått å se på databehandling. 
+
+Følg instruksjonene under for å være forberedt til første time. Merk at det er en oppgave nederst på siden som kommer til å ta litt tid. 
+
+::: {.content-hidden}
+## Logge inn på diskusjonsforum
+Vi skal bruke et discourse-basert diskusjonsforum som heter [discourse](https://astro-discourse.uio.no/c/hon2200-24v/). Logg inn her før timen. Bruk dette forumet om du lurer på noe faglig eller praktisk i kurset. For kontakt om personlige forhold (f. eks. for fravær eller utsettelser) bruker du [mail](mailto:h.a.sveinsson@fys.uio.no). 
+:::
+
+::: {.content-hidden}
+## Opprette en bruker på GitHub
+Når dere skal jobbe med programkode i grupper, trenger dere et sted å dele koden deres med hverandre. Standarden for å holde styr på kode er versjonskontrollsystemer slik som Git. Derfor trenger alle en bruker på [GitHub](https://github.com/). Inne på github kan dere opprette felles prosjekter. Når prosjektet deres skal leveres, kan dere enkelt laste det ned som en zip-fil og levere i [Canvas](https://uio.instructure.com/). Dere trenger ikke øve så mye på å *bruke* github enda, men det kan være fint å opprette et *repository* og legge inn en fil der, bare for å komme litt i gang. Vi skal øve mer på dette senere. 
+:::
+
+::: {.content-hidden}
+## Datasett
+Vi legger ut noen [datasett](https://zenodo.org/record/4494328/) til bruk i dette kurset på Zenodo.
+:::
+
+## Installere JupyterLab
+Vi skal bruke Python vha. Jupyter notebook i kurset. For å kunne gjøre datavitenskap trenger vi å installere noen pakker i python-installasjonen. I første omgang ønsker vi at dere skal kjøre JupyterLab på egen maskin. Dette kan installeres på flere forskjellige måter. Vi anbefaler å gjøre en av følgende: 
+
+- Bruke Visual Studio Code med Jupyter-extension
+- Dersom du er komfortabel med terminalvinduet, og vet hva `pip install` er for noe, installer JupyterLab med kommandoen `pip install jupyterlab`. Vi anbefaler at du gjør dette i et *virtual environment*, for eksempel med pyenv-virtualenv. 
+- Om du ikke er komfortabel med terminalen: Installer [Anaconda](https://www.anaconda.com/download). Der følger JupyterLab med, og fungerer fint. 
+
+
+## Installere python-pakker og sjekke at de fungerer
+Enten kjøre følgende kommando i terminalen: 
+```
+pip install pandas numpy matplotlib
+```
+eller følgende kommando inne i JupyterLab:
+
+
+```{python}
+!pip install -q pandas numpy matplotlib
+```
+
+## Test oppsettet med å se på data av ulike typer Iris
+| setosa | versicolor | virginica |
+| :-: | :-: | :-: |
+| <img src="images/Iris_setosa.jpg" alt="drawing" width="200"/>|<img src="images/Iris_versicolor.jpg" alt="drawing" width="200"/>|<img src="images/Iris_virginica.jpg" alt="drawing" width="200"/> |
+
+```{python}
+import pandas as pd 
+file_name = "https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv"
+df = pd.read_csv(file_name)
+df.head()
+```
+
+Etter kommandoen over skal du se en tabell med data fra Iris-datasettet. 
+
+```{python}
+import matplotlib.pyplot as plt 
+plt.scatter(df["sepal_length"], df["sepal_width"])
+plt.xlabel("sepal length")
+plt.ylabel("sepal width")
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(8,6))
+
+for species, s_df in df.groupby("species"):
+    ax.scatter(s_df["sepal_length"], s_df["petal_length"], label=species)
+plt.xlabel("sepal length")
+plt.ylabel("petal length")
+plt.legend()
+```
+
+Om alt dette fungerer, og du får opp noe som ligner på figurene over, er du klar for undervisningstime. 
+

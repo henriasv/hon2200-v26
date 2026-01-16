@@ -1,0 +1,37 @@
+# Øvingsoppgaver uten løsning
+
+Ta utgangspunkt i det klassiske datasettet som inneholder informasjon om størrelsen (lende og bredde) av begerbladene (engelsk: sepal) (de ytre bladene i en blomst) og kronbladene (engelsk: petal) til tre ulike typer Iris (setosa, versicolor og virginica) - på norsk hhv.: villiris, praktiris og blått flagg iris). Dere skal bruke dette datasettet til å se nærmere på lineær regresjon.
+
+## Oppgave 1 
+**a)**
+Les inn iris-datasettet med scikit-learn:
+```{python}
+from sklearn import datasets 
+import pandas as pd
+iris_data = datasets.load_iris()
+print(iris_data.keys())
+print(iris_data["feature_names"])
+print(iris_data["target_names"])
+```
+
+**b)**
+Få dataene inn i et Pandas-dataframe med riktige kolonnenavn. Man kan lage et dataframe av en numpy-array med flere kolonner ved å spesifisere hva kolonnene skal hete. Kolonnenavnene finnes i datasettet fra sklearn. Prøv deg fram og få evt. hjelp av en venn. Under er et eksempel, men du må selv finne ut hva du skal sette inn for `data` og `columns` når du lager dataframe. Lag en ny kolonne som inneholder navnet til de ulike iris-typene (target 0: setosa, 1: versicolor, 2: virginica). 
+
+Eksempelkode som kanskje er litt til hjelp: 
+```{python}
+#| eval: false 
+import pandas as pd
+df = pd.DataFrame(data, columns=columns)
+display(df)
+```
+
+**c)**
+Lag en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.
+
+- Plot modellen sammen med populasjonen?
+- Hva blir koeffisentene til modellen?
+
+**d)**
+Fortsett med modellen over og finn 95% konfidensintervall for koeffisentene.
+
+Avgjør om det er en sammenheng mellom lengden og bredden av begerbladene ved å sette opp en hypotesetest og vurder den ut fra bla. p-verdi.

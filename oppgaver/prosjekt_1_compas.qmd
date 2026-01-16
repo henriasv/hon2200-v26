@@ -1,0 +1,169 @@
+---
+title: "Prosjekt 1 – COMPAS"
+bibliography: ../references.bib
+csl: ../nature.csl
+format:
+   html:
+     theme: cosmo
+     toc: true
+     toc-location: right
+     number-sections: false
+     fontcolor: black
+     show-notes: true
+---
+
+:::{.callout-note}
+## Læringsmål
+I dette prosjektet skal dere gjennomføre en slags algoritmerevisjon av COMPAS-algoritmen. Vi har valgt denne algoritmen fordi det fortsatt er ekte faglig uenighet om hvorvidt denne algoritmen er adekvat å bruke. 
+
+Målet med prosjektet er at dere skal trenes i å:
+
+- visualisere forskjeller i undergrupper av data ved hjelp av pandas
+- gjøre en statistisk analyse av data ved hjelp av pandas
+- bruke en statistisk modell til å analysere data
+- kunne identifisere ulike faktorer som gjør en beslutning rettferdig og ha en begrunnet oppfatning av deres relative betydning. 
+- begrunne om bruk av algoritmer er rettferdig og hva som skal til for at bruken er rettferdig.
+
+Dette faller innunder kursets overordnede læringsmål: 
+
+- forstå og anvende sentrale konsepter innenfor statistikk.
+- forstå, bearbeide, analysere og visualisere datasett av moderat størrelse på en informert måte, samt trekke etterprøvbare konklusjoner.
+- vurdere etiske utfordringer med bruk av ulike typer KI-algoritmer på en systematisk og stringent måte.
+- se hvordan opprinnelsen til et datasett legger føringer og begrensninger på hva man kan bruke datasettet til.
+- jobbe med prosjekter i et tverrfaglig team og kommunisere arbeidet og konklusjonene skriftlig/digitalt og muntlig.
+
+:::
+
+Hvordan bestemmer vi om en siktet skal varetektsfengsles eller om domfelte skal løslates før tiden (prøveløslatelse) eller sitte i forvaring? I disse spørsmålene er det ikke bare hva personen er dømt for som er avgjørende, men også hvilken risiko det er for at vedkommende vil forspille bevis eller stikke av (varetektfengsling) eller begå nye straffbare handlinger (prøveløslatelse og forvaring). Hvordan kan vi avgjøre slike risikoer?
+
+For å spare tid og eliminere dommeres mulige fordommer, bruker deler av det amerikanske rettsvesenet idag algoritmer til å risikovurdere personer. Dere skal i dette prosjektet gjennomføre en del av en algoritmerevisjon (algorithmic audit) på en slik algoritme. Algoritmerevisjon kan omfatte kontrollering av flere sider av en algoritme (på flere stadier av utviklingen). 
+
+Dere skal analysere COMPAS-algoritmen som idag brukes i USA til å gjøre viktige beslutninger i rettssystemet. Dere skal kun basere vurderingen på dens resultater. Dere har nemlig ikke tilgang til algoritmen fordi innholdet i den er en forretningshemmelighet. Nettavisen ProPublica har en [artikkel](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing) om hvordan denne algoritmen brukes og om hvorvidt bruken er rettferdig. De har også en [artikkel](https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm) som går mer i detalj på hvordan de utførte analysen. Dere skal gjøre mye av den samme analysen som ProPublica gjorde, så les begge disse og notér hvilke resultater dere mener er viktige.
+
+Dataene ProPublica brukte i analysen, og som dere skal bruke, kan dere finne på [denne Github-siden](https://github.com/propublica/compas-analysis/blob/master/compas-scores-two-years.csv).
+
+En mer omfattende beskrivelse av innholdet i COMPAS-algoritmen, og særlig hva noen av kolonnene i datasettet betyr, finnes [her](https://s3.documentcloud.org/documents/2840784/Practitioner-s-Guide-to-COMPAS-Core.pdf).
+
+Vi anbefaler at dere bruker følgende artikler for å hjelpe dere med å evaluere bruk av maskinlæring til å foreta avgjørelser som diskutert over. Den første er en artikkel om å gjøre algoritmerevisjon, den andre er et eksempel på en studie som vurderer en spesifikk algoritme, og resten er de artiklene dere ble anbefalt å lese før undervisningen i digital etikk. 
+
+:::{.hidden}
+[@brownAlgorithmAuditScoring2021; @obermeyerDissectingRacialBias2019; @ballantyneHowShouldWe2020; @jonesNonrivalryEconomicsData2020; @greenEscapingImpossibilityFairness2022; @yona2017gentle; @delong2024affirmative; @kleinberg2018discrimination]
+:::
+
+::: {#refs}
+:::
+
+
+## Innlevering
+
+Dere skal levere en zip-fil som inneholder hele prosjektarbeidet med en fornuftig mappestruktur. Vi skal gå gjennom dette på forelesning. Prosjektarbeidet skal ha følgende deler: 
+- Endelig rapport som PDF med relevante numeriske analyser, figurer og forklaringer som svarer på deloppgavene under. Rapporten skal skrives med en fornuftig struktur, og skal ikke følge oppgaveinndelingen under. Rapporten skal også inneholde en human- og samfunnsvitenskapelig diskusjon av spørsmålene som er gitt nederst i oppgaveteksten. (I mappen `reports`). 
+- Utforskende notebooks. (I mappen `notebooks`)
+- Datasettet dere har brukt. (I mappen `data`)
+- En fil `requirements.txt` som lister python-pakkene som må installeres for å kunne kjøre koden i prosjektet. 
+
+
+Skriv både rapporten slik at den kan leses med letthet, og uten å ha lest oppgaveteksten på forhånd. 
+
+**Dere skal levere prosjektet (inkl. mappestruktur) senest 24. april for å få tilbakemeldinger på innhold og struktur. Så går vi over i prosjektfase 2, der vi endrer eller utvider prosjektet**  
+
+## Framgangsmåte
+Under følger noen steg dere kan følge for å komme i gang. 
+
+Selve rapporten skal *ikke* følge oppgaveinndelingen under, oppgaveinndelingen er der bare for å hjelpe dere med å komme i gang med en fungerende framgangsmåte.
+
+Se på oppgavene under som et forslag til hvordan dere kan gjøre prosjektet. Dersom dere finner ut at dere vil gjøre noe litt annerledes er det helt greit. Pass bare på at prosjektet blir omtrent like stort i omfang som det vi har skissert, samt at dere oppfyller læringsmålene. 
+
+**a)** **Les inn og forstå dataene.** Se hvilke kolonner som finnes og fjern kolonnene dere ikke kommer til å trenge til plottingen eller analysen. Plot deretter følgende:
+
+- hvor ofte ulike grupperinger av mennesker (kvinner, menn, hvite og svarte) gjentar forbrytelser
+- hvor ofte ulike grupperinger av mennesker (kvinner, menn, hvite og svarte) blir predikert av algoritmen til å begå straffbare handlinger i framtiden. 
+- hvor ofte ulike grupper fikk ulike risikoskårer.
+- hvor ofte de som begikk nye straffbare hadlinger (og de som ikke gjorde det) fikk ulike risikoskårer, og hvordan dette ser ut hvis du kun ser på hvite eller svarte.
+
+:::{.callout-note} 
+## Hvordan leste de inn dataene i ProPublica studien?
+Ikke alle dataene ble ansett til å være brukbare i ProPublica studien, så de fjernet flere datapunkter. Datasettet dere lastet ned har allerede de fleste av disse radene fjernet, men det gjenstår å fjerne de som bryter følgende krav i studien:
+
+"If the charge date of a defendants Compas scored crime was not within 30 days from when the person was arrested, we assume that because of data quality reasons, that we do not have the right offense."
+
+Radene dette angår kan fjernes slik:
+
+```python
+data = data[data["days_b_screening_arrest"] <= 30]
+data = data[data["days_b_screening_arrest"] >= -30]
+```
+:::
+
+**b)** Vi definerer nå at personer med risikokategori (`score_text`) "High" eller "Medium" ble predikert til å ha høy risiko, og resten ikke. De som utførte en forbrytelse innen to år (`two_year_recid`) og ble predikert å ha høy risiko sier vi ble predikert riktig. Disse kaller vi da *sanne positive* for COMPAS. Finn raten av falske positive, falske negative, sanne positive og sanne negative, samt positiv prediktiv verdi ($P(recid|high)$) for:
+- hele befolkningen 
+- kvinner 
+- menn 
+- hvite 
+- svarte 
+
+Her må man lage funksjoner og bruke for-løkker for å ikke bli gal.
+
+**c)** Det er sammenheng mellom presisjonen til COMPAS og graden av diskriminering den påfører forskjellige grupper mennesker. Bruk Bayes' setning til å forklare hvorfor dette er tilfelle: 
+
+$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$
+
+
+**d)** Undersøk skjevheter i COMPAS på bakgrunn av etnisitet ved å kontrollere for kjønn, alder, kriminell historie og eventuell gjentatt forbrytelse. Dere skal her gjenskape følgende resultat fra ProPublica-studien:
+
+"Could this disparity be explained by defendants’ prior crimes or the type of crimes they were arrested for? No. We ran a statistical test that isolated the effect of race from criminal history and recidivism, as well as from defendants’ age and gender. Black defendants were still [...] 45 percent more likely to be predicted to commit a future crime of any kind."
+
+Lag en figur som viser *partial dependance* for modellen for å se hvilken innflytelse de andre parametrene har, som f.eks "priors_count".
+
+:::{.callout-note} 
+## Hvordan gjorde de det i ProPublica studien?
+De trente en logistisk modell for å forutsi COMPAS algoritmen sine predisksjoner gitt etnisitet, kriminell historie og eventuell gjentatt forbrytelse. Dere lærte å implementere en logistisk modell i obligen, men vi fraråder **sterkt** å bruke deres egen logistiske modell i denne oppgaven. Bruk scikit-learn sin `LogisticRegression` modell istedet (med minst 1000 iterasjoner). For å gjenskape ProPublica sine resultater anbefaler vi å sette opp input og output til modellen som gitt i koden under. Dette er nøyaktig de samme dataene de valgte ut i studien. Vi fjerner noen av de kategoriske kolonnene slik at disse blir "standard" input til modellen når vi skal undersøke hvordan modellen reagerer på en endring av etnisitet senere. `Y` vil her holde verdien `True` for mennesker med "Medium" eller "High" risiko kategori, og `False` for de med "Low".
+
+```python
+X = data[["age_cat", "race", "sex", "priors_count", "c_charge_degree", "two_year_recid"]]
+categorical_cols = ["age_cat", "race", "sex", "c_charge_degree"]
+X = pd.get_dummies(X, columns=categorical_cols, prefix=categorical_cols, prefix_sep='_')
+X = X.drop(["age_cat_25 - 45", "race_Caucasian", "sex_Male", "c_charge_degree_F"], axis=1)
+Y = data["score_text"] != "Low"
+```
+
+Når den logisktiske modellen er trent på dataene har den vekter og bias som skal forutsi hvordan COMPAS gjør prediksjoner basert på input variablene vi trente modellen på. For å undersøke om den behandler hvite og svarte mennesker ulikt gjør vi følgende utregning med bias og vektene til modellen: (Merk at å få ut vekten som tilsvarer "race_African-American" ikke nødvendigvis blir så lett som i kodesnutten under, så google/spør gpt.uio.no hvordan du henter vektene til en slik modell)
+
+```python
+control = sigmoid( b )
+racialBias = np.exp( coefs["race_African-American"] ) / (1 - control + (control * np.exp(coefs["race_African-American"])))
+```
+
+`control` er prediksjonen til modellen gitt "standard" input, de kolonnene vi fjernet tidligere (Alle vektene blir ganget med null. Hvis alle kolonnene er 0 i X, hva slags person ser vi på da?). `b` er her bias leddet, det må alltid med i input til sigmoiden i en prediksjon. `racialBias` bør ha en verdi rundt 1.45, dette gav resultatet "45 percent more likely to be predicted to commit a future crime" i studien.
+
+:::
+
+### Diskusjonsoppgaver
+
+**a)** Hva er de beste grunnene for å bruke en algoritme, slik som f.eks. COMPAS, til å vurdere risiko i rettsvesenet? Spesifiser hvilke formål dere har i tankene.
+
+**b)** Hvordan vil en rettferdig algoritme se ut? Hvilke hensyn må den ivareta, og hvilke virkninger må den ha (og ikke ha)?
+
+**c)** Hvis det finnes eksisterende urettferdigheter i samfunnet, er det mulig for en algoritme å gi rettferdige utslag? 
+    1. Hvordan kan man evt. gjøre opp for urettferdighet i en algoritme?
+    2. Vil det å gjøre opp for urettferdighet i en algoritme kune føre til andre problemer?
+
+**d)** Northpointe, leverandøren av COMPAS, kom med et [tilsvar](http://go.volarisgroup.com/rs/430-MBX-989/images/ProPublica_Commentary_Final_070616.pdf) til ProPublica sin studie. Her hevder Northpointe at COMPAS ikke diskriminerer arfikansk-amerikanere. Hvordan belegger de denne påstanden. Forsøk å komme til kjernen av uenigheten mellom Northpointe og ProPublica.
+
+**e)** Skisser opp hvordan et system for tredjeparts-algoritmerevisjon kunne sett ut med hensikt om å sikre rettferdige algoritmer i rettsvesenet.
+
+**For å besvare spørsmålene over kan det være lurt å tenke på:**
+
+- Hva er alternativet til å bruke en algoritme?
+- Hva er rettferdighet? Finnes det flere forståelser av rettferdighet som kan være komplimenterede?
+- Kan en algoritme som gir helt presise prediksjoner være urettferdig?
+- Er rettferdighet noe vi kan ha mer eller mindre av, eller er noe enten rettferdig eller ikke?
+- Finnes det et mål på hvor rettferdig noe er? Er rate av falske positive dette? Positiv prediktiv verdi?
+- Har det betydning for om en algoritme er rettferdig eller ikke, om den brukes i én domstol versus om den brukes i alle domstoler i landet?
+
+:::{.callout-warning}
+## Tverrfaglig integrasjon
+I denne oppgaven krever vi en viss grad av tverrfaglig interaksjon. Det betyr at flere fag kommer sammen og gjør noe som ikke var mulig om fagene holdt på hver for seg. Det kan (og vil typisk) være at svarene på diskusjonsoppgavene deres konkret inneholder informasjon fra den statistiske analysen, samt at arbeidet med diskusjonsspørsmålene informerer hva dere trenger å hente inn av informasjon i den statistiske analysen. Det vil være fullt mulig å finne ut av i løpet av veiledningstimene om dere har kommet til en tilstrekkelig grad av tverrfaglig integrasjon. 
+
+::: 
+

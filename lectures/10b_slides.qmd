@@ -1,0 +1,118 @@
+---
+format:
+   html:
+     theme: cosmo
+     toc: true
+     toc-location: right
+     number-sections: false
+     fontcolor: black
+     show-notes: true
+   revealjs:
+     theme: sky
+     output-ext: revealjs.html
+---
+
+# Compas-prosjektet
+
+En øvelse i betingede sannsynligheter. 
+
+## Betinget sannsynlighet eksempel
+
+::::{.columns}
+:::{.column width="30%"}
+![](images/fingeravtrykk.jpg){width=250}
+:::
+
+:::{.column width="70%"}
+Politiet i Oslo har begynt å gå igjennom alle fingeravtrykkene sine, og nå har de funnet et matchende fingeravtrykk i en drapssak. Anta at vi har følgende sanne påstander:
+:::
+::::
+
+- Sannsynligheten for at fingeravtrykket matcher, gitt at personen er skyldig, er 99.9 prosent. 
+- Sannsynligheten for at fingeravtrykket matcher gitt at personen er uskyldig, er 0.0001 prosent. 
+
+## Medieframstillingen blir så klart
+:::{.fragment}
+... at politiet nesten garantert har funnet rett person. Har du noen innvendinger?
+:::
+
+:::{.fragment}
+:::{.callout-note}
+## Informasjonen du har
+Politiet i Oslo har begynt å gå igjennom alle fingeravtrykkene sine, og nå har de funnet et matchende fingeravtrykk i en drapssak. Anta at vi har følgende sanne påstander:
+
+- Sannsynligheten for at fingeravtrykket matcher, gitt at personen er skyldig, er 99.9 prosent. 
+- Sannsynligheten for at fingeravtrykket matcher gitt at personen er uskyldig, er 0.0001 prosent. 
+:::
+:::
+
+## Litt mer formelt oppstilt
+$$P(\mathrm{match}|\mathrm{uskyldig}) = 0.000001$$
+$$P(\mathrm{match}|\mathrm{skyldig}) = 0.9990$$
+
+**Norge:** 5 millioner innbyggere i en alternativ virkelighet der politiet har alles fingeravtrykk. 
+
+Hva er sannsynligheten for at personen som har matchet er skyldig? 
+
+## Hvor sannsynlig at den de har funnet er skyldig?
+
+$$P(\mathrm{skyldig}|\mathrm{match})?$$
+
+Med tallene vi har: $P(\mathrm{match}|\mathrm{uskyldig}) = 0.000001$ og $P(\mathrm{match}|\mathrm{skyldig}) = 0.9990$, vil vi forvente å finne 4.9999990 match blant de uskyldige, og 0.999 match blant de skyldige, dersom den skyldige er i befolkningen.
+
+Altså: 
+
+$$P(\mathrm{skyldig}|\mathrm{match}) = 0.999/5.998999 = 0.16653..$$
+
+## Bayes' setning
+$$P(B|A) = \frac{P(A|B) \cdot P(B)}{P(A)}$$
+
+$$P(\mathrm{skyldig}|\mathrm{match}) = \frac{P(\mathrm{match}|\mathrm{skyldig}) \cdot P(\mathrm{skyldig})}{P(\mathrm{match})}$$
+
+
+## Med tall innsatt
+Vi fikk oppgitt at 
+$P(\mathrm{match}|\mathrm{uskyldig}) = 0.000001$
+$P(\mathrm{match}|\mathrm{skyldig}) = 0.9990$
+
+Vi kan anta at 
+$P(\mathrm{skyldig}) = 1/5000000$
+$P(\mathrm{match}) = P(\mathrm{match}|\mathrm{skyldig}) \cdot P(\mathrm{skyldig}) + P(\mathrm{match}|\mathrm{uskyldig}) \cdot P(\mathrm{uskyldig})$
+Setter inn tall
+$P(\mathrm{match}) = 0.9990 \cdot \frac{1}{5000000} + 0.000001 \cdot \frac{4999999}{5000000} = 0.0000011998$
+
+$$P(\mathrm{skyldig}|\mathrm{match}) = \frac{0.9990 \cdot \frac{1}{5000000}}{0.0000011998} = 0.16653$$
+
+## Et par ting 
+
+- måtte jeg være veldig nøye på hvordan jeg formulerte denne oppgaven, for at den ikke skulle bli meningsløs? 
+
+> Politiet i Oslo har begynt å gå igjennom alle fingeravtrykkene sine, og nå har de funnet et matchende fingeravtrykk i en drapssak. 
+
+vs
+
+> Politiet i Oslo har gått igjennom alle fingeravtrykkene sine, og har funnet et matchende fingeravtrykk i en drapssak. 
+
+
+## COMPAS-prosjektet 
+:::{.columns}
+
+:::{.column}
+![](images/compas.png)
+:::
+
+:::{.column}
+Statistiske størrelser slik som disse:  
+$P(\mathrm{gjentagelse}|\mathrm{hvit})$  
+$P(\mathrm{gjentagelse}|\mathrm{svart \ mann})$  
+
+på gruppenivå, får konsekvenser på individnivå. På en rettferdig eller urettferdig måte, kanskje. 
+:::
+
+## Gruppeinndeling 
+
+## Begynne med prosjektet 
+
+- Kravet er at dere skal gjøre noe som ligner på det som står i prosjektbeskrivelsen. 
+- Neste gang bør dere legge fram en oversikt over hva dere vil med prosjektet, og eventuelle spørsmål dere har til gjennomføringen.
+- Siste veiledningstime er om 2 uker. 

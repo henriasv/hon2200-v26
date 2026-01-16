@@ -1,0 +1,500 @@
+---
+title: "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening"
+author: "Henrik Sveinsson"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    number-sections: false
+    fontcolor: black
+    show-notes: false
+  revealjs:
+    theme: solarized
+    output-ext: revealjs.html # Changed
+---
+
+## Slide-versjon
+
+<iframe src="04b_slides.revealjs.html" width="960" height="540"></iframe>
+
+## Premiss 
+
+Jeg har laget meg en funksjon som er på formen  
+
+$$p(x) = c_0 + c_1 x + c_2x^2 + \cdots  = \sum_{i=0}^\infty c_i x^i$$
+
+Så har jeg trukket noen tall $y = p(x) + \varepsilon$, der verdiene $\varepsilon$ er normalfordelt. 
+
+Men jeg holder c´ene hemmelige for dere, og jeg holer standardavviket i normalfordelingen hemmelig for dere. 
+
+## Datasettet
+Dette er slik det datasettet jeg har trukket ser ut: 
+```{python}
+#|echo: false
+import numpy as np
+import matplotlib.pyplot as plt 
+np.random.seed(0)
+np.random.random()
+
+Cs = [0, 20, -8, -10.7, 1.2, 1.6, -0.15, -0.05]
+
+def f(x, Cs): 
+    return sum([c*x**i for i, c in enumerate(Cs)])
+
+N = 100
+sigma = 7
+
+x = np.linspace(-2.5, 2.5, N)
+y = f(x, Cs) + np.random.normal(0, sigma, N)
+
+plt.plot(x, y, "o")
+plt.xlabel("Normalkraft (N)")
+_ = plt.ylabel("Dynamisk friksjon (N)")
+with open("data/hemmelig_funksjon.txt", "w") as ofile:
+    np.savetxt(ofile, np.asarray([x, y]).T)
+```
+Det kan lastes ned [her](data/hemmelig_funksjon.txt).
+
+## Overordnet oppgave for økta
+Finne best mulig estimat for $\{c_i\}$. Dette innebærer i hovedsak å finne ut hvor høye $i$ vi skal gå til, altså hvor store polynomer. 
+
+Lese inn datasettet: 
+```{python}
+#|echo: true
+import numpy as np
+data = np.loadtxt("data/hemmelig_funksjon.txt")
+print(data)
+x = data[:,0]
+y = data[:,1]
+```
+
+## Tilfeldig gjettet $i_\mathrm{max}$
+```{python}
+#|echo: true
+p = np.polyfit(x, y, 3)
+x_v = np.linspace(-2.5, 2.5, 100)
+plt.plot(x, y, "o")
+plt.plot(x_v, np.polyval(p, x_v))
+```
+
+
+## Test av forskjellige polynomer
+```{python}
+from lammps_logfile import get_color_value
+plt.plot(x, y, "o")
+for i in range(1,15):
+    p = np.polyfit(x, y, i)
+    xv = np.linspace(-2.5, 2.5, 200)
+    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, 15, cmap="jet"), label=f"{i}")
+plt.legend()
+```
+Vi skjønner kanskje at vi må stoppe et sted, men hvor? 
+
+:::{.notes}
+Vi må bruke noen systematiske verktøy for å klare å ta en god beslutning om hvor vi skal stoppe polynomet vårt! 
+:::
+
+## Mean squared error
+Vi har et datasett med verdier $\{x_i, y_i\}$. Vi lager oss et polynom $p(x)$, som vi bruker til å estimere y-verdier, altså 
+$\hat{y} = f(x)$. 
+
+Vi ønsker å minimere 
+
+$$\sum_{i=1}^N (\hat{y}_i - y_i)^2 = \sum_{i=1}^N (f(x_i) - y_i)^2$$
+
+## Mean squared error
+
+:::{.callout-note}
+## Underveisoppgave 
+- Last inn datasettet trukket fra den hemmelige fordelingen. 
+- Plott datasettet for å verifisere at det er korrekt innlest. 
+- Gjør polynomtilpasning med $p(x)=\sum_{i=0}^N c_i x^i$ for $N$ opp til $20$. Plott de forskjellige polynomene på intervallet $[-2.5, 2.5]$
+- Finn treningsfeilen, altså $\sum_{i=0}^n (p(x_i)-y_i)^2$, for hver polynomgrad N, og plott feilen som funksjon av N.
+
+Starthjelp
+```{python}
+#| echo: true
+data = np.loadtxt("data/hemmelig_funksjon.txt")
+x = data[:,0]
+y = data[:,1]
+for i in range(1,15):
+    p = np.polyfit(x, y, i)
+```
+:::
+
+
+## Løsning
+
+```{python}
+#| echo: true
+#| output-location: slide
+
+plt.subplot(1,2,1)
+plt.plot(x,y, "o")
+
+N = 5
+training_errors = np.zeros(N+1)
+for i in range(N+1):
+    p = np.polyfit(x, y, i)
+    xv = np.linspace(-2.5, 2.5, 200)
+    plt.subplot(1,2,1)
+    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap="jet"), label=f"{i}")
+    training_errors[i] = np.mean((np.polyval(p, x)-y)**2)
+
+plt.legend()
+plt.subplot(1,2,2)
+plt.plot(training_errors)
+plt.xlabel("Grad av polynom")
+plt.ylabel("Treningsfeil")
+plt.tight_layout()
+```
+
+
+## Øke N 
+```{python}
+#| echo: false
+
+plt.subplot(1,2,1)
+plt.plot(x,y, "o")
+
+N = 20
+training_errors = np.zeros(N+1)
+for i in range(N+1):
+    p = np.polyfit(x, y, i)
+    xv = np.linspace(-2.5, 2.5, 200)
+    plt.subplot(1,2,1)
+    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap="jet"), label=f"{i}")
+    training_errors[i] = np.mean((np.polyval(p, x)-y)**2)
+
+plt.legend()
+plt.subplot(1,2,2)
+plt.plot(training_errors)
+plt.xlabel("Grad av polynom")
+plt.ylabel("Treningsfeil")
+plt.tight_layout()
+```
+- Hva kan vi lære om hvilken N vi bør velge av dette? 
+
+## Validerings-trenings-splitt 50/50
+- Vi deler datasettet i to deler, hvorfor det? 
+
+:::{.fragment}
+```{python}
+plt.figure(figsize=(8,6))
+x1 = np.linspace(-2.5, 2.5, 12)
+x2 = np.linspace(-2.5, 2.5, 8)
+y1 = f(x1, Cs) + np.random.normal(0, sigma, 12)
+y2 = f(x2, Cs) + np.random.normal(0, sigma, 8)
+p = np.polyfit(x1, y1, 10)
+plt.plot(x1, y1, "o", label="Trening")
+plt.plot(x2, y2, "o", label="Validering")
+x3 = np.linspace(-2.5, 2.5, 100)
+y3 = np.polyval(p, x3)
+plt.plot(x3, y3,":", c="k", label="Modell")
+plt.ylim([-55, 20])
+plt.legend()
+```
+:::
+
+:::{.notes}
+- Avdekke overtilpasning
+- Vurdere modellkvalitet 
+- Velge modell
+:::
+
+## Implementasjonsforslag for datasplitting
+```{python}
+#| echo: true
+indices = np.random.permutation(len(x))
+idx_train, idx_validate = np.array_split(indices, 2)
+x_train = x[idx_train]
+y_train = y[idx_train]
+x_validate = x[idx_validate]
+y_validate = y[idx_validate]
+```
+:::{.notes} 
+Vi deler opp datasettet i treningssett og valideringssett for å kunne evaluere modellen på data som den ikke har sett under trening. Treningssettet brukes til å trene modellen, mens valideringssettet brukes til å bestemmehvor høye grads polynomer vi kan ta med i modellen uten å få overtilpasning. 
+:::
+
+:::{.callout-note}
+## Oppgave
+- Print indeksene for treningsdata og valideringsdata. 
+- Verifiser (med programmering) at indeksene i treningsdata og valideringsdata er forskjellige. 
+- Plott treningsdata og valideringsdata i forskjellige farger for å verifisere at de er tilfeldig, og ikke systematisk, trukket! 
+:::
+
+## Løsning
+```{python}
+#| echo: true
+import matplotlib.pyplot as plt 
+
+plt.plot(x_train, y_train, "o", label="treningsdata")
+plt.plot(x_validate, y_validate, "o", label="testdata")
+plt.legend()
+```
+
+## Test-train-split 50/50
+- Nå ønsker vi å sammenligne gjennomsnittlig kvadrert feil for treningsdata og valideringsdata ved forskjellige valg av høyeste mulige grad av polynom, for eksempel om vi setter høyeste grad til 20 har vi: 
+$$p(x) = \sum_{i=0}^{20} c_i x^i$$
+
+
+:::{.callout-note}
+## Oppgave
+- Skriv opp hvordan vi konseptuelt kan gjøre dette
+:::
+
+## Implementasjon 
+(her skal vi gå igjennom koden linje for linje! Rop om jeg ikke gjør det)
+```{python}
+#| echo: true
+#| output-location: slide
+plt.subplot(1,2,1)
+plt.plot(x,y, "o")
+
+N = 15
+training_errors = np.zeros(N+1)
+validation_errors = np.zeros(N+1)
+for i in range(N+1):
+    p = np.polyfit(x_train, y_train, i)
+    xv = np.linspace(-2.5, 2.5, 200)
+    plt.subplot(1,2,1)
+    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap="jet"), label=f"{i}")
+    training_errors[i] = np.mean((np.polyval(p, x_train)-y_train)**2)
+    validation_errors[i] = np.mean((np.polyval(p, x_validate)-y_validate)**2)
+
+plt.subplot(1,2,2)
+plt.plot(training_errors, label="training error")
+plt.plot(validation_errors, label="test error")
+plt.xlabel("Grad av polynom")
+plt.ylabel("Treningsfeil")
+plt.legend()
+plt.tight_layout()
+```
+
+:::{.notes}
+- Hva lærte vi nå om hvilken polynomgrad vi bør bruke? 
+:::
+
+## Foreløpig oppsummering
+- Vi har funnet ut at et polynom av grad mellom 3 og 8 bør kunne funke. Kan vi gjøre det bedre? 
+
+## k-fold kryssvalidering! 
+::: {style="font-size: 50%;"}
+
+| Fold | Partisjon 1       | Partisjon 2       | Partisjon 3       | Partisjon 4       | Partisjon 5       |
+|------|-------------------|-------------------|-------------------|-------------------|-------------------|
+| 1    | 🟥 Validering      | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       |
+| 2    | 🟦 Trening       | 🟥 Validering      | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       |
+| 3    | 🟦 Trening       | 🟦 Trening       | 🟥 Validering      | 🟦 Trening       | 🟦 Trening       |
+| 4    | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       | 🟥 Validering      | 🟦 Trening       |
+| 5    | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       | 🟥 Validering      |
+:::
+
+
+:::{.callout-note}
+## Oppgave 
+Dere skal nå dele opp datasettet i 5 partisjoner, og verifiser med et plott at det har gått bra. 
+
+Beskriv først med ord hva som skal til for å dele opp i 5 partisjoner. 
+
+Dette er slik vi delte i treningsdata og valideringsdata tidligere: 
+```{python}
+#| echo: true
+indices = np.random.permutation(len(x))
+idx_train, idx_validate = np.array_split(indices, 2)
+x_train = x[idx_train]
+y_train = y[idx_train]
+x_validate = x[idx_validate]
+y_validate = y[idx_validate]
+```
+:::
+
+## Løsning
+```{python}
+#| echo: true
+np.random.seed(0)
+indices = np.random.permutation(len(x))
+partitions = np.array_split(indices, 5)
+
+colors = ["r", "g", "b", "c", "m"]
+plt.figure(figsize=(8, 4))
+for i, partition in enumerate(partitions):
+    plt.plot(x[partition], y[partition], "o", label=f"Partisjon {i+1}", color=colors[i])
+plt.legend()
+```
+
+## Dele opp i 5 folds 
+Det er kanskje ikke helt åpenbart, men det å dele opp i 5 folds er ikke det samme som å dele opp i 5 partisjoner.
+
+:::{.callout-note}
+## Oppgave
+Del opp i 5 partisjoner, og visualier disse partisjonene. 
+:::
+
+:::{.fragment}
+(Live-programmere løsning)
+:::
+
+
+## Tilpasse polynom til hver fold
+```{python}
+#|echo: true
+#|output-location: slide
+fig, axs = plt.subplots(2, 3, figsize=(9, 6), sharey=True)
+axs = axs.flatten()
+
+for i, partition in enumerate(partitions):
+    train_idx = np.setdiff1d(indices, partition)
+    p = np.polyfit(x[train_idx], y[train_idx], 4)
+    axs[i].plot(x[train_idx], y[train_idx], "o", color="lightgray", label="Treningsdata")
+    axs[i].plot(x[partition], y[partition], "o", color="blue", label="Valideringsdata")
+    xv = np.linspace(-2.5, 2.5, 100)
+    yv = np.polyval(p, xv)
+    axs[i].plot(xv, yv, "k")
+    axs[5].plot(xv, yv)
+    axs[i].set_title(f"Fold {i+1}")
+    axs[i].legend()
+plt.tight_layout()
+```
+:::{.notes}
+Hvilke data er det linja er tilpasset til i grafene over her. Er det de grå eller de blå? 
+Hva er fold og hva er partisjoner her? 
+
+I denne tilpasningen har jeg brukt et polynom av grad 4. Hva skal vi gjøre for å beregne mean squared error for den et polynom av grad 4 med 5-fold kryssvalidering? Beskriv på figuren.
+:::
+
+## Tilfellet $i_\mathrm{max}=4$
+```{python}
+#|echo: true
+#|output-location: fragment
+mean_squared_error = 0
+for i, partition in enumerate(partitions):
+    train_idx = np.setdiff1d(indices, partition)
+    p = np.polyfit(x[train_idx], y[train_idx], 4)
+    mean_squared_error += np.mean((np.polyval(p, x[partition])-y[partition])**2)
+mean_squared_error /= len(partitions)
+print(mean_squared_error)
+```
+## Snitt av alle folds, for mange $i_\mathrm{max}$
+Vi ønsker nå å bruke k-fold kryssvalidering til å sammenligne hvor bra modellene blir med forskjellige valg av $i_\mathrm{max}$. 
+
+## Snitt av alle folds, for mange $i_\mathrm{max}$
+```{python}
+#|echo: true
+#|output-location: slide
+folds = np.array_split(indices, 5)
+
+i_max = 15
+mse_values = np.zeros(15)
+
+for i, fold in enumerate(folds):
+    train_idx = np.setdiff1d(indices, fold)
+    for j in range(i_max):
+        p = np.polyfit(x[train_idx], y[train_idx], j)
+        mse = np.mean((np.polyval(p, x[fold])-y[fold])**2)
+        mse_values[j] += mse 
+mse_values /= len(folds)
+plt.plot(mse_values)
+plt.plot([0, 10], [49, 49], "--", c="k")
+```
+
+:::{.notes}
+Den stiplede linja avslører den ekte variansen til det stokastiske leddet $\varepsilon$ fra datatrekningen i starten av timen. 
+:::
+
+## Peker mot $i_\mathrm{max} = 5?$
+```{python}
+#|echo: false
+p5 = np.polyfit(x, y, 5)
+p7 = np.polyfit(x, y, 7)
+print(p[::-1])
+plt.plot(x, y, "o")
+xv = np.linspace(-2.5, 2.5, 100)
+yv5 = np.polyval(p5, xv)
+yv7 = np.polyval(p7, xv)
+plt.plot(xv, yv5, label="$i_{max}=5$")
+plt.plot(xv, yv7, label="$i_{max}=7$")
+plt.legend()
+```
+
+## Sammenligning av $\{c_i\}$
+```{python}
+#|echo: false
+fasit = [0, 20, -8, -10.7, 1.2, 1.6, -0.15, -0.05]
+print("Fasit:",fasit)
+p = np.polyfit(x, y, 5)
+print("Beste modell: ", p)
+plt.plot(p[::-1], "o", label="Vår beste modell")
+plt.plot(fasit[:6], "o", label="Fasit")
+p = np.polyfit(x, y, 7)
+print("Beste modell når vi kjenner $i_{max}$: ", p)
+plt.plot(p[::-1], "o", label="Beste modell når vi vet $i_\mathrm{max}$")
+plt.legend()
+```
+
+:::{.notes}
+Merk at selv med 100 punkter fikk vi ganske dårlige estimater på $c$-verdiene. Om disse verdiene er viktige å vite nøyaktig for å karakterisere et eller annet system eller fenomen, så må vi være klar over at selv om modellen ser ut til å prestere bra, så trenger ikke alt å være presist. Vi kom nesten helt ned på samme variasjon fra modellen til dataene som det som lå i selve trekkingen av data. Men allikevel er avviket på enkeltkoeffisientene stort. 
+:::
+
+## Måter å gjøre ting enklere på
+I stedet for `np.array_split` manuelt, kan vi kjøre 
+
+```{python}
+#| echo: true
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.5, random_state=0)
+
+plt.plot(x_train, y_train, "o", label="train")
+plt.plot(x_test, y_test, "o", label="validation")
+plt.legend()
+```
+
+## Måter å gjøre ting enklere på
+For kryssvalidering kan vi i stedet for `np.array_split` kjøre `sklearn.model_selection.KFold`. 
+
+```{python}
+#|echo: true
+#|output-location: slide 
+from sklearn.model_selection import KFold
+
+kf = KFold(n_splits=5)
+for train_index, validate_index in kf.split(range(len(x))):
+    plt.plot(x[validate_index], y[validate_index], "o")
+```
+:::{.fragment}
+- Men obs! 
+:::
+
+## Måter å gjøre ting enklere på
+Må passe på at autometodene ikke lurer oss! Her måtte vi oppgi at dataene skulle stokkes, siden de var sortert etter x-aksen fra før.  
+```{python}
+#|echo: true
+#|output-location: slide 
+from sklearn.model_selection import KFold
+
+kf = KFold(n_splits=5, shuffle=True)
+for train_index, validate_index in kf.split(range(len(x))):
+    plt.plot(x[validate_index], y[validate_index], "o")
+```
+
+## Kryssvalidering 
+Vi bruker kryssvalidering for å 
+
+1. **Hindre overtilpasning.** Om testfeilen er mye større enn treningsfeilen har vi typisk overtilpasset
+2. **Utnytte data godt.** Kryssvalidering gir et godt estimat på hva som er usikkerheten når vi trener på alle dataene våre. 
+
+Hvorfor k-fold, og ikke leave one out kryssvalidering? 
+
+:::{.notes}
+Eksempel på k-fold kryssvalidering med k=5:
+```plaintext
+Fold 1: Train on [2, 3, 4, 5], Test on [1]
+Fold 2: Train on [1, 3, 4, 5], Test on [2]
+Fold 3: Train on [1, 2, 4, 5], Test on [3]
+Fold 4: Train on [1, 2, 3, 5], Test on [4]
+Fold 5: Train on [1, 2, 3, 4], Test on [5]
+```
+:::
+

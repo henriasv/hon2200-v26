@@ -1,0 +1,10 @@
+# Forberedelser {.unnumbered}
+
+Da vi begynte å se på lineær regresjon, viste vi at man får litt forskjellige regresjonskoeffisienter for hver gang man trekker nye tilfeldige samples fra samme fordeling. Nå skal vi se på såkalte *resampling*-metoder, som er avgjørende for å kunne estimere feilen vi gjør når vi trener modeller til å gjøre prediksjoner. Stikkord er treningsdata, valideringsdata, kryssvalidering, bias-varians-avveining, bootstrap. 
+
+Forberedelser til timen: 
+
+- Introduction to statistical learning (**with applications in Python**), lese s. 201 - 215 (Åpent tilgjengelig på [https://www.statlearning.com](https://www.statlearning.com)). I seksjonen om Bootstrap kan det være greit å ikke ta alle detaljer for alvorlig.
+- Gjøre ferdig [tutorial om logistisk regresjon](03b2_tutorial.qmd) fra forrige forelesning.
+
+Vi kommer til å bruke et datasett i undervisningstimen, det er [dette](data/hemmelig_funksjon.txt). 

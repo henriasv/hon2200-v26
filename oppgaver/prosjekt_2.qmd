@@ -1,0 +1,105 @@
+---
+title: "Prosjekt 2"
+bibliography: ../references.bib
+csl: ../nature.csl
+format:
+   html:
+     theme: cosmo
+     toc: true
+     toc-location: right
+     number-sections: false
+     fontcolor: black
+     show-notes: true
+---
+
+I prosjekt 2 skal dere utvide prosjektet deres eller gjøre det om til et annet prosjekt. Prosjektet skal på et vis være over samme lest som prosjekt 1: Dere har et datasett. Dere bruker datasettet til å analysere en problemstilling, og lager kanskje en modell. Dere vurderer etiske og samfunnsmessige implikasjoner. 
+
+I løpet av timen skal dere utvikle en prosjektbeskrivelse for prosjekt 2 i HON2200. Prosjektbeskrivelsen deres skal inneholde en kort introduksjon til temaet deres. Introduksjonen skal ende opp med ett eller flere forskningsspørsmål. Deretter skal det følge en foreløpig beskrivelse av hvilke steg dere planlegger å gjennomføre for å adressere forskningsspørsmålet. Introduksjonen og beskrivelsen av framgangsmåten skal inneholde referanser til litteratur dere kommer til å bruke. Dere må gjerne også sette opp en relevansmatrise som beskrevet i [@brownAlgorithmAuditScoring2021]. 
+
+Dere kan velge om dere vil utvikle prosjektet deres fra en egen idé, eller om dere vil basere dere på et av eksemplene under. I eksemplene under er det ikke tatt med til strekkelig med kilder, så uansett hva dere velger må dere finne fram til relevant litteratur. 
+
+Eksemplene under er laget med støttet fra Gemini 2.5 Pro (Deep Research). De er ment som inspirasjon, og må redigeres og kvalitetssikres før de kan brukes. 
+
+**Eksempel 1: Prediktiv modellering i miljøforvaltning og miljørettferdighet**
+
+* **Introduksjon:** Maskinlæring brukes til å analysere miljødata, for eksempel for å kartlegge og predikere avskoging ved hjelp av satellittbilder, slik som i det globale datasettet utviklet av Hansen et al. (2013) publisert i *Science*. Slike modeller kan være verdifulle verktøy for overvåkning og bevaring, men reiser også etiske spørsmål. Hvem eier dataene? Hvordan påvirker modellbaserte tiltak lokalsamfunn og urfolk? Og fører de til rettferdige løsninger (miljørettferdighet)? Dette prosjektet vil utvikle en modell for å predikere avskogingsrisiko og analysere de tilknyttede etiske og samfunnsmessige sidene.  
+* **Forskningsspørsmål:** Kan en Random Forest-modell predikere risiko for fremtidig avskoging i en valgt region ved å bruke historiske avskogingsdata (fra Hansen et al., 2013, [https://www.science.org/doi/10.1126/science.1244693](https://www.science.org/doi/10.1126/science.1244693)) og andre geografiske data (f.eks. nærhet til veier, befolkningstetthet, verneområder)? Hvor er den predikerte risikoen høyest? Hvordan kan bruken av en slik modell til å informere bevaringstiltak (f.eks. nye verneområder, restriksjoner på arealbruk) potensielt påvirke lokalsamfunn og urfolksgrupper negativt? Reiser dette spørsmål om miljørettferdighet, der byrdene og fordelene ved miljøtiltak fordeles ulikt?  
+* **Planlagte steg:**  
+  1. Hente inn og integrere Global Forest Change-data (Hansen et al., 2013\) og relevante prediktorvariabler for en valgt region (kan kreve bruk av GIS-verktøy eller plattformer som Google Earth Engine).  
+  2. Bearbeide geografiske data og lage relevante prediktorvariabler (f.eks. ved å aggregere data i gridceller).  
+  3. Dele dataene romlig eller tidsmessig i trenings- og testsett.  
+  4. Trene en Random Forest-modell for å predikere avskoging (enten som klassifisering av høyrisikoområder eller regresjon av tapt areal).  
+  5. Evaluere modellens ytelse, kartlegge predikert risiko og analysere variabelviktighet.  
+  6. Diskutere begrensningene ved satellittdata og modellene (f.eks. hva fanges ikke opp?), og de potensielle konsekvensene for lokalsamfunn og miljørettferdighet dersom slike modeller brukes ukritisk i forvaltningen, med referanse til relevant litteratur (Hansen et al., 2013; litteratur om miljørettferdighet og bevaringskonflikter).
+
+**Eksempel 2: Algoritmisk rettferdighet i helsevesenet**
+
+* **Introduksjon:** Maskinlæring brukes stadig oftere i helsevesenet til å forutsi pasientrisiko, for eksempel sannsynligheten for reinnleggelse på sykehus. Slike verktøy kan potensielt forbedre pasientbehandling, men de kan også videreføre eller forsterke eksisterende ulikheter i helse. Studier, som den av Obermeyer et al. (2019) publisert i *Science*, har vist hvordan algoritmer kan være systematisk partiske mot visse grupper, for eksempel ved å bruke helsekostnader som en upålitelig proxy for helsebehov. Dette prosjektet vil undersøke potensiell bias i en modell som predikerer reinnleggelsesrisiko for diabetespasienter.  
+* **Forskningsspørsmål:** Hvor nøyaktig kan en Random Forest-modell predikere 30-dagers reinnleggelse ved bruk av datasettet "Diabetes 130-US hospitals"? Er modellens prediksjonsevne og feilfordeling (f.eks. falske positiver/negativer) lik på tvers av ulike beskyttede grupper i datasettet? Kan variabler knyttet til behandlingsintensitet (f.eks. antall prosedyrer, medisiner) fungere som partiske proxy-variabler for reelt helsebehov, og dermed potensielt underestimere risikoen for enkelte grupper, slik Obermeyer et al. (2019) fant i sin studie?  
+* **Planlagte steg:**  
+  1. Hente inn og forberede datasettet "Diabetes 130-US hospitals" (fra UCI Machine Learning Repository).  
+  2. Dele datasettet i trenings- og testsett (train-test split).  
+  3. Trene en Random Forest-klassifikator for å predikere reinnleggelse.  
+  4. Evaluere modellens generelle ytelse og analysere eventuelle forskjeller i ytelse og feilrater på tvers av rasegrupper.  
+  5. Undersøke hvilke variabler modellen anser som viktigst (feature importance), med spesielt fokus på mulige proxy-variabler for rase eller sosioøkonomisk status.  
+  6. Diskutere de etiske implikasjonene av funnene, inkludert bruk av ulike rettferdighetsmål (fairness metrics) og avveininger mellom disse, i lys av relevant litteratur som Obermeyer et al. (2019).
+
+**Eksempel 3: Algoritmiske kredittvurderinger**
+
+* **Introduksjon:** Algoritmer brukes i økende grad til å vurdere kredittverdighet og avgjøre lånesøknader. Dette kan effektivisere prosesser, men reiser også etiske spørsmål knyttet til rettferdighet og diskriminering. Historisk sett har utlånspraksis vært preget av diskriminering (f.eks. "redlining"). Det er en risiko for at algoritmer trent på historiske data kan reprodusere slik urettferdighet, selv om sensitive variabler som kjønn eller etnisitet fjernes, fordi andre variabler kan fungere som proxyer. Dette prosjektet vil utforske potensiell bias i en modell for kredittrisikovurdering.  
+* **Forskningsspørsmål:** Kan en Random Forest-modell predikere kredittrisiko ('god'/'dårlig') basert på "German Credit Data"-datasettet? Viser modellen tegn til ulik behandling basert på alder eller kjønn? Hvilke egenskaper ved søkerne er mest prediktive for risiko, og kan noen av disse (f.eks. type bolig, ansettelsesvarighet) fungere som proxy-variabler for beskyttede kategorier eller sosioøkonomisk status, og dermed videreføre historisk bias?  
+* **Planlagte steg:**  
+  1. Hente inn og forberede "German Credit Data"-datasettet (UCI ML Repository).  
+  2. Dele datasettet i trenings- og testsett.  
+  3. Trene en Random Forest-klassifikator for å predikere kredittrisiko.  
+  4. Evaluere modellens generelle ytelse og undersøke om prediksjoner og feilrater varierer systematisk mellom ulike alders- og kjønnsgrupper.  
+  5. Analysere variabelviktighet (feature importance) for å identifisere potensielle proxy-variabler.  
+  6. Diskutere risikoen for å reprodusere historisk bias og de etiske implikasjonene ved bruk av slike modeller i finanssektoren, med referanse til litteratur om algoritmisk rettferdighet og diskriminerende utlånspraksis.
+
+**Eksempel 4: Bias i automatisert rekruttering (via proxy-analyse)**
+
+* **Introduksjon:** AI og maskinlæring tas i bruk for å automatisere deler av rekrutteringsprosessen, som CV-screening og rangering av kandidater. Målet er ofte økt effektivitet og objektivitet, men det er bekymring for at disse systemene kan introdusere nye former for bias eller forsterke eksisterende ulikheter. Siden rekrutteringsdata er vanskelig tilgjengelig, bruker vi "Adult Income"-datasettet som en proxy for å utforske hvordan algoritmer kan lære samfunnsmessige skjevheter knyttet til faktorer som ofte spiller inn i karrieresuksess.  
+* **Forskningsspørsmål:** Hvor godt kan en Random Forest-modell predikere om en person tjener over $50 000 i året basert på "Adult Income"-datasettet (fra US Census)? Er modellens prediksjonsevne og feilrater like for ulike rase- og kjønnsgrupper? Hvilke variabler (f.eks. utdanningsnivå, yrke) er mest prediktive for inntekt? Hvordan kan bruk av slike variabler i en *reell* automatisert rekrutteringskontekst fungere som partiske proxyer og potensielt diskriminere mot kvalifiserte kandidater fra underrepresenterte grupper, og dermed påvirke mangfoldet negativt?  
+* **Planlagte steg:**  
+  1. Hente inn og forberede "Adult Income"-datasettet (UCI ML Repository).  
+  2. Dele datasettet i trenings- og testsett.  
+  3. Trene en Random Forest-klassifikator for å predikere inntektskategori.  
+  4. Evaluere generell ytelse og analysere forskjeller i prediksjoner og feilrater på tvers av rase- og kjønnsgrupper.  
+  5. Undersøke variabelviktighet (feature importance).  
+  6. Diskutere hvordan variabler som korrelerer med inntekt (og dermed sosioøkonomisk status) kan føre til diskriminerende utfall hvis de brukes som grunnlag for ansettelsesbeslutninger, med referanse til litteratur om bias i HR-teknologi og validiteten av slike prediktorer for faktisk jobbprestasjon.
+
+**Eksempel 5\. Analyse av Moderering av Innhold på Nett (Hatspråk/Toksisitet)**
+
+* **Tema:** Plattformer som sosiale medier bruker algoritmer for å oppdage og fjerne uønsket innhold (f.eks. hatspråk, personangrep, trusler).  
+* **Datasett:**  
+  * *Toxic Comment Classification Challenge (Kaggle):* Kommentarer fra Wikipedia-diskusjoner, merket med ulike typer toksisitet (toxic, severe toxic, obscene, threat, insult, identity hate).  
+  * *Flere datasett for "hate speech detection" finnes*, ofte fokusert på spesifikke plattformer (Twitter) eller språk. Krever litt research for å finne egnede datasett.  
+* **Modellering:** Bygg en Random Forest-modell (krever at tekst omgjøres til numeriske features, f.eks. via TF-IDF eller embeddings – dette kan være en ekstra utfordring/forenkling) for å klassifisere kommentarer som "toxic" eller "non-toxic", eller en spesifikk type.  
+* **Etisk/Samfunnsmessig Vurdering:** Dette er mer komplekst, da "bias" her kan handle om at modeller feilaktig flagger visse dialekter eller utsagn fra minoritetsgrupper som "toxic" (se f.eks. forskning på African American Vernacular English \- AAVE). Diskuter utfordringene med å definere "hatspråk" og "toksisitet". Hva er konsekvensene av falske positiver (sensur) og falske negativer (skadelig innhold blir stående)? Ytringsfrihet vs. trygt nettmiljø. Kan slike modeller misbrukes? Hvordan påvirker valget av treningsdata modellens oppfatning av hva som er problematisk?  
+* **Litteratur:** Søk etter "bias hate speech detection", "algorithmic content moderation ethics", "fairness in NLP". Se etter artikler fra informatikk-konferanser (ACL, EMNLP, NeurIPS, ICML) og tidsskrifter som *Nature Machine Intelligence* eller *Science*.
+
+* **Utvidelse:** Bruk en språkmodell til å være en chatbot som svarer for eksempel på twitter/threads/instagram. Utsett boten for forskjellige scenarier basert på det dere har lært tidligere i oppgaven, og analyser oppførselen.
+
+**Eksempel 6\. AI og Demokrati – Indikatorer og Strategier**
+
+* **Fokus:** Utforske den potensielle sammenhengen mellom nasjonalt fokus på AI og demokratinivå ved hjelp av globale indekser, eller analysere innholdet i nasjonale AI-strategier.  
+* **Spesifikke Datasett/Kilder:**  
+  1. **Alternativ 1 (Indeksanalyse):**  
+     * **Demokratiindeks:** V-Dem Institute (Varieties of Democracy) Electoral Democracy Index (polyarchy) eller Liberal Democracy Index. Data kan lastes ned fra deres nettside (krever ofte registrering).  
+     * **AI Indeks:** Oxford Insights Government AI Readiness Index eller Tortoise Media Global AI Index (sjekk tilgjengelighet/kostnad for data). *Enklere alternativ:* Bruk en liste over land som *har* publisert en nasjonal AI-strategi (som i ) som en binær indikator på AI-fokus.     
+     * [https://www.tandfonline.com/doi/full/10.1080/19331681.2025.2473994](https://www.tandfonline.com/doi/full/10.1080/19331681.2025.2473994)  
+  2. **Alternativ 2 (Tekstanalyse):**  
+     * **Nasjonale AI-Strategier:** Offentlig tilgjengelige strategidokumenter fra 2-3 ulike land (f.eks. Norge, Kina, USA, EU). Kan finnes via OECD.AI Policy Observatory eller direkte søk.  
+* **Foreslåtte Startsteg for Analyse (Alternativ 1 \- Indekser):**  
+  1. **Samle Data:** Last ned V-Dem data og AI Readiness data for en periode (f.eks. 2017-2023) for så mange land som mulig.  
+  2. **Slå Sammen Data:** Bruk Pandas til å slå sammen datasettene basert på land og år.  
+  3. **Visualiser Sammenheng:** Lag et spredningsplott med AI Readiness Index på én akse og V-Dem score på den andre for et gitt år (f.eks. 2023). Fargekod punktene etter region eller inntektsnivå.  
+  4. **Beregn Korrelasjon:** Beregn Pearson korrelasjonskoeffisient mellom AI-indeksen og demokrati-indeksen for det siste tilgjengelige året.  
+  5. **Diskuter**  
+* **Foreslåtte Startsteg for Analyse (Alternativ 2 \- Tekstanalyse):**  
+  1. **Samle Strategier:** Last ned PDF- eller tekstdokumenter for 2-3 nasjonale AI-strategier. Konverter til ren tekst om nødvendig.  
+  2. **Definer Nøkkelord:** Lag lister med nøkkelord knyttet til ulike temaer: a) Demokrati/Rettigheter (f.eks. "democracy", "human rights", "freedom", "privacy", "ethics"), b) Kontroll/Sikkerhet (f.eks. "surveillance", "security", "control", "policing"), c) Økonomi/Konkurranseevne (f.eks. "economic growth", "competitiveness", "innovation", "industry").  
+  3. **Tell Frekvens:** Bruk enkel Python-kode (f.eks. `tekst.lower().count('nøkkelord')`) til å telle frekvensen av ord fra hver kategori i hver strategi. Normaliser tellingene (f.eks. per 1000 ord) for å kunne sammenligne.  
+  4. **Sammenlign Fokus:** Lag et stolpediagram som viser den relative frekvensen av de ulike temakategoriene for hvert land.  
+  5. **Diskuter:** Diskuter forskjellene i fokus mellom landene. Hvilke verdier eller mål virker mest fremtredende? Hvordan reflekterer dette potensielle spenninger mellom AI for økonomisk vinning versus AI for samfunnsgode eller demokratisk kontroll? 1   
+
