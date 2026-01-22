@@ -1,5 +1,170 @@
 [
   {
+    "objectID": "lectures/llm/llm_01_pandas.html",
+    "href": "lectures/llm/llm_01_pandas.html",
+    "title": "Introduksjon til Pandas",
+    "section": "",
+    "text": "Dette notatet er skrevet av en LLM som supplement til forelesningsmateriell i HON2200.",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#læringsmål",
+    "href": "lectures/llm/llm_01_pandas.html#læringsmål",
+    "title": "Introduksjon til Pandas",
+    "section": "Læringsmål",
+    "text": "Læringsmål\nEtter å ha jobbet gjennom dette notatet skal du kunne:\n\nForstå hva en DataFrame er\nLese inn data fra CSV-filer og pandas’ innebygde datasett\nVelge ut rader og kolonner fra en DataFrame\nBruke groupby for å aggregere data\nVisualisere data med matplotlib",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#hva-er-pandas",
+    "href": "lectures/llm/llm_01_pandas.html#hva-er-pandas",
+    "title": "Introduksjon til Pandas",
+    "section": "Hva er Pandas?",
+    "text": "Hva er Pandas?\nPandas er et Python-bibliotek for databehandling og analyse. Navnet kommer fra “Panel Data” - et begrep fra økonometri. De to viktigste datastrukturene i Pandas er:\n\nSeries: En endimensjonal array med labels (som en kolonne)\nDataFrame: En todimensjonal tabell med rader og kolonner",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#importere-pandas",
+    "href": "lectures/llm/llm_01_pandas.html#importere-pandas",
+    "title": "Introduksjon til Pandas",
+    "section": "Importere Pandas",
+    "text": "Importere Pandas\nVi starter alltid med å importere pandas. Konvensjonen er å kalle det pd:\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#lage-en-dataframe-fra-scratch",
+    "href": "lectures/llm/llm_01_pandas.html#lage-en-dataframe-fra-scratch",
+    "title": "Introduksjon til Pandas",
+    "section": "Lage en DataFrame fra scratch",
+    "text": "Lage en DataFrame fra scratch\nLa oss lage en enkel DataFrame med noen data:\n\n# Lage en DataFrame fra en dictionary\ndata = {\n    'navn': ['Anna', 'Bjørn', 'Cecilie', 'David'],\n    'alder': [25, 32, 28, 45],\n    'by': ['Oslo', 'Bergen', 'Oslo', 'Trondheim']\n}\n\ndf = pd.DataFrame(data)\ndf\n\n\n\n\n\n\n\n\nnavn\nalder\nby\n\n\n\n\n0\nAnna\n25\nOslo\n\n\n1\nBjørn\n32\nBergen\n\n\n2\nCecilie\n28\nOslo\n\n\n3\nDavid\n45\nTrondheim",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#lese-data-fra-innebygde-datasett",
+    "href": "lectures/llm/llm_01_pandas.html#lese-data-fra-innebygde-datasett",
+    "title": "Introduksjon til Pandas",
+    "section": "Lese data fra innebygde datasett",
+    "text": "Lese data fra innebygde datasett\nPandas kommer med noen innebygde datasett som er perfekte for øving. Vi kan også laste data direkte fra nettet.\n\nEksempel 1: Iris-datasettet\nIris-datasettet inneholder målinger av 150 iris-blomster fra tre forskjellige arter.\n\n# Laste Iris-datasettet direkte fra UCI Machine Learning Repository\nurl = \"https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data\"\ncolumn_names = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species']\ndf_iris = pd.read_csv(url, names=column_names)\ndf_iris.head()\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nIris-setosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nIris-setosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nIris-setosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nIris-setosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nIris-setosa\n\n\n\n\n\n\n\n\n\nEksempel 2: Penguins-datasettet\nPenguins-datasettet inneholder målinger av pingviner fra tre arter i Antarktis.\n\n# Laste penguins-datasettet\nurl_penguins = \"https://raw.githubusercontent.com/mwaskom/seaborn-data/master/penguins.csv\"\ndf_penguins = pd.read_csv(url_penguins)\ndf_penguins.head()\n\n\n\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\n0\nAdelie\nTorgersen\n39.1\n18.7\n181.0\n3750.0\nMALE\n\n\n1\nAdelie\nTorgersen\n39.5\n17.4\n186.0\n3800.0\nFEMALE\n\n\n2\nAdelie\nTorgersen\n40.3\n18.0\n195.0\n3250.0\nFEMALE\n\n\n3\nAdelie\nTorgersen\nNaN\nNaN\nNaN\nNaN\nNaN\n\n\n4\nAdelie\nTorgersen\n36.7\n19.3\n193.0\n3450.0\nFEMALE\n\n\n\n\n\n\n\n\n\nEksempel 3: Tips-datasettet\n\n# Laste tips-datasettet\nurl_tips = \"https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv\"\ndf_tips = pd.read_csv(url_tips)\ndf_tips.head()\n\n\n\n\n\n\n\n\ntotal_bill\ntip\nsex\nsmoker\nday\ntime\nsize\n\n\n\n\n0\n16.99\n1.01\nFemale\nNo\nSun\nDinner\n2\n\n\n1\n10.34\n1.66\nMale\nNo\nSun\nDinner\n3\n\n\n2\n21.01\n3.50\nMale\nNo\nSun\nDinner\n3\n\n\n3\n23.68\n3.31\nMale\nNo\nSun\nDinner\n2\n\n\n4\n24.59\n3.61\nFemale\nNo\nSun\nDinner\n4\n\n\n\n\n\n\n\nDette datasettet inneholder informasjon om tips på en restaurant.",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#utforske-en-dataframe",
+    "href": "lectures/llm/llm_01_pandas.html#utforske-en-dataframe",
+    "title": "Introduksjon til Pandas",
+    "section": "Utforske en DataFrame",
+    "text": "Utforske en DataFrame\nNår vi har lest inn data, vil vi gjerne utforske dem:\n\n# Vis de første radene\nprint(\"Første 5 rader:\")\nprint(df_penguins.head())\n\nFørste 5 rader:\n  species     island  bill_length_mm  bill_depth_mm  flipper_length_mm  \\\n0  Adelie  Torgersen            39.1           18.7              181.0   \n1  Adelie  Torgersen            39.5           17.4              186.0   \n2  Adelie  Torgersen            40.3           18.0              195.0   \n3  Adelie  Torgersen             NaN            NaN                NaN   \n4  Adelie  Torgersen            36.7           19.3              193.0   \n\n   body_mass_g     sex  \n0       3750.0    MALE  \n1       3800.0  FEMALE  \n2       3250.0  FEMALE  \n3          NaN     NaN  \n4       3450.0  FEMALE  \n\n\n\n# Informasjon om kolonner og datatyper\nprint(\"\\nInformasjon om DataFrame:\")\nprint(df_penguins.info())\n\n\nInformasjon om DataFrame:\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 344 entries, 0 to 343\nData columns (total 7 columns):\n #   Column             Non-Null Count  Dtype  \n---  ------             --------------  -----  \n 0   species            344 non-null    object \n 1   island             344 non-null    object \n 2   bill_length_mm     342 non-null    float64\n 3   bill_depth_mm      342 non-null    float64\n 4   flipper_length_mm  342 non-null    float64\n 5   body_mass_g        342 non-null    float64\n 6   sex                333 non-null    object \ndtypes: float64(4), object(3)\nmemory usage: 18.9+ KB\nNone\n\n\n\n# Statistisk oppsummering\nprint(\"\\nStatistisk oppsummering:\")\nprint(df_penguins.describe())\n\n\nStatistisk oppsummering:\n       bill_length_mm  bill_depth_mm  flipper_length_mm  body_mass_g\ncount      342.000000     342.000000         342.000000   342.000000\nmean        43.921930      17.151170         200.915205  4201.754386\nstd          5.459584       1.974793          14.061714   801.954536\nmin         32.100000      13.100000         172.000000  2700.000000\n25%         39.225000      15.600000         190.000000  3550.000000\n50%         44.450000      17.300000         197.000000  4050.000000\n75%         48.500000      18.700000         213.000000  4750.000000\nmax         59.600000      21.500000         231.000000  6300.000000\n\n\n\n# Sjekke kolonnenavn\nprint(\"\\nKolonnenavn:\")\nprint(df_penguins.columns.tolist())\n\n\nKolonnenavn:\n['species', 'island', 'bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g', 'sex']",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#velge-ut-data",
+    "href": "lectures/llm/llm_01_pandas.html#velge-ut-data",
+    "title": "Introduksjon til Pandas",
+    "section": "Velge ut data",
+    "text": "Velge ut data\n\nVelge kolonner\n\n# Velge én kolonne (returnerer en Series)\nbody_mass = df_penguins['body_mass_g']\nprint(f\"Type: {type(body_mass)}\")\nprint(f\"\\nFørste 5 verdier:\")\nprint(body_mass.head())\n\nType: &lt;class 'pandas.core.series.Series'&gt;\n\nFørste 5 verdier:\n0    3750.0\n1    3800.0\n2    3250.0\n3       NaN\n4    3450.0\nName: body_mass_g, dtype: float64\n\n\n\n# Velge flere kolonner (returnerer en DataFrame)\nutvalg = df_penguins[['species', 'island', 'body_mass_g']]\nutvalg.head()\n\n\n\n\n\n\n\n\nspecies\nisland\nbody_mass_g\n\n\n\n\n0\nAdelie\nTorgersen\n3750.0\n\n\n1\nAdelie\nTorgersen\n3800.0\n\n\n2\nAdelie\nTorgersen\n3250.0\n\n\n3\nAdelie\nTorgersen\nNaN\n\n\n4\nAdelie\nTorgersen\n3450.0\n\n\n\n\n\n\n\n\n\nVelge rader med betingelser\n\n# Filtrere rader - pingviner tyngre enn 5000g\nstore_pingviner = df_penguins[df_penguins['body_mass_g'] &gt; 5000]\nprint(f\"Antall pingviner over 5000g: {len(store_pingviner)}\")\nstore_pingviner.head()\n\nAntall pingviner over 5000g: 61\n\n\n\n\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\n221\nGentoo\nBiscoe\n50.0\n16.3\n230.0\n5700.0\nMALE\n\n\n223\nGentoo\nBiscoe\n50.0\n15.2\n218.0\n5700.0\nMALE\n\n\n224\nGentoo\nBiscoe\n47.6\n14.5\n215.0\n5400.0\nMALE\n\n\n227\nGentoo\nBiscoe\n46.7\n15.3\n219.0\n5200.0\nMALE\n\n\n229\nGentoo\nBiscoe\n46.8\n15.4\n215.0\n5150.0\nMALE\n\n\n\n\n\n\n\n\n# Flere betingelser - Adelie-pingviner på Torgersen-øya\nadelie_torgersen = df_penguins[(df_penguins['species'] == 'Adelie') & \n                                (df_penguins['island'] == 'Torgersen')]\nprint(f\"Antall Adelie-pingviner på Torgersen: {len(adelie_torgersen)}\")\nadelie_torgersen.head()\n\nAntall Adelie-pingviner på Torgersen: 52\n\n\n\n\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\n0\nAdelie\nTorgersen\n39.1\n18.7\n181.0\n3750.0\nMALE\n\n\n1\nAdelie\nTorgersen\n39.5\n17.4\n186.0\n3800.0\nFEMALE\n\n\n2\nAdelie\nTorgersen\n40.3\n18.0\n195.0\n3250.0\nFEMALE\n\n\n3\nAdelie\nTorgersen\nNaN\nNaN\nNaN\nNaN\nNaN\n\n\n4\nAdelie\nTorgersen\n36.7\n19.3\n193.0\n3450.0\nFEMALE",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#gruppering-med-groupby",
+    "href": "lectures/llm/llm_01_pandas.html#gruppering-med-groupby",
+    "title": "Introduksjon til Pandas",
+    "section": "Gruppering med groupby",
+    "text": "Gruppering med groupby\ngroupby er en av de kraftigste funksjonene i Pandas. Den lar oss gruppere data og beregne statistikk per gruppe.\n\n# Gjennomsnittlig kroppsmasse per art\ndf_penguins.groupby('species')['body_mass_g'].mean()\n\nspecies\nAdelie       3700.662252\nChinstrap    3733.088235\nGentoo       5076.016260\nName: body_mass_g, dtype: float64\n\n\n\n# Gjennomsnittlig nebbdybde per øy\ndf_penguins.groupby('island')['bill_depth_mm'].mean()\n\nisland\nBiscoe       15.874850\nDream        18.344355\nTorgersen    18.429412\nName: bill_depth_mm, dtype: float64\n\n\n\n# Flere aggregeringer samtidig\ndf_penguins.groupby('species').agg({\n    'body_mass_g': ['mean', 'min', 'max'],\n    'bill_length_mm': 'mean',\n    'flipper_length_mm': 'mean'\n})\n\n\n\n\n\n\n\n\nbody_mass_g\nbill_length_mm\nflipper_length_mm\n\n\n\nmean\nmin\nmax\nmean\nmean\n\n\nspecies\n\n\n\n\n\n\n\n\n\nAdelie\n3700.662252\n2850.0\n4775.0\n38.791391\n189.953642\n\n\nChinstrap\n3733.088235\n2700.0\n4800.0\n48.833824\n195.823529\n\n\nGentoo\n5076.016260\n3950.0\n6300.0\n47.504878\n217.186992\n\n\n\n\n\n\n\n\nEksempel med iris-datasettet\n\n# Gjennomsnittlig kronblad-lengde per art\ndf_iris.groupby('species')['petal_length'].mean()\n\nspecies\nIris-setosa        1.464\nIris-versicolor    4.260\nIris-virginica     5.552\nName: petal_length, dtype: float64\n\n\n\n# Alle målinger per art\ndf_iris.groupby('species').agg({\n    'sepal_length': 'mean',\n    'sepal_width': 'mean',\n    'petal_length': 'mean',\n    'petal_width': 'mean'\n})\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\n\n\nspecies\n\n\n\n\n\n\n\n\nIris-setosa\n5.006\n3.418\n1.464\n0.244\n\n\nIris-versicolor\n5.936\n2.770\n4.260\n1.326\n\n\nIris-virginica\n6.588\n2.974\n5.552\n2.026",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#visualisering",
+    "href": "lectures/llm/llm_01_pandas.html#visualisering",
+    "title": "Introduksjon til Pandas",
+    "section": "Visualisering",
+    "text": "Visualisering\nPandas har innebygd støtte for plotting via matplotlib:\n\n# Histogram over kroppsmasse for pingviner\nplt.figure(figsize=(10, 4))\nplt.hist(df_penguins['body_mass_g'].dropna(), bins=30, edgecolor='black', alpha=0.7, color='steelblue')\nplt.xlabel('Kroppsmasse (g)')\nplt.ylabel('Antall pingviner')\nplt.title('Fordeling av kroppsmasse hos pingviner')\nplt.grid(True, alpha=0.3)\nplt.show()\n\n\n\n\n\n\n\n\n\n# Gjennomsnittlig kroppsmasse per art\nmass_by_species = df_penguins.groupby('species')['body_mass_g'].mean()\n\nplt.figure(figsize=(8, 5))\nmass_by_species.plot(kind='bar', color='coral', edgecolor='black')\nplt.xlabel('Art')\nplt.ylabel('Gjennomsnittlig kroppsmasse (g)')\nplt.title('Gjennomsnittlig kroppsmasse per pingvinart')\nplt.xticks(rotation=45)\nplt.grid(True, alpha=0.3, axis='y')\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n# Scatter plot: nebbdybde vs. nebblengde\nplt.figure(figsize=(8, 5))\nfor species in df_penguins['species'].unique():\n    data = df_penguins[df_penguins['species'] == species]\n    plt.scatter(data['bill_length_mm'], data['bill_depth_mm'], \n                label=species, alpha=0.6, s=50)\nplt.xlabel('Nebblengde (mm)')\nplt.ylabel('Nebbdybde (mm)')\nplt.title('Nebbdimensjoner hos pingviner')\nplt.legend()\nplt.grid(True, alpha=0.3)\nplt.show()\n\n\n\n\n\n\n\n\n\n# Tips vs. total regning\nplt.figure(figsize=(8, 5))\nplt.scatter(df_tips['total_bill'], df_tips['tip'], alpha=0.5, color='green')\nplt.xlabel('Total regning ($)')\nplt.ylabel('Tips ($)')\nplt.title('Tips vs. Total regning')\nplt.grid(True, alpha=0.3)\nplt.show()",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#håndtere-manglende-data",
+    "href": "lectures/llm/llm_01_pandas.html#håndtere-manglende-data",
+    "title": "Introduksjon til Pandas",
+    "section": "Håndtere manglende data",
+    "text": "Håndtere manglende data\nVirkelige datasett har ofte manglende verdier (NaN):\n\n# Sjekke for manglende verdier\nprint(\"Manglende verdier per kolonne:\")\nprint(df_penguins.isnull().sum())\n\nManglende verdier per kolonne:\nspecies               0\nisland                0\nbill_length_mm        2\nbill_depth_mm         2\nflipper_length_mm     2\nbody_mass_g           2\nsex                  11\ndtype: int64\n\n\n\n# Fjerne rader med manglende verdier\ndf_clean = df_penguins.dropna()\nprint(f\"Rader før: {len(df_penguins)}, Rader etter: {len(df_clean)}\")\n\nRader før: 344, Rader etter: 333\n\n\n\n# Fylle inn manglende verdier med gjennomsnittet\ndf_filled = df_penguins.copy()\ndf_filled['body_mass_g'] = df_filled['body_mass_g'].fillna(df_filled['body_mass_g'].mean())\nprint(f\"Manglende kroppsmasse-verdier etter fillna: {df_filled['body_mass_g'].isnull().sum()}\")\n\nManglende kroppsmasse-verdier etter fillna: 0",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#sortere-data",
+    "href": "lectures/llm/llm_01_pandas.html#sortere-data",
+    "title": "Introduksjon til Pandas",
+    "section": "Sortere data",
+    "text": "Sortere data\n\n# Sortere etter kroppsmasse (tyngste først)\ndf_penguins.sort_values('body_mass_g', ascending=False).head()\n\n\n\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\n237\nGentoo\nBiscoe\n49.2\n15.2\n221.0\n6300.0\nMALE\n\n\n253\nGentoo\nBiscoe\n59.6\n17.0\n230.0\n6050.0\nMALE\n\n\n297\nGentoo\nBiscoe\n51.1\n16.3\n220.0\n6000.0\nMALE\n\n\n337\nGentoo\nBiscoe\n48.8\n16.2\n222.0\n6000.0\nMALE\n\n\n331\nGentoo\nBiscoe\n49.8\n15.9\n229.0\n5950.0\nMALE\n\n\n\n\n\n\n\n\n# Sortere etter flere kolonner\ndf_penguins.sort_values(['species', 'body_mass_g'], ascending=[True, False]).head(10)\n\n\n\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\n109\nAdelie\nBiscoe\n43.2\n19.0\n197.0\n4775.0\nMALE\n\n\n101\nAdelie\nBiscoe\n41.0\n20.0\n203.0\n4725.0\nMALE\n\n\n81\nAdelie\nTorgersen\n42.9\n17.6\n196.0\n4700.0\nMALE\n\n\n7\nAdelie\nTorgersen\n39.2\n19.6\n195.0\n4675.0\nMALE\n\n\n39\nAdelie\nDream\n39.8\n19.1\n184.0\n4650.0\nMALE\n\n\n45\nAdelie\nDream\n39.6\n18.8\n190.0\n4600.0\nMALE\n\n\n111\nAdelie\nBiscoe\n45.6\n20.3\n191.0\n4600.0\nMALE\n\n\n17\nAdelie\nTorgersen\n42.5\n20.7\n197.0\n4500.0\nMALE\n\n\n133\nAdelie\nDream\n37.5\n18.5\n199.0\n4475.0\nMALE\n\n\n69\nAdelie\nTorgersen\n41.8\n19.4\n198.0\n4450.0\nMALE",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#telling-og-frekvenser",
+    "href": "lectures/llm/llm_01_pandas.html#telling-og-frekvenser",
+    "title": "Introduksjon til Pandas",
+    "section": "Telling og frekvenser",
+    "text": "Telling og frekvenser\n\n# Telle antall pingviner per art\nprint(\"Antall pingviner per art:\")\nprint(df_penguins['species'].value_counts())\n\nAntall pingviner per art:\nAdelie       152\nGentoo       124\nChinstrap     68\nName: species, dtype: int64\n\n\n\n# Telle antall pingviner per øy\nprint(\"\\nAntall pingviner per øy:\")\nprint(df_penguins['island'].value_counts())\n\n\nAntall pingviner per øy:\nBiscoe       168\nDream        124\nTorgersen     52\nName: island, dtype: int64",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#oppsummering",
+    "href": "lectures/llm/llm_01_pandas.html#oppsummering",
+    "title": "Introduksjon til Pandas",
+    "section": "Oppsummering",
+    "text": "Oppsummering\nDu har nå lært:\n\nLese data: pd.read_csv() fra URL\nUtforske: .head(), .info(), .describe(), .columns\nVelge ut: df['kolonne'], df[['kol1', 'kol2']], df[betingelse]\nGruppere: df.groupby('kolonne').agg(...)\nVisualisere: plt.plot(), plt.hist(), plt.scatter()\nManglende data: .isnull(), .dropna(), .fillna()\nSortere: .sort_values()\nTelle: .value_counts()",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_01_pandas.html#øvingsoppgaver",
+    "href": "lectures/llm/llm_01_pandas.html#øvingsoppgaver",
+    "title": "Introduksjon til Pandas",
+    "section": "Øvingsoppgaver",
+    "text": "Øvingsoppgaver\n\nOppgaver med penguins-datasettet:\n\nHva er gjennomsnittlig vippelengde (flipper_length_mm) for Gentoo-pingviner?\nHvor mange pingviner er det på hver øy?\nFinn den tyngste pingvinen i datasettet. Hvilken art er det?\nLag et histogram over nebbdybde (bill_depth_mm)\nHva er forskjellen i gjennomsnittlig kroppsmasse mellom hann- og hunnpingviner?\n\n\n\nOppgaver med iris-datasettet:\n\nHvilken art har lengst gjennomsnittlig kronblad (petal_length)?\nLag et scatter plot av sepal_length vs. sepal_width, farget etter art\nFinn iris-blomsten med bredest begerblad (sepal_width)\n\nBonusoppgave: Bruk tips-datasettet til å finne ut hvilken dag servitørene tjente mest i tips totalt.",
+    "crumbs": [
+      "LLM-supplement",
+      "Introduksjon til Pandas"
+    ]
+  },
+  {
     "objectID": "lectures/01c_øvelse.html",
     "href": "lectures/01c_øvelse.html",
     "title": "Øvingsoppgaver",
@@ -111,7 +276,7 @@
     "href": "lectures/01a_forberedelser.html",
     "title": "Forberedelser",
     "section": "",
-    "text": "I første time skal vi se litt på hva data-drevne prosjekter er for noe, snakke litt om hvordan undervisningen gjennomføres og begynne så smått å se på databehandling.\nFølg instruksjonene under for å være forberedt til første time. Merk at det er en oppgave nederst på siden som kommer til å ta litt tid.",
+    "text": "I første time skal vi se litt på hva data-drevne prosjekter er for noe, snakke litt om hvordan undervisningen gjennomføres og begynne så smått å se på databehandling.\nFølg instruksjonene under for å være forberedt til første time.",
     "crumbs": [
       "Del 1: Statistikk"
     ]
@@ -144,6 +309,28 @@
     "text": "Test oppsettet med å se på data av ulike typer Iris\n\n\n\n\n\n\n\n\nsetosa\nversicolor\nvirginica\n\n\n\n\n\n\n\n\n\n\n\nimport pandas as pd \nfile_name = \"https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv\"\ndf = pd.read_csv(file_name)\ndf.head()\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n\n\n\n\n\nEtter kommandoen over skal du se en tabell med data fra Iris-datasettet.\n\nimport matplotlib.pyplot as plt \nplt.scatter(df[\"sepal_length\"], df[\"sepal_width\"])\nplt.xlabel(\"sepal length\")\nplt.ylabel(\"sepal width\")\n\nText(0, 0.5, 'sepal width')\n\n\n\n\n\n\n\n\n\n\nfig, ax = plt.subplots(figsize=(8,6))\n\nfor species, s_df in df.groupby(\"species\"):\n    ax.scatter(s_df[\"sepal_length\"], s_df[\"petal_length\"], label=species)\nplt.xlabel(\"sepal length\")\nplt.ylabel(\"petal length\")\nplt.legend()\n\n\n\n\n\n\n\n\nOm alt dette fungerer, og du får opp noe som ligner på figurene over, er du klar for undervisningstime.",
     "crumbs": [
       "Del 1: Statistikk"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/index.html",
+    "href": "lectures/llm/index.html",
+    "title": "LLM-supplement",
+    "section": "",
+    "text": "Notatene i denne seksjonen er skrevet av en stor språkmodell (LLM) som supplement til forelesningsmateriell i HON2200. De er ment som et eksperiment for å utforske hvordan AI kan brukes i undervisning.\n\n\n\nAI-generert innhold: Alle tekstene er skrevet av en LLM basert på instruksjoner fra faglærer\nSupplement, ikke erstatning: Disse notatene erstatter ikke forelesninger, lærebok eller obligatoriske oppgaver\nEksperimentelt: Vi tester ut hvordan AI kan brukes til å lage pedagogisk materiale\n\n\n\n\n✅ Bruk dem til: - Repetisjon av konsepter fra forelesning - Ekstra eksempler og forklaringer - Rask oppfriskning før øvingstimer\n❌ Ikke stol blindt på dem: - LLM-er kan gjøre feil, spesielt i tekniske detaljer - Hvis noe virker rart eller motstridende, spør faglærer/meld ifra - Prioriter pensum og forelesningsnotater\n\n\n\nHar du funnet feil eller har forslag til forbedringer? Send en e-post til faglærer eller ta det opp i øvingstimene.",
+    "crumbs": [
+      "LLM-supplement",
+      "LLM-supplement"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/index.html#om-disse-notatene",
+    "href": "lectures/llm/index.html#om-disse-notatene",
+    "title": "LLM-supplement",
+    "section": "",
+    "text": "Notatene i denne seksjonen er skrevet av en stor språkmodell (LLM) som supplement til forelesningsmateriell i HON2200. De er ment som et eksperiment for å utforske hvordan AI kan brukes i undervisning.\n\n\n\nAI-generert innhold: Alle tekstene er skrevet av en LLM basert på instruksjoner fra faglærer\nSupplement, ikke erstatning: Disse notatene erstatter ikke forelesninger, lærebok eller obligatoriske oppgaver\nEksperimentelt: Vi tester ut hvordan AI kan brukes til å lage pedagogisk materiale\n\n\n\n\n✅ Bruk dem til: - Repetisjon av konsepter fra forelesning - Ekstra eksempler og forklaringer - Rask oppfriskning før øvingstimer\n❌ Ikke stol blindt på dem: - LLM-er kan gjøre feil, spesielt i tekniske detaljer - Hvis noe virker rart eller motstridende, spør faglærer/meld ifra - Prioriter pensum og forelesningsnotater\n\n\n\nHar du funnet feil eller har forslag til forbedringer? Send en e-post til faglærer eller ta det opp i øvingstimene.",
+    "crumbs": [
+      "LLM-supplement",
+      "LLM-supplement"
     ]
   }
 ]

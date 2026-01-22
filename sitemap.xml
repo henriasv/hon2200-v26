@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_01_pandas.html</loc>
+    <lastmod>2026-01-22T14:13:47.103Z</lastmod>
+  </url>
+  <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/01c_øvelse.html</loc>
     <lastmod>2026-01-22T09:41:18.757Z</lastmod>
   </url>
@@ -14,6 +18,10 @@
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/01a_forberedelser.html</loc>
-    <lastmod>2026-01-22T09:41:18.756Z</lastmod>
+    <lastmod>2026-01-22T14:21:08.793Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/index.html</loc>
+    <lastmod>2026-01-22T14:22:06.983Z</lastmod>
   </url>
 </urlset>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>c_øvelse – HON2200 – V2026</title>
+<title>LLM-supplement – HON2200 – V2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,59 +20,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-aadbdd34b63a8619be62941c6a9b2204.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-73c0545440c5197407f91096614fe5e7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-aadbdd34b63a8619be62941c6a9b2204.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-73c0545440c5197407f91096614fe5e7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -100,9 +66,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -116,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/01a_forberedelser.html">Del 1: Statistikk</a></li><li class="breadcrumb-item"><a href="../lectures/01a_forberedelser.html">Uke 1 – 23. januar</a></li><li class="breadcrumb-item"><a href="../lectures/01c_øvelse.html">Øvingsoppgaver</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../lectures/llm/index.html">LLM-supplement</a></li><li class="breadcrumb-item"><a href="../../lectures/llm/index.html">LLM-supplement</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -130,11 +93,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      <img src="../hon_logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../hon_logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">HON2200 – V2026</a> 
+      <a href="../../">HON2200 – V2026</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -146,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Kursinformasjon</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -155,13 +118,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Velkommen til HON2200</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../undervisningsplan.html" class="sidebar-item-text sidebar-link">
+  <a href="../../undervisningsplan.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Undervisningsplan</span></a>
   </div>
 </li>
@@ -169,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
+            <a href="../../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Del 1: Statistikk</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -178,22 +141,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
+            <a href="../../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Uke 1 – 23. januar</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
+  <a href="../../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Forberedelser</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/01c_øvelse.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../lectures/01c_øvelse.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Øvingsoppgaver</span></a>
   </div>
 </li>
@@ -220,13 +183,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/llm/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../lectures/llm/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">LLM-supplement</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/llm/llm_01_pandas.html" class="sidebar-item-text sidebar-link">
+  <a href="../../lectures/llm/llm_01_pandas.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduksjon til Pandas</span></a>
   </div>
 </li>
@@ -242,103 +205,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#sec-oving-1" id="toc-sec-oving-1" class="nav-link active" data-scroll-target="#sec-oving-1">Øvingsoppgaver</a>
+  <li><a href="#om-disse-notatene" id="toc-om-disse-notatene" class="nav-link active" data-scroll-target="#om-disse-notatene">Om disse notatene</a>
   <ul class="collapse">
-  <li><a href="#trekke-ut-informasjon-fra-datasett" id="toc-trekke-ut-informasjon-fra-datasett" class="nav-link" data-scroll-target="#trekke-ut-informasjon-fra-datasett">Trekke ut informasjon fra datasett</a></li>
-  <li><a href="#beregning-av-strømregning-basert-på-forbruksdata-og-prisdata" id="toc-beregning-av-strømregning-basert-på-forbruksdata-og-prisdata" class="nav-link" data-scroll-target="#beregning-av-strømregning-basert-på-forbruksdata-og-prisdata">Beregning av strømregning basert på forbruksdata og prisdata</a></li>
+  <li><a href="#hva-er-dette" id="toc-hva-er-dette" class="nav-link" data-scroll-target="#hva-er-dette">Hva er dette?</a></li>
+  <li><a href="#hvordan-bruke-disse-notatene" id="toc-hvordan-bruke-disse-notatene" class="nav-link" data-scroll-target="#hvordan-bruke-disse-notatene">Hvordan bruke disse notatene?</a></li>
+  <li><a href="#tilbakemelding" id="toc-tilbakemelding" class="nav-link" data-scroll-target="#tilbakemelding">Tilbakemelding</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/01a_forberedelser.html">Del 1: Statistikk</a></li><li class="breadcrumb-item"><a href="../lectures/01a_forberedelser.html">Uke 1 – 23. januar</a></li><li class="breadcrumb-item"><a href="../lectures/01c_øvelse.html">Øvingsoppgaver</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../lectures/llm/index.html">LLM-supplement</a></li><li class="breadcrumb-item"><a href="../../lectures/llm/index.html">LLM-supplement</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">LLM-supplement</h1>
+<p class="subtitle lead">AI-genererte notater som supplement til forelesninger</p>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="sec-oving-1" class="level1 unnumbered">
-<h1 class="unnumbered">Øvingsoppgaver</h1>
-<p>Her er øvingsopgaver som passer å gjøre etter første undervisningsøkt i kurset. Det er lov å sende mail og be om hjelp om du står fast! Eller spørre en medstudent.</p>
-<section id="trekke-ut-informasjon-fra-datasett" class="level2">
-<h2 class="anchored" data-anchor-id="trekke-ut-informasjon-fra-datasett">Trekke ut informasjon fra datasett</h2>
-<p><strong>a)</strong> Last ned filen “bestsellers with categories.xls” <a href="https://www.kaggle.com/sootersaalu/amazon-top-50-bestselling-books-2009-2019">her</a>, og les den inn med pandas.</p>
-<p><strong>b)</strong> Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med <code>.drop_duplicates("Name")</code> - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser</p>
-<p><strong>c)</strong> Plot - Gjennomsnittlig anmeldelsesskårer for fiksjon og sakprosa - Gjennomsnittlig anmeldelsesskårer for hvert utgivelsesår. - Antall bøker for hver score - Antall anmeldelser for hver score</p>
-<p><strong>d)</strong> Hvor mange fiksjonsbøker fra 2017 fikk en score bedre enn 4.6?</p>
-</section>
-<section id="beregning-av-strømregning-basert-på-forbruksdata-og-prisdata" class="level2">
-<h2 class="anchored" data-anchor-id="beregning-av-strømregning-basert-på-forbruksdata-og-prisdata">Beregning av strømregning basert på forbruksdata og prisdata</h2>
-<p>Har du betalt rett pris for strømmen din? Last ned <a href="data/meteringvalues-dec-2024.csv">dette datasettet</a> som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra <a href="elhub.no">Elhub</a>.</p>
-<p><strong>a)</strong> Plott strømforbruket som funksjon av tid.</p>
-<div id="f0077ffd" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df_forbruk <span class="op">=</span> pd.read_csv(<span class="st">"data/meteringvalues-dec-2024.csv"</span>, sep<span class="op">=</span><span class="st">";"</span>, decimal<span class="op">=</span><span class="st">","</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>plt.plot(df_forbruk[<span class="st">'KWH 60 Forbruk'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="01c_øvelse_files/figure-html/cell-4-output-1.png" width="566" height="404" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>b)</strong> Vi kan så hente prisdata fra Nordpool. Vi har lastet ned prisene for desember 2024 for dere <a href="data/nordpool-dec-24.csv">her</a>.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Hvordan hentet vi data fra nordpool?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div id="4bc94d73" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nordpool <span class="im">import</span> elspot</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>price_list <span class="op">=</span> []</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>prices_spot <span class="op">=</span> elspot.Prices(currency<span class="op">=</span><span class="st">"NOK"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">32</span>):</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    entry <span class="op">=</span> prices_spot.hourly(end_date<span class="op">=</span>datetime.datetime(<span class="dv">2024</span>, <span class="dv">12</span>, i), areas<span class="op">=</span>[<span class="st">'NO1'</span>], )</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    price_list.append(entry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Så henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.</p>
-<div id="e7c705f8" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>clean_list <span class="op">=</span> []</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> element <span class="kw">in</span> price_list: </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    clean_list <span class="op">+=</span> element[<span class="st">"areas"</span>][<span class="st">"NO1"</span>][<span class="st">"values"</span>]</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>df_pris <span class="op">=</span> pd.DataFrame(clean_list)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>df_pris.to_csv(<span class="st">"data/nordpool-dec-24.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="om-disse-notatene" class="level2">
+<h2 class="anchored" data-anchor-id="om-disse-notatene">Om disse notatene</h2>
+<p>Notatene i denne seksjonen er skrevet av en <strong>stor språkmodell (LLM)</strong> som supplement til forelesningsmateriell i HON2200. De er ment som et eksperiment for å utforske hvordan AI kan brukes i undervisning.</p>
+<section id="hva-er-dette" class="level3">
+<h3 class="anchored" data-anchor-id="hva-er-dette">Hva er dette?</h3>
 <ul>
-<li>Hva er spotpriskostnaden for strømforbruket i desember 2024?</li>
+<li><strong>AI-generert innhold</strong>: Alle tekstene er skrevet av en LLM basert på instruksjoner fra faglærer</li>
+<li><strong>Supplement, ikke erstatning</strong>: Disse notatene erstatter ikke forelesninger, lærebok eller obligatoriske oppgaver</li>
+<li><strong>Eksperimentelt</strong>: Vi tester ut hvordan AI kan brukes til å lage pedagogisk materiale</li>
 </ul>
-<p><strong>c)</strong> For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?</p>
-<p>Tips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.</p>
-<p><strong>d)</strong> Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt <em>frost</em>-API. Først oppretter du en bruker <a href="https://frost.met.no/howto.html">her</a> (det går superfort). Så kan du hente data med følgende python-kode:</p>
-<div id="ff1a03c1" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>client_id <span class="op">=</span> client_id</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>endpoint <span class="op">=</span> <span class="st">'https://frost.met.no/observations/v0.jsonld'</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>parameters <span class="op">=</span> {</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sources'</span>: <span class="st">'SN18700'</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'elements'</span>: <span class="st">'mean(air_temperature P1D)'</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'referencetime'</span>: <span class="st">'2024-12-01/2025-01-01'</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(endpoint, parameters, auth<span class="op">=</span>(client_id,<span class="st">''</span>))</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>json <span class="op">=</span> r.json()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>e)</strong> Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?</p>
+</section>
+<section id="hvordan-bruke-disse-notatene" class="level3">
+<h3 class="anchored" data-anchor-id="hvordan-bruke-disse-notatene">Hvordan bruke disse notatene?</h3>
+<p>✅ <strong>Bruk dem til:</strong> - Repetisjon av konsepter fra forelesning - Ekstra eksempler og forklaringer - Rask oppfriskning før øvingstimer</p>
+<p>❌ <strong>Ikke stol blindt på dem:</strong> - LLM-er kan gjøre feil, spesielt i tekniske detaljer - Hvis noe virker rart eller motstridende, spør faglærer/meld ifra - Prioriter pensum og forelesningsnotater</p>
+</section>
+<section id="tilbakemelding" class="level3">
+<h3 class="anchored" data-anchor-id="tilbakemelding">Tilbakemelding</h3>
+<p>Har du funnet feil eller har forslag til forbedringer? Send en e-post til faglærer eller ta det opp i øvingstimene.</p>
 
 
 </section>
