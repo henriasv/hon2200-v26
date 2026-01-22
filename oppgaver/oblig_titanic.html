@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>oblig_titanic – HON2200 – V2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-aadbdd34b63a8619be62941c6a9b2204.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-73c0545440c5197407f91096614fe5e7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#obligatorisk-oppgave-om-titanic-frist-28.-mars" id="toc-obligatorisk-oppgave-om-titanic-frist-28.-mars" class="nav-link active" data-scroll-target="#obligatorisk-oppgave-om-titanic-frist-28.-mars">Obligatorisk oppgave om Titanic (frist 28. mars)</a>
+  <ul class="collapse">
+  <li><a href="#lesing-og-behandling-av-kategoriske-data-i-pandas" id="toc-lesing-og-behandling-av-kategoriske-data-i-pandas" class="nav-link" data-scroll-target="#lesing-og-behandling-av-kategoriske-data-i-pandas">Lesing og behandling av kategoriske data i pandas</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-1" id="toc-oppgave-1" class="nav-link" data-scroll-target="#oppgave-1">Oppgave 1:</a></li>
+  </ul></li>
+  <li><a href="#logistisk-klassifisering" id="toc-logistisk-klassifisering" class="nav-link" data-scroll-target="#logistisk-klassifisering">Logistisk Klassifisering</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-2---bruk-av-scikitlearn-svhf" id="toc-oppgave-2---bruk-av-scikitlearn-svhf" class="nav-link" data-scroll-target="#oppgave-2---bruk-av-scikitlearn-svhf">Oppgave 2 - Bruk av scikitlearn (SV/HF):</a></li>
+  <li><a href="#oppgave-2---fra-grunnen-mn-programmet-og-eventuelt-interesserte" id="toc-oppgave-2---fra-grunnen-mn-programmet-og-eventuelt-interesserte" class="nav-link" data-scroll-target="#oppgave-2---fra-grunnen-mn-programmet-og-eventuelt-interesserte">Oppgave 2 - Fra grunnen (MN-programmet og eventuelt interesserte):</a></li>
+  </ul></li>
+  <li><a href="#beslutningstrær" id="toc-beslutningstrær" class="nav-link" data-scroll-target="#beslutningstrær">Beslutningstrær</a></li>
+  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest">Random forest</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-4" id="toc-oppgave-4" class="nav-link" data-scroll-target="#oppgave-4">Oppgave 4:</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="obligatorisk-oppgave-om-titanic-frist-28.-mars" class="level1">
+<h1>Obligatorisk oppgave om Titanic (frist 28. mars)</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Oppgaveteksten er nå fullstendig. Dersom det er noe som er uklart, er det lurt å spørre/sende en mail. Enkelte ting som dukker opp i obligen har ikke vært gjennomgått i undervisningen. Da finnes det forhåpentligvis noe informasjon i statistikkboka, blant medstudenter eller blant underviserne i HON2200!</p>
+</div>
+</div>
+<p>Etter å ha fullført denne obligen skal studenten kunne - Lese inn og behandle kategoriske data i pandas - Implementere logistisk klassifikasjon - Benytte og beskrive beslutningstrær - Benytte og beskrive random forests</p>
+<p>Denne obligen skal fungere som en øvelse på maskinlæring anvendt på kategoriske data. Dere skal gjennom forbereding av data med pandas og scikit-learn, og så tilpasning av dataene med logistisk klassifikasjon og beslutningstrær:</p>
+<ul>
+<li><strong>Logistisk klassifikasjon</strong> for å få erfaring med å gjøre maskinlæring fra grunnen av,</li>
+<li><strong>Beslutningstrær</strong> for å få erfaring med et sentralt verktøy i maskinlæring som brukes i f.eks Random forests.</li>
+<li><strong>Random forests</strong> fordi det fungerer veldig bra i praksis.</li>
+</ul>
+<p>Dataene dere skal se på inneholder informasjon om passasjerene på Titanic, inkludert om de overlevde katestrofen eller ikke. Målet er å lage algoritmer som kan predikere om en gitt person på titanic overlevde eller ikke, og å se hvilke personlige egenskaper som var “avgjørende”.</p>
+<p>Datasettet dere skal bruke heter <em>train.csv</em> og kan lastes ned <a href="./data/train.csv">her</a></p>
+<p>Gjennom hele obligen har vi gjort det slik at vi først gir oppgavene, og under gir vi en del hint og forklaringer på hvordan de kan løses. Det betyr at om du står fast, kan det være lurt å lese litt lenger nedover på siden. I blant forklarer vi ting i selve oppgaven som ikke har blitt gjennomgått tidligere i undervisningen.</p>
+<p><strong>I tillegg til å gjøre de statistiske analysene vi ber om krever vi også at besvarelsen er godt kommentert. Det holder altså ikke bare å levere et dokument som inneholder riktig kode, tall og figurer, du må også beskrive og diskutere resultatene.</strong></p>
+<p>Merk at <strong>Oppgave 2</strong> har to versjoner</p>
+<ol type="1">
+<li>Oppgave-2—Bruk-av-scikitlearn for de som går på <em>humanioraprogrammet</em></li>
+<li>Oppgave-2—Fra-grunnen for de som går på <em>realfag</em></li>
+</ol>
+<p>da sistnevnte krever forkunnskaper tilsvarende <em>MAT1110</em>.</p>
+<section id="lesing-og-behandling-av-kategoriske-data-i-pandas" class="level2">
+<h2 class="anchored" data-anchor-id="lesing-og-behandling-av-kategoriske-data-i-pandas">Lesing og behandling av kategoriske data i pandas</h2>
+<section id="oppgave-1" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-1">Oppgave 1:</h3>
+<p><strong>a)</strong> Les datasettet (“train.csv”) med pandas. Se på dataene! Finn ut hva kolonnene betyr.</p>
+<p><strong>b)</strong> Håndter de manglende dataene for alder.</p>
+<p><strong>c)</strong> Gjør de kategoriske dataene du vil benytte brukbare ved å gjøre en one hot encoding.</p>
+<p><strong>d)</strong> Samle kolonnene du vil bruke til å predikere overlevelse i en dataframe/array <code>X</code>. Samle overlevelses-kolonnen i en annen dataframe/array <code>Y</code>. Under er det vist hvordan dere kan hente ut kolonner til en egene variable. - <code>X = df[["Alder", "Kjønn"]]</code> - <code>Y = df["Lønn"]</code></p>
+<p><strong>e)</strong> Del dataenne videre inn i trening og test data. Se dokumentasjonen for scikit-learn sin <code>train_test_split</code>: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Veiledning til oppgave 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="få-oversikt-over-dataene" class="level3">
+<h3 class="anchored" data-anchor-id="få-oversikt-over-dataene">Få oversikt over dataene</h3>
+<p>Man bruker som regel <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html">pd.read_csv()</a> når man leser data med pandas. Da får man et objekt av typen <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">dataframe</a>. For å få denne printet pent i en notebook kan man enten avslutte en celle med dataframe objektet, eller bruke <code>display()</code> funksjonen (ikke <code>print()</code>, det blir stygt).</p>
+<p>Manglende data er et stort problem i dataanalyse, og har mange løsninger med egne ulemper og fordeler. I dette datasettet er det mye manglende data for alder og kabin. Du kan få en rask oversikt over manglende data med kodesnutten</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>display(df.isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Manglende data (her NaN verdier) gjør at maskinlæringsalgoritmene feiler. Den enkleste løsningen er å fjerne alle rader med manglende data. Dette kan man f.eks gjør med koden</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">"Age"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Men, når vi allerede jobber med så lite data er det en stor kostnad å bare kaste bort så mye. En annen løsning er å fylle inn manglende verdier med gjennomsnittlig alder for kombinasjonen av kjønnet og klassen personen har. Om denne dataen vi fyller inn gjør mer godt enn skade vil variere fra dataset til dataset. Dere velger selv hvordan dere vil håndtere manglende data.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Age"</span>] <span class="op">=</span> df.groupby([<span class="st">"Pclass"</span>, <span class="st">"Sex"</span>],group_keys<span class="op">=</span><span class="va">False</span>)[<span class="st">"Age"</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.fillna(x.median()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="kategorisk-data-og-train-test-split" class="level3">
+<h3 class="anchored" data-anchor-id="kategorisk-data-og-train-test-split">Kategorisk data og train-test split</h3>
+<p>Kategorisk data er data som ikke skal bli tolket som en numerisk verdi. Maskinlæringsalgoritmer skjønner seg kun på numeriske verdier, så dette fører til et problem. Eksempler på kategorisk data kan være nasjonalitet og telefonnummer. Når en maskinlæringsalgoritme ser telefonnummerene 12345678, 23456789 og 34567891 vil den prøve å finne en sammenheng basert på størrelsen til tallene, selv om det ikke gir mening. Og når den ser ordet “Norge”, får du en feilmelding.</p>
+<p>Løsningen er å gi hver enkelt mulige verdi av de kategoriske dataene sin egen kolonne. Kolonnen vil da inneholde nuller og enere som forteller om man hører hjemme i den kategorien eller ikke. En kolonne <code>Norge</code> kan da ha en null hvis personen ikke kommer fra Norge, eller et ett-tall hvis personen kommer fra Norge. Dette kalles one hot encoding. Dette gjør man i pandas med metoden <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.get_dummies.html">.get_dummies()</a>. Hvis kolonnene <code>Nasjonalitet</code> og <code>Telefonnummer</code> skal bli gjort om til en one-hot kolonner gjøres det slik:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>categorical_cols <span class="op">=</span> [<span class="st">"Nasjonalitet"</span>, <span class="st">"Telefonnummer"</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>categorical_cols, prefix<span class="op">=</span>categorical_cols, prefix_sep<span class="op">=</span><span class="st">'_'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Merk at kategoriske data som navn og telefonnummer ikke er særlig nyttige, spesielt når du ender opp med en kolonne for hver person.</p>
+<p>Når manglende og kategorisk data er tatt hånd om, er neste steg å samle de dataene man skal bruke til å gjøre prediksjoner, og de dataene som man prøver å predikere. Man tar ut kolonner av en dataframe ved å bruke hakeparanteser og navnet på kolonnen, eller en liste med navnene på kolonnene man vil ta ut.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">"Nasjonalitet_Norge"</span>, <span class="st">"Nasjonalitet_Sverige"</span>, <span class="st">"Alder"</span>]]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> df[<span class="st">"Lønn"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Til slutt må man dele opp dataene i trenings-, validerings- og testdata. Algoritmene blir trent på treningsdata, og så ser vi hvor godt de funker ved å teste de på test data. Merk at i denne obligen holder det at dere deler opp i treningsdata og valideringsdata. Vi har låst ned testdataene i kjelleren på forhånd.</p>
+</section>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="logistisk-klassifisering" class="level2">
+<h2 class="anchored" data-anchor-id="logistisk-klassifisering">Logistisk Klassifisering</h2>
+<p>Denne oppgaven kommer i to versjoner: Én for dem som går på realgasprogrammet og en for dem som går på humanioraprogrammet. Det kommer av at realfagsversjonen krever forkunnskaper tilsvarende MAT1110.</p>
+<section id="oppgave-2---bruk-av-scikitlearn-svhf" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-2---bruk-av-scikitlearn-svhf">Oppgave 2 - Bruk av scikitlearn (SV/HF):</h3>
+<p><strong>a)</strong> Plott sigmoidfunksjonen (den logistiske funksjonen). Hva gjør denne funksjonen godt egnet til å “svare på” ja/nei spørsmål?</p>
+<p><strong>b)</strong> Bruk scikit-learn til å trene en logistisk klassifikasjonsmodell.</p>
+<p><strong>c)</strong> Test logistisk klassifikasjon modellen. Dere kan bruke <code>clf.score()</code> til å se hvor stor andel riktige modellen hadde.</p>
+<p><strong>d)</strong> Bruk funksjonen <code>confusion_matrix</code> fra <code>sklearn.metrics</code> til å finne ut i hvilken grad modellen produserer sanne positive, sanne negative, falske positive og falske negative prediksjoner.</p>
+</section>
+<section id="oppgave-2---fra-grunnen-mn-programmet-og-eventuelt-interesserte" class="level3">
+<h3 class="anchored">Oppgave 2 - Fra grunnen (MN-programmet og eventuelt interesserte):</h3>
+<p><strong>a)</strong> Plott sigmoid-funksjonen. Hva gjør denne funksjonen godt egnet til å “svare” på ja/nei spørsmål?</p>
+<p><strong>b)</strong> Implementer logistisk klassifisering og tren modellen. - Sett opp vekter (array med like mange tall som input) og bias (ett tall) - Regn ut output. Multipliser trenings-input (X) med vektene, legg til bias, og mat gjennom sigmoid funksjonen. (Deler av kode under) - Regn ut gradienter. (Kode under) - Oppdater vekter. (Formler under)</p>
+<p>Viktig i alle program med vektorer og vektorprodukter: Få oversikt over dimensjonene til alle variablene i programmet ditt. Er noe et tall, vektor eller matrise(har flere rader og kolonner)? <code>print()</code> alt du er usikker på, og <code>print()</code> <code>.shape</code> egenskapen for å se størrelsen på ting. Gjør dette underveis mens du skriver programmet, men unngå alt unødvendig i det fullførte programmet.</p>
+<p><strong>c)</strong> Test logistisk klassifikasjon modellen på test-dataen ved å ta testing-input (X) gjennom input-prosedyren over og sammenlign med test output (Y).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Veiledning til implementasjonen av oppgave 2 fra grunnen
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Her kommer det en del formeler og teori, men det viktigste er å forstå de overordnede ideene, som skal være overkommelig. Programmet dere skal skrive vil ha en slik struktur:</p>
+<pre><code>Lag vekter og bias
+
+for i in range(iterasjoner):
+    Regn ut output (ved hjelp av vekter og bias)
+    
+    Regn ut gradienter (ved hjelp av output)
+    
+    Oppdater vekter og bias (ved hjelp av gradienter)</code></pre>
+<p>En logistisk modell, som alle andre modeller, tar inn en input og gir en output. Vi kaller input til modellen <span class="math inline">\(\textbf{x}\)</span>, det representerer alle egenskapene til en passasjer. De ulike egenskapene som <span class="math inline">\(\textbf{x}\)</span> inneholder kaller vi <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_2\)</span>, osv. Om passasjeren overlever eller er ikke, som er det vi prøver å predikere, kaller vi <span class="math inline">\(y\)</span>. Det modellen predikerer kaller vi <span class="math inline">\(\hat{y}\)</span> (“y hatt”). Først ser vi kun på en og en passasjer, senere regner vi med mange passasjerer, for å finne gjennomsnitt og slikt.</p>
+<section id="output-til-modellen" class="level3">
+<h3 class="anchored" data-anchor-id="output-til-modellen">Output til modellen</h3>
+<p>Den logistiske modellen inneholder vekter <span class="math inline">\(W\)</span> og en bias <span class="math inline">\(b\)</span>, som bestemmer hvordan input <span class="math inline">\(\textbf{x}\)</span> blir om til output <span class="math inline">\(\hat{y}\)</span>. Det skal være like mange vekter som egenskaper, og bias skal være et tall. Disse begynner vanligvis med tilfeldige verdier, og kan i Python bli laget med <a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html">np.random.randn()</a> og <a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.rand.html">np.random.rand()</a>.</p>
+<p>De ulike vektene ganges komponentvis med de ulike egenskapene, og blir så lagt sammen med bias:</p>
+<p><span class="math display">\[z = b + w_1 x_1 + w_2 x_2 + \dots + w_m x_m = W \textbf{x} + b\]</span></p>
+<p>Dette kan vi gjøre som et vektorprodukt i Python. Merk at vi kan gange vektene med alle egenskapene til ALLE passasjerene på en gang! Dette gjør alt mye mer kompakt: (Vi bruker <code>@</code> for matrise og vektorprodukt i Python)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> X_train <span class="op">@</span> W <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alt dette (<span class="math inline">\(z\)</span>) blir så matet gjennom en sigmoid funksjon, som er definert slik:</p>
+<p><span class="math display">\[\hat{y} = \sigma (z) = \frac{1}{1 + e^{-z}}\]</span></p>
+<p><strong>Hvorfor får jeg overflow feil av og til?</strong> Det finnes to likegyldige definisjoner av sigmoid funksjonen:</p>
+<p><span class="math display">\[\sigma (z) = \frac{1}{1 + e^{-z}} = \frac{e^{z}}{1 + e^{z}}\]</span></p>
+<p>Begge to gir akkurat samme svar, men datamaskiner behandler de to ulikt for veldig store positive og negative tall (fordi utregningen vil inkludere tall som er for store til å behandles av datamaskinen). Den første definisjonen fører til utregningen av <span class="math inline">\(e^{STORTTALL}\)</span> for store <em>negative</em> verdier for <span class="math inline">\(z\)</span>, som fører til overflow(alt for store tall for datamaskinen). Den andre definisjonen fører til utregningen av <span class="math inline">\(e^{STORTTALL}\)</span> for store <em>positive</em> verdier for <span class="math inline">\(z\)</span>, som fører til overflow. En måte å programmere en stabil sigmoid funksjon som benytter riktig definisjon til riktig tid er gitt under. <code>np.where()</code> er en slags effektiv <code>if</code> for utregninger. Å bruke en vanlig <code>if</code> til å bruke riktig sigmoid definisjon vil gjøre at man ikke kan bruke funksjonen til vektoriserte utregninger (som å bruke sigmoid funksjonen på en hel vektor på en gang).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(z):     <span class="co">#hvis?           True                False </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.where(z <span class="op">&gt;=</span> <span class="dv">0</span>, <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>z)), np.exp(z) <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(z)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Merk at når man gjør disse operasjonene på <code>X_train</code> som inneholder egenskapene til alle passasjerene, blir <span class="math inline">\(\hat{y}\)</span> en vektor som inneholder prediksjonene for alle passasjerene, og ikke bare for én.</p>
+<p>Siden hele modellen kun består av ett sett vekter, en bias og en sigmoid, kan en logistisk modell bli sett på som et nevralt nettverk med kun én node. Hvis modellen tar fem inputs kan man tegne den slik:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A1["Input 1"] --&gt; B["Output"]
+    A2["Input 2"] --&gt; B["Output"]
+    A3["Input 3"] --&gt; B["Output"]
+    A4["Input 4"] --&gt; B["Output"]
+    A5["Input 5"] --&gt; B["Output"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-funksjonen-og-gradient" class="level3">
+<h3 class="anchored" data-anchor-id="cost-funksjonen-og-gradient">Cost funksjonen og gradient</h3>
+<p>Modellen gjør sannsynligvis en veldig dårlig jobb i å predikere noe som helst, siden vektene og bias kun er tilfeldige tall så langt. Vi samler vektene og bias i en variabel <span class="math inline">\(\theta\)</span> for å gjøre ligningene mer kompakt, <span class="math inline">\(\theta\)</span> er da bare parametrene til modellen vår. Før vi kan få modellen vår til å gjøre en bedre jobb, må vi bestemme hva en bedre jobb <em>betyr</em>. Vi bestemmer at modellen vår er bedre jo mindre <a href="https://en.wikipedia.org/wiki/Cross_entropy">cross entropy</a> den har. Denne formelen for cross entropy er litt tung å forstå, bare vit at hvis modellen vår predikerer mye riktig får den lavere cross entropy, ellers får den høyere cross entropy. Indeksen <span class="math inline">\(i\)</span> i uttrykket forteller hvilken passasjer vi ser på, <span class="math inline">\(\sum\)</span> tegnet sier at vi summerer verdiene for alle passasjerer. Denne formelen skal du <strong>ikke</strong> bruke i programmet ditt.</p>
+<p><span class="math display">\[
+\begin{equation*}
+\begin{aligned}
+C(\theta) = - \frac{1}{n} \sum_{i=1}^{n} [y_i log(\hat{y}_i) + (1 - y_i) log(1 - \hat{y}_i)]
+\end{aligned}
+\end{equation*}
+\]</span></p>
+</section>
+<section id="hva-er-motivasjonen-bak-cost-funksjonen" class="level2">
+<h2 class="anchored" data-anchor-id="hva-er-motivasjonen-bak-cost-funksjonen">Hva er motivasjonen bak cost funksjonen?</h2>
+<p>Modellen vår vil predikere enten 0 eller 1 (i praksis vil den under trening gi et tall <em>mellom</em> 0 og 1 som er sannsynligheten for at den vil predikere 1). Sannsynligheten for at den predikerer 1 gitt en input <span class="math inline">\(\textbf{x}_i\)</span> og parametre <span class="math inline">\(\theta\)</span> er <span class="math inline">\(p(y_i=1 | \textbf{x}_i , \theta)\)</span>. Sannsynligheten for at den predikerer 0 gitt en input <span class="math inline">\(\textbf{x}_i\)</span> og parametre <span class="math inline">\(\theta\)</span> er <span class="math inline">\(1 - p(y_i=1 | \textbf{x}_i , \theta)\)</span>. For hver <span class="math inline">\(\textbf{x}_i\)</span> er da sannsynligheten for at den predikerer <em>riktig</em> det du ser i ligningen under, hvis du ignorerer <span class="math inline">\(\prod\)</span> tegnet. <span class="math inline">\(\prod\)</span> tegnet gjør at vi ganger sammen disse sannsynlighetene for alle <span class="math inline">\(\textbf{x}_i\)</span> i datasettet, så vi ender opp med sannsynligheten for at modellen predikerer alle datapunkter <span class="math inline">\(y_i\)</span> riktig.</p>
+<p><span class="math display">\[
+\begin{equation*}
+\begin{aligned}
+P(D | \theta) = \prod_{i=1}^{n} [p(y_i=1 | \textbf{x}_i , \theta)]^{y_i} [1 - p(y_i=1 | \textbf{x}_i , \theta)]^{1-y_i}
+\end{aligned}
+\end{equation*}
+\]</span></p>
+<p>Vi ønsker å maksimere sannsynligheten for at modellen predikerer alle datapunktene riktig, så vi prøver å finne <span class="math inline">\(\theta\)</span> slik at verdien av forrige ligning blir størst mulig. Vi kan trikse litt med ligningen for å gjøre dette enklere. Vi tar noe som heter log-likelihood av ligningen, og setter på en minus. Ved en del ekstra triksing ender vi opp med cost funksjonen, som vi nå ønsker å <em>minimere</em>, på grunn av minustegnet.</p>
+<p>Vi vil velge parametre <span class="math inline">\(\theta\)</span> slik at <span class="math inline">\(C(\theta)\)</span> blir så liten som mulig. Dette gjør vi ved å finne den deriverte av <span class="math inline">\(C(\theta)\)</span> og bruke den deriverte til å bevege parametrene <span class="math inline">\(\theta\)</span> nærmere de som tilsvarer bunnen av <span class="math inline">\(C(\theta)\)</span>, dette kalles gradient descent. Tenk at du står i en dal og vil finne bunnen, da beveger du deg helst nedover i den retningen det er brattest. De deriverte av <span class="math inline">\(C(\theta)\)</span> med hensyn på <span class="math inline">\(W\)</span> og <span class="math inline">\(b\)</span> viser seg å bli:</p>
+<p><span class="math display">\[\frac{\partial C(\theta)}{\partial w_k} = - \frac{1}{n} \sum_{i=1}^{n} \textbf{x}_{i,k} (y_i - \hat{y}_i)\]</span></p>
+<p><span class="math display">\[\frac{\partial C(\theta)}{\partial b} = - \frac{1}{n} \sum_{i=1}^{n} y_i - \hat{y}_i\]</span></p>
+<p>I python kan man bruke likhetene i uttrykkene til å spare litt beregninger, vi lager et mellomledd <code>delta</code> som er gjennomsnittlig forskjell mellom <span class="math inline">\(y\)</span> og <span class="math inline">\(\hat{y}\)</span>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> <span class="op">-</span>(Y_train <span class="op">-</span> y_hat) <span class="op">/</span> n</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dCdW <span class="op">=</span> X_train.T <span class="op">@</span> delta</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dCdb <span class="op">=</span> np.<span class="bu">sum</span>(delta, axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>De deriverte peker i retningen hvor <span class="math inline">\(C(\theta)\)</span> øker raskest, så vi vil endre parametrene med <em>minus</em> den deriverte. Den deriverte er ofte for stor, som betyr at når vi endrer på parametrene får vi bare søppel, se figur under. For å faktisk nærme oss bunnen av <span class="math inline">\(C(\theta)\)</span> må vi dermed velge riktig læringsrate <span class="math inline">\(\gamma\)</span>, som vi bruker til å skalere(“krympe”) gradienten. Å finne en god læringsrate er enda et stort spørsmål med mange ulike løsninger i maskinlæring. 0.001 med 10000 iterasjoner funker ok her. Dette er hvordan man oppdaterer vektene og bias ved hjelp av de deriverte og læringsraten:</p>
+<p><span class="math display">\[W = W - \gamma \frac{\partial C(\theta)}{\partial W}\]</span> <span class="math display">\[b = b - \gamma \frac{\partial C(\theta)}{\partial b}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/gradientlr.png" class="img-fluid figure-img"></p>
+<figcaption>Figur av Jeremy Jordan fra <a href="https://www.jeremyjordan.me/nn-learning-rate/" class="uri">https://www.jeremyjordan.me/nn-learning-rate/</a></figcaption>
+</figure>
+</div>
+<section id="testing-av-modellen" class="level3">
+<h3 class="anchored" data-anchor-id="testing-av-modellen">Testing av modellen</h3>
+<p>Når du skal bruke modellen til å gjøre faktiske prediksjoner må du finne <span class="math inline">\(z\)</span> og <span class="math inline">\(\hat{y}\)</span> for test dataen, men rund av tallene slik at <span class="math inline">\(\hat{y}\)</span> bare får nuller og enere. <a href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.round_.html">np.round()</a> kan runde av hele arrays. Så må du finne hvor stor andel av prediksjonene som var riktige. scikit learn sin <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html">accuracy_score()</a> anbefales. Se hvilken accuracy en modell som antar at alle dør får for å sammenligne. Du kan forvente en accuracy på rundt 75% for modellen din.</p>
+</section>
+</section>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="beslutningstrær" class="level2">
+<h2 class="anchored" data-anchor-id="beslutningstrær">Beslutningstrær</h2>
+<p><strong>Oppgave 3:</strong></p>
+<p><strong>a)</strong> Lag et tre med maksdybde 3 som tilpasser treningsdataene.</p>
+<p><strong>b)</strong> Test treet på testdataene.</p>
+<p><strong>c)</strong> Plot treet og beskriv med ord hva alle forgreningene sier, og hvilke personer treet sier vil overleve.</p>
+<p><strong>d)</strong> Se hvordan maksdybden til treet påvirker hvor godt treet klassifiserer testdataene.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Scikit-learn Beslutningstrær
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Beslutningstrær fungerer på en helt annen måte enn logistiske modeller eller nevrale nettverk. Istedenfor å justere mange vekter litt og litt med gradienter, finner beslutningstrær ja/nei spørsmål som best skiller dataene inn i kategoriene man er ute etter. I Titanic eksempelet finner treet de spørsmålene som best skiller de som overlever fra de som dør. Et slikt spørsmål kan f.eks være om en passasjer er en kvinne, eller om de er yngre enn 50 år. For hvert slikt spørsmål får treet to nye grener, en for ja og en for nei. På hver av disse grenene kan man igjen stille nye spørsmål og få enda flere grener som bedre grupperer dataene.</p>
+<p>Når man trener et beslutningstre på data kan man alltid la treet stille så mange spørsmål det bare vil, slik at det kan gruppere alle dataene riktig. Da kan man ende opp med et tre hvor omtrent hvert eneste datapunkt har sin egen forgrening, og treet ikke har noen “overordnede mønstre” det grupperer dataene etter. Treet vil da ha et overtilpasnings(“overfitting”) problem som vil føre til at det presterer dårlig på å klassifisere data det aldri har sett før. Dette kan unngås ved å begrense antall forgreninger treet kan ha, eller maks-dybden til treet.</p>
+<p>Dere skal bruke <a href="https://scikit-learn.org/stable/modules/tree.html#classification">DecisionTreeClassifier</a> modellen til scikit-learn. Følg eksempelet i dokumentasjonen(linken til venstre), og lag et tre med maks dybde 3. Bruk scikit learn sin <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html">accuracy_score()</a> for å teste modellen. For å plotte treet anbefaler vi</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">16</span>,<span class="dv">10</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tree.plot_tree(model, max_depth<span class="op">=</span><span class="dv">3</span>, feature_names<span class="op">=</span>X_train.columns, class_names<span class="op">=</span>[<span class="st">"Dead"</span>, <span class="st">"Alive"</span>], filled<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="random-forest" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest">Random forest</h2>
+<section id="oppgave-4" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-4">Oppgave 4:</h3>
+<p><strong>a)</strong> Lag en <em>random forest</em>-modell som tilpasser treningsdataene.</p>
+<p><strong>b)</strong> Test modellen på testdataene.</p>
+<p><strong>c)</strong> Undersøk hvordan antallet <em>weak learners</em> i modellen påvirker nøyaktigheten.</p>
+<p><strong>d)</strong> For din beste modell: Plot “feature importance” og “partial dependance”. Hva sier plottene om hva som var avgjørende for om noen overlevde på Titanic?</p>
+<p><strong>e)</strong> Kan man ut ifra plottene vite hva Random forest-modellen vil predikere for en spesifikk person? Hvor godt kan man forstå hvordan en slik modell fungerer? Hva med et beslutningstre, eller en logistisk klassifiseringsmodell?</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Forelesningsnotat – Obligatorisk oppgave – HON2200 – V2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-aadbdd34b63a8619be62941c6a9b2204.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-079dae96ee513acaaaf5e7535a33b516.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#titanic" id="toc-titanic" class="nav-link active" data-scroll-target="#titanic">Titanic</a></li>
+  <li><a href="#men-før-det" id="toc-men-før-det" class="nav-link" data-scroll-target="#men-før-det">Men før det</a></li>
+  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot">Plot</a></li>
+  <li><a href="#med-navn-på-dyrene" id="toc-med-navn-på-dyrene" class="nav-link" data-scroll-target="#med-navn-på-dyrene">Med navn på dyrene</a></li>
+  <li><a href="#envariabel-lineær-regresjon" id="toc-envariabel-lineær-regresjon" class="nav-link" data-scroll-target="#envariabel-lineær-regresjon">Envariabel lineær regresjon</a></li>
+  <li><a href="#hvordan-gjøre-det-bedre" id="toc-hvordan-gjøre-det-bedre" class="nav-link" data-scroll-target="#hvordan-gjøre-det-bedre">Hvordan gjøre det bedre?</a></li>
+  <li><a href="#hva-med-å-numerisk-kode-dyrene" id="toc-hva-med-å-numerisk-kode-dyrene" class="nav-link" data-scroll-target="#hva-med-å-numerisk-kode-dyrene">Hva med å numerisk kode dyrene?</a></li>
+  <li><a href="#illustrasjon-av-datasettet-med-tallkoder" id="toc-illustrasjon-av-datasettet-med-tallkoder" class="nav-link" data-scroll-target="#illustrasjon-av-datasettet-med-tallkoder">Illustrasjon av datasettet med tallkoder</a></li>
+  <li><a href="#lineær-regresjon-med-tallkoder" id="toc-lineær-regresjon-med-tallkoder" class="nav-link" data-scroll-target="#lineær-regresjon-med-tallkoder">Lineær regresjon med tallkoder</a></li>
+  <li><a href="#ligning" id="toc-ligning" class="nav-link" data-scroll-target="#ligning">Ligning</a></li>
+  <li><a href="#hvordan-gjøre-det-bedre-1" id="toc-hvordan-gjøre-det-bedre-1" class="nav-link" data-scroll-target="#hvordan-gjøre-det-bedre-1">Hvordan gjøre det bedre?</a></li>
+  <li><a href="#med-one-hot-encoding" id="toc-med-one-hot-encoding" class="nav-link" data-scroll-target="#med-one-hot-encoding">Med one-hot encoding</a></li>
+  <li><a href="#regresjonsmodell-med-one-hot-coding" id="toc-regresjonsmodell-med-one-hot-coding" class="nav-link" data-scroll-target="#regresjonsmodell-med-one-hot-coding">Regresjonsmodell med one-hot-coding</a></li>
+  <li><a href="#likning" id="toc-likning" class="nav-link" data-scroll-target="#likning">Likning</a></li>
+  <li><a href="#la-oss-se-på-dette-i-et-litt-mindre-datasett" id="toc-la-oss-se-på-dette-i-et-litt-mindre-datasett" class="nav-link" data-scroll-target="#la-oss-se-på-dette-i-et-litt-mindre-datasett">La oss se på dette i et litt mindre datasett</a></li>
+  <li><a href="#underveisoppgave" id="toc-underveisoppgave" class="nav-link" data-scroll-target="#underveisoppgave">Underveisoppgave</a></li>
+  <li><a href="#start-på-løsning" id="toc-start-på-løsning" class="nav-link" data-scroll-target="#start-på-løsning">Start på løsning</a></li>
+  <li><a href="#enkel-regresjonsmodell" id="toc-enkel-regresjonsmodell" class="nav-link" data-scroll-target="#enkel-regresjonsmodell">Enkel regresjonsmodell</a></li>
+  <li><a href="#en-påfallende-god-modell-hva-har-skjedd-her" id="toc-en-påfallende-god-modell-hva-har-skjedd-her" class="nav-link" data-scroll-target="#en-påfallende-god-modell-hva-har-skjedd-her">En påfallende “god” modell, hva har skjedd her?</a></li>
+  <li><a href="#uten-år-som-forklaringsvariabel" id="toc-uten-år-som-forklaringsvariabel" class="nav-link" data-scroll-target="#uten-år-som-forklaringsvariabel">Uten år som forklaringsvariabel</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="07b_slides.revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Forelesningsnotat – Obligatorisk oppgave</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="titanic" class="level2">
+<h2 class="anchored" data-anchor-id="titanic">Titanic</h2>
+<p><img src="images/titanic.jpg" class="img-fluid" width="300"></p>
+<div class="notes">
+<p>I filmen om titanic-forliset følger overlevelsen det mønsteret man godt kunne tenke seg. Kvinner på første klasse overlever, og menn på tredje klasse dør. Hvem hvor godt klarer vi å bruke det vi vet om en passaser til å predikere om vedkommende kommer til å overleve titanic-forliset? og kan vi bruke en slik modell til å forstå noe om hvordan de forskjellige egenskapene til en person, slik som kjønn, alder og pris på billetten, påvirker overlevelsen ved et forlis?</p>
+</div>
+</section>
+<section id="men-før-det" class="level2">
+<h2 class="anchored" data-anchor-id="men-før-det">Men før det</h2>
+<ul>
+<li>Høyde og lengde på forskjellige dyr</li>
+</ul>
+<div id="ce700eaa" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Animal</th>
+<th data-quarto-table-cell-role="th">Length</th>
+<th data-quarto-table-cell-role="th">Height</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">74</td>
+<td>Giraffe</td>
+<td>3.160980</td>
+<td>5.550875</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">97</td>
+<td>Zebra</td>
+<td>2.473217</td>
+<td>1.391715</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">82</td>
+<td>Zebra</td>
+<td>2.387562</td>
+<td>1.359507</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">30</td>
+<td>Tiger</td>
+<td>2.663906</td>
+<td>0.977827</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">135</td>
+<td>Koala</td>
+<td>0.891731</td>
+<td>0.731906</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Lion</td>
+<td>2.300188</td>
+<td>0.977879</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">173</td>
+<td>Ostrich</td>
+<td>2.204087</td>
+<td>2.531046</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">113</td>
+<td>Kangaroo</td>
+<td>1.757694</td>
+<td>1.691853</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="notes">
+<p>Vi har laget oss et datasett med lengde- og høydedata om forskjellige dyr. Det kan lastes ned <a href="data/animal_data.csv">her</a>.</p>
+</div>
+</section>
+<section id="plot" class="level2">
+<h2 class="anchored" data-anchor-id="plot">Plot</h2>
+<div id="c0cf3db8" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset from the CSV file</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>animal_data <span class="op">=</span> pd.read_csv(<span class="st">'data/animal_data.csv'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>plt.plot(animal_data[<span class="st">"Length"</span>], animal_data[<span class="st">"Height"</span>], <span class="st">"o"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07b_slides_files/figure-html/cell-3-output-1.png" width="632" height="404" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="med-navn-på-dyrene" class="level2">
+<h2 class="anchored" data-anchor-id="med-navn-på-dyrene">Med navn på dyrene</h2>
+<div id="ab3a1f45" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lage scatter-plot fordelt på dyr </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> animal <span class="kw">in</span> animal_data[<span class="st">'Animal'</span>].unique():</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> animal_data[animal_data[<span class="st">'Animal'</span>] <span class="op">==</span> animal]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    plt.scatter(subset[<span class="st">'Length'</span>], subset[<span class="st">'Height'</span>], label<span class="op">=</span>animal)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Pynt</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Animal Length vs Height'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Length (m)'</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Height (m)'</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Animal'</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07b_slides_files/figure-html/cell-4-output-1.png" width="651" height="442" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="envariabel-lineær-regresjon" class="level2">
+<h2 class="anchored" data-anchor-id="envariabel-lineær-regresjon">Envariabel lineær regresjon</h2>
+<div id="03301233" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data for linear regression</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> animal_data[[<span class="st">'Length'</span>]]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> animal_data[<span class="st">'Height'</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and fit the model</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>model.fit(X, y)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict the heights using the model</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>predicted_heights <span class="op">=</span> model.predict(X)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the original data and the linear regression model</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>plt.scatter(animal_data[<span class="st">'Length'</span>], animal_data[<span class="st">'Height'</span>], label<span class="op">=</span><span class="st">'Actual Data'</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>plt.plot(animal_data[<span class="st">'Length'</span>], predicted_heights, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Linear Regression Model'</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels and title</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Linear Regression: Animal Length vs Height'</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Length (m)'</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Height (m)'</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07b_slides_files/figure-html/cell-5-output-1.png" width="651" height="442" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="absolute" data-top="200" data-right="50" width="350" height="300">
+<p><span class="math display">\[H(L, N) = \beta_0 + \beta_1 L\]</span></p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td>H</td>
+<td>Høyde</td>
+</tr>
+<tr class="even">
+<td>L</td>
+<td>Lengde</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\beta_i\)</span></td>
+<td>Regresjonskoeffisienter</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="hvordan-gjøre-det-bedre" class="level2">
+<h2 class="anchored" data-anchor-id="hvordan-gjøre-det-bedre">Hvordan gjøre det bedre?</h2>
+<ul>
+<li>forslag?</li>
+</ul>
+</section>
+<section id="hva-med-å-numerisk-kode-dyrene" class="level2">
+<h2 class="anchored" data-anchor-id="hva-med-å-numerisk-kode-dyrene">Hva med å numerisk kode dyrene?</h2>
+<div id="ba80df0e" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Encode the animal names as numbers</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>animal_data[<span class="st">'Animal_Code'</span>] <span class="op">=</span> animal_data[<span class="st">'Animal'</span>].astype(<span class="st">'category'</span>).cat.codes</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Display a random selection of 5 rows from the dataset</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>display(animal_data.sample(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Animal</th>
+<th data-quarto-table-cell-role="th">Length</th>
+<th data-quarto-table-cell-role="th">Height</th>
+<th data-quarto-table-cell-role="th">Animal_Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">123</td>
+<td>Panda</td>
+<td>1.513314</td>
+<td>1.052826</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">179</td>
+<td>Ostrich</td>
+<td>2.094572</td>
+<td>2.322864</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">21</td>
+<td>Lion</td>
+<td>2.522129</td>
+<td>1.195804</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">89</td>
+<td>Zebra</td>
+<td>2.488357</td>
+<td>1.730782</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Lion</td>
+<td>2.397752</td>
+<td>1.096972</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">154</td>
+<td>Penguin</td>
+<td>0.718516</td>
+<td>0.649860</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">181</td>
+<td>Ostrich</td>
+<td>1.905576</td>
+<td>2.322025</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">70</td>
+<td>Giraffe</td>
+<td>3.130335</td>
+<td>5.265860</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">59</td>
+<td>Elephant</td>
+<td>3.343788</td>
+<td>2.891703</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">79</td>
+<td>Giraffe</td>
+<td>3.199452</td>
+<td>5.663396</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="illustrasjon-av-datasettet-med-tallkoder" class="level2">
+<h2 class="anchored" data-anchor-id="illustrasjon-av-datasettet-med-tallkoder">Illustrasjon av datasettet med tallkoder</h2>
+<div id="150d9a01" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the animal data with animal codes</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.get_cmap(<span class="st">'tab10'</span>, <span class="bu">len</span>(animal_data[<span class="st">'Animal'</span>].unique()))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, animal <span class="kw">in</span> <span class="bu">enumerate</span>(animal_data[<span class="st">'Animal'</span>].unique()):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> animal_data[animal_data[<span class="st">'Animal'</span>] <span class="op">==</span> animal]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    plt.scatter(subset[<span class="st">'Length'</span>], subset[<span class="st">'Height'</span>], label<span class="op">=</span>animal, color<span class="op">=</span>colors(i))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print the animal code above the average length and height</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    avg_length <span class="op">=</span> subset[<span class="st">'Length'</span>].mean()</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    avg_height <span class="op">=</span> subset[<span class="st">'Height'</span>].mean()</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    plt.text(avg_length, avg_height <span class="op">+</span> <span class="fl">0.3</span>, <span class="ss">f'</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>, fontsize<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span>colors(i))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels and title</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Animal Length vs Height with Animal Codes'</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Length (m)'</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Height (m)'</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Animal'</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07b_slides_files/figure-html/cell-7-output-1.png" width="799" height="515" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="lineær-regresjon-med-tallkoder" class="level2">
+<h2 class="anchored" data-anchor-id="lineær-regresjon-med-tallkoder">Lineær regresjon med tallkoder</h2>
+<div id="1ff226ed" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data for linear regression</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> animal_data[[<span class="st">'Length'</span>, <span class="st">'Animal_Code'</span>]]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> animal_data[<span class="st">'Height'</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and fit the model</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>model.fit(X, y)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict the heights using the model</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>predicted_heights <span class="op">=</span> model.predict(X)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the original data and the linear regression model</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.get_cmap(<span class="st">'tab10'</span>, <span class="bu">len</span>(animal_data[<span class="st">'Animal'</span>].unique()))</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, animal <span class="kw">in</span> <span class="bu">enumerate</span>(animal_data[<span class="st">'Animal'</span>].unique()):</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> animal_data[animal_data[<span class="st">'Animal'</span>] <span class="op">==</span> animal]</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    plt.scatter(subset[<span class="st">'Length'</span>], subset[<span class="st">'Height'</span>], label<span class="op">=</span>animal, color<span class="op">=</span>colors(i))</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predict heights for the subset</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    subset_X <span class="op">=</span> subset[[<span class="st">'Length'</span>, <span class="st">'Animal_Code'</span>]]</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    subset_predicted_heights <span class="op">=</span> model.predict(subset_X)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot the regression line for the subset</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    plt.plot(subset[<span class="st">'Length'</span>], subset_predicted_heights, color<span class="op">=</span>colors(i))</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print the animal code above the average length and height</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    avg_length <span class="op">=</span> subset[<span class="st">'Length'</span>].mean()</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    avg_height <span class="op">=</span> subset[<span class="st">'Height'</span>].mean()</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    plt.text(avg_length, avg_height <span class="op">+</span> <span class="fl">0.3</span>, <span class="ss">f'</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>, fontsize<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span>colors(i))</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels and title</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Two Variable Linear Regression: Animal Length vs Height'</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Length (m)'</span>)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Height (m)'</span>)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Animal'</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07b_slides_files/figure-html/cell-8-output-1.png" width="799" height="515" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Hvordan gikk egentlig dette? Se nøye etter.</li>
+</ul>
+<div class="notes">
+<p>Om vi ser på tallene, så ser vi at alle regresjonslinjene er sortert ettet tall. Det har altså noe å si hvordan dyrene er sortert. Bet blir litt rart.</p>
+</div>
+</section>
+<section id="ligning" class="level2">
+<h2 class="anchored" data-anchor-id="ligning">Ligning</h2>
+<p><span class="math display">\[H(L, N) = \beta_0 + \beta_1 L + \beta_2 N\]</span></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Beskrivelse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>H</td>
+<td>Høyde</td>
+</tr>
+<tr class="even">
+<td>L</td>
+<td>Lengde</td>
+</tr>
+<tr class="odd">
+<td>N</td>
+<td>Numerisk kode for dyret</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_i\)</span></td>
+<td>Regresjonskoeffisienter</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hvordan-gjøre-det-bedre-1" class="level2">
+<h2 class="anchored" data-anchor-id="hvordan-gjøre-det-bedre-1">Hvordan gjøre det bedre?</h2>
+<div class="fragment">
+<ul>
+<li>One-hot-encoding</li>
+</ul>
+</div>
+</section>
+<section id="med-one-hot-encoding" class="level2">
+<h2 class="anchored" data-anchor-id="med-one-hot-encoding">Med one-hot encoding</h2>
+<p>Vi kan lage one-hot-kodet data med <code>pandas.get_dummies(...)</code></p>
+<div id="66239bef" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>transformed_data <span class="op">=</span> pd.get_dummies(animal_data, columns<span class="op">=</span>[<span class="st">'Animal'</span>], drop_first<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>display(transformed_data.sample(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Length</th>
+<th data-quarto-table-cell-role="th">Height</th>
+<th data-quarto-table-cell-role="th">Animal_Code</th>
+<th data-quarto-table-cell-role="th">Animal_Elephant</th>
+<th data-quarto-table-cell-role="th">Animal_Giraffe</th>
+<th data-quarto-table-cell-role="th">Animal_Kangaroo</th>
+<th data-quarto-table-cell-role="th">Animal_Koala</th>
+<th data-quarto-table-cell-role="th">Animal_Lion</th>
+<th data-quarto-table-cell-role="th">Animal_Ostrich</th>
+<th data-quarto-table-cell-role="th">Animal_Panda</th>
+<th data-quarto-table-cell-role="th">Animal_Penguin</th>
+<th data-quarto-table-cell-role="th">Animal_Tiger</th>
+<th data-quarto-table-cell-role="th">Animal_Zebra</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">102</td>
+<td>1.612779</td>
+<td>1.886124</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">147</td>
+<td>0.999089</td>
+<td>0.817444</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">29</td>
+<td>2.603192</td>
+<td>0.886041</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">75</td>
+<td>2.840005</td>
+<td>5.470907</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">150</td>
+<td>0.645241</td>
+<td>0.707923</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">184</td>
+<td>1.943598</td>
+<td>2.512495</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>2.308569</td>
+<td>1.217318</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">67</td>
+<td>2.909810</td>
+<td>5.493326</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">115</td>
+<td>1.741850</td>
+<td>1.917258</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">105</td>
+<td>1.612423</td>
+<td>1.885272</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="regresjonsmodell-med-one-hot-coding" class="level2">
+<h2 class="anchored" data-anchor-id="regresjonsmodell-med-one-hot-coding">Regresjonsmodell med one-hot-coding</h2>
+<div id="37311daf" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> transformed_data.drop(columns<span class="op">=</span>[<span class="st">'Height'</span>, <span class="st">'Animal_Code'</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> transformed_data[<span class="st">'Height'</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>model.fit(X, y)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Bruke modellen</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>predicted_heights <span class="op">=</span> model.predict(X)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot de originale dataene og den lineære regresjonsmodellen</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.get_cmap(<span class="st">'tab10'</span>, <span class="bu">len</span>(animal_data[<span class="st">'Animal'</span>].unique()))</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, animal <span class="kw">in</span> <span class="bu">enumerate</span>(animal_data[<span class="st">'Animal'</span>].unique()):</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> animal_data[animal_data[<span class="st">'Animal'</span>] <span class="op">==</span> animal]</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    plt.scatter(subset[<span class="st">'Length'</span>], subset[<span class="st">'Height'</span>], label<span class="op">=</span>animal, color<span class="op">=</span>colors(i), edgecolor<span class="op">=</span>colors(i), facecolors<span class="op">=</span><span class="st">'none'</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prediker høyder for hvert dyr </span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    subset_X <span class="op">=</span> transformed_data[transformed_data[<span class="ss">f'Animal_</span><span class="sc">{</span>animal<span class="sc">}</span><span class="ss">'</span>] <span class="op">==</span> <span class="dv">1</span>].drop(columns<span class="op">=</span>[<span class="st">'Height'</span>, <span class="st">'Animal_Code'</span>])</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    subset_predicted_heights <span class="op">=</span> model.predict(subset_X)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot regresjonslinjen for hvert enkelt dyr</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    plt.plot(subset[<span class="st">'Length'</span>], subset_predicted_heights, color<span class="op">=</span>np.array(colors(i))<span class="op">*</span><span class="fl">0.9</span>, linewidth<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Pynt </span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Lineær regresjon med One-Hot Encoding: Dyrelengde vs Høyde'</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Lengde (m)'</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Høyde (m)'</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Dyr'</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07b_slides_files/figure-html/cell-10-output-1.png" width="651" height="442" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="likning" class="level2">
+<h2 class="anchored" data-anchor-id="likning">Likning</h2>
+<p><span class="math display">\[H(L, N) = \beta_0 + \beta_1 L + \sum_{\mathrm{i = \{Lion, Tiger, ...\}}}^{k} \beta_i [\text{er dette en }i\mathrm{?}]\]</span></p>
+</section>
+<section id="la-oss-se-på-dette-i-et-litt-mindre-datasett" class="level2">
+<h2 class="anchored" data-anchor-id="la-oss-se-på-dette-i-et-litt-mindre-datasett">La oss se på dette i et litt mindre datasett</h2>
+<div id="0c7586de" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>health <span class="op">=</span> sns.load_dataset(<span class="st">'healthexp'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>display(health.sample(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [10]</span>, in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">pandas</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> <span style="font-weight:bold;color:rgb(0,0,255)">pd</span>
+<span class="ansi-green-fg">----&gt; 2</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">seaborn</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> <span style="font-weight:bold;color:rgb(0,0,255)">sns</span>
+<span class="ansi-green-fg ansi-bold">      3</span> health <span style="color:rgb(98,98,98)">=</span> sns<span style="color:rgb(98,98,98)">.</span>load_dataset(<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">healthexp</span><span style="color:rgb(175,0,0)">'</span>)
+<span class="ansi-green-fg ansi-bold">      4</span> display(health<span style="color:rgb(98,98,98)">.</span>sample(<span style="color:rgb(98,98,98)">10</span>))
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named 'seaborn'</pre>
+</div>
+</div>
+</div>
+<p>Her bruker vi <a href="https://seaborn.pydata.org/examples/index.html">seaborn</a> kun for å laste inn et datasett. Seaborn gir oss også noen muligheter til pen visualisering i statistikk, for dem som måtte være interessert i det.</p>
+</section>
+<section id="underveisoppgave" class="level2">
+<h2 class="anchored" data-anchor-id="underveisoppgave">Underveisoppgave</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Gjør one-hot encoding av <em>healthexp</em>-datasettet</li>
+<li>Gjør trenings-validerings-splitt av datasettet</li>
+<li>Tren en lineær regresjonsmodell for å predikere <em>life expectancy</em>, med <em>spending</em> som forklaringsvariabel</li>
+<li>Ta med land som forklaringsvariabel i modellen</li>
+<li>Sammenligne nøyaktigehten til modellene</li>
+</ol>
+</div>
+</div>
+<div id="28040cdf" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>health <span class="op">=</span> sns.load_dataset(<span class="st">'healthexp'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>health_onehot <span class="op">=</span> pd.get_dummies(health, columns<span class="op">=</span>[<span class="st">'Country'</span>])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>display(health_onehot.sample(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [11]</span>, in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">pandas</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> <span style="font-weight:bold;color:rgb(0,0,255)">pd</span>
+<span class="ansi-green-fg">----&gt; 2</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">seaborn</span> <span style="font-weight:bold;color:rgb(0,135,0)">as</span> <span style="font-weight:bold;color:rgb(0,0,255)">sns</span>
+<span class="ansi-green-fg ansi-bold">      3</span> health <span style="color:rgb(98,98,98)">=</span> sns<span style="color:rgb(98,98,98)">.</span>load_dataset(<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">healthexp</span><span style="color:rgb(175,0,0)">'</span>)
+<span class="ansi-green-fg ansi-bold">      4</span> health_onehot <span style="color:rgb(98,98,98)">=</span> pd<span style="color:rgb(98,98,98)">.</span>get_dummies(health, columns<span style="color:rgb(98,98,98)">=</span>[<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Country</span><span style="color:rgb(175,0,0)">'</span>])
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named 'seaborn'</pre>
+</div>
+</div>
+</div>
+<div id="abb6f390" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, frame <span class="kw">in</span> health.groupby(<span class="st">"Country"</span>):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    plt.scatter(frame[<span class="st">"Spending_USD"</span>], frame[<span class="st">"Life_Expectancy"</span>], marker<span class="op">=</span><span class="st">"o"</span>, label<span class="op">=</span>i)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Expenditure (USD)"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Life expectancy"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [12]</span>, in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> i, frame <span style="font-weight:bold;color:rgb(175,0,255)">in</span> <span class="ansi-yellow-bg">health</span><span style="color:rgb(98,98,98)">.</span>groupby(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Country</span><span style="color:rgb(175,0,0)">"</span>):
+<span class="ansi-green-fg ansi-bold">      2</span>     plt<span style="color:rgb(98,98,98)">.</span>scatter(frame[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Spending_USD</span><span style="color:rgb(175,0,0)">"</span>], frame[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Life_Expectancy</span><span style="color:rgb(175,0,0)">"</span>], marker<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">o</span><span style="color:rgb(175,0,0)">"</span>, label<span style="color:rgb(98,98,98)">=</span>i)
+<span class="ansi-green-fg ansi-bold">      3</span> plt<span style="color:rgb(98,98,98)">.</span>xlabel(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Expenditure (USD)</span><span style="color:rgb(175,0,0)">"</span>)
+
+<span class="ansi-red-fg">NameError</span>: name 'health' is not defined</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="start-på-løsning" class="level2">
+<h2 class="anchored" data-anchor-id="start-på-løsning">Start på løsning</h2>
+<div id="23acc7bf" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>health_onehot <span class="op">=</span> pd.get_dummies(health, columns<span class="op">=</span>[<span class="st">'Country'</span>], drop_first<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>display(health.sample(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [13]</span>, in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span> health_onehot <span style="color:rgb(98,98,98)">=</span> pd<span style="color:rgb(98,98,98)">.</span>get_dummies(<span class="ansi-yellow-bg">health</span>, columns<span style="color:rgb(98,98,98)">=</span>[<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Country</span><span style="color:rgb(175,0,0)">'</span>], drop_first<span style="color:rgb(98,98,98)">=</span><span style="font-weight:bold;color:rgb(0,135,0)">False</span>)
+<span class="ansi-green-fg ansi-bold">      2</span> display(health<span style="color:rgb(98,98,98)">.</span>sample(<span style="color:rgb(98,98,98)">10</span>))
+
+<span class="ansi-red-fg">NameError</span>: name 'health' is not defined</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="enkel-regresjonsmodell" class="level2">
+<h2 class="anchored" data-anchor-id="enkel-regresjonsmodell">Enkel regresjonsmodell</h2>
+<div id="67affc97" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array(health_onehot[<span class="st">"Spending_USD"</span>]).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> health_onehot[<span class="st">'Life_Expectancy'</span>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and fit the model on the training data</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict the life expectancy using the model on the test data</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>predicted_life_expectancy <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, r2_score</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> mean_squared_error(y_test, predicted_life_expectancy)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> r2_score(y_test, predicted_life_expectancy)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the original data and the linear regression model</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>plt.scatter(X_test, y_test, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Actual Data'</span>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>plt.plot(X_test, predicted_life_expectancy, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Linear Regression Model'</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels and title</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Linear Regression: Spending vs Life Expectancy'</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Spending (USD)'</span>)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Life Expectancy (years)'</span>)</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Mean Squared Error: </span><span class="sc">{</span>mse<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'R^2 Score: </span><span class="sc">{</span>r2<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [14]</span>, in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">sklearn</span><span style="font-weight:bold;color:rgb(0,0,255)">.</span><span style="font-weight:bold;color:rgb(0,0,255)">linear_model</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> LinearRegression
+<span class="ansi-green-fg ansi-bold">      2</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">sklearn</span><span style="font-weight:bold;color:rgb(0,0,255)">.</span><span style="font-weight:bold;color:rgb(0,0,255)">model_selection</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> train_test_split
+<span class="ansi-green-fg">----&gt; 4</span> X <span style="color:rgb(98,98,98)">=</span> np<span style="color:rgb(98,98,98)">.</span>array(<span class="ansi-yellow-bg">health_onehot</span>[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Spending_USD</span><span style="color:rgb(175,0,0)">"</span>])<span style="color:rgb(98,98,98)">.</span>reshape(<span style="color:rgb(98,98,98)">-</span><span style="color:rgb(98,98,98)">1</span>,<span style="color:rgb(98,98,98)">1</span>)
+<span class="ansi-green-fg ansi-bold">      5</span> y <span style="color:rgb(98,98,98)">=</span> health_onehot[<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Life_Expectancy</span><span style="color:rgb(175,0,0)">'</span>]
+<span class="ansi-green-fg ansi-bold">      7</span> <span style="font-style:italic;color:rgb(95,135,135)"># Split the data into training and testing sets</span>
+
+<span class="ansi-red-fg">NameError</span>: name 'health_onehot' is not defined</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="en-påfallende-god-modell-hva-har-skjedd-her" class="level2">
+<h2 class="anchored" data-anchor-id="en-påfallende-god-modell-hva-har-skjedd-her">En påfallende “god” modell, hva har skjedd her?</h2>
+<div id="26c37c61" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> health_onehot.drop(columns<span class="op">=</span>[<span class="st">'Life_Expectancy'</span>])</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> health_onehot[<span class="st">'Life_Expectancy'</span>]</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and fit the model on the training data</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict the life expectancy using the model on the test data</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>predicted_life_expectancy <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> mean_squared_error(y_test, predicted_life_expectancy)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> r2_score(y_test, predicted_life_expectancy)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the original data and the linear regression model predictions per country</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.get_cmap(<span class="st">'tab20'</span>, <span class="bu">len</span>(health[<span class="st">'Country'</span>].unique()))</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, country <span class="kw">in</span> <span class="bu">enumerate</span>(health[<span class="st">'Country'</span>].unique()):</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> health[health[<span class="st">'Country'</span>] <span class="op">==</span> country]</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    plt.scatter(subset[<span class="st">'Spending_USD'</span>], subset[<span class="st">'Life_Expectancy'</span>], label<span class="op">=</span>country, color<span class="op">=</span>colors(i), edgecolor<span class="op">=</span>colors(i), facecolors<span class="op">=</span><span class="st">'none'</span>)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predict life expectancy for the subset</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    subset_X <span class="op">=</span> health_onehot[health_onehot[<span class="ss">f'Country_</span><span class="sc">{</span>country<span class="sc">}</span><span class="ss">'</span>] <span class="op">==</span> <span class="dv">1</span>].drop(columns<span class="op">=</span>[<span class="st">'Life_Expectancy'</span>])</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    subset_predicted_life_expectancy <span class="op">=</span> model.predict(subset_X)</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot the regression line for the subset</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    plt.plot(subset[<span class="st">'Spending_USD'</span>], subset_predicted_life_expectancy, color<span class="op">=</span>np.array(colors(i))<span class="op">*</span><span class="fl">0.9</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels and title</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Linear Regression with One-Hot Encoding: Spending vs Life Expectancy by Country'</span>)</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Spending (USD)'</span>)</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Life Expectancy (years)'</span>)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Country'</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Mean Squared Error: </span><span class="sc">{</span>mse<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'R^2 Score: </span><span class="sc">{</span>r2<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [15]</span>, in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">sklearn</span><span style="font-weight:bold;color:rgb(0,0,255)">.</span><span style="font-weight:bold;color:rgb(0,0,255)">linear_model</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> LinearRegression
+<span class="ansi-green-fg ansi-bold">      2</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">sklearn</span><span style="font-weight:bold;color:rgb(0,0,255)">.</span><span style="font-weight:bold;color:rgb(0,0,255)">model_selection</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> train_test_split
+<span class="ansi-green-fg">----&gt; 4</span> X <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">health_onehot</span><span style="color:rgb(98,98,98)">.</span>drop(columns<span style="color:rgb(98,98,98)">=</span>[<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Life_Expectancy</span><span style="color:rgb(175,0,0)">'</span>])
+<span class="ansi-green-fg ansi-bold">      5</span> y <span style="color:rgb(98,98,98)">=</span> health_onehot[<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Life_Expectancy</span><span style="color:rgb(175,0,0)">'</span>]
+<span class="ansi-green-fg ansi-bold">      7</span> <span style="font-style:italic;color:rgb(95,135,135)"># Split the data into training and testing sets</span>
+
+<span class="ansi-red-fg">NameError</span>: name 'health_onehot' is not defined</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="uten-år-som-forklaringsvariabel" class="level2">
+<h2 class="anchored" data-anchor-id="uten-år-som-forklaringsvariabel">Uten år som forklaringsvariabel</h2>
+<div id="65e2db8c" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the 'Year' column from the dataset</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>health_onehot_no_year <span class="op">=</span> health_onehot.drop(columns<span class="op">=</span>[<span class="st">'Year'</span>])</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data for linear regression</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> health_onehot_no_year.drop(columns<span class="op">=</span>[<span class="st">'Life_Expectancy'</span>])</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> health_onehot_no_year[<span class="st">'Life_Expectancy'</span>]</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and fit the model on the training data</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict the life expectancy using the model on the test data</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>predicted_life_expectancy <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> mean_squared_error(y_test, predicted_life_expectancy)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> r2_score(y_test, predicted_life_expectancy)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the original data and the linear regression model predictions per country</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.get_cmap(<span class="st">'tab20'</span>, <span class="bu">len</span>(health[<span class="st">'Country'</span>].unique()))</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, country <span class="kw">in</span> <span class="bu">enumerate</span>(health[<span class="st">'Country'</span>].unique()):</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> health[health[<span class="st">'Country'</span>] <span class="op">==</span> country]</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    plt.scatter(subset[<span class="st">'Spending_USD'</span>], subset[<span class="st">'Life_Expectancy'</span>], label<span class="op">=</span>country, color<span class="op">=</span>colors(i), edgecolor<span class="op">=</span>colors(i), facecolors<span class="op">=</span><span class="st">'none'</span>)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predict life expectancy for the subset</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    subset_X <span class="op">=</span> health_onehot_no_year[health_onehot_no_year[<span class="ss">f'Country_</span><span class="sc">{</span>country<span class="sc">}</span><span class="ss">'</span>] <span class="op">==</span> <span class="dv">1</span>].drop(columns<span class="op">=</span>[<span class="st">'Life_Expectancy'</span>])</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    subset_predicted_life_expectancy <span class="op">=</span> model.predict(subset_X)</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot the regression line for the subset</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    plt.plot(subset[<span class="st">'Spending_USD'</span>], subset_predicted_life_expectancy, color<span class="op">=</span>np.array(colors(i))<span class="op">*</span><span class="fl">0.9</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels and title</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Linear Regression with One-Hot Encoding (No Year): Spending vs Life Expectancy by Country'</span>)</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Spending (USD)'</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Life Expectancy (years)'</span>)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Country'</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Mean Squared Error: </span><span class="sc">{</span>mse<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'R^2 Score: </span><span class="sc">{</span>r2<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [16]</span>, in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Drop the 'Year' column from the dataset</span>
+<span class="ansi-green-fg">----&gt; 2</span> health_onehot_no_year <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">health_onehot</span><span style="color:rgb(98,98,98)">.</span>drop(columns<span style="color:rgb(98,98,98)">=</span>[<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Year</span><span style="color:rgb(175,0,0)">'</span>])
+<span class="ansi-green-fg ansi-bold">      4</span> <span style="font-style:italic;color:rgb(95,135,135)"># Prepare the data for linear regression</span>
+<span class="ansi-green-fg ansi-bold">      5</span> X <span style="color:rgb(98,98,98)">=</span> health_onehot_no_year<span style="color:rgb(98,98,98)">.</span>drop(columns<span style="color:rgb(98,98,98)">=</span>[<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Life_Expectancy</span><span style="color:rgb(175,0,0)">'</span>])
+
+<span class="ansi-red-fg">NameError</span>: name 'health_onehot' is not defined</pre>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
