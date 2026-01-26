@@ -193,6 +193,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../lectures/01b1_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forelesningsnotat</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../lectures/llm/hon2110_oppfrisking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HON2110 Oppfriskingsoppgaver</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../lectures/01c_øvelse.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Øvingsoppgaver</span></a>
   </div>
@@ -321,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="importere-pandas" class="level2">
 <h2 class="anchored" data-anchor-id="importere-pandas">Importere Pandas</h2>
 <p>Vi starter alltid med å importere pandas. Konvensjonen er å kalle det <code>pd</code>:</p>
-<div id="828e1e21" class="cell" data-execution_count="1">
+<div id="fe2773d5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -330,7 +342,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="lage-en-dataframe-fra-scratch" class="level2">
 <h2 class="anchored" data-anchor-id="lage-en-dataframe-fra-scratch">Lage en DataFrame fra scratch</h2>
 <p>La oss lage en enkel DataFrame med noen data:</p>
-<div id="430c4286" class="cell" data-execution_count="2">
+<div id="0efe7752" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lage en DataFrame fra en dictionary</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'navn'</span>: [<span class="st">'Anna'</span>, <span class="st">'Bjørn'</span>, <span class="st">'Cecilie'</span>, <span class="st">'David'</span>],</span>
@@ -391,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="eksempel-1-iris-datasettet" class="level3">
 <h3 class="anchored" data-anchor-id="eksempel-1-iris-datasettet">Eksempel 1: Iris-datasettet</h3>
 <p>Iris-datasettet inneholder målinger av 150 iris-blomster fra tre forskjellige arter.</p>
-<div id="2a2fb40d" class="cell" data-execution_count="3">
+<div id="ce66f885" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laste Iris-datasettet direkte fra UCI Machine Learning Repository</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>column_names <span class="op">=</span> [<span class="st">'sepal_length'</span>, <span class="st">'sepal_width'</span>, <span class="st">'petal_length'</span>, <span class="st">'petal_width'</span>, <span class="st">'species'</span>]</span>
@@ -463,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="eksempel-2-penguins-datasettet" class="level3">
 <h3 class="anchored" data-anchor-id="eksempel-2-penguins-datasettet">Eksempel 2: Penguins-datasettet</h3>
 <p>Penguins-datasettet inneholder målinger av pingviner fra tre arter i Antarktis.</p>
-<div id="79b43c4c" class="cell" data-execution_count="4">
+<div id="0b0e4ca4" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laste penguins-datasettet</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>url_penguins <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/mwaskom/seaborn-data/master/penguins.csv"</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df_penguins <span class="op">=</span> pd.read_csv(url_penguins)</span>
@@ -545,7 +557,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="eksempel-3-tips-datasettet" class="level3">
 <h3 class="anchored" data-anchor-id="eksempel-3-tips-datasettet">Eksempel 3: Tips-datasettet</h3>
-<div id="0de909e1" class="cell" data-execution_count="5">
+<div id="c0c4af3b" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laste tips-datasettet</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>url_tips <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_tips <span class="op">=</span> pd.read_csv(url_tips)</span>
@@ -630,7 +642,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="utforske-en-dataframe" class="level2">
 <h2 class="anchored" data-anchor-id="utforske-en-dataframe">Utforske en DataFrame</h2>
 <p>Når vi har lest inn data, vil vi gjerne utforske dem:</p>
-<div id="f5c3e6ce" class="cell" data-execution_count="6">
+<div id="a223afad" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vis de første radene</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Første 5 rader:"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_penguins.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -651,7 +663,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 4       3450.0  FEMALE  </code></pre>
 </div>
 </div>
-<div id="6a82e8c0" class="cell" data-execution_count="7">
+<div id="5b9fa26e" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Informasjon om kolonner og datatyper</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Informasjon om DataFrame:"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_penguins.info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -675,7 +687,7 @@ memory usage: 18.9+ KB
 None</code></pre>
 </div>
 </div>
-<div id="cae5b01e" class="cell" data-execution_count="8">
+<div id="312e71e0" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Statistisk oppsummering</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Statistisk oppsummering:"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_penguins.describe())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -693,7 +705,7 @@ min         32.100000      13.100000         172.000000  2700.000000
 max         59.600000      21.500000         231.000000  6300.000000</code></pre>
 </div>
 </div>
-<div id="56e3e328" class="cell" data-execution_count="9">
+<div id="3da7fb5f" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekke kolonnenavn</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Kolonnenavn:"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_penguins.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -708,7 +720,7 @@ Kolonnenavn:
 <h2 class="anchored" data-anchor-id="velge-ut-data">Velge ut data</h2>
 <section id="velge-kolonner" class="level3">
 <h3 class="anchored" data-anchor-id="velge-kolonner">Velge kolonner</h3>
-<div id="7c1b28f3" class="cell" data-execution_count="10">
+<div id="7a3c8b80" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Velge én kolonne (returnerer en Series)</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>body_mass <span class="op">=</span> df_penguins[<span class="st">'body_mass_g'</span>]</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Type: </span><span class="sc">{</span><span class="bu">type</span>(body_mass)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -726,7 +738,7 @@ Første 5 verdier:
 Name: body_mass_g, dtype: float64</code></pre>
 </div>
 </div>
-<div id="dc00c686" class="cell" data-execution_count="11">
+<div id="4b08cb05" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Velge flere kolonner (returnerer en DataFrame)</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>utvalg <span class="op">=</span> df_penguins[[<span class="st">'species'</span>, <span class="st">'island'</span>, <span class="st">'body_mass_g'</span>]]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>utvalg.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -783,7 +795,7 @@ Name: body_mass_g, dtype: float64</code></pre>
 </section>
 <section id="velge-rader-med-betingelser" class="level3">
 <h3 class="anchored" data-anchor-id="velge-rader-med-betingelser">Velge rader med betingelser</h3>
-<div id="c81c2009" class="cell" data-execution_count="12">
+<div id="306d0fea" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrere rader - pingviner tyngre enn 5000g</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>store_pingviner <span class="op">=</span> df_penguins[df_penguins[<span class="st">'body_mass_g'</span>] <span class="op">&gt;</span> <span class="dv">5000</span>]</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Antall pingviner over 5000g: </span><span class="sc">{</span><span class="bu">len</span>(store_pingviner)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -865,7 +877,7 @@ Name: body_mass_g, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="195f4add" class="cell" data-execution_count="13">
+<div id="05feae2e" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Flere betingelser - Adelie-pingviner på Torgersen-øya</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>adelie_torgersen <span class="op">=</span> df_penguins[(df_penguins[<span class="st">'species'</span>] <span class="op">==</span> <span class="st">'Adelie'</span>) <span class="op">&amp;</span> </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                (df_penguins[<span class="st">'island'</span>] <span class="op">==</span> <span class="st">'Torgersen'</span>)]</span>
@@ -953,7 +965,7 @@ Name: body_mass_g, dtype: float64</code></pre>
 <section id="gruppering-med-groupby" class="level2">
 <h2 class="anchored" data-anchor-id="gruppering-med-groupby">Gruppering med groupby</h2>
 <p><code>groupby</code> er en av de kraftigste funksjonene i Pandas. Den lar oss gruppere data og beregne statistikk per gruppe.</p>
-<div id="dfb8c7ee" class="cell" data-execution_count="14">
+<div id="1833b85e" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gjennomsnittlig kroppsmasse per art</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df_penguins.groupby(<span class="st">'species'</span>)[<span class="st">'body_mass_g'</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
@@ -964,7 +976,7 @@ Gentoo       5076.016260
 Name: body_mass_g, dtype: float64</code></pre>
 </div>
 </div>
-<div id="40281852" class="cell" data-execution_count="15">
+<div id="3c319fd4" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gjennomsnittlig nebbdybde per øy</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df_penguins.groupby(<span class="st">'island'</span>)[<span class="st">'bill_depth_mm'</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -975,7 +987,7 @@ Torgersen    18.429412
 Name: bill_depth_mm, dtype: float64</code></pre>
 </div>
 </div>
-<div id="3ba01ee0" class="cell" data-execution_count="16">
+<div id="24c90e84" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Flere aggregeringer samtidig</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>df_penguins.groupby(<span class="st">'species'</span>).agg({</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'body_mass_g'</span>: [<span class="st">'mean'</span>, <span class="st">'min'</span>, <span class="st">'max'</span>],</span>
@@ -1044,7 +1056,7 @@ Name: bill_depth_mm, dtype: float64</code></pre>
 </div>
 <section id="eksempel-med-iris-datasettet" class="level3">
 <h3 class="anchored" data-anchor-id="eksempel-med-iris-datasettet">Eksempel med iris-datasettet</h3>
-<div id="9fda7889" class="cell" data-execution_count="17">
+<div id="8049e509" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gjennomsnittlig kronblad-lengde per art</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df_iris.groupby(<span class="st">'species'</span>)[<span class="st">'petal_length'</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
@@ -1055,7 +1067,7 @@ Iris-virginica     5.552
 Name: petal_length, dtype: float64</code></pre>
 </div>
 </div>
-<div id="f1020398" class="cell" data-execution_count="18">
+<div id="41b6b540" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alle målinger per art</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df_iris.groupby(<span class="st">'species'</span>).agg({</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sepal_length'</span>: <span class="st">'mean'</span>,</span>
@@ -1117,7 +1129,7 @@ Name: petal_length, dtype: float64</code></pre>
 <section id="visualisering" class="level2">
 <h2 class="anchored" data-anchor-id="visualisering">Visualisering</h2>
 <p>Pandas har innebygd støtte for plotting via matplotlib:</p>
-<div id="630e3651" class="cell" data-execution_count="19">
+<div id="5c5cbf0c" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram over kroppsmasse for pingviner</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>plt.hist(df_penguins[<span class="st">'body_mass_g'</span>].dropna(), bins<span class="op">=</span><span class="dv">30</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
@@ -1134,7 +1146,7 @@ Name: petal_length, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="cae21c1b" class="cell" data-execution_count="20">
+<div id="45d937a9" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gjennomsnittlig kroppsmasse per art</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>mass_by_species <span class="op">=</span> df_penguins.groupby(<span class="st">'species'</span>)[<span class="st">'body_mass_g'</span>].mean()</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1155,7 +1167,7 @@ Name: petal_length, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="e835a7b8" class="cell" data-execution_count="21">
+<div id="c69a1870" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot: nebbdybde vs. nebblengde</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> species <span class="kw">in</span> df_penguins[<span class="st">'species'</span>].unique():</span>
@@ -1176,7 +1188,7 @@ Name: petal_length, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="c6101b45" class="cell" data-execution_count="22">
+<div id="3b14fb2c" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tips vs. total regning</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(df_tips[<span class="st">'total_bill'</span>], df_tips[<span class="st">'tip'</span>], alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'green'</span>)</span>
@@ -1197,7 +1209,7 @@ Name: petal_length, dtype: float64</code></pre>
 <section id="håndtere-manglende-data" class="level2">
 <h2 class="anchored" data-anchor-id="håndtere-manglende-data">Håndtere manglende data</h2>
 <p>Virkelige datasett har ofte manglende verdier (NaN):</p>
-<div id="581e8adf" class="cell" data-execution_count="23">
+<div id="9f57c061" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekke for manglende verdier</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Manglende verdier per kolonne:"</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_penguins.isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1213,7 +1225,7 @@ sex                  11
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="9cc0bd22" class="cell" data-execution_count="24">
+<div id="9a1700b0" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fjerne rader med manglende verdier</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_penguins.dropna()</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Rader før: </span><span class="sc">{</span><span class="bu">len</span>(df_penguins)<span class="sc">}</span><span class="ss">, Rader etter: </span><span class="sc">{</span><span class="bu">len</span>(df_clean)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1221,7 +1233,7 @@ dtype: int64</code></pre>
 <pre><code>Rader før: 344, Rader etter: 333</code></pre>
 </div>
 </div>
-<div id="1c48a2e0" class="cell" data-execution_count="25">
+<div id="b4ea4069" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fylle inn manglende verdier med gjennomsnittet</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>df_filled <span class="op">=</span> df_penguins.copy()</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>df_filled[<span class="st">'body_mass_g'</span>] <span class="op">=</span> df_filled[<span class="st">'body_mass_g'</span>].fillna(df_filled[<span class="st">'body_mass_g'</span>].mean())</span>
@@ -1233,7 +1245,7 @@ dtype: int64</code></pre>
 </section>
 <section id="sortere-data" class="level2">
 <h2 class="anchored" data-anchor-id="sortere-data">Sortere data</h2>
-<div id="149efba6" class="cell" data-execution_count="26">
+<div id="0d5a9379" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sortere etter kroppsmasse (tyngste først)</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>df_penguins.sort_values(<span class="st">'body_mass_g'</span>, ascending<span class="op">=</span><span class="va">False</span>).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
@@ -1310,7 +1322,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="dce60de5" class="cell" data-execution_count="27">
+<div id="2708250d" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sortere etter flere kolonner</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>df_penguins.sort_values([<span class="st">'species'</span>, <span class="st">'body_mass_g'</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>]).head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
@@ -1440,7 +1452,7 @@ dtype: int64</code></pre>
 </section>
 <section id="telling-og-frekvenser" class="level2">
 <h2 class="anchored" data-anchor-id="telling-og-frekvenser">Telling og frekvenser</h2>
-<div id="ff2d5924" class="cell" data-execution_count="28">
+<div id="6fcb04a5" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Telle antall pingviner per art</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Antall pingviner per art:"</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_penguins[<span class="st">'species'</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1452,7 +1464,7 @@ Chinstrap     68
 Name: species, dtype: int64</code></pre>
 </div>
 </div>
-<div id="13230575" class="cell" data-execution_count="29">
+<div id="a616fe4d" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Telle antall pingviner per øy</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Antall pingviner per øy:"</span>)</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_penguins[<span class="st">'island'</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

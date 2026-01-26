@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_01_pandas.html</loc>
-    <lastmod>2026-01-22T14:13:47.103Z</lastmod>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/hon2110_oppfrisking.html</loc>
+    <lastmod>2026-01-26T07:21:07.732Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/index.html</loc>
+    <lastmod>2026-01-23T09:40:53.807Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/01c_øvelse.html</loc>
@@ -21,7 +25,15 @@
     <lastmod>2026-01-22T14:21:08.793Z</lastmod>
   </url>
   <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/index.html</loc>
-    <lastmod>2026-01-22T14:22:06.983Z</lastmod>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.revealjs.html</loc>
+    <lastmod>2026-01-26T07:31:43.141Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.html</loc>
+    <lastmod>2026-01-26T07:16:50.598Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_01_pandas.html</loc>
+    <lastmod>2026-01-23T09:50:39.309Z</lastmod>
   </url>
 </urlset>

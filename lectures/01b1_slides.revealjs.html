@@ -203,38 +203,27 @@ Henrik Sveinsson
 </div>
 
 </section>
-<section id="slide-versjon" class="slide level2">
-<h2>Slide-versjon</h2>
-<iframe src="01b1_slides.revealjs.html" width="960" height="540">
-</iframe>
-</section>
 <section id="data-dreven" class="slide level2">
 <h2>Data-dreven?</h2>
 <div class="columns">
-<div class="column" style="width:40%;">
+<div class="column" style="width:50%;">
 <p>I dag:</p>
 <ul>
 <li>Eksempler på problemstillinger som trenger data</li>
+<li>Oppfriskningsoppgaver fra HON2110/IN1900</li>
 <li>Kunne lese inn og utforske datasett i jupyter notebook m/numpy, pandas og matplotlib</li>
 </ul>
-</div><div class="column" style="width:60%;">
+</div><div class="column" style="width:50%;">
 <p><img data-src="images/data_driven.png"></p>
 </div></div>
-<aside class="notes hidden">
-<p>Vi skal jobbe med situasjoner der vi kan bruke data til å ta en eller annen beslutning. Så skal vi vurdere om dataene er egnet til å ta beslutningen, og både om det er etiske forsvarlig å ta beslutningen basert på dataene, og om vi burde det.</p>
-<p>Ha lav terskel for å spørre om det er ting dere ikke forstår. Vi må tune oss litt inn på hverandre her.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
+<section id="eksempel-stad-skipstunnel" class="slide level2">
+<h2>Eksempel: Stad skipstunnel</h2>
+<ul>
+<li>Politisk spørsmål: Skal vi bygge en skipstunnel i Stadlandet?</li>
+</ul>
+
+<img data-src="images/skipstunnel.jpg" class="r-stretch"></section>
 <section id="praktisk-info" class="slide level2">
 <h2>Praktisk info</h2>
 <ul>
@@ -284,7 +273,7 @@ Henrik Sveinsson
 <div class="callout-content">
 <ul>
 <li>PhD i filosofi</li>
-<li>Forskningsdirektør i tenketanken <em>Langsikt</em></li>
+<li>Fagsjef i tenketanken <em>Langsikt</em></li>
 </ul>
 <p><img data-src="images/aksel_bilde.jpg" width="200">&nbsp;</p>
 </div>
@@ -316,7 +305,7 @@ Henrik Sveinsson
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Digital etikk (mars)</strong></p>
+<p><strong>Digital etikk (februar)</strong></p>
 </div>
 <div class="callout-content">
 <ul>
@@ -345,33 +334,15 @@ Henrik Sveinsson
 <section id="husk" class="slide level2">
 <h2>Husk</h2>
 <ul>
-<li>Hjelp hverandre (skal vi sette opp grupper?)</li>
+<li>Hjelp hverandre</li>
 <li>Følg med på semestersidene</li>
 <li>Studentrepresentanter</li>
 <li>Still gjerne spørsmål etter timen</li>
 <li>Send mail om det er noe</li>
 </ul>
 </section>
-<section id="more-is-different" class="slide level2">
-<h2>More is different</h2>
-
-<img data-src="images/more_different.png" class="r-stretch"><aside class="notes hidden">
-<p>I fysikken, så finnes det en ganske berømt artikkel som heter “More is different”. Den handler kort sagt om at når ting blir store nok, så endrer de kvalitativt egenskaper, og blir til noe annet enn summen av delene. Dette er grunnen til at det ikke holder med kvantefysikk og høyenergi partikkelfysikk for å skjønne hele verden. Det holder ikke med standardmodellen i partikkelfysikk om du skal forklare hvordan et jordskjelv oppstår.</p>
-<p>Bildet her viser et eksempel. Dette er et ammoniummolekyl. Det består av et nitrogenatom, og tre hydrogenatomer. og de står alle sammen som et tetraeder, altså en trekantet pyramide. På grunn av kvantefysikk er det noen elektronen som svirrer rundt mellom nitrogenet og hydrogenet, og nitrogenet trekker hardere på elektronene enn det hydrogenene gjør. Derfor vil man, om man måler, finne at det i snitt er litt negativ ladning ved nitrogenet og litt positiv ladning ved hydrogenene. Så langt så bra. Dette skulle man tro var helt greit, men det er det ikke. For i følge kvantefysikken kan ikke stasjonære tilstander ha netto dipolmoment. Og det er jo litt trøblete. For hvis kvantefysikken ikke en gang klarer å forholde seg til ammonium, da er den ikke mye verdt. Men selvsagt blir vi reddet. For ammoniummmolekylet står og svinger fra å ha hydrogenene under seg til å ha dem over seg. Så over tid er det netto null forskjell i ladning oppe og nede. Men, dette går bare fint, fordi ammoniummolekylet lett kan svinge slik. Om vi hadde noe større, for eksempel et protein, ville det ikke klart å vrenge seg. Det som skjer da, er at molekylet låser seg fast i en metastabil tilstand. Om man ser på gjennomsnittet av alle ting den kunne ha gjort, oppfyller den kvantemekanikken, men det blir uinteressant om vi skal se på strukturen til et enkelt protein. Det har låst seg fast i en eller annen sær struktur, og det kommer til å ta den mange ganger universets levetid å utforske nok mulige konfigurasjoner til å kunne nærme seg å oppfylle kravet til jevn ladningsfordeling. I stedet gjør den en eller annen viktig jobb slik som for eksempe å fange opp spike-proteinet i coronaviruset.</p>
-<p>I maskinlæring og stordata er noe lignende i ferd med å skje. Vi er i ferd med å komme inn i et regime der vi kan erstatte mye menneskelig intelligens med maskinintelligens, fordi maskinintelligensen har blitt kvalitativt endret.</p>
-<p>Lenge prøvde man å beskrive for datamaskinen hva som var de forskjellige karakteristiske trekkene ved forskjellige objekter. Nå bare viser man den nok eksempler, og den finner det ut selv. Det er bare noen år siden denne teknologien plutselig suste forbi alle de andre teknologiene, og gjorde at vi nå kan tro på det når internett sier at noe er et bilde av en katt. Og det kommer av to ting: Mer data, og mer regnekraft, slik at man kan lage større nevrale nettverk og trene dem bedre. Plutselig klarer disse nettene å gjøre noe nytt.</p>
-<p>Lenge prøvde man å fysikkmodellere seg til å predikere proteinstrukturer fra gensekvenser. I praksis se på hvordan proteinkjeder knyter seg til og låser seg fast i en metastabil tilstand. Nå gjør google DeepMind dette med maskinlæring.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="et-par-oppvarmingseksempler" class="slide level2">
+<h2>Et par oppvarmingseksempler</h2>
 </section>
 <section id="shot" class="slide level2">
 <h2>SHOT</h2>
@@ -384,25 +355,11 @@ Henrik Sveinsson
 <li class="fragment"><p><strong>Studenter flest mener de har det bedre enn snittet (!)</strong></p></li>
 </ul>
 </div>
-<aside class="notes hidden">
-<p>Hvordan skal vi tolke dette utsagnet?</p>
-<p>Her skal vi se på situasjoner det statistikk oppgis på en lite hensiktsmessig måte.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="sjåfører" class="slide level2">
 <h2>Sjåfører</h2>
 <div class="fragment fade-out">
-<div id="53e00dcc" class="cell" data-execution_count="1">
+<div id="4a35d31d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
 <span id="cb1-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a></a>ferdighetsnivå <span class="op">=</span> [<span class="st">"Veldig god"</span>, <span class="st">"Bedre enn snittet"</span>, <span class="st">"Gjennomsnittlig"</span>, <span class="st">"Under snittet"</span>, <span class="st">"Veldig dårlig"</span>]</span>
@@ -411,16 +368,8 @@ Henrik Sveinsson
 <span id="cb1-6"><a></a>plt.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">20</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="1870ef11" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="01b1_slides_files/figure-html/cell-3-output-1.png" width="781" height="404"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="fragment absolute" style="top: 0px; left: 200px; width: 900px; height: 300px; ">
+
+<img data-src="01b1_slides_files/figure-revealjs/cell-3-output-1.png" class="r-stretch"><div class="fragment absolute" style="top: 0px; left: 200px; width: 900px; height: 300px; ">
 <div data-background-color="aquamarine">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -445,44 +394,21 @@ Henrik Sveinsson
 </div>
 </div>
 </div>
-<aside class="notes hidden">
-<p>Sjåfører flest er bedre enn snittet ?</p>
-<p>Dette bør vi ha i mente når vi leser at folk rapporterer om forskjellige ting.</p>
-<p>En ting jeg ønsker meg for dere i dette faget, er at dere skal få et bredt spekter av ideer når dere ser en graf som denne. Eller i det minste bredere enn dere hadde før. At det å jobbe med data sammen med andre fra ulike fagbakgrunner gjør at dere får noen aha-opplevelser om hva som er forskjellige sanne, eller i det minste plausible, historier som kan fortelles fra samme datasett.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+</section>
+<section id="oppfriskning-fra-hon2110in1900" class="slide level2">
+<h2>Oppfriskning fra HON2110/IN1900</h2>
+<ul>
+<li>Oppfriskninsoppgaver med penn og papir!</li>
+</ul>
 </section>
 <section id="å-kunne-håndtere-data-med-pandas" class="slide level2">
 <h2>Å kunne håndtere data med Pandas</h2>
 
-<img data-src="images/pandas_jesus.gif" class="r-stretch"><aside class="notes hidden">
-<p>Når vi har data tilgjengelig trenger vi en måte å håndtere dem på!</p>
-<p>Jeg håper vi nå er enige om at det finnes ting som vi bryr oss om som vi kan finne ut av dersom vi klarer å få tak i og håndtere data. Derfor skal vi nå begynne med å se på hvordan vi håndterer data i jupyter notebook, særlig ved hjelp av Pandas.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<img data-src="images/pandas_jesus.gif" class="r-stretch"><p>Åpne laptop og kod med!</p>
 </section>
 <section id="aritmetikk-i-jupyter-notebook" class="slide level2">
 <h2>Aritmetikk i jupyter notebook</h2>
-<p>(Prøv å kjøre dette i egen notebook, meld ifra med postitlapp om det ikke er mulig å holde følge)</p>
-<div id="1a5eedf5" class="cell" data-execution_count="3">
+<div id="44e66f5d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>a <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb2-2"><a></a>b <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb2-3"><a></a>c <span class="op">=</span> a<span class="op">*</span>b</span>
@@ -491,19 +417,6 @@ Henrik Sveinsson
 <pre><code>a*b = 12</code></pre>
 </div>
 </div>
-<aside class="notes hidden">
-<p>Nå vil jeg at vi skal ta fram postitlapper, slik at dere kan sette grønn lapp på maskinen om det virker, og rød lapp om det er trøbbel.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="legge-til-nyfjerne-celle" class="slide level2">
 <h2>Legge til ny/fjerne celle</h2>
@@ -546,14 +459,14 @@ Henrik Sveinsson
 <ul>
 <li><code>!pip install &lt;pakkenavn&gt;</code></li>
 </ul>
-<div id="c0365521" class="cell" data-execution_count="4">
+<div id="0b1ff836" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="op">!</span>pip install matplotlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <ul>
 <li>Legge på <code>-q</code> (quiet) for å ikke spamme output-cellen</li>
 </ul>
-<div id="1c151f28" class="cell" data-execution_count="5">
+<div id="aeceb4d8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="op">!</span>pip install <span class="op">-</span>q matplotlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -561,14 +474,14 @@ Henrik Sveinsson
 <ul>
 <li>Med følgende får vi gjort mye:</li>
 </ul>
-<div id="dbe6cd3b" class="cell" data-execution_count="6">
+<div id="c9a93fa5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="op">!</span>pip install <span class="op">-</span>q matplotlib numpy pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
 <section id="importere-pakker" class="slide level2">
 <h2>Importere pakker</h2>
-<div id="db165035" class="cell" data-execution_count="7">
+<div id="d7d50755" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-3"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -583,7 +496,7 @@ Henrik Sveinsson
 <p><strong>Feilmeldinger?</strong></p>
 </div>
 <div class="callout-content">
-<p>Funker installasjon og import av disse pakkene? Opp med grønn/rød postit!</p>
+<p>Funker installasjon og import av disse pakkene? Rop ut!</p>
 </div>
 </div>
 </div>
@@ -599,9 +512,8 @@ Henrik Sveinsson
 </section>
 <section id="numpy-arrayer" class="slide level2">
 <h2>Numpy-arrayer</h2>
-<p>(trenger ikke kode med her)</p>
 <div class="fragment">
-<div id="dc05d9d8" class="cell" data-execution_count="8">
+<div id="e4970dbb" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a></a>a <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
 <span id="cb9-3"><a></a>b <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">10</span>)</span>
@@ -613,7 +525,7 @@ Henrik Sveinsson
 </div>
 </div>
 <div class="fragment fade-in">
-<div id="4b290a25" class="cell" data-execution_count="9">
+<div id="d25f5bc5" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="kw">def</span> f(x):</span>
 <span id="cb11-2"><a></a>    <span class="cf">return</span> np.exp(<span class="op">-</span>x<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb11-3"><a></a></span>
@@ -631,7 +543,7 @@ Henrik Sveinsson
 </section>
 <section id="plotting-med-matplotlib" class="slide level2">
 <h2>Plotting med matplotlib</h2>
-<div id="b5ed37d2" class="cell" data-execution_count="10">
+<div id="9604cb64" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb13-2"><a></a>plt.plot(a, y)</span>
 <span id="cb13-3"><a></a>plt.xlabel(<span class="st">"a"</span>)</span>
@@ -639,15 +551,9 @@ Henrik Sveinsson
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>Text(0, 0.5, 'f(x)')</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="01b1_slides_files/figure-html/cell-11-output-2.png" width="589" height="422"></p>
-</figure>
+
 </div>
-</div>
-</div>
-</section>
+<img data-src="01b1_slides_files/figure-revealjs/cell-11-output-2.png" class="r-stretch"></section>
 <section id="matplotlib" class="slide level2">
 <h2>Matplotlib</h2>
 <div class="fragment fade-out">
@@ -661,7 +567,7 @@ Henrik Sveinsson
 </div>
 <div class="callout-content">
 <p>Kan du få plottet til å bli glattere?</p>
-<div id="3a7634a7" class="cell" data-execution_count="11">
+<div id="44ed0d2a" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb15-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-3"><a></a><span class="kw">def</span> f(x):</span>
@@ -678,7 +584,7 @@ Henrik Sveinsson
 </div>
 </div>
 <div class="fragment absolute" style="top: 80px; left: 0px; ">
-<div id="cb5e3238" class="cell" data-execution_count="12">
+<div id="cf99e76b" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-2"><a></a>a <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">101</span>)</span>
 <span id="cb16-3"><a></a>y <span class="op">=</span> f(a)</span>
@@ -691,14 +597,14 @@ Henrik Sveinsson
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="01b1_slides_files/figure-html/cell-13-output-2.png" width="589" height="422"></p>
+<p><img data-src="01b1_slides_files/figure-revealjs/cell-13-output-2.png"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 <div class="fragment absolute" style="top: 80px; left: 0px; ">
-<div id="bbc61f5f" class="cell" data-execution_count="13">
+<div id="139fc57f" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb18-2"><a></a>a <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">101</span>)</span>
 <span id="cb18-3"><a></a>y <span class="op">=</span> f(a)</span>
@@ -711,7 +617,7 @@ Henrik Sveinsson
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="01b1_slides_files/figure-html/cell-14-output-2.png" width="589" height="422"></p>
+<p><img data-src="01b1_slides_files/figure-revealjs/cell-14-output-2.png"></p>
 </figure>
 </div>
 </div>
@@ -720,22 +626,7 @@ Henrik Sveinsson
 </section>
 <section id="lage-pandas-dataframe-manuelt" class="slide level2">
 <h2>Lage Pandas DataFrame manuelt</h2>
-<aside class="notes">
-<p>Når vi skal jobbe med data som passer på tabellformat kan livet vårt bli svært mye enklere om vi brukere et bibliotek som heter pandas. Det skal da lite kode til for å lese inn filer og for å gjøre enkle plots. Dessuten passer dataformatet i pandas sammen med flere kjente maskinlæringsbiblioteker som pytorch og scikit-learn. Dermed slipper vi å bruke tid på å manipulere data til å passe inn i spesifikke formater for hvert bibliotek vi skal bruke.</p>
-<p>Når man bruker kraftige biblioteker for databehandling, vil det alltid være mange funksjoner man ikke kan navnet på, eller ikke vet hva gjør. Det er helt greit, og helt vanglig. Det er lov til å si at man “kan pandas” uten å vite hva alle funksjonene gjør, på samme måte som det er lov å si man kan engelsk selv om man ikke vet betydningen av <em>floccinaucinihilipilification</em>. Derfor kommer det til å være mange ting jeg ikke vet om pandas, men jeg føler meg ganske komfortabel med å bruke det allikevel.</p>
-<p>Det viktigste konseptet i pandas er et DataFrame. Det lager vi på denne måten, og det er en type tabell.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<div id="6ba14e6a" class="cell" data-execution_count="14">
+<div id="31fc1165" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb20-2"><a></a>df <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb20-3"><a></a>    <span class="st">"talent"</span> : [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">2</span>],</span>
@@ -771,35 +662,23 @@ Henrik Sveinsson
 </section>
 <section id="plotte-fra-dataframe" class="slide level2">
 <h2>Plotte fra DataFrame</h2>
-<div id="c8e88256" class="cell" data-execution_count="15">
+<div id="545e1ab1" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a>plt.plot(df[<span class="st">"talent"</span>])</span>
 <span id="cb22-2"><a></a>_ <span class="op">=</span> plt.ylabel(<span class="st">"Talent"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="01b1_slides_files/figure-html/cell-16-output-1.png" width="589" height="404"></p>
-</figure>
+
 </div>
-</div>
-</div>
-</section>
+<img data-src="01b1_slides_files/figure-revealjs/cell-16-output-1.png" class="r-stretch"></section>
 <section id="flere-plots-i-samme-figur" class="slide level2">
 <h2>Flere plots i samme figur</h2>
-<div id="0cfb0589" class="cell" data-execution_count="16">
+<div id="9764ed59" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">4</span>,<span class="dv">5</span>))</span>
 <span id="cb23-2"><a></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].scatter(df[<span class="st">"innsats"</span>], df[<span class="st">"talent"</span>])</span>
 <span id="cb23-3"><a></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].set_xlabel(<span class="st">"Innsats"</span>)</span>
 <span id="cb23-4"><a></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].set_ylabel(<span class="st">"Talent"</span>)</span>
 <span id="cb23-5"><a></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="01b1_slides_files/figure-html/cell-17-output-1.png" width="374" height="470"></p>
-</figure>
+
 </div>
-</div>
-</div>
-<div class="fragment absolute" style="top: 300px; left: 500px; width: 300px; ">
+<img data-src="01b1_slides_files/figure-revealjs/cell-17-output-1.png" class="r-stretch"><div class="fragment absolute" style="top: 300px; left: 500px; width: 300px; ">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -817,7 +696,7 @@ Henrik Sveinsson
 </section>
 <section id="laste-inn-fra-fil" class="slide level2">
 <h2>Laste inn fra fil</h2>
-<div id="8d33ae3c" class="cell" data-execution_count="17">
+<div id="ca492554" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb24-2"><a></a>df_pris <span class="op">=</span> pd.read_csv(<span class="st">"data/meteringvalues-dec-2024.csv"</span>, sep<span class="op">=</span><span class="st">";"</span>, decimal<span class="op">=</span><span class="st">","</span>)</span>
 <span id="cb24-3"><a></a><span class="bu">print</span>(df_pris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -841,7 +720,7 @@ Henrik Sveinsson
 </section>
 <section id="ting-kan-gå-galt" class="slide level2">
 <h2>Ting kan gå galt</h2>
-<div id="b4940864" class="cell" data-execution_count="18">
+<div id="a08123ba" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb26-2"><a></a>df_pris <span class="op">=</span> pd.read_csv(<span class="st">"data/meteringvalues-dec-2024.csv"</span>)</span>
 <span id="cb26-3"><a></a><span class="bu">print</span>(df_pris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -865,7 +744,7 @@ Henrik Sveinsson
 </section>
 <section id="ting-kan-gå-galt-2" class="slide level2">
 <h2>Ting kan gå galt 2</h2>
-<div id="9102831a" class="cell" data-execution_count="19">
+<div id="fe9a0e5a" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb28-2"><a></a>df_pris <span class="op">=</span> pd.read_csv(<span class="st">"data/meteringvalues-dec-2024.csv"</span>, sep<span class="op">=</span><span class="st">";"</span>)</span>
 <span id="cb28-3"><a></a><span class="bu">print</span>(df_pris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -889,7 +768,7 @@ Henrik Sveinsson
 </section>
 <section id="hente-ut-kolonner" class="slide level2">
 <h2>Hente ut kolonner</h2>
-<div id="0e62c066" class="cell" data-execution_count="20">
+<div id="82bef750" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a>df_pris <span class="op">=</span> pd.read_csv(<span class="st">"data/meteringvalues-dec-2024.csv"</span>, sep<span class="op">=</span><span class="st">";"</span>, decimal<span class="op">=</span><span class="st">","</span>)</span>
 <span id="cb30-2"><a></a>df_pris[<span class="st">"KWH 60 Forbruk"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -924,7 +803,7 @@ Name: KWH 60 Forbruk, Length: 744, dtype: float64</code></pre>
 </div>
 </div>
 <p>Starthjelp:</p>
-<div id="72e0d287" class="cell" data-execution_count="21">
+<div id="0d957e42" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb32-2"><a></a>df_pris <span class="op">=</span> pd.read_csv(<span class="st">"data/meteringvalues-dec-2024.csv"</span>, </span>
 <span id="cb32-3"><a></a>    sep<span class="op">=</span><span class="st">";"</span>, </span>
@@ -1257,7 +1136,7 @@ Name: KWH 60 Forbruk, Length: 744, dtype: float64</code></pre>
       }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
+          var filterRegex = new RegExp("https:\/\/henriasv\.github\.io\/hon2200-v26\/");
         var isInternal = (href) => {
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }

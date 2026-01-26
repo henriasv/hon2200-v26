@@ -1,5 +1,876 @@
 [
   {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html",
+    "href": "lectures/llm/hon2110_oppfrisking.html",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "",
+    "text": "Last ned PDF-versjon",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-hva-skriver-koden-ut",
+    "href": "lectures/llm/hon2110_oppfrisking.html#a-hva-skriver-koden-ut",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "a) Hva skriver koden ut?",
+    "text": "a) Hva skriver koden ut?\nFor hver kodeblokk, skriv hva som printes til skjermen.\n\n\n\nx = 10\ny = \"5\"\nz = x + int(y)\nprint(z)\n\n\n\nnavn = \"Ada\"\nalder = 30\nprint(f\"Jeg heter {navn} og er {alder} år gammel\")\n\n\n\ntall = [10, 20, 30, 40, 50]\nprint(tall[0])\nprint(tall[-1])\nprint(tall[2])\n\n\n\nfor i in range(3):\n    print(i * 2)\n\n\n\ndef doble(x):\n    return x * 2\n\nresultat = doble(5)\nprint(resultat)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-finn-feilen",
+    "href": "lectures/llm/hon2110_oppfrisking.html#b-finn-feilen",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "b) Finn feilen",
+    "text": "b) Finn feilen\nHver kodeblokk inneholder én feil. Beskriv feilen og skriv den rettede koden.\n\n\n\nx = \"5\"\ny = 10\nz = x + y\nprint(z)\n\n\n\nliste = [1, 2, 3, 4, 5]\nfor i in range(len(liste) + 1):\n    print(liste[i])\n\n\n\ndef hils():\n    print(\"Hei verden\")\n\nprint(hilsen())\n\n\n\ntall = [1, 2, 3, 4, 5]\ngjennomsnitt = sum(tall) / len(tall)\nprint(\"Gjennomsnitt:\", gjennomsnittet)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-variabler-og-lister",
+    "href": "lectures/llm/hon2110_oppfrisking.html#a-variabler-og-lister",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "a) Variabler og lister",
+    "text": "a) Variabler og lister\n\nLag en liste ukedager som inneholder alle 7 ukedager på norsk (starter med “mandag”).\nGitt listen fra a), skriv kode som:\n\n\nHenter ut “onsdag” fra listen\nLegger til “helg” på slutten av listen\nFinner antall elementer i listen",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-betingelser-if-else",
+    "href": "lectures/llm/hon2110_oppfrisking.html#b-betingelser-if-else",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "b) Betingelser (if-else)",
+    "text": "b) Betingelser (if-else)\n\nSkriv kode som sjekker om variabelen karakter er bestått (4 eller høyere på skala 1-6) og printer passende melding.\nSkriv kode som klassifiserer variabelen temp (temperatur i celsius):\n\n\nUnder 0: “Frost”\n0-15: “Kjølig”\n16-25: “Behagelig”\nOver 25: “Varmt”",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#c-løkker",
+    "href": "lectures/llm/hon2110_oppfrisking.html#c-løkker",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "c) Løkker",
+    "text": "c) Løkker\n\nSkriv en for-løkke som printer tallene 1 til og med 5.\n\nHint: range(start, slutt) gir tall fra start til slutt-1\n\nGitt listen navn = [\"Ada\", \"Bob\", \"Cleo\"], skriv en løkke som printer “Hei, Ada!”, “Hei, Bob!”, osv.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#d-funksjoner",
+    "href": "lectures/llm/hon2110_oppfrisking.html#d-funksjoner",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "d) Funksjoner",
+    "text": "d) Funksjoner\n\nSkriv en funksjon kvadrat(n) som returnerer n².\nSkriv en funksjon er_partall(tall) som returnerer True hvis tallet er partall, ellers False.\nSkriv en funksjon finn_maksimum(liste) som tar inn en liste med tall og returnerer det største tallet.\n\nHint: Du kan bruke en løkke, eller tenke på om Python har en innebygd funksjon for dette.\n\nHva er forskjellen mellom print() og return i en funksjon?\nHva vil følgende kode skrive ut?\n\ndef legg_til_ti(x):\n    return x + 10\n\nresultat = legg_til_ti(5)\nprint(resultat)\nprint(legg_til_ti(resultat))",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-gjennomsnitt-og-median",
+    "href": "lectures/llm/hon2110_oppfrisking.html#a-gjennomsnitt-og-median",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "a) Gjennomsnitt og median",
+    "text": "a) Gjennomsnitt og median\nDu har datasettet: [10, 20, 30, 40, 50]\n\nSkriv kode som regner ut gjennomsnittet av datasettet.\nSkriv kode som finner medianen.\nUtvid koden din til å håndtere datasettet [10, 20, 30, 40, 50, 200]. Hva skjer med gjennomsnittet og medianen når vi legger til en ekstremverdi?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-standardavvik",
+    "href": "lectures/llm/hon2110_oppfrisking.html#b-standardavvik",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "b) Standardavvik",
+    "text": "b) Standardavvik\nDu har datasettet: [2, 4, 6, 7, 10]\n\nSkriv kode som regner ut gjennomsnittet.\nSkriv kode som regner ut variansen.\nSkriv kode som regner ut standardavviket (√varians).",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-jobbe-med-data",
+    "href": "lectures/llm/hon2110_oppfrisking.html#a-jobbe-med-data",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "a) Jobbe med data",
+    "text": "a) Jobbe med data\nDu har følgende data:\nstudenter = [\n    {\"navn\": \"Anna\", \"alder\": 22, \"karakter\": 4.5},\n    {\"navn\": \"Bo\", \"alder\": 25, \"karakter\": 3.8},\n    {\"navn\": \"Celia\", \"alder\": 23, \"karakter\": 4.2},\n    {\"navn\": \"David\", \"alder\": 21, \"karakter\": 3.5},\n    {\"navn\": \"Elin\", \"alder\": 24, \"karakter\": 4.8}\n]\n\nSkriv kode som finner alle studenter med karakter over 4.0.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/index.html",
+    "href": "lectures/llm/index.html",
+    "title": "LLM-supplement",
+    "section": "",
+    "text": "Notatene i denne seksjonen er skrevet av en stor språkmodell (LLM) som supplement til forelesningsmateriell i HON2200. De er ment som et eksperiment for å utforske hvordan AI kan brukes i undervisning.\n\n\n\nAI-generert innhold: Alle tekstene er skrevet av en LLM basert på instruksjoner fra faglærer\nSupplement, ikke erstatning: Disse notatene erstatter ikke forelesninger, lærebok eller obligatoriske oppgaver\nEksperimentelt: Vi tester ut hvordan AI kan brukes til å lage pedagogisk materiale\n\n\n\n\n✅ Bruk dem til: - Repetisjon av konsepter fra forelesning - Ekstra eksempler og forklaringer - Rask oppfriskning før øvingstimer\n❌ Ikke stol blindt på dem: - LLM-er kan gjøre feil, spesielt i tekniske detaljer - Hvis noe virker rart eller motstridende, spør faglærer/meld ifra - Prioriter pensum og forelesningsnotater\n\n\n\nHar du funnet feil eller har forslag til forbedringer? Send en e-post til faglærer eller ta det opp i øvingstimene.",
+    "crumbs": [
+      "LLM-supplement",
+      "LLM-supplement"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/index.html#om-disse-notatene",
+    "href": "lectures/llm/index.html#om-disse-notatene",
+    "title": "LLM-supplement",
+    "section": "",
+    "text": "Notatene i denne seksjonen er skrevet av en stor språkmodell (LLM) som supplement til forelesningsmateriell i HON2200. De er ment som et eksperiment for å utforske hvordan AI kan brukes i undervisning.\n\n\n\nAI-generert innhold: Alle tekstene er skrevet av en LLM basert på instruksjoner fra faglærer\nSupplement, ikke erstatning: Disse notatene erstatter ikke forelesninger, lærebok eller obligatoriske oppgaver\nEksperimentelt: Vi tester ut hvordan AI kan brukes til å lage pedagogisk materiale\n\n\n\n\n✅ Bruk dem til: - Repetisjon av konsepter fra forelesning - Ekstra eksempler og forklaringer - Rask oppfriskning før øvingstimer\n❌ Ikke stol blindt på dem: - LLM-er kan gjøre feil, spesielt i tekniske detaljer - Hvis noe virker rart eller motstridende, spør faglærer/meld ifra - Prioriter pensum og forelesningsnotater\n\n\n\nHar du funnet feil eller har forslag til forbedringer? Send en e-post til faglærer eller ta det opp i øvingstimene.",
+    "crumbs": [
+      "LLM-supplement",
+      "LLM-supplement"
+    ]
+  },
+  {
+    "objectID": "lectures/01c_øvelse.html",
+    "href": "lectures/01c_øvelse.html",
+    "title": "Øvingsoppgaver",
+    "section": "",
+    "text": "Her er øvingsopgaver som passer å gjøre etter første undervisningsøkt i kurset. Det er lov å sende mail og be om hjelp om du står fast! Eller spørre en medstudent.\n\n\na) Last ned filen “bestsellers with categories.xls” her, og les den inn med pandas.\nb) Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med .drop_duplicates(\"Name\") - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser\nc) Plot - Gjennomsnittlig anmeldelsesskårer for fiksjon og sakprosa - Gjennomsnittlig anmeldelsesskårer for hvert utgivelsesår. - Antall bøker for hver score - Antall anmeldelser for hver score\nd) Hvor mange fiksjonsbøker fra 2017 fikk en score bedre enn 4.6?\n\n\n\nHar du betalt rett pris for strømmen din? Last ned dette datasettet som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra Elhub.\na) Plott strømforbruket som funksjon av tid.\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\nplt.plot(df_forbruk['KWH 60 Forbruk'])\n\n\n\n\n\n\n\n\nb) Vi kan så hente prisdata fra Nordpool. Vi har lastet ned prisene for desember 2024 for dere her.\n\n\n\n\n\n\nHvordan hentet vi data fra nordpool?\n\n\n\n\n\n\nfrom nordpool import elspot\nimport datetime\nprice_list = []\nprices_spot = elspot.Prices(currency=\"NOK\")\nfor i in range(1, 32):\n    entry = prices_spot.hourly(end_date=datetime.datetime(2024, 12, i), areas=['NO1'], )\n    price_list.append(entry)\n\nSå henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.\n\nimport pandas as pd\nclean_list = []\nfor element in price_list: \n    clean_list += element[\"areas\"][\"NO1\"][\"values\"]\ndf_pris = pd.DataFrame(clean_list)\ndf_pris.to_csv(\"data/nordpool-dec-24.csv\")\n\n\n\n\n\nHva er spotpriskostnaden for strømforbruket i desember 2024?\n\nc) For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?\nTips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.\nd) Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt frost-API. Først oppretter du en bruker her (det går superfort). Så kan du hente data med følgende python-kode:\n\nimport requests\nimport pandas as pd\n\nclient_id = client_id\nendpoint = 'https://frost.met.no/observations/v0.jsonld'\nparameters = {\n    'sources': 'SN18700',\n    'elements': 'mean(air_temperature P1D)',\n    'referencetime': '2024-12-01/2025-01-01',\n}\nr = requests.get(endpoint, parameters, auth=(client_id,''))\n\njson = r.json()\n\ne) Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Øvingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/01c_øvelse.html#trekke-ut-informasjon-fra-datasett",
+    "href": "lectures/01c_øvelse.html#trekke-ut-informasjon-fra-datasett",
+    "title": "Øvingsoppgaver",
+    "section": "",
+    "text": "a) Last ned filen “bestsellers with categories.xls” her, og les den inn med pandas.\nb) Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med .drop_duplicates(\"Name\") - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser\nc) Plot - Gjennomsnittlig anmeldelsesskårer for fiksjon og sakprosa - Gjennomsnittlig anmeldelsesskårer for hvert utgivelsesår. - Antall bøker for hver score - Antall anmeldelser for hver score\nd) Hvor mange fiksjonsbøker fra 2017 fikk en score bedre enn 4.6?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Øvingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/01c_øvelse.html#beregning-av-strømregning-basert-på-forbruksdata-og-prisdata",
+    "href": "lectures/01c_øvelse.html#beregning-av-strømregning-basert-på-forbruksdata-og-prisdata",
+    "title": "Øvingsoppgaver",
+    "section": "",
+    "text": "Har du betalt rett pris for strømmen din? Last ned dette datasettet som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra Elhub.\na) Plott strømforbruket som funksjon av tid.\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\nplt.plot(df_forbruk['KWH 60 Forbruk'])\n\n\n\n\n\n\n\n\nb) Vi kan så hente prisdata fra Nordpool. Vi har lastet ned prisene for desember 2024 for dere her.\n\n\n\n\n\n\nHvordan hentet vi data fra nordpool?\n\n\n\n\n\n\nfrom nordpool import elspot\nimport datetime\nprice_list = []\nprices_spot = elspot.Prices(currency=\"NOK\")\nfor i in range(1, 32):\n    entry = prices_spot.hourly(end_date=datetime.datetime(2024, 12, i), areas=['NO1'], )\n    price_list.append(entry)\n\nSå henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.\n\nimport pandas as pd\nclean_list = []\nfor element in price_list: \n    clean_list += element[\"areas\"][\"NO1\"][\"values\"]\ndf_pris = pd.DataFrame(clean_list)\ndf_pris.to_csv(\"data/nordpool-dec-24.csv\")\n\n\n\n\n\nHva er spotpriskostnaden for strømforbruket i desember 2024?\n\nc) For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?\nTips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.\nd) Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt frost-API. Først oppretter du en bruker her (det går superfort). Så kan du hente data med følgende python-kode:\n\nimport requests\nimport pandas as pd\n\nclient_id = client_id\nendpoint = 'https://frost.met.no/observations/v0.jsonld'\nparameters = {\n    'sources': 'SN18700',\n    'elements': 'mean(air_temperature P1D)',\n    'referencetime': '2024-12-01/2025-01-01',\n}\nr = requests.get(endpoint, parameters, auth=(client_id,''))\n\njson = r.json()\n\ne) Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Øvingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "undervisningsplan.html",
+    "href": "undervisningsplan.html",
+    "title": "Undervisningsplan",
+    "section": "",
+    "text": "Undervisningsplan\n\n\n\n\n\n\n\nDato\nTema\n\n\n\n\n23. januar\nIntroduksjon til databehandling med Pandas\n\n\n30. januar\nLineær regresjon og modellering\n\n\n6. februar\nLogistisk regresjon og klassifisering\n\n\n13. februar\nKryssvalidering, overtrening\n\n\n20. februar\nDigital etikk\n\n\n27. februar\nDigital etikk\n\n\n6. mars\nBeslutningstrær\n\n\n13. mars\nRandom forest, ensemble, one-hot encoding\n\n\n20. mars\nOppstart prosjekt del 1, frist for oblig\n\n\n27. mars\nProsjektveiledning\n\n\n10. april\nProsjektveiledning\n\n\n17. april\nOppstart prosjekt del 2\n\n\n24. april\nProsjektveiledning\n\n\n8. mai\nProsjektveiledning\n\n\n15. mai\nSiste veiledningstime\n\n\n22. mai\nOppsummering til eksamen",
+    "crumbs": [
+      "Kursinformasjon",
+      "Undervisningsplan"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Velkommen til HON2200",
+    "section": "",
+    "text": "I dette kurset skal vi trene på å bruke data til å trekke slutninger, og å finne fram til hvor i overgangen fra tall og data til beslutninger og politikk vi gjør en etisk vurdering.\nKurset består av to hoveddeler:\n\n\nDe første ukene skal vi trene på å laste inn, utforske og visualisere datasett. Vi skal også se litt på hvordan vi holder orden i datakoden vår, og hvordan vi skiller mellom kode vi skriver for å utforske, og kode vi skriver for å gjøre analyser vi kan putte inn i en rapport.\n\n\n\nSå skal vi lære om hvordan vi evaluerer etiske sider ved algoritmer, og lære å identifisere hvor en etisk vurdering er nødvendig.\n\n\n\nHer skal vi jobbe med et prosjekt. Dere skal jobbe med prosjektet i grupper på 3-4 studenter. Emneansvarlig deler dere inn i grupper basert på faglig bakgrunn. Første del av prosjektet er en oppgave der innholdet er relativt styrt, mens i andre del av prosjektet skal dere selv velge hvordan dere vil utvide prosjektet deres.\n\n\n\nEmnet har én obligatorisk innlevering som må være godkjent før avsuttende eksamen.\nEksamen er i form av en mappeeksamen bestående av en prosjektoppgave som skal leveres i to omganger samt presenteres muntlig. Begge innleveringene av prosjektoppgaven, samt presentasjonen, må være bestått for å bestå emnet.\n\n\n\nPensum i kurset legges ut på denne nettsiden, og er en blanding av undervisningsnotater, oppgaver, artikler og deler av boka Introduction to statistical learning with applications in Python (Åpent tilgjengelig på https://www.statlearning.com)",
+    "crumbs": [
+      "Kursinformasjon"
+    ]
+  },
+  {
+    "objectID": "index.html#del-1a-ferdighetstrening",
+    "href": "index.html#del-1a-ferdighetstrening",
+    "title": "Velkommen til HON2200",
+    "section": "",
+    "text": "De første ukene skal vi trene på å laste inn, utforske og visualisere datasett. Vi skal også se litt på hvordan vi holder orden i datakoden vår, og hvordan vi skiller mellom kode vi skriver for å utforske, og kode vi skriver for å gjøre analyser vi kan putte inn i en rapport.",
+    "crumbs": [
+      "Kursinformasjon"
+    ]
+  },
+  {
+    "objectID": "index.html#del-2-digital-etikk",
+    "href": "index.html#del-2-digital-etikk",
+    "title": "Velkommen til HON2200",
+    "section": "",
+    "text": "Så skal vi lære om hvordan vi evaluerer etiske sider ved algoritmer, og lære å identifisere hvor en etisk vurdering er nødvendig.",
+    "crumbs": [
+      "Kursinformasjon"
+    ]
+  },
+  {
+    "objectID": "index.html#del-3-oblig-og-prosjektoppgave",
+    "href": "index.html#del-3-oblig-og-prosjektoppgave",
+    "title": "Velkommen til HON2200",
+    "section": "",
+    "text": "Her skal vi jobbe med et prosjekt. Dere skal jobbe med prosjektet i grupper på 3-4 studenter. Emneansvarlig deler dere inn i grupper basert på faglig bakgrunn. Første del av prosjektet er en oppgave der innholdet er relativt styrt, mens i andre del av prosjektet skal dere selv velge hvordan dere vil utvide prosjektet deres.",
+    "crumbs": [
+      "Kursinformasjon"
+    ]
+  },
+  {
+    "objectID": "index.html#vurdering",
+    "href": "index.html#vurdering",
+    "title": "Velkommen til HON2200",
+    "section": "",
+    "text": "Emnet har én obligatorisk innlevering som må være godkjent før avsuttende eksamen.\nEksamen er i form av en mappeeksamen bestående av en prosjektoppgave som skal leveres i to omganger samt presenteres muntlig. Begge innleveringene av prosjektoppgaven, samt presentasjonen, må være bestått for å bestå emnet.",
+    "crumbs": [
+      "Kursinformasjon"
+    ]
+  },
+  {
+    "objectID": "index.html#pensum",
+    "href": "index.html#pensum",
+    "title": "Velkommen til HON2200",
+    "section": "",
+    "text": "Pensum i kurset legges ut på denne nettsiden, og er en blanding av undervisningsnotater, oppgaver, artikler og deler av boka Introduction to statistical learning with applications in Python (Åpent tilgjengelig på https://www.statlearning.com)",
+    "crumbs": [
+      "Kursinformasjon"
+    ]
+  },
+  {
+    "objectID": "lectures/01a_forberedelser.html",
+    "href": "lectures/01a_forberedelser.html",
+    "title": "Forberedelser",
+    "section": "",
+    "text": "I første time skal vi se litt på hva data-drevne prosjekter er for noe, snakke litt om hvordan undervisningen gjennomføres og begynne så smått å se på databehandling.\nFølg instruksjonene under for å være forberedt til første time.",
+    "crumbs": [
+      "Del 1: Statistikk"
+    ]
+  },
+  {
+    "objectID": "lectures/01a_forberedelser.html#installere-jupyterlab",
+    "href": "lectures/01a_forberedelser.html#installere-jupyterlab",
+    "title": "Forberedelser",
+    "section": "Installere JupyterLab",
+    "text": "Installere JupyterLab\nVi skal bruke Python vha. Jupyter notebook i kurset. For å kunne gjøre datavitenskap trenger vi å installere noen pakker i python-installasjonen. I første omgang ønsker vi at dere skal kjøre JupyterLab på egen maskin. Dette kan installeres på flere forskjellige måter. Vi anbefaler å gjøre en av følgende:\n\nBruke Visual Studio Code med Jupyter-extension\nDersom du er komfortabel med terminalvinduet, og vet hva pip install er for noe, installer JupyterLab med kommandoen pip install jupyterlab. Vi anbefaler at du gjør dette i et virtual environment, for eksempel med pyenv-virtualenv.\nOm du ikke er komfortabel med terminalen: Installer Anaconda. Der følger JupyterLab med, og fungerer fint.",
+    "crumbs": [
+      "Del 1: Statistikk"
+    ]
+  },
+  {
+    "objectID": "lectures/01a_forberedelser.html#installere-python-pakker-og-sjekke-at-de-fungerer",
+    "href": "lectures/01a_forberedelser.html#installere-python-pakker-og-sjekke-at-de-fungerer",
+    "title": "Forberedelser",
+    "section": "Installere python-pakker og sjekke at de fungerer",
+    "text": "Installere python-pakker og sjekke at de fungerer\nEnten kjøre følgende kommando i terminalen:\npip install pandas numpy matplotlib\neller følgende kommando inne i JupyterLab:\n\n!pip install -q pandas numpy matplotlib",
+    "crumbs": [
+      "Del 1: Statistikk"
+    ]
+  },
+  {
+    "objectID": "lectures/01a_forberedelser.html#test-oppsettet-med-å-se-på-data-av-ulike-typer-iris",
+    "href": "lectures/01a_forberedelser.html#test-oppsettet-med-å-se-på-data-av-ulike-typer-iris",
+    "title": "Forberedelser",
+    "section": "Test oppsettet med å se på data av ulike typer Iris",
+    "text": "Test oppsettet med å se på data av ulike typer Iris\n\n\n\n\n\n\n\n\nsetosa\nversicolor\nvirginica\n\n\n\n\n\n\n\n\n\n\n\nimport pandas as pd \nfile_name = \"https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv\"\ndf = pd.read_csv(file_name)\ndf.head()\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n\n\n\n\n\nEtter kommandoen over skal du se en tabell med data fra Iris-datasettet.\n\nimport matplotlib.pyplot as plt \nplt.scatter(df[\"sepal_length\"], df[\"sepal_width\"])\nplt.xlabel(\"sepal length\")\nplt.ylabel(\"sepal width\")\n\nText(0, 0.5, 'sepal width')\n\n\n\n\n\n\n\n\n\n\nfig, ax = plt.subplots(figsize=(8,6))\n\nfor species, s_df in df.groupby(\"species\"):\n    ax.scatter(s_df[\"sepal_length\"], s_df[\"petal_length\"], label=species)\nplt.xlabel(\"sepal length\")\nplt.ylabel(\"petal length\")\nplt.legend()\n\n\n\n\n\n\n\n\nOm alt dette fungerer, og du får opp noe som ligner på figurene over, er du klar for undervisningstime.",
+    "crumbs": [
+      "Del 1: Statistikk"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#data-dreven",
+    "href": "lectures/01b1_slides.revealjs.html#data-dreven",
+    "title": "Forelesningsnotat",
+    "section": "Data-dreven?",
+    "text": "Data-dreven?\n\n\nI dag:\n\nEksempler på problemstillinger som trenger data\nOppfriskningsoppgaver fra HON2110/IN1900\nKunne lese inn og utforske datasett i jupyter notebook m/numpy, pandas og matplotlib"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#eksempel-stad-skipstunnel",
+    "href": "lectures/01b1_slides.revealjs.html#eksempel-stad-skipstunnel",
+    "title": "Forelesningsnotat",
+    "section": "Eksempel: Stad skipstunnel",
+    "text": "Eksempel: Stad skipstunnel\n\nPolitisk spørsmål: Skal vi bygge en skipstunnel i Stadlandet?"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#praktisk-info",
+    "href": "lectures/01b1_slides.revealjs.html#praktisk-info",
+    "title": "Forelesningsnotat",
+    "section": "Praktisk info",
+    "text": "Praktisk info\n\nUndervisning på fredager 08:15–10:00\n1 oblig (frist om en god stund)\n2 prosjekter\nMuntlig eksamen\nNettressurser lenket fra emnesiden. Disse endres gjennom semesteret"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#undervisere",
+    "href": "lectures/01b1_slides.revealjs.html#undervisere",
+    "title": "Forelesningsnotat",
+    "section": "Undervisere",
+    "text": "Undervisere\n\n\n\n\nHenrik Sveinsson (Emneansvarlig)\n\n\n\nForsker i fysikk\n\n\n\n\n\n\n\n\n\nAne Kristine Espeseth (Seminarlærer)\n\n\n\nJobber med doktorgrad i kunstig intelligens\n\n\n\n\n\n\n\n\n\nAksel Sterri (Digital etikk)\n\n\n\nPhD i filosofi\nFagsjef i tenketanken Langsikt"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#plan-for-semesteret",
+    "href": "lectures/01b1_slides.revealjs.html#plan-for-semesteret",
+    "title": "Forelesningsnotat",
+    "section": "Plan for semesteret",
+    "text": "Plan for semesteret\n\n\n\n\n\n\nStatistikk og databehandling (januar-februar)\n\n\n\nForstå og anvende sentrale konsepter innen statistikk (Lineær og logistisk regresjon, Beslutningstrær)\nforstå, bearbeide, analysere og visualisere datasett av moderat størrelse på en informert måte, samt trekke etterprøvbare konklusjoner\n\n\n\n\n\n\n\n\n\n\nDigital etikk (februar)\n\n\n\nvurdere etiske utfordringer med KI-algoritmer\nse hvordan opprinnelsen til et datasett legger føringer og begrensninger på hva man kan bruke datasettet til\n\n\n\n\n\n\n\n\n\n\nProsjektoppgave (mars-mai)\n\n\n\nJobbe med prosjekt i tverrfaglige team og kommunisere resulatene muntlig og skriftlig"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#husk",
+    "href": "lectures/01b1_slides.revealjs.html#husk",
+    "title": "Forelesningsnotat",
+    "section": "Husk",
+    "text": "Husk\n\nHjelp hverandre\nFølg med på semestersidene\nStudentrepresentanter\nStill gjerne spørsmål etter timen\nSend mail om det er noe"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#et-par-oppvarmingseksempler",
+    "href": "lectures/01b1_slides.revealjs.html#et-par-oppvarmingseksempler",
+    "title": "Forelesningsnotat",
+    "section": "Et par oppvarmingseksempler",
+    "text": "Et par oppvarmingseksempler"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#shot",
+    "href": "lectures/01b1_slides.revealjs.html#shot",
+    "title": "Forelesningsnotat",
+    "section": "SHOT",
+    "text": "SHOT\n\nOmtrent 4 av 10 studenter (42 %) oppgir at de har god eller svært god livskvalitet. Samtidig vurderer 31 % av studentene sin livskvalitet som litt under middels eller dårligere\n\n\n\nBør vi sette inn tiltak?\nStudenter flest mener de har det bedre enn snittet (!)"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#sjåfører",
+    "href": "lectures/01b1_slides.revealjs.html#sjåfører",
+    "title": "Forelesningsnotat",
+    "section": "Sjåfører",
+    "text": "Sjåfører\n\n\nimport matplotlib.pyplot as plt \nimport pandas as pd\nferdighetsnivå = [\"Veldig god\", \"Bedre enn snittet\", \"Gjennomsnittlig\", \"Under snittet\", \"Veldig dårlig\"]\nandel = [21, 46, 31, 2, 1]\nplt.barh(ferdighetsnivå, andel)\nplt.tick_params(axis='y', labelsize=20) \n\n\n\n\n\n\n\n\n\n\n\nHva så?\n\n\n\n\nHenger dette på greip?\nKan dette i prinsippet henge på greip?\nKom med en hypotese basert på dette datasettet.\n\nHvilke data trenger du å samle inn for å vurdere hypotesen din?"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#oppfriskning-fra-hon2110in1900",
+    "href": "lectures/01b1_slides.revealjs.html#oppfriskning-fra-hon2110in1900",
+    "title": "Forelesningsnotat",
+    "section": "Oppfriskning fra HON2110/IN1900",
+    "text": "Oppfriskning fra HON2110/IN1900\n\nOppfriskninsoppgaver med penn og papir!"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#å-kunne-håndtere-data-med-pandas",
+    "href": "lectures/01b1_slides.revealjs.html#å-kunne-håndtere-data-med-pandas",
+    "title": "Forelesningsnotat",
+    "section": "Å kunne håndtere data med Pandas",
+    "text": "Å kunne håndtere data med Pandas\n\nÅpne laptop og kod med!"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#aritmetikk-i-jupyter-notebook",
+    "href": "lectures/01b1_slides.revealjs.html#aritmetikk-i-jupyter-notebook",
+    "title": "Forelesningsnotat",
+    "section": "Aritmetikk i jupyter notebook",
+    "text": "Aritmetikk i jupyter notebook\n\na = 3\nb = 4\nc = a*b\nprint(\"a*b = %i\"%(a*b))\n\na*b = 12"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#legge-til-nyfjerne-celle",
+    "href": "lectures/01b1_slides.revealjs.html#legge-til-nyfjerne-celle",
+    "title": "Forelesningsnotat",
+    "section": "Legge til ny/fjerne celle",
+    "text": "Legge til ny/fjerne celle\nKommer an på VSCode/jupyter notebook/juyter lab\n\n\n\n\n\n\nLegg til en ny celle i din notebook"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#bruke-celle-til-tekst-inkl.-latex",
+    "href": "lectures/01b1_slides.revealjs.html#bruke-celle-til-tekst-inkl.-latex",
+    "title": "Forelesningsnotat",
+    "section": "Bruke celle til tekst (inkl. latex)",
+    "text": "Bruke celle til tekst (inkl. latex)\n\nSette celletype til “Markdown”"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#markdown-celle",
+    "href": "lectures/01b1_slides.revealjs.html#markdown-celle",
+    "title": "Forelesningsnotat",
+    "section": "Markdown-celle",
+    "text": "Markdown-celle\nHer kan jeg skrive tekst-innhold, likninger og slikt. \n$\\int_0^\\infty f(x) dx$\n\n\n\n\n\n\nMarkdown-celle\n\n\nHer kan jeg skrive tekst-innhold, likninger og slikt. \\(\\int_0^\\infty f(x) dx\\)"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#installere-pakker-i-jupyter",
+    "href": "lectures/01b1_slides.revealjs.html#installere-pakker-i-jupyter",
+    "title": "Forelesningsnotat",
+    "section": "Installere pakker i Jupyter",
+    "text": "Installere pakker i Jupyter\n\n!pip install &lt;pakkenavn&gt;\n\n\n!pip install matplotlib\n\n\n\nLegge på -q (quiet) for å ikke spamme output-cellen\n\n\n!pip install -q matplotlib\n\n\n\n\nMed følgende får vi gjort mye:\n\n\n!pip install -q matplotlib numpy pandas"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#importere-pakker",
+    "href": "lectures/01b1_slides.revealjs.html#importere-pakker",
+    "title": "Forelesningsnotat",
+    "section": "Importere pakker",
+    "text": "Importere pakker\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n\n\n\n\n\n\n\nFeilmeldinger?\n\n\nFunker installasjon og import av disse pakkene? Rop ut!"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#håndtere-data-i-pythonjupyter",
+    "href": "lectures/01b1_slides.revealjs.html#håndtere-data-i-pythonjupyter",
+    "title": "Forelesningsnotat",
+    "section": "Håndtere data i python/jupyter",
+    "text": "Håndtere data i python/jupyter\n\nLagre data i numpy-arrayer\nPlotte data med matplotlib\nHåndtere data med pandas DataFrames"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#numpy-arrayer",
+    "href": "lectures/01b1_slides.revealjs.html#numpy-arrayer",
+    "title": "Forelesningsnotat",
+    "section": "Numpy-arrayer",
+    "text": "Numpy-arrayer\n\n\nimport numpy as np\na = np.array([2, 3, 4, 5])\nb = np.linspace(0, 4, 10)\ndisplay(b)\n\narray([0.        , 0.44444444, 0.88888889, 1.33333333, 1.77777778,\n       2.22222222, 2.66666667, 3.11111111, 3.55555556, 4.        ])\n\n\n\n\n\ndef f(x):\n    return np.exp(-x**2)\n\na = np.linspace(-4, 4, 15)\ny = f(a) \ndisplay(y)\n\narray([1.12535175e-07, 7.84917568e-06, 2.84930489e-04, 5.38310574e-03,\n       5.29305019e-02, 2.70868328e-01, 7.21422290e-01, 1.00000000e+00,\n       7.21422290e-01, 2.70868328e-01, 5.29305019e-02, 5.38310574e-03,\n       2.84930489e-04, 7.84917568e-06, 1.12535175e-07])"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#plotting-med-matplotlib",
+    "href": "lectures/01b1_slides.revealjs.html#plotting-med-matplotlib",
+    "title": "Forelesningsnotat",
+    "section": "Plotting med matplotlib",
+    "text": "Plotting med matplotlib\n\nimport matplotlib.pyplot as plt\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#matplotlib",
+    "href": "lectures/01b1_slides.revealjs.html#matplotlib",
+    "title": "Forelesningsnotat",
+    "section": "Matplotlib",
+    "text": "Matplotlib\n\n\n\n\n\n\n\nOppgave\n\n\nKan du få plottet til å bli glattere?\n\nimport matplotlib.pyplot as plt\nimport numpy as np\ndef f(x):\n    return np.exp(-x**2)\n\na = np.linspace(-4, 4, 15)\ny = f(a) \nplt.plot...\nplt.xlabel...\nplt.ylabel...\n\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\na = np.linspace(-4, 4, 101)\ny = f(a)\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')\n\n\n\n\n\n\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\na = np.linspace(-4, 4, 101)\ny = f(a)\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#lage-pandas-dataframe-manuelt",
+    "href": "lectures/01b1_slides.revealjs.html#lage-pandas-dataframe-manuelt",
+    "title": "Forelesningsnotat",
+    "section": "Lage Pandas DataFrame manuelt",
+    "text": "Lage Pandas DataFrame manuelt\n\nimport pandas as pd\ndf = pd.DataFrame({\n    \"talent\" : [4, 5, 3, 4, 6, 2],\n    \"innsats\" : [2, 4, 3, 7, 4, 1],\n    \"resultat\" : [24, 73, 25, 204, 93, 4]\n})\nprint(df)\n\n   talent  innsats  resultat\n0       4        2        24\n1       5        4        73\n2       3        3        25\n3       4        7       204\n4       6        4        93\n5       2        1         4\n\n\n\n\n\n\n\n\n\nOppgave\n\n\nSkriv inn dette i notebooken din, og kjør koden (vi trenger det etterpå)"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#plotte-fra-dataframe",
+    "href": "lectures/01b1_slides.revealjs.html#plotte-fra-dataframe",
+    "title": "Forelesningsnotat",
+    "section": "Plotte fra DataFrame",
+    "text": "Plotte fra DataFrame\n\nplt.plot(df[\"talent\"])\n_ = plt.ylabel(\"Talent\")"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#flere-plots-i-samme-figur",
+    "href": "lectures/01b1_slides.revealjs.html#flere-plots-i-samme-figur",
+    "title": "Forelesningsnotat",
+    "section": "Flere plots i samme figur",
+    "text": "Flere plots i samme figur\n\nfig, axes = plt.subplots(2,2, figsize=(4,5))\naxes[0,0].scatter(df[\"innsats\"], df[\"talent\"])\naxes[0,0].set_xlabel(\"Innsats\")\naxes[0,0].set_ylabel(\"Talent\")\nplt.tight_layout()\n\n\n\n\n\n\n\n\n\nOppgave\n\n\nFullfør plottet og finn ut hva som er viktigst av innsats og talent."
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#laste-inn-fra-fil",
+    "href": "lectures/01b1_slides.revealjs.html#laste-inn-fra-fil",
+    "title": "Forelesningsnotat",
+    "section": "Laste inn fra fil",
+    "text": "Laste inn fra fil\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\nprint(df_pris)\n\n                  Fra               Til  KWH 60 Forbruk Kvalitet\n0    01.12.2024 00:00  01.12.2024 01:00           4.908   Avlest\n1    01.12.2024 01:00  01.12.2024 02:00           2.641   Avlest\n2    01.12.2024 02:00  01.12.2024 03:00           3.378   Avlest\n3    01.12.2024 03:00  01.12.2024 04:00           2.637   Avlest\n4    01.12.2024 04:00  01.12.2024 05:00           2.633   Avlest\n..                ...               ...             ...      ...\n739  31.12.2024 19:00  31.12.2024 20:00           3.269   Avlest\n740  31.12.2024 20:00  31.12.2024 21:00           3.382   Avlest\n741  31.12.2024 21:00  31.12.2024 22:00           3.147   Avlest\n742  31.12.2024 22:00  31.12.2024 23:00           3.087   Avlest\n743  31.12.2024 23:00  01.01.2025 00:00           4.490   Avlest\n\n[744 rows x 4 columns]"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#ting-kan-gå-galt",
+    "href": "lectures/01b1_slides.revealjs.html#ting-kan-gå-galt",
+    "title": "Forelesningsnotat",
+    "section": "Ting kan gå galt",
+    "text": "Ting kan gå galt\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\")\nprint(df_pris)\n\n                                    Fra;Til;KWH 60 Forbruk;Kvalitet\n01.12.2024 00:00;01.12.2024 01:00;4                      908;Avlest\n01.12.2024 01:00;01.12.2024 02:00;2                      641;Avlest\n01.12.2024 02:00;01.12.2024 03:00;3                      378;Avlest\n01.12.2024 03:00;01.12.2024 04:00;2                      637;Avlest\n01.12.2024 04:00;01.12.2024 05:00;2                      633;Avlest\n...                                                             ...\n31.12.2024 19:00;31.12.2024 20:00;3                      269;Avlest\n31.12.2024 20:00;31.12.2024 21:00;3                      382;Avlest\n31.12.2024 21:00;31.12.2024 22:00;3                      147;Avlest\n31.12.2024 22:00;31.12.2024 23:00;3                      087;Avlest\n31.12.2024 23:00;01.01.2025 00:00;4                       49;Avlest\n\n[744 rows x 1 columns]"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#ting-kan-gå-galt-2",
+    "href": "lectures/01b1_slides.revealjs.html#ting-kan-gå-galt-2",
+    "title": "Forelesningsnotat",
+    "section": "Ting kan gå galt 2",
+    "text": "Ting kan gå galt 2\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\")\nprint(df_pris)\n\n                  Fra               Til KWH 60 Forbruk Kvalitet\n0    01.12.2024 00:00  01.12.2024 01:00          4,908   Avlest\n1    01.12.2024 01:00  01.12.2024 02:00          2,641   Avlest\n2    01.12.2024 02:00  01.12.2024 03:00          3,378   Avlest\n3    01.12.2024 03:00  01.12.2024 04:00          2,637   Avlest\n4    01.12.2024 04:00  01.12.2024 05:00          2,633   Avlest\n..                ...               ...            ...      ...\n739  31.12.2024 19:00  31.12.2024 20:00          3,269   Avlest\n740  31.12.2024 20:00  31.12.2024 21:00          3,382   Avlest\n741  31.12.2024 21:00  31.12.2024 22:00          3,147   Avlest\n742  31.12.2024 22:00  31.12.2024 23:00          3,087   Avlest\n743  31.12.2024 23:00  01.01.2025 00:00           4,49   Avlest\n\n[744 rows x 4 columns]"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#hente-ut-kolonner",
+    "href": "lectures/01b1_slides.revealjs.html#hente-ut-kolonner",
+    "title": "Forelesningsnotat",
+    "section": "Hente ut kolonner",
+    "text": "Hente ut kolonner\n\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\ndf_pris[\"KWH 60 Forbruk\"]\n\n0      4.908\n1      2.641\n2      3.378\n3      2.637\n4      2.633\n       ...  \n739    3.269\n740    3.382\n741    3.147\n742    3.087\n743    4.490\nName: KWH 60 Forbruk, Length: 744, dtype: float64"
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#plotting",
+    "href": "lectures/01b1_slides.revealjs.html#plotting",
+    "title": "Forelesningsnotat",
+    "section": "Plotting",
+    "text": "Plotting\n\n\n\n\n\n\nOppgave\n\n\nLast ned datasettet med strømforbruk (finnes under oppgavene på kursnettsiden) Plott kolonnen “KWH 60 Forbruk”\n\n\n\nStarthjelp:\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", \n    sep=\";\", \n    decimal=\",\")\n\nOm du blir ferdig, start på oppgave 2 fra øvingsoppgavene."
+  },
+  {
+    "objectID": "lectures/01b1_slides.revealjs.html#til-neste-uke",
+    "href": "lectures/01b1_slides.revealjs.html#til-neste-uke",
+    "title": "Forelesningsnotat",
+    "section": "Til neste uke",
+    "text": "Til neste uke\n\nGjør oppgavene som vi har gitt dere\nGjør forberedelsene som vi har satt opp\n\n\n\n\n\n\n\nHvor mye tid tar HON2200 per uke?\n\n\n6–7 timer?"
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#slide-versjon",
+    "href": "lectures/01b1_slides.html#slide-versjon",
+    "title": "Forelesningsnotat",
+    "section": "Slide-versjon",
+    "text": "Slide-versjon",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#data-dreven",
+    "href": "lectures/01b1_slides.html#data-dreven",
+    "title": "Forelesningsnotat",
+    "section": "Data-dreven?",
+    "text": "Data-dreven?\n\n\nI dag:\n\nEksempler på problemstillinger som trenger data\nOppfriskningsoppgaver fra HON2110/IN1900\nKunne lese inn og utforske datasett i jupyter notebook m/numpy, pandas og matplotlib",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#eksempel-stad-skipstunnel",
+    "href": "lectures/01b1_slides.html#eksempel-stad-skipstunnel",
+    "title": "Forelesningsnotat",
+    "section": "Eksempel: Stad skipstunnel",
+    "text": "Eksempel: Stad skipstunnel\n\nPolitisk spørsmål: Skal vi bygge en skipstunnel i Stadlandet?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#praktisk-info",
+    "href": "lectures/01b1_slides.html#praktisk-info",
+    "title": "Forelesningsnotat",
+    "section": "Praktisk info",
+    "text": "Praktisk info\n\nUndervisning på fredager 08:15–10:00\n1 oblig (frist om en god stund)\n2 prosjekter\nMuntlig eksamen\nNettressurser lenket fra emnesiden. Disse endres gjennom semesteret",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#undervisere",
+    "href": "lectures/01b1_slides.html#undervisere",
+    "title": "Forelesningsnotat",
+    "section": "Undervisere",
+    "text": "Undervisere\n\n\n\n\n\n\n\nHenrik Sveinsson (Emneansvarlig)\n\n\n\n\nForsker i fysikk\n\n\n\n\n\n\n\n\n\n\n\nAne Kristine Espeseth (Seminarlærer)\n\n\n\n\nJobber med doktorgrad i kunstig intelligens\n\n\n\n\n\n\n\n\n\n\n\nAksel Sterri (Digital etikk)\n\n\n\n\nPhD i filosofi\nFagsjef i tenketanken Langsikt",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#plan-for-semesteret",
+    "href": "lectures/01b1_slides.html#plan-for-semesteret",
+    "title": "Forelesningsnotat",
+    "section": "Plan for semesteret",
+    "text": "Plan for semesteret\n\n\n\n\n\n\nStatistikk og databehandling (januar-februar)\n\n\n\n\nForstå og anvende sentrale konsepter innen statistikk (Lineær og logistisk regresjon, Beslutningstrær)\nforstå, bearbeide, analysere og visualisere datasett av moderat størrelse på en informert måte, samt trekke etterprøvbare konklusjoner\n\n\n\n\n\n\n\n\n\nDigital etikk (februar)\n\n\n\n\nvurdere etiske utfordringer med KI-algoritmer\nse hvordan opprinnelsen til et datasett legger føringer og begrensninger på hva man kan bruke datasettet til\n\n\n\n\n\n\n\n\n\nProsjektoppgave (mars-mai)\n\n\n\n\nJobbe med prosjekt i tverrfaglige team og kommunisere resulatene muntlig og skriftlig",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#husk",
+    "href": "lectures/01b1_slides.html#husk",
+    "title": "Forelesningsnotat",
+    "section": "Husk",
+    "text": "Husk\n\nHjelp hverandre\nFølg med på semestersidene\nStudentrepresentanter\nStill gjerne spørsmål etter timen\nSend mail om det er noe",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#et-par-oppvarmingseksempler",
+    "href": "lectures/01b1_slides.html#et-par-oppvarmingseksempler",
+    "title": "Forelesningsnotat",
+    "section": "Et par oppvarmingseksempler",
+    "text": "Et par oppvarmingseksempler",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#shot",
+    "href": "lectures/01b1_slides.html#shot",
+    "title": "Forelesningsnotat",
+    "section": "SHOT",
+    "text": "SHOT\n\nOmtrent 4 av 10 studenter (42 %) oppgir at de har god eller svært god livskvalitet. Samtidig vurderer 31 % av studentene sin livskvalitet som litt under middels eller dårligere\n\n\n\nBør vi sette inn tiltak?\nStudenter flest mener de har det bedre enn snittet (!)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#sjåfører",
+    "href": "lectures/01b1_slides.html#sjåfører",
+    "title": "Forelesningsnotat",
+    "section": "Sjåfører",
+    "text": "Sjåfører\n\n\nimport matplotlib.pyplot as plt \nimport pandas as pd\nferdighetsnivå = [\"Veldig god\", \"Bedre enn snittet\", \"Gjennomsnittlig\", \"Under snittet\", \"Veldig dårlig\"]\nandel = [21, 46, 31, 2, 1]\nplt.barh(ferdighetsnivå, andel)\nplt.tick_params(axis='y', labelsize=20) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHva så?\n\n\n\n\n\nHenger dette på greip?\nKan dette i prinsippet henge på greip?\nKom med en hypotese basert på dette datasettet.\n\nHvilke data trenger du å samle inn for å vurdere hypotesen din?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#oppfriskning-fra-hon2110in1900",
+    "href": "lectures/01b1_slides.html#oppfriskning-fra-hon2110in1900",
+    "title": "Forelesningsnotat",
+    "section": "Oppfriskning fra HON2110/IN1900",
+    "text": "Oppfriskning fra HON2110/IN1900\n\nOppfriskninsoppgaver med penn og papir!",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#å-kunne-håndtere-data-med-pandas",
+    "href": "lectures/01b1_slides.html#å-kunne-håndtere-data-med-pandas",
+    "title": "Forelesningsnotat",
+    "section": "Å kunne håndtere data med Pandas",
+    "text": "Å kunne håndtere data med Pandas\n\nÅpne laptop og kod med!",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#aritmetikk-i-jupyter-notebook",
+    "href": "lectures/01b1_slides.html#aritmetikk-i-jupyter-notebook",
+    "title": "Forelesningsnotat",
+    "section": "Aritmetikk i jupyter notebook",
+    "text": "Aritmetikk i jupyter notebook\n\na = 3\nb = 4\nc = a*b\nprint(\"a*b = %i\"%(a*b))\n\na*b = 12",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#legge-til-nyfjerne-celle",
+    "href": "lectures/01b1_slides.html#legge-til-nyfjerne-celle",
+    "title": "Forelesningsnotat",
+    "section": "Legge til ny/fjerne celle",
+    "text": "Legge til ny/fjerne celle\nKommer an på VSCode/jupyter notebook/juyter lab\n\n\n\n\n\n\nLegg til en ny celle i din notebook",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#bruke-celle-til-tekst-inkl.-latex",
+    "href": "lectures/01b1_slides.html#bruke-celle-til-tekst-inkl.-latex",
+    "title": "Forelesningsnotat",
+    "section": "Bruke celle til tekst (inkl. latex)",
+    "text": "Bruke celle til tekst (inkl. latex)\n\nSette celletype til “Markdown”",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#markdown-celle",
+    "href": "lectures/01b1_slides.html#markdown-celle",
+    "title": "Forelesningsnotat",
+    "section": "Markdown-celle",
+    "text": "Markdown-celle\nHer kan jeg skrive tekst-innhold, likninger og slikt. \n$\\int_0^\\infty f(x) dx$\n\n\n\n\n\n\nMarkdown-celle\n\n\n\nHer kan jeg skrive tekst-innhold, likninger og slikt. \\(\\int_0^\\infty f(x) dx\\)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#installere-pakker-i-jupyter",
+    "href": "lectures/01b1_slides.html#installere-pakker-i-jupyter",
+    "title": "Forelesningsnotat",
+    "section": "Installere pakker i Jupyter",
+    "text": "Installere pakker i Jupyter\n\n!pip install &lt;pakkenavn&gt;\n\n\n!pip install matplotlib\n\n. . .\n\nLegge på -q (quiet) for å ikke spamme output-cellen\n\n\n!pip install -q matplotlib\n\n. . .\n\nMed følgende får vi gjort mye:\n\n\n!pip install -q matplotlib numpy pandas",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#importere-pakker",
+    "href": "lectures/01b1_slides.html#importere-pakker",
+    "title": "Forelesningsnotat",
+    "section": "Importere pakker",
+    "text": "Importere pakker\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n. . .\n\n\n\n\n\n\nFeilmeldinger?\n\n\n\nFunker installasjon og import av disse pakkene? Rop ut!",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#håndtere-data-i-pythonjupyter",
+    "href": "lectures/01b1_slides.html#håndtere-data-i-pythonjupyter",
+    "title": "Forelesningsnotat",
+    "section": "Håndtere data i python/jupyter",
+    "text": "Håndtere data i python/jupyter\n\nLagre data i numpy-arrayer\nPlotte data med matplotlib\nHåndtere data med pandas DataFrames",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#numpy-arrayer",
+    "href": "lectures/01b1_slides.html#numpy-arrayer",
+    "title": "Forelesningsnotat",
+    "section": "Numpy-arrayer",
+    "text": "Numpy-arrayer\n\n\nimport numpy as np\na = np.array([2, 3, 4, 5])\nb = np.linspace(0, 4, 10)\ndisplay(b)\n\narray([0.        , 0.44444444, 0.88888889, 1.33333333, 1.77777778,\n       2.22222222, 2.66666667, 3.11111111, 3.55555556, 4.        ])\n\n\n\n\n\ndef f(x):\n    return np.exp(-x**2)\n\na = np.linspace(-4, 4, 15)\ny = f(a) \ndisplay(y)\n\narray([1.12535175e-07, 7.84917568e-06, 2.84930489e-04, 5.38310574e-03,\n       5.29305019e-02, 2.70868328e-01, 7.21422290e-01, 1.00000000e+00,\n       7.21422290e-01, 2.70868328e-01, 5.29305019e-02, 5.38310574e-03,\n       2.84930489e-04, 7.84917568e-06, 1.12535175e-07])",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#plotting-med-matplotlib",
+    "href": "lectures/01b1_slides.html#plotting-med-matplotlib",
+    "title": "Forelesningsnotat",
+    "section": "Plotting med matplotlib",
+    "text": "Plotting med matplotlib\n\nimport matplotlib.pyplot as plt\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#matplotlib",
+    "href": "lectures/01b1_slides.html#matplotlib",
+    "title": "Forelesningsnotat",
+    "section": "Matplotlib",
+    "text": "Matplotlib\n\n\n\n\n\n\nOppgave\n\n\n\nKan du få plottet til å bli glattere?\n\nimport matplotlib.pyplot as plt\nimport numpy as np\ndef f(x):\n    return np.exp(-x**2)\n\na = np.linspace(-4, 4, 15)\ny = f(a) \nplt.plot...\nplt.xlabel...\nplt.ylabel...\n\n\n\n\n\nimport matplotlib.pyplot as plt\na = np.linspace(-4, 4, 101)\ny = f(a)\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')\n\n\n\n\n\n\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\na = np.linspace(-4, 4, 101)\ny = f(a)\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#lage-pandas-dataframe-manuelt",
+    "href": "lectures/01b1_slides.html#lage-pandas-dataframe-manuelt",
+    "title": "Forelesningsnotat",
+    "section": "Lage Pandas DataFrame manuelt",
+    "text": "Lage Pandas DataFrame manuelt\n\nimport pandas as pd\ndf = pd.DataFrame({\n    \"talent\" : [4, 5, 3, 4, 6, 2],\n    \"innsats\" : [2, 4, 3, 7, 4, 1],\n    \"resultat\" : [24, 73, 25, 204, 93, 4]\n})\nprint(df)\n\n   talent  innsats  resultat\n0       4        2        24\n1       5        4        73\n2       3        3        25\n3       4        7       204\n4       6        4        93\n5       2        1         4\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nSkriv inn dette i notebooken din, og kjør koden (vi trenger det etterpå)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#plotte-fra-dataframe",
+    "href": "lectures/01b1_slides.html#plotte-fra-dataframe",
+    "title": "Forelesningsnotat",
+    "section": "Plotte fra DataFrame",
+    "text": "Plotte fra DataFrame\n\nplt.plot(df[\"talent\"])\n_ = plt.ylabel(\"Talent\")",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#flere-plots-i-samme-figur",
+    "href": "lectures/01b1_slides.html#flere-plots-i-samme-figur",
+    "title": "Forelesningsnotat",
+    "section": "Flere plots i samme figur",
+    "text": "Flere plots i samme figur\n\nfig, axes = plt.subplots(2,2, figsize=(4,5))\naxes[0,0].scatter(df[\"innsats\"], df[\"talent\"])\naxes[0,0].set_xlabel(\"Innsats\")\naxes[0,0].set_ylabel(\"Talent\")\nplt.tight_layout()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nFullfør plottet og finn ut hva som er viktigst av innsats og talent.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#laste-inn-fra-fil",
+    "href": "lectures/01b1_slides.html#laste-inn-fra-fil",
+    "title": "Forelesningsnotat",
+    "section": "Laste inn fra fil",
+    "text": "Laste inn fra fil\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\nprint(df_pris)\n\n                  Fra               Til  KWH 60 Forbruk Kvalitet\n0    01.12.2024 00:00  01.12.2024 01:00           4.908   Avlest\n1    01.12.2024 01:00  01.12.2024 02:00           2.641   Avlest\n2    01.12.2024 02:00  01.12.2024 03:00           3.378   Avlest\n3    01.12.2024 03:00  01.12.2024 04:00           2.637   Avlest\n4    01.12.2024 04:00  01.12.2024 05:00           2.633   Avlest\n..                ...               ...             ...      ...\n739  31.12.2024 19:00  31.12.2024 20:00           3.269   Avlest\n740  31.12.2024 20:00  31.12.2024 21:00           3.382   Avlest\n741  31.12.2024 21:00  31.12.2024 22:00           3.147   Avlest\n742  31.12.2024 22:00  31.12.2024 23:00           3.087   Avlest\n743  31.12.2024 23:00  01.01.2025 00:00           4.490   Avlest\n\n[744 rows x 4 columns]",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#ting-kan-gå-galt",
+    "href": "lectures/01b1_slides.html#ting-kan-gå-galt",
+    "title": "Forelesningsnotat",
+    "section": "Ting kan gå galt",
+    "text": "Ting kan gå galt\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\")\nprint(df_pris)\n\n                                    Fra;Til;KWH 60 Forbruk;Kvalitet\n01.12.2024 00:00;01.12.2024 01:00;4                      908;Avlest\n01.12.2024 01:00;01.12.2024 02:00;2                      641;Avlest\n01.12.2024 02:00;01.12.2024 03:00;3                      378;Avlest\n01.12.2024 03:00;01.12.2024 04:00;2                      637;Avlest\n01.12.2024 04:00;01.12.2024 05:00;2                      633;Avlest\n...                                                             ...\n31.12.2024 19:00;31.12.2024 20:00;3                      269;Avlest\n31.12.2024 20:00;31.12.2024 21:00;3                      382;Avlest\n31.12.2024 21:00;31.12.2024 22:00;3                      147;Avlest\n31.12.2024 22:00;31.12.2024 23:00;3                      087;Avlest\n31.12.2024 23:00;01.01.2025 00:00;4                       49;Avlest\n\n[744 rows x 1 columns]",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#ting-kan-gå-galt-2",
+    "href": "lectures/01b1_slides.html#ting-kan-gå-galt-2",
+    "title": "Forelesningsnotat",
+    "section": "Ting kan gå galt 2",
+    "text": "Ting kan gå galt 2\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\")\nprint(df_pris)\n\n                  Fra               Til KWH 60 Forbruk Kvalitet\n0    01.12.2024 00:00  01.12.2024 01:00          4,908   Avlest\n1    01.12.2024 01:00  01.12.2024 02:00          2,641   Avlest\n2    01.12.2024 02:00  01.12.2024 03:00          3,378   Avlest\n3    01.12.2024 03:00  01.12.2024 04:00          2,637   Avlest\n4    01.12.2024 04:00  01.12.2024 05:00          2,633   Avlest\n..                ...               ...            ...      ...\n739  31.12.2024 19:00  31.12.2024 20:00          3,269   Avlest\n740  31.12.2024 20:00  31.12.2024 21:00          3,382   Avlest\n741  31.12.2024 21:00  31.12.2024 22:00          3,147   Avlest\n742  31.12.2024 22:00  31.12.2024 23:00          3,087   Avlest\n743  31.12.2024 23:00  01.01.2025 00:00           4,49   Avlest\n\n[744 rows x 4 columns]",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#hente-ut-kolonner",
+    "href": "lectures/01b1_slides.html#hente-ut-kolonner",
+    "title": "Forelesningsnotat",
+    "section": "Hente ut kolonner",
+    "text": "Hente ut kolonner\n\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\ndf_pris[\"KWH 60 Forbruk\"]\n\n0      4.908\n1      2.641\n2      3.378\n3      2.637\n4      2.633\n       ...  \n739    3.269\n740    3.382\n741    3.147\n742    3.087\n743    4.490\nName: KWH 60 Forbruk, Length: 744, dtype: float64",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#plotting",
+    "href": "lectures/01b1_slides.html#plotting",
+    "title": "Forelesningsnotat",
+    "section": "Plotting",
+    "text": "Plotting\n\n\n\n\n\n\nOppgave\n\n\n\nLast ned datasettet med strømforbruk (finnes under oppgavene på kursnettsiden) Plott kolonnen “KWH 60 Forbruk”\n\n\nStarthjelp:\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", \n    sep=\";\", \n    decimal=\",\")\n\nOm du blir ferdig, start på oppgave 2 fra øvingsoppgavene.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
+    "objectID": "lectures/01b1_slides.html#til-neste-uke",
+    "href": "lectures/01b1_slides.html#til-neste-uke",
+    "title": "Forelesningsnotat",
+    "section": "Til neste uke",
+    "text": "Til neste uke\n\nGjør oppgavene som vi har gitt dere\nGjør forberedelsene som vi har satt opp\n\n\n\n\n\n\n\nHvor mye tid tar HON2200 per uke?\n\n\n\n\n\n6–7 timer?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "Forelesningsnotat"
+    ]
+  },
+  {
     "objectID": "lectures/llm/llm_01_pandas.html",
     "href": "lectures/llm/llm_01_pandas.html",
     "title": "Introduksjon til Pandas",
@@ -162,175 +1033,6 @@
     "crumbs": [
       "LLM-supplement",
       "Introduksjon til Pandas"
-    ]
-  },
-  {
-    "objectID": "lectures/01c_øvelse.html",
-    "href": "lectures/01c_øvelse.html",
-    "title": "Øvingsoppgaver",
-    "section": "",
-    "text": "Her er øvingsopgaver som passer å gjøre etter første undervisningsøkt i kurset. Det er lov å sende mail og be om hjelp om du står fast! Eller spørre en medstudent.\n\n\na) Last ned filen “bestsellers with categories.xls” her, og les den inn med pandas.\nb) Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med .drop_duplicates(\"Name\") - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser\nc) Plot - Gjennomsnittlig anmeldelsesskårer for fiksjon og sakprosa - Gjennomsnittlig anmeldelsesskårer for hvert utgivelsesår. - Antall bøker for hver score - Antall anmeldelser for hver score\nd) Hvor mange fiksjonsbøker fra 2017 fikk en score bedre enn 4.6?\n\n\n\nHar du betalt rett pris for strømmen din? Last ned dette datasettet som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra Elhub.\na) Plott strømforbruket som funksjon av tid.\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\nplt.plot(df_forbruk['KWH 60 Forbruk'])\n\n\n\n\n\n\n\n\nb) Vi kan så hente prisdata fra Nordpool. Vi har lastet ned prisene for desember 2024 for dere her.\n\n\n\n\n\n\nHvordan hentet vi data fra nordpool?\n\n\n\n\n\n\nfrom nordpool import elspot\nimport datetime\nprice_list = []\nprices_spot = elspot.Prices(currency=\"NOK\")\nfor i in range(1, 32):\n    entry = prices_spot.hourly(end_date=datetime.datetime(2024, 12, i), areas=['NO1'], )\n    price_list.append(entry)\n\nSå henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.\n\nimport pandas as pd\nclean_list = []\nfor element in price_list: \n    clean_list += element[\"areas\"][\"NO1\"][\"values\"]\ndf_pris = pd.DataFrame(clean_list)\ndf_pris.to_csv(\"data/nordpool-dec-24.csv\")\n\n\n\n\n\nHva er spotpriskostnaden for strømforbruket i desember 2024?\n\nc) For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?\nTips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.\nd) Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt frost-API. Først oppretter du en bruker her (det går superfort). Så kan du hente data med følgende python-kode:\n\nimport requests\nimport pandas as pd\n\nclient_id = client_id\nendpoint = 'https://frost.met.no/observations/v0.jsonld'\nparameters = {\n    'sources': 'SN18700',\n    'elements': 'mean(air_temperature P1D)',\n    'referencetime': '2024-12-01/2025-01-01',\n}\nr = requests.get(endpoint, parameters, auth=(client_id,''))\n\njson = r.json()\n\ne) Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?",
-    "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "Øvingsoppgaver"
-    ]
-  },
-  {
-    "objectID": "lectures/01c_øvelse.html#trekke-ut-informasjon-fra-datasett",
-    "href": "lectures/01c_øvelse.html#trekke-ut-informasjon-fra-datasett",
-    "title": "Øvingsoppgaver",
-    "section": "",
-    "text": "a) Last ned filen “bestsellers with categories.xls” her, og les den inn med pandas.\nb) Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med .drop_duplicates(\"Name\") - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser\nc) Plot - Gjennomsnittlig anmeldelsesskårer for fiksjon og sakprosa - Gjennomsnittlig anmeldelsesskårer for hvert utgivelsesår. - Antall bøker for hver score - Antall anmeldelser for hver score\nd) Hvor mange fiksjonsbøker fra 2017 fikk en score bedre enn 4.6?",
-    "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "Øvingsoppgaver"
-    ]
-  },
-  {
-    "objectID": "lectures/01c_øvelse.html#beregning-av-strømregning-basert-på-forbruksdata-og-prisdata",
-    "href": "lectures/01c_øvelse.html#beregning-av-strømregning-basert-på-forbruksdata-og-prisdata",
-    "title": "Øvingsoppgaver",
-    "section": "",
-    "text": "Har du betalt rett pris for strømmen din? Last ned dette datasettet som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra Elhub.\na) Plott strømforbruket som funksjon av tid.\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\nplt.plot(df_forbruk['KWH 60 Forbruk'])\n\n\n\n\n\n\n\n\nb) Vi kan så hente prisdata fra Nordpool. Vi har lastet ned prisene for desember 2024 for dere her.\n\n\n\n\n\n\nHvordan hentet vi data fra nordpool?\n\n\n\n\n\n\nfrom nordpool import elspot\nimport datetime\nprice_list = []\nprices_spot = elspot.Prices(currency=\"NOK\")\nfor i in range(1, 32):\n    entry = prices_spot.hourly(end_date=datetime.datetime(2024, 12, i), areas=['NO1'], )\n    price_list.append(entry)\n\nSå henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.\n\nimport pandas as pd\nclean_list = []\nfor element in price_list: \n    clean_list += element[\"areas\"][\"NO1\"][\"values\"]\ndf_pris = pd.DataFrame(clean_list)\ndf_pris.to_csv(\"data/nordpool-dec-24.csv\")\n\n\n\n\n\nHva er spotpriskostnaden for strømforbruket i desember 2024?\n\nc) For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?\nTips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.\nd) Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt frost-API. Først oppretter du en bruker her (det går superfort). Så kan du hente data med følgende python-kode:\n\nimport requests\nimport pandas as pd\n\nclient_id = client_id\nendpoint = 'https://frost.met.no/observations/v0.jsonld'\nparameters = {\n    'sources': 'SN18700',\n    'elements': 'mean(air_temperature P1D)',\n    'referencetime': '2024-12-01/2025-01-01',\n}\nr = requests.get(endpoint, parameters, auth=(client_id,''))\n\njson = r.json()\n\ne) Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?",
-    "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "Øvingsoppgaver"
-    ]
-  },
-  {
-    "objectID": "undervisningsplan.html",
-    "href": "undervisningsplan.html",
-    "title": "Undervisningsplan",
-    "section": "",
-    "text": "Undervisningsplan\n\n\n\n\n\n\n\nDato\nTema\n\n\n\n\n23. januar\nIntroduksjon til databehandling med Pandas\n\n\n30. januar\nLineær regresjon og modellering\n\n\n6. februar\nLogistisk regresjon og klassifisering\n\n\n13. februar\nKryssvalidering, overtrening\n\n\n20. februar\nDigital etikk\n\n\n27. februar\nDigital etikk\n\n\n6. mars\nBeslutningstrær\n\n\n13. mars\nRandom forest, ensemble, one-hot encoding\n\n\n20. mars\nOppstart prosjekt del 1, frist for oblig\n\n\n27. mars\nProsjektveiledning\n\n\n10. april\nProsjektveiledning\n\n\n17. april\nOppstart prosjekt del 2\n\n\n24. april\nProsjektveiledning\n\n\n8. mai\nProsjektveiledning\n\n\n15. mai\nSiste veiledningstime\n\n\n22. mai\nOppsummering til eksamen",
-    "crumbs": [
-      "Kursinformasjon",
-      "Undervisningsplan"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Velkommen til HON2200",
-    "section": "",
-    "text": "I dette kurset skal vi trene på å bruke data til å trekke slutninger, og å finne fram til hvor i overgangen fra tall og data til beslutninger og politikk vi gjør en etisk vurdering.\nKurset består av to hoveddeler:\n\n\nDe første ukene skal vi trene på å laste inn, utforske og visualisere datasett. Vi skal også se litt på hvordan vi holder orden i datakoden vår, og hvordan vi skiller mellom kode vi skriver for å utforske, og kode vi skriver for å gjøre analyser vi kan putte inn i en rapport.\n\n\n\nSå skal vi lære om hvordan vi evaluerer etiske sider ved algoritmer, og lære å identifisere hvor en etisk vurdering er nødvendig.\n\n\n\nHer skal vi jobbe med et prosjekt. Dere skal jobbe med prosjektet i grupper på 3-4 studenter. Emneansvarlig deler dere inn i grupper basert på faglig bakgrunn. Første del av prosjektet er en oppgave der innholdet er relativt styrt, mens i andre del av prosjektet skal dere selv velge hvordan dere vil utvide prosjektet deres.\n\n\n\nEmnet har én obligatorisk innlevering som må være godkjent før avsuttende eksamen.\nEksamen er i form av en mappeeksamen bestående av en prosjektoppgave som skal leveres i to omganger samt presenteres muntlig. Begge innleveringene av prosjektoppgaven, samt presentasjonen, må være bestått for å bestå emnet.\n\n\n\nPensum i kurset legges ut på denne nettsiden, og er en blanding av undervisningsnotater, oppgaver, artikler og deler av boka Introduction to statistical learning with applications in Python (Åpent tilgjengelig på https://www.statlearning.com)",
-    "crumbs": [
-      "Kursinformasjon"
-    ]
-  },
-  {
-    "objectID": "index.html#del-1a-ferdighetstrening",
-    "href": "index.html#del-1a-ferdighetstrening",
-    "title": "Velkommen til HON2200",
-    "section": "",
-    "text": "De første ukene skal vi trene på å laste inn, utforske og visualisere datasett. Vi skal også se litt på hvordan vi holder orden i datakoden vår, og hvordan vi skiller mellom kode vi skriver for å utforske, og kode vi skriver for å gjøre analyser vi kan putte inn i en rapport.",
-    "crumbs": [
-      "Kursinformasjon"
-    ]
-  },
-  {
-    "objectID": "index.html#del-2-digital-etikk",
-    "href": "index.html#del-2-digital-etikk",
-    "title": "Velkommen til HON2200",
-    "section": "",
-    "text": "Så skal vi lære om hvordan vi evaluerer etiske sider ved algoritmer, og lære å identifisere hvor en etisk vurdering er nødvendig.",
-    "crumbs": [
-      "Kursinformasjon"
-    ]
-  },
-  {
-    "objectID": "index.html#del-3-oblig-og-prosjektoppgave",
-    "href": "index.html#del-3-oblig-og-prosjektoppgave",
-    "title": "Velkommen til HON2200",
-    "section": "",
-    "text": "Her skal vi jobbe med et prosjekt. Dere skal jobbe med prosjektet i grupper på 3-4 studenter. Emneansvarlig deler dere inn i grupper basert på faglig bakgrunn. Første del av prosjektet er en oppgave der innholdet er relativt styrt, mens i andre del av prosjektet skal dere selv velge hvordan dere vil utvide prosjektet deres.",
-    "crumbs": [
-      "Kursinformasjon"
-    ]
-  },
-  {
-    "objectID": "index.html#vurdering",
-    "href": "index.html#vurdering",
-    "title": "Velkommen til HON2200",
-    "section": "",
-    "text": "Emnet har én obligatorisk innlevering som må være godkjent før avsuttende eksamen.\nEksamen er i form av en mappeeksamen bestående av en prosjektoppgave som skal leveres i to omganger samt presenteres muntlig. Begge innleveringene av prosjektoppgaven, samt presentasjonen, må være bestått for å bestå emnet.",
-    "crumbs": [
-      "Kursinformasjon"
-    ]
-  },
-  {
-    "objectID": "index.html#pensum",
-    "href": "index.html#pensum",
-    "title": "Velkommen til HON2200",
-    "section": "",
-    "text": "Pensum i kurset legges ut på denne nettsiden, og er en blanding av undervisningsnotater, oppgaver, artikler og deler av boka Introduction to statistical learning with applications in Python (Åpent tilgjengelig på https://www.statlearning.com)",
-    "crumbs": [
-      "Kursinformasjon"
-    ]
-  },
-  {
-    "objectID": "lectures/01a_forberedelser.html",
-    "href": "lectures/01a_forberedelser.html",
-    "title": "Forberedelser",
-    "section": "",
-    "text": "I første time skal vi se litt på hva data-drevne prosjekter er for noe, snakke litt om hvordan undervisningen gjennomføres og begynne så smått å se på databehandling.\nFølg instruksjonene under for å være forberedt til første time.",
-    "crumbs": [
-      "Del 1: Statistikk"
-    ]
-  },
-  {
-    "objectID": "lectures/01a_forberedelser.html#installere-jupyterlab",
-    "href": "lectures/01a_forberedelser.html#installere-jupyterlab",
-    "title": "Forberedelser",
-    "section": "Installere JupyterLab",
-    "text": "Installere JupyterLab\nVi skal bruke Python vha. Jupyter notebook i kurset. For å kunne gjøre datavitenskap trenger vi å installere noen pakker i python-installasjonen. I første omgang ønsker vi at dere skal kjøre JupyterLab på egen maskin. Dette kan installeres på flere forskjellige måter. Vi anbefaler å gjøre en av følgende:\n\nBruke Visual Studio Code med Jupyter-extension\nDersom du er komfortabel med terminalvinduet, og vet hva pip install er for noe, installer JupyterLab med kommandoen pip install jupyterlab. Vi anbefaler at du gjør dette i et virtual environment, for eksempel med pyenv-virtualenv.\nOm du ikke er komfortabel med terminalen: Installer Anaconda. Der følger JupyterLab med, og fungerer fint.",
-    "crumbs": [
-      "Del 1: Statistikk"
-    ]
-  },
-  {
-    "objectID": "lectures/01a_forberedelser.html#installere-python-pakker-og-sjekke-at-de-fungerer",
-    "href": "lectures/01a_forberedelser.html#installere-python-pakker-og-sjekke-at-de-fungerer",
-    "title": "Forberedelser",
-    "section": "Installere python-pakker og sjekke at de fungerer",
-    "text": "Installere python-pakker og sjekke at de fungerer\nEnten kjøre følgende kommando i terminalen:\npip install pandas numpy matplotlib\neller følgende kommando inne i JupyterLab:\n\n!pip install -q pandas numpy matplotlib\n\n\n[notice] A new release of pip available: 22.3.1 -&gt; 25.3\n[notice] To update, run: python3.9 -m pip install --upgrade pip",
-    "crumbs": [
-      "Del 1: Statistikk"
-    ]
-  },
-  {
-    "objectID": "lectures/01a_forberedelser.html#test-oppsettet-med-å-se-på-data-av-ulike-typer-iris",
-    "href": "lectures/01a_forberedelser.html#test-oppsettet-med-å-se-på-data-av-ulike-typer-iris",
-    "title": "Forberedelser",
-    "section": "Test oppsettet med å se på data av ulike typer Iris",
-    "text": "Test oppsettet med å se på data av ulike typer Iris\n\n\n\n\n\n\n\n\nsetosa\nversicolor\nvirginica\n\n\n\n\n\n\n\n\n\n\n\nimport pandas as pd \nfile_name = \"https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv\"\ndf = pd.read_csv(file_name)\ndf.head()\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n\n\n\n\n\nEtter kommandoen over skal du se en tabell med data fra Iris-datasettet.\n\nimport matplotlib.pyplot as plt \nplt.scatter(df[\"sepal_length\"], df[\"sepal_width\"])\nplt.xlabel(\"sepal length\")\nplt.ylabel(\"sepal width\")\n\nText(0, 0.5, 'sepal width')\n\n\n\n\n\n\n\n\n\n\nfig, ax = plt.subplots(figsize=(8,6))\n\nfor species, s_df in df.groupby(\"species\"):\n    ax.scatter(s_df[\"sepal_length\"], s_df[\"petal_length\"], label=species)\nplt.xlabel(\"sepal length\")\nplt.ylabel(\"petal length\")\nplt.legend()\n\n\n\n\n\n\n\n\nOm alt dette fungerer, og du får opp noe som ligner på figurene over, er du klar for undervisningstime.",
-    "crumbs": [
-      "Del 1: Statistikk"
-    ]
-  },
-  {
-    "objectID": "lectures/llm/index.html",
-    "href": "lectures/llm/index.html",
-    "title": "LLM-supplement",
-    "section": "",
-    "text": "Notatene i denne seksjonen er skrevet av en stor språkmodell (LLM) som supplement til forelesningsmateriell i HON2200. De er ment som et eksperiment for å utforske hvordan AI kan brukes i undervisning.\n\n\n\nAI-generert innhold: Alle tekstene er skrevet av en LLM basert på instruksjoner fra faglærer\nSupplement, ikke erstatning: Disse notatene erstatter ikke forelesninger, lærebok eller obligatoriske oppgaver\nEksperimentelt: Vi tester ut hvordan AI kan brukes til å lage pedagogisk materiale\n\n\n\n\n✅ Bruk dem til: - Repetisjon av konsepter fra forelesning - Ekstra eksempler og forklaringer - Rask oppfriskning før øvingstimer\n❌ Ikke stol blindt på dem: - LLM-er kan gjøre feil, spesielt i tekniske detaljer - Hvis noe virker rart eller motstridende, spør faglærer/meld ifra - Prioriter pensum og forelesningsnotater\n\n\n\nHar du funnet feil eller har forslag til forbedringer? Send en e-post til faglærer eller ta det opp i øvingstimene.",
-    "crumbs": [
-      "LLM-supplement",
-      "LLM-supplement"
-    ]
-  },
-  {
-    "objectID": "lectures/llm/index.html#om-disse-notatene",
-    "href": "lectures/llm/index.html#om-disse-notatene",
-    "title": "LLM-supplement",
-    "section": "",
-    "text": "Notatene i denne seksjonen er skrevet av en stor språkmodell (LLM) som supplement til forelesningsmateriell i HON2200. De er ment som et eksperiment for å utforske hvordan AI kan brukes i undervisning.\n\n\n\nAI-generert innhold: Alle tekstene er skrevet av en LLM basert på instruksjoner fra faglærer\nSupplement, ikke erstatning: Disse notatene erstatter ikke forelesninger, lærebok eller obligatoriske oppgaver\nEksperimentelt: Vi tester ut hvordan AI kan brukes til å lage pedagogisk materiale\n\n\n\n\n✅ Bruk dem til: - Repetisjon av konsepter fra forelesning - Ekstra eksempler og forklaringer - Rask oppfriskning før øvingstimer\n❌ Ikke stol blindt på dem: - LLM-er kan gjøre feil, spesielt i tekniske detaljer - Hvis noe virker rart eller motstridende, spør faglærer/meld ifra - Prioriter pensum og forelesningsnotater\n\n\n\nHar du funnet feil eller har forslag til forbedringer? Send en e-post til faglærer eller ta det opp i øvingstimene.",
-    "crumbs": [
-      "LLM-supplement",
-      "LLM-supplement"
     ]
   }
 ]
