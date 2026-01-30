@@ -306,7 +306,7 @@ Løsningsforslag
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Vi laster ned filen og bruker <code>df.head</code> til å vise fram de første radene.</p>
-<div id="1fde903c" class="cell" data-execution_count="1">
+<div id="4e554d35" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/bestsellers_with_categories.csv"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -390,7 +390,7 @@ Løsningsforslag
 </div>
 <p><strong>b)</strong> Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med <code>.drop_duplicates("Name")</code> - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -399,9 +399,9 @@ Løsningsforslag
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="20b6b8bc" class="cell" data-execution_count="2">
+<div id="3463bf7d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_dropped <span class="op">=</span> df.drop_duplicates(<span class="st">"Name"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Lengde på opprinnelig datasett: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Lengde på droppet datasett: </span><span class="sc">{</span><span class="bu">len</span>(df_dropped)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -421,7 +421,7 @@ Lengde på droppet datasett: 351</code></pre>
 <h2 class="anchored" data-anchor-id="beregning-av-strømregning-basert-på-forbruksdata-og-prisdata">Beregning av strømregning basert på forbruksdata og prisdata</h2>
 <p>Har du betalt rett pris for strømmen din? Last ned <a href="data/meteringvalues-dec-2024.csv">dette datasettet</a> som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra <a href="elhub.no">Elhub</a>.</p>
 <p><strong>a)</strong> Plott strømforbruket som funksjon av tid.</p>
-<div id="17ef5156" class="cell" data-execution_count="3">
+<div id="0111c894" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df_forbruk <span class="op">=</span> pd.read_csv(<span class="st">"data/meteringvalues-dec-2024.csv"</span>, sep<span class="op">=</span><span class="st">";"</span>, decimal<span class="op">=</span><span class="st">","</span>)</span>
@@ -447,7 +447,7 @@ Hvordan hentet vi data fra nordpool?
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="e820b457" class="cell" data-execution_count="4">
+<div id="6992d498" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nordpool <span class="im">import</span> elspot</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>price_list <span class="op">=</span> []</span>
@@ -457,7 +457,7 @@ Hvordan hentet vi data fra nordpool?
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    price_list.append(entry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Så henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.</p>
-<div id="8a1461a9" class="cell" data-execution_count="5">
+<div id="2ae5c1f4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>clean_list <span class="op">=</span> []</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> element <span class="kw">in</span> price_list: </span>
@@ -472,7 +472,7 @@ Hvordan hentet vi data fra nordpool?
 <li>Hva er spotpriskostnaden for strømforbruket i desember 2024?</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -481,9 +481,9 @@ Løsningsforslag
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="dc079129" class="cell" data-execution_count="6">
+<div id="78f53715" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_pris <span class="op">=</span> pd.read_csv(<span class="st">"data/nordpool-dec-24.csv"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df_forbruk <span class="op">=</span> pd.read_csv(<span class="st">"data/meteringvalues-dec-2024.csv"</span>, sep<span class="op">=</span><span class="st">";"</span>, decimal<span class="op">=</span><span class="st">","</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -501,7 +501,7 @@ Løsningsforslag
 <p><strong>c)</strong> For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?</p>
 <p>Tips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -510,9 +510,9 @@ Løsningsforslag
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="3edf81d0" class="cell" data-execution_count="7">
+<div id="bda15430" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> strømstøtte(pris):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Antar pris i kroner </span></span>
@@ -534,7 +534,7 @@ Løsningsforslag
 </div>
 </div>
 <p><strong>d)</strong> Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt <em>frost</em>-API. Først oppretter du en bruker <a href="https://frost.met.no/howto.html">her</a> (det går superfort). Så kan du hente data med følgende python-kode:</p>
-<div id="13d8694d" class="cell" data-execution_count="9">
+<div id="46821874" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -550,7 +550,7 @@ Løsningsforslag
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>json <span class="op">=</span> r.json()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -559,16 +559,16 @@ Løsningsforslag
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="57fcabb4" class="cell" data-execution_count="10">
+<div id="ef9ea8f7" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>my_list <span class="op">=</span> []</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> data <span class="kw">in</span> json[<span class="st">"data"</span>]:</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    my_list <span class="op">+=</span> data[<span class="st">"observations"</span>]</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>df_temp <span class="op">=</span> pd.DataFrame(my_list)</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>df_temp <span class="op">=</span> df_temp[df_temp[<span class="st">"timeOffset"</span>] <span class="op">==</span> <span class="st">"PT6H"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="5a523e8b" class="cell" data-execution_count="11">
+<div id="ce91b13b" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> date_func(row): </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    date_object <span class="op">=</span> datetime.strptime(row[<span class="st">"Fra"</span>], <span class="st">"</span><span class="sc">%d</span><span class="st">.%m.%Y %H:%M"</span>)</span>
@@ -599,7 +599,7 @@ Løsningsforslag
 </div>
 <p><strong>e)</strong> Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -608,9 +608,9 @@ Løsningsforslag
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="15d00535" class="cell" data-execution_count="12">
+<div id="d93ea2f1" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dag_varmepumpe <span class="op">=</span> <span class="dv">16</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>forbruk_per_dag[<span class="st">"is_varmepumpe"</span>] <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> dag_varmepumpe<span class="op">+</span>[<span class="dv">1</span>] <span class="op">*</span> (<span class="dv">31</span><span class="op">-</span>dag_varmepumpe)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
