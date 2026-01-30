@@ -1,13 +1,779 @@
 [
   {
-    "objectID": "lectures/02a_forberedelser.html",
-    "href": "lectures/02a_forberedelser.html",
+    "objectID": "lectures/03a_forberedelser.html",
+    "href": "lectures/03a_forberedelser.html",
     "title": "Forberedelser",
     "section": "",
-    "text": "Forberedelser\n\nGjør øvingsoppgavene fra forrige uke.\nI Introduction to statistical learning with applications in Python, les følgende sider: 1–13, 15–20, 69–81 (Åpent tilgjengelig på https://www.statlearning.com). Skriv opp tre konsepter du har forstått og tre konsepter du ikke har forstått. Begrunn forstått/ikke forstått. (Det er forskjellige sidetall i bokversjonen for R og Python, og vi forholder oss til sidetallene i Python-versjonen.)",
+    "text": "Forberedelser\nVi starter med å se på oppgaven om lineær regresjon gitt etter forrige forelesning før vi skal begynne å se på logistisk regresjon - som vil bli hovedtema for den obligatoriske oppgaven som kommer om noen få uker.\nForberedelser til timen:\n\nIntroduction to statistical learning (with applications in Python), s. 135 - 146 (Åpent tilgjengelig på https://www.statlearning.com)\nGjøre oppgaven om lineær regresjon, altså forrige ukes øvingsoppgave.",
     "crumbs": [
       "Del 1: Statistikk",
-      "Uke 2 – 30. januar"
+      "Uke 3 – 7. februar"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#forrige-uke",
+    "href": "lectures/02b_slides.html#forrige-uke",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Forrige uke",
+    "text": "Forrige uke\n\nTenke litt på data-drevne prosjekter\nRepetisjonsoppgaver fra tidligere programmeringskurs\nEr det spørsmål fra repetisjonsoppgavene?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#i-dag",
+    "href": "lectures/02b_slides.html#i-dag",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "I dag",
+    "text": "I dag\nHvordan kan vi lære noe av et datasett?\n\nGrunnleggende numpy, pandas og plotting\nLineær regresjon\nEstimere feilen i estimerte parametre\n\n\n\n\n\n\n\nHusk\n\n\n\nIkke alt dekkes i forelesninger. Noe er bare i boka",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#numpy",
+    "href": "lectures/02b_slides.html#numpy",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Numpy",
+    "text": "Numpy\n\nimport numpy as np\nmy_array = np.array([1, 2, 3])\nprint(my_array, my_array.dtype)\n\n[1 2 3] int64\n\n\n\na = np.array([1, 5, 7.9])\nprint(a, a.dtype)\n\n[1.  5.  7.9] float64\n\n\n\nb = np.linspace(1.4, 7.9, 3)\nprint(b, b.dtype)\n\n[1.4  4.65 7.9 ] float64\n\n\n\nc = a*b \nprint(c, c.dtype)\n\n[ 1.4  23.25 62.41] float64\n\n\n\nd = np.dot(a, b)\nprint(d, d.dtype)\n\n87.06 float64",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#pandas",
+    "href": "lectures/02b_slides.html#pandas",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Pandas",
+    "text": "Pandas\n\nimport pandas as pd\ndf = pd.DataFrame({\n    \"talent\" : [4, 5, 3, 4, 6, 2],\n    \"innsats\" : [2, 4, 3, 7, 4, 1],\n    \"resultat\" : [24, 73, 25, 204, 93, 4]\n})\nprint(df)\n\n   talent  innsats  resultat\n0       4        2        24\n1       5        4        73\n2       3        3        25\n3       4        7       204\n4       6        4        93\n5       2        1         4",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#pandas-2",
+    "href": "lectures/02b_slides.html#pandas-2",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Pandas 2",
+    "text": "Pandas 2\n\ndf.plot(\"talent\", \"resultat\", kind=\"scatter\")",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#pandas-3",
+    "href": "lectures/02b_slides.html#pandas-3",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Pandas 3",
+    "text": "Pandas 3\nVi kan gjøre mye med lite kode:\n\nimport seaborn as sns\ndf = sns.load_dataset('iris')\ndf.head()\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nsetosa",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#pandas-3-1",
+    "href": "lectures/02b_slides.html#pandas-3-1",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Pandas 3",
+    "text": "Pandas 3\n\nimport matplotlib.pyplot as plt\nax = plt.subplot(111)\nfor species, data in df.groupby(\"species\"):\n    data.plot(\"petal_width\", \"petal_length\", ax=ax, label=species, marker=\"o\", linestyle=\"\")",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#forrige-ukes-oppgaver",
+    "href": "lectures/02b_slides.html#forrige-ukes-oppgaver",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Forrige ukes oppgaver",
+    "text": "Forrige ukes oppgaver\n\n\nNår ble varmepumpen installert?\nOg viktigst: Hvordan fant dere ut av det? Det krever litt kreativitet.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#en-skisse-av-en-løsning",
+    "href": "lectures/02b_slides.html#en-skisse-av-en-løsning",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "En skisse av en løsning",
+    "text": "En skisse av en løsning\nLa oss anta at vi har lest inn prisdata fra nordpool og lagt dem i en csv-fil. Så begynner vi med prisen på strømmen.\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/nordpool-dec-24.csv\")\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\n\nnettopris = sum(df_forbruk['KWH 60 Forbruk']*df_pris[\"value\"])/1000\nmed_moms = nettopris*1.25\nprint(f\"Spotpris på strømmen inkl. moms er {med_moms:.2f} kr\")\n\nSpotpris på strømmen inkl. moms er 2899.55 kr",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#hva-med-varmepumpa",
+    "href": "lectures/02b_slides.html#hva-med-varmepumpa",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Hva med varmepumpa?",
+    "text": "Hva med varmepumpa?\nFørst må vi ha værdata. Jeg antar vi har lagret det i en fil weather_blindern.json.\n\nimport json \nwith open(\"data/weather_blindern.json\") as ifile:\n    json_content = json.load(ifile)\nmy_list = []\nfor data in json_content[\"data\"]:\n    my_list += data[\"observations\"]\ndf_temp = pd.DataFrame(my_list)\ndf_temp = df_temp[df_temp[\"timeOffset\"] == \"PT6H\"]\nprint(df_temp.head())\n\n                   elementId  value  unit  \\\n1  mean(air_temperature P1D)    7.2  degC   \n3  mean(air_temperature P1D)    7.8  degC   \n5  mean(air_temperature P1D)    4.2  degC   \n7  mean(air_temperature P1D)   -3.5  degC   \n9  mean(air_temperature P1D)   -3.5  degC   \n\n                                               level timeOffset  \\\n1  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n3  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n5  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n7  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n9  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n\n  timeResolution  timeSeriesId performanceCategory exposureCategory  \\\n1            P1D             0                   C                2   \n3            P1D             0                   C                2   \n5            P1D             0                   C                2   \n7            P1D             0                   C                2   \n9            P1D             0                   C                2   \n\n   qualityCode  \n1          NaN  \n3          NaN  \n5          NaN  \n7          NaN  \n9          NaN",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#kjøre-sammen-dataene",
+    "href": "lectures/02b_slides.html#kjøre-sammen-dataene",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Kjøre sammen dataene",
+    "text": "Kjøre sammen dataene\n\nfrom datetime import datetime\ndef date_func(row): \n    date_object = datetime.strptime(row[\"Fra\"], \"%d.%m.%Y %H:%M\")\n    return date_object.date()\n\ndf_forbruk[\"date\"] = df_forbruk.apply(date_func, axis=1) \nforbruk_per_dag = df_forbruk.groupby(\"date\").sum()\nx = df_temp[\"value\"]\ny = forbruk_per_dag[\"KWH 60 Forbruk\"]",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#plotte",
+    "href": "lectures/02b_slides.html#plotte",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Plotte",
+    "text": "Plotte\n\nimport matplotlib.pyplot as plt \nplt.scatter(x, y)\nplt.xlabel(\"Utetemperatur [$^\\circ$C]\")\nplt.ylabel(\"Strømforbruk [kWh]\")\n\nText(0, 0.5, 'Strømforbruk [kWh]')",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#hva-nå",
+    "href": "lectures/02b_slides.html#hva-nå",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Hva nå?",
+    "text": "Hva nå?\n\nimport numpy as np\ndag_varmepumpe_alternativer = np.arange(12, 21)\n\nfor i, dag_varmepumpe in enumerate(dag_varmepumpe_alternativer):\n    plt.subplot(3,3, i+1)\n    forbruk_per_dag[\"is_varmepumpe\"] = [0] * dag_varmepumpe+[1] * (31-dag_varmepumpe)\n    x = df_temp[\"value\"]\n    y = forbruk_per_dag[\"KWH 60 Forbruk\"]\n    plt.scatter(x, y, c=forbruk_per_dag[\"is_varmepumpe\"])\n    plt.title(f\"{dag_varmepumpe} desember\")\nplt.tight_layout()",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#leseleksen",
+    "href": "lectures/02b_slides.html#leseleksen",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Leseleksen",
+    "text": "Leseleksen\n\nSkriv opp tre konsepter du forstod, og tre konsepter du ikke forstod\n\n\n\n\n\n\n\nOppgave\n\n\n\n\nSkriv opp på tre forskjellige postit-lapper, konseptene du ikke forstod. Alle legger lappene sammen i en bunke. SÅ tar dere dem en og en og ser om dere kan få forklart dem på gruppa\nEtterpå oppsummerer vi litt i plenum",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#ohms-lov-og-lineær-regresjon",
+    "href": "lectures/02b_slides.html#ohms-lov-og-lineær-regresjon",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Ohms lov og lineær regresjon",
+    "text": "Ohms lov og lineær regresjon\n\n\nFra strøm i naturfag på vgs/ungdomsskolen vet vi at \\[U = RI \\implies I = \\frac{1}{R}U\\]\n\n\nKan plotte:",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#måledata",
+    "href": "lectures/02b_slides.html#måledata",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Måledata",
+    "text": "Måledata\nVi går på laben og finner en Ohmsk motstand, og måler, da forventer vi å finne noe slikt:",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#finne-stigningstallet",
+    "href": "lectures/02b_slides.html#finne-stigningstallet",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Finne stigningstallet",
+    "text": "Finne stigningstallet\n\n\n\n\n\n\n\n\n\n\n\nSiden stigningen er 3.33…, så er motstanden \\(0.3 \\Omega\\).\n\n\n\n\n\n\n\n\n\n\n\nDermed kan vi plotte en linje sammen med datapunktene\n\nMen er det slik måleserier ser ut i virkeligheten?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#støy",
+    "href": "lectures/02b_slides.html#støy",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Støy",
+    "text": "Støy\nVi får nok heller noe som ser slik ut:\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nR = 0.3\nU = np.random.random(10) * 5\nI = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation\nplt.scatter(U, I)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#er-dette-en-god-ide",
+    "href": "lectures/02b_slides.html#er-dette-en-god-ide",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Er dette en god ide?",
+    "text": "Er dette en god ide?\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nR = 0.3\nU = np.random.random(10) * 5\nI = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation\np = np.polyfit(U, I, 10)\nx = np.linspace(np.min(U), np.max(U), 100)\nplt.scatter(U, I)\nplt.plot(x, np.polyval(p, x))",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#lineær-regresjon",
+    "href": "lectures/02b_slides.html#lineær-regresjon",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Lineær regresjon",
+    "text": "Lineær regresjon\nNå må vi forholde oss til verden slik den er. Det er alltid en viss usikkerhet vi ikke klarer å forklare uansett hvor god modell vi har. \\[y=f(x) + \\varepsilon\\]\nDer \\(\\varepsilon\\) representeter en usikkerhet som vi ikke klarer å plukke opp med vår modell av fenomenet.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#lineær-regresjon-1",
+    "href": "lectures/02b_slides.html#lineær-regresjon-1",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Lineær regresjon",
+    "text": "Lineær regresjon\nVi ønsker å finne parametre \\(\\beta_0\\) og \\(\\beta_1\\) i funksjonen \\[\\hat{f}(x) = \\beta_1 x + \\beta_0\\]\nSlik at når vi sier at \\(\\hat{y} = \\hat{f}(x)\\), så minimerer vi\n\\[\\sum_{i=0}^N (y_i - \\hat{y}_i)^2\\]\nDette heter minste kvadraters lineær regresjon.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#lineær-regresjon-med-numpy",
+    "href": "lectures/02b_slides.html#lineær-regresjon-med-numpy",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Lineær regresjon med numpy",
+    "text": "Lineær regresjon med numpy\n\nimport numpy as np\np = np.polyfit(U, I, 1)\nprint(p)\n\n[3.34088808 0.17706321]",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#plotte-sammen",
+    "href": "lectures/02b_slides.html#plotte-sammen",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Plotte sammen",
+    "text": "Plotte sammen\n\nplt.scatter(U, I)\nI_fit = np.polyval(p, U)\nplt.plot(U, I_fit)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nSkriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#prøve-flere-ganger",
+    "href": "lectures/02b_slides.html#prøve-flere-ganger",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Prøve flere ganger",
+    "text": "Prøve flere ganger\n\ndef f(x): \n    return 2*x + 3\n\nN = 10\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n    y_fit = np.polyval(p, x)\n    plt.plot(x, y_fit, linewidth=0.75, color=\"k\")\n    plt.plot(x, f(x), color=\"r\")\n\nplt.plot(x, y_fit, linewidth=0.75, color=\"k\", label=\"Samples with n=10\")\nplt.plot(x, f(x), color=\"r\", label=\"Population mean\")\n\nplt.legend()",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#trekke-mange-ganger",
+    "href": "lectures/02b_slides.html#trekke-mange-ganger",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Trekke mange ganger",
+    "text": "Trekke mange ganger\n\n\n\n\n\n\nOppgave\n\n\n\na) Lag deg en affin funsjon (f. eks \\(f(x) = 2x + 3\\)). Trekk 10 tilfeldige tall, beregn \\(f(x) + \\varepsilon\\) der du setter inn et tilfeldig normalfordelt tall som \\(\\varepsilon\\) med np.random.normal(...). Verifiser med et plott at ting fungerer som de skal\nb) Gjør en lineærtilpasning med np.polyfit(x, y, 1). Plott lineærtilpasningen sammen med de litt spredte punktene dine.\nc) Gjenta mange ganger (f. eks 10000 i en for-løkke), og lagre stigningstallet som estimeres for hver enkelt linje. Plott et histogram over stigningstallene, med plt.hist.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#løsningsforslag-a-og-b",
+    "href": "lectures/02b_slides.html#løsningsforslag-a-og-b",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Løsningsforslag a og b",
+    "text": "Løsningsforslag a og b\n\ndef f(x): \n    return 2*x + 3\n\nx = np.linspace(0, 10, 10)\ny = f(x) + np.random.normal(0, 1.5, 10)\np = np.polyfit(x, y, 1)\ny_hat = np.polyval(p, x)\nplt.plot(x, y, \"o\")\nplt.plot(x, y_hat)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#løsningforslag-c",
+    "href": "lectures/02b_slides.html#løsningforslag-c",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Løsningforslag c",
+    "text": "Løsningforslag c\n\n_ = plt.figure()\n\n&lt;Figure size 672x480 with 0 Axes&gt;\n\n\n\nN = 10000\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n_ = plt.hist(slopes, bins=30)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#øke-antallet-punkter-til-100",
+    "href": "lectures/02b_slides.html#øke-antallet-punkter-til-100",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Øke antallet punkter til 100",
+    "text": "Øke antallet punkter til 100\n\nN = 10000\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 100)\n    y = f(x) + np.random.normal(0, 1.5, 100)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n_ = plt.hist(slopes, 30)\nplt.xticks(fontsize=14)\nplt.yticks(fontsize=14)\nplt.savefig(\"figures/est_beta1.png\")\n\n\n\n\n\n\n\n\n\nHva skjedde med fordelingen av stigningstall?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#tolkning",
+    "href": "lectures/02b_slides.html#tolkning",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Tolkning",
+    "text": "Tolkning\n\n\n\n\n\n\nKort diskusjonsoppgave\n\n\n\na) Hva skjedde med fordelingen av stigningstall ved lineær regresjon da vi økte fra 10 til 100 punkter?\nb) Hvordan skal vi tolke dette?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#feilestimat",
+    "href": "lectures/02b_slides.html#feilestimat",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Feilestimat",
+    "text": "Feilestimat\nFra boka har vi følgende formel for forventet feil i stigningtallet: \\[\\mathrm{SE}(\\hat{\\beta}_1) = \\sqrt{\\frac{\\sigma^2}{\\sum_{i=1}^n(x_i-\\bar{x})^2}}\\]\nder \\(\\sigma\\) er standardavviket til den tilfeldige variablen \\(\\varepsilon\\) i \\(y = f(x) + \\varepsilon\\)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#anvendt-på-våre-tall",
+    "href": "lectures/02b_slides.html#anvendt-på-våre-tall",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Anvendt på våre tall",
+    "text": "Anvendt på våre tall\nVi trakk tilfeldige tall med \\(\\sigma=1.5\\) og hhv. 10 og 100 jevnt fordelte tall fra 0 til 10. Altså:\n\nx = np.linspace(0, 10, 10)\nse = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\nprint(f\"Standard feil for n=10: {se}\")\n\nx = np.linspace(0, 10, 100)\nse = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n\nprint(f\"Standard feil for n=100: {se}\")\n\nStandard feil for n=10: 0.1486301082920587\nStandard feil for n=100: 0.051444481273168134",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#normalfordelinger-med-disse-parametrene",
+    "href": "lectures/02b_slides.html#normalfordelinger-med-disse-parametrene",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Normalfordelinger med disse parametrene:",
+    "text": "Normalfordelinger med disse parametrene:\n\ndef est_dist(x, mu, std):\n    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))\n\nfor n, color  in zip([10, 100], [\"red\", \"blue\"]):\n    x = np.linspace(0, 10, n)\n    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n    est_vals = np.linspace(1.5, 2.5, 100)\n    plt.plot(est_vals, est_dist(2, est_vals, se), \"--\", color=color, label=f\"n={n}\")\nplt.legend()",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#normalfordelinger-sammen-med-datasettene",
+    "href": "lectures/02b_slides.html#normalfordelinger-sammen-med-datasettene",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Normalfordelinger sammen med datasettene",
+    "text": "Normalfordelinger sammen med datasettene\n\ndef est_dist(x, mu, std):\n    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))\n\nN = 10000\nfor n, color  in zip([10, 100], [\"red\", \"blue\"]):\n    slopes = []\n    for i in range(N):\n        x = np.linspace(0, 10, n)\n        y = f(x) + np.random.normal(0, 1.5, n)\n        p = np.polyfit(x, y, 1)\n        slopes.append(p[0])\n    _ = plt.hist(slopes, 30, color=color, density=True)\n    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n    est_vals = np.linspace(1.5, 2.5, 50)\n    plt.plot(est_vals, est_dist(2, est_vals, se), \"--\", color=color, label=f\"n={n}\")\nplt.legend()",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#section",
+    "href": "lectures/02b_slides.html#section",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "",
+    "text": "Men om vi har målt noe, så har vi jo bare én måleserie. Hva kan vi gjøre da?\nBootstrap: Sample deler av datasettet vårt mange ganger, for å se hvordan regresjonskoeffisiente varierer.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#forrige-uke",
+    "href": "lectures/02b_slides.revealjs.html#forrige-uke",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Forrige uke",
+    "text": "Forrige uke\n\nTenke litt på data-drevne prosjekter\nRepetisjonsoppgaver fra tidligere programmeringskurs\nEr det spørsmål fra repetisjonsoppgavene?"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#i-dag",
+    "href": "lectures/02b_slides.revealjs.html#i-dag",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "I dag",
+    "text": "I dag\nHvordan kan vi lære noe av et datasett?\n\nGrunnleggende numpy, pandas og plotting\nLineær regresjon\nEstimere feilen i estimerte parametre\n\n\n\n\n\n\n\nHusk\n\n\nIkke alt dekkes i forelesninger. Noe er bare i boka"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#numpy",
+    "href": "lectures/02b_slides.revealjs.html#numpy",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Numpy",
+    "text": "Numpy\n\nimport numpy as np\nmy_array = np.array([1, 2, 3])\nprint(my_array, my_array.dtype)\n\n[1 2 3] int64\n\n\n\na = np.array([1, 5, 7.9])\nprint(a, a.dtype)\n\n[1.  5.  7.9] float64\n\n\n\nb = np.linspace(1.4, 7.9, 3)\nprint(b, b.dtype)\n\n[1.4  4.65 7.9 ] float64\n\n\n\nc = a*b \nprint(c, c.dtype)\n\n[ 1.4  23.25 62.41] float64\n\n\n\nd = np.dot(a, b)\nprint(d, d.dtype)\n\n87.06 float64"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#pandas",
+    "href": "lectures/02b_slides.revealjs.html#pandas",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Pandas",
+    "text": "Pandas\n\nimport pandas as pd\ndf = pd.DataFrame({\n    \"talent\" : [4, 5, 3, 4, 6, 2],\n    \"innsats\" : [2, 4, 3, 7, 4, 1],\n    \"resultat\" : [24, 73, 25, 204, 93, 4]\n})\nprint(df)\n\n   talent  innsats  resultat\n0       4        2        24\n1       5        4        73\n2       3        3        25\n3       4        7       204\n4       6        4        93\n5       2        1         4"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#pandas-2",
+    "href": "lectures/02b_slides.revealjs.html#pandas-2",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Pandas 2",
+    "text": "Pandas 2\n\ndf.plot(\"talent\", \"resultat\", kind=\"scatter\")"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#pandas-3",
+    "href": "lectures/02b_slides.revealjs.html#pandas-3",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Pandas 3",
+    "text": "Pandas 3\nVi kan gjøre mye med lite kode:\n\nimport seaborn as sns\ndf = sns.load_dataset('iris')\ndf.head()\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nsetosa"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#pandas-3-1",
+    "href": "lectures/02b_slides.revealjs.html#pandas-3-1",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Pandas 3",
+    "text": "Pandas 3\n\nimport matplotlib.pyplot as plt\nax = plt.subplot(111)\nfor species, data in df.groupby(\"species\"):\n    data.plot(\"petal_width\", \"petal_length\", ax=ax, label=species, marker=\"o\", linestyle=\"\")"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#forrige-ukes-oppgaver",
+    "href": "lectures/02b_slides.revealjs.html#forrige-ukes-oppgaver",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Forrige ukes oppgaver",
+    "text": "Forrige ukes oppgaver\n\n\nNår ble varmepumpen installert?\nOg viktigst: Hvordan fant dere ut av det? Det krever litt kreativitet."
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#en-skisse-av-en-løsning",
+    "href": "lectures/02b_slides.revealjs.html#en-skisse-av-en-løsning",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "En skisse av en løsning",
+    "text": "En skisse av en løsning\nLa oss anta at vi har lest inn prisdata fra nordpool og lagt dem i en csv-fil. Så begynner vi med prisen på strømmen.\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/nordpool-dec-24.csv\")\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\n\nnettopris = sum(df_forbruk['KWH 60 Forbruk']*df_pris[\"value\"])/1000\nmed_moms = nettopris*1.25\nprint(f\"Spotpris på strømmen inkl. moms er {med_moms:.2f} kr\")\n\nSpotpris på strømmen inkl. moms er 2899.55 kr"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#hva-med-varmepumpa",
+    "href": "lectures/02b_slides.revealjs.html#hva-med-varmepumpa",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Hva med varmepumpa?",
+    "text": "Hva med varmepumpa?\nFørst må vi ha værdata. Jeg antar vi har lagret det i en fil weather_blindern.json.\n\nimport json \nwith open(\"data/weather_blindern.json\") as ifile:\n    json_content = json.load(ifile)\nmy_list = []\nfor data in json_content[\"data\"]:\n    my_list += data[\"observations\"]\ndf_temp = pd.DataFrame(my_list)\ndf_temp = df_temp[df_temp[\"timeOffset\"] == \"PT6H\"]\nprint(df_temp.head())\n\n                   elementId  value  unit  \\\n1  mean(air_temperature P1D)    7.2  degC   \n3  mean(air_temperature P1D)    7.8  degC   \n5  mean(air_temperature P1D)    4.2  degC   \n7  mean(air_temperature P1D)   -3.5  degC   \n9  mean(air_temperature P1D)   -3.5  degC   \n\n                                               level timeOffset  \\\n1  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n3  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n5  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n7  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n9  {'levelType': 'height_above_ground', 'unit': '...       PT6H   \n\n  timeResolution  timeSeriesId performanceCategory exposureCategory  \\\n1            P1D             0                   C                2   \n3            P1D             0                   C                2   \n5            P1D             0                   C                2   \n7            P1D             0                   C                2   \n9            P1D             0                   C                2   \n\n   qualityCode  \n1          NaN  \n3          NaN  \n5          NaN  \n7          NaN  \n9          NaN"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#kjøre-sammen-dataene",
+    "href": "lectures/02b_slides.revealjs.html#kjøre-sammen-dataene",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Kjøre sammen dataene",
+    "text": "Kjøre sammen dataene\n\nfrom datetime import datetime\ndef date_func(row): \n    date_object = datetime.strptime(row[\"Fra\"], \"%d.%m.%Y %H:%M\")\n    return date_object.date()\n\ndf_forbruk[\"date\"] = df_forbruk.apply(date_func, axis=1) \nforbruk_per_dag = df_forbruk.groupby(\"date\").sum()\nx = df_temp[\"value\"]\ny = forbruk_per_dag[\"KWH 60 Forbruk\"]"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#plotte",
+    "href": "lectures/02b_slides.revealjs.html#plotte",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Plotte",
+    "text": "Plotte\n\nimport matplotlib.pyplot as plt \nplt.scatter(x, y)\nplt.xlabel(\"Utetemperatur [$^\\circ$C]\")\nplt.ylabel(\"Strømforbruk [kWh]\")\n\nText(0, 0.5, 'Strømforbruk [kWh]')"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#hva-nå",
+    "href": "lectures/02b_slides.revealjs.html#hva-nå",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Hva nå?",
+    "text": "Hva nå?\n\nimport numpy as np\ndag_varmepumpe_alternativer = np.arange(12, 21)\n\nfor i, dag_varmepumpe in enumerate(dag_varmepumpe_alternativer):\n    plt.subplot(3,3, i+1)\n    forbruk_per_dag[\"is_varmepumpe\"] = [0] * dag_varmepumpe+[1] * (31-dag_varmepumpe)\n    x = df_temp[\"value\"]\n    y = forbruk_per_dag[\"KWH 60 Forbruk\"]\n    plt.scatter(x, y, c=forbruk_per_dag[\"is_varmepumpe\"])\n    plt.title(f\"{dag_varmepumpe} desember\")\nplt.tight_layout()"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#leseleksen",
+    "href": "lectures/02b_slides.revealjs.html#leseleksen",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Leseleksen",
+    "text": "Leseleksen\n\nSkriv opp tre konsepter du forstod, og tre konsepter du ikke forstod\n\n\n\n\n\n\n\nOppgave\n\n\n\nSkriv opp på tre forskjellige postit-lapper, konseptene du ikke forstod. Alle legger lappene sammen i en bunke. SÅ tar dere dem en og en og ser om dere kan få forklart dem på gruppa\nEtterpå oppsummerer vi litt i plenum"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#ohms-lov-og-lineær-regresjon",
+    "href": "lectures/02b_slides.revealjs.html#ohms-lov-og-lineær-regresjon",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Ohms lov og lineær regresjon",
+    "text": "Ohms lov og lineær regresjon\n\n\nFra strøm i naturfag på vgs/ungdomsskolen vet vi at \\[U = RI \\implies I = \\frac{1}{R}U\\]\n\n\nKan plotte:"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#måledata",
+    "href": "lectures/02b_slides.revealjs.html#måledata",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Måledata",
+    "text": "Måledata\nVi går på laben og finner en Ohmsk motstand, og måler, da forventer vi å finne noe slikt:"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#finne-stigningstallet",
+    "href": "lectures/02b_slides.revealjs.html#finne-stigningstallet",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Finne stigningstallet",
+    "text": "Finne stigningstallet\n\n\n\n\n\n\n\n\n\n\n\nSiden stigningen er 3.33…, så er motstanden \\(0.3 \\Omega\\).\n\n\n\n\n\n\n\n\n\n\n\nDermed kan vi plotte en linje sammen med datapunktene\n\nMen er det slik måleserier ser ut i virkeligheten?"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#støy",
+    "href": "lectures/02b_slides.revealjs.html#støy",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Støy",
+    "text": "Støy\nVi får nok heller noe som ser slik ut:\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nR = 0.3\nU = np.random.random(10) * 5\nI = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation\nplt.scatter(U, I)"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#er-dette-en-god-ide",
+    "href": "lectures/02b_slides.revealjs.html#er-dette-en-god-ide",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Er dette en god ide?",
+    "text": "Er dette en god ide?\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nR = 0.3\nU = np.random.random(10) * 5\nI = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation\np = np.polyfit(U, I, 10)\nx = np.linspace(np.min(U), np.max(U), 100)\nplt.scatter(U, I)\nplt.plot(x, np.polyval(p, x))"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#lineær-regresjon",
+    "href": "lectures/02b_slides.revealjs.html#lineær-regresjon",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Lineær regresjon",
+    "text": "Lineær regresjon\nNå må vi forholde oss til verden slik den er. Det er alltid en viss usikkerhet vi ikke klarer å forklare uansett hvor god modell vi har. \\[y=f(x) + \\varepsilon\\]\nDer \\(\\varepsilon\\) representeter en usikkerhet som vi ikke klarer å plukke opp med vår modell av fenomenet."
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#lineær-regresjon-1",
+    "href": "lectures/02b_slides.revealjs.html#lineær-regresjon-1",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Lineær regresjon",
+    "text": "Lineær regresjon\nVi ønsker å finne parametre \\(\\beta_0\\) og \\(\\beta_1\\) i funksjonen \\[\\hat{f}(x) = \\beta_1 x + \\beta_0\\]\nSlik at når vi sier at \\(\\hat{y} = \\hat{f}(x)\\), så minimerer vi\n\\[\\sum_{i=0}^N (y_i - \\hat{y}_i)^2\\]\nDette heter minste kvadraters lineær regresjon."
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#lineær-regresjon-med-numpy",
+    "href": "lectures/02b_slides.revealjs.html#lineær-regresjon-med-numpy",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Lineær regresjon med numpy",
+    "text": "Lineær regresjon med numpy\n\nimport numpy as np\np = np.polyfit(U, I, 1)\nprint(p)\n\n[3.34088808 0.17706321]"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#plotte-sammen",
+    "href": "lectures/02b_slides.revealjs.html#plotte-sammen",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Plotte sammen",
+    "text": "Plotte sammen\n\nplt.scatter(U, I)\nI_fit = np.polyval(p, U)\nplt.plot(U, I_fit)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\nSkriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon."
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#prøve-flere-ganger",
+    "href": "lectures/02b_slides.revealjs.html#prøve-flere-ganger",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Prøve flere ganger",
+    "text": "Prøve flere ganger\n\ndef f(x): \n    return 2*x + 3\n\nN = 10\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n    y_fit = np.polyval(p, x)\n    plt.plot(x, y_fit, linewidth=0.75, color=\"k\")\n    plt.plot(x, f(x), color=\"r\")\n\nplt.plot(x, y_fit, linewidth=0.75, color=\"k\", label=\"Samples with n=10\")\nplt.plot(x, f(x), color=\"r\", label=\"Population mean\")\n\nplt.legend()"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#trekke-mange-ganger",
+    "href": "lectures/02b_slides.revealjs.html#trekke-mange-ganger",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Trekke mange ganger",
+    "text": "Trekke mange ganger\n\n\n\n\n\n\nOppgave\n\n\na) Lag deg en affin funsjon (f. eks \\(f(x) = 2x + 3\\)). Trekk 10 tilfeldige tall, beregn \\(f(x) + \\varepsilon\\) der du setter inn et tilfeldig normalfordelt tall som \\(\\varepsilon\\) med np.random.normal(...). Verifiser med et plott at ting fungerer som de skal\nb) Gjør en lineærtilpasning med np.polyfit(x, y, 1). Plott lineærtilpasningen sammen med de litt spredte punktene dine.\nc) Gjenta mange ganger (f. eks 10000 i en for-løkke), og lagre stigningstallet som estimeres for hver enkelt linje. Plott et histogram over stigningstallene, med plt.hist."
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#løsningsforslag-a-og-b",
+    "href": "lectures/02b_slides.revealjs.html#løsningsforslag-a-og-b",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Løsningsforslag a og b",
+    "text": "Løsningsforslag a og b\n\ndef f(x): \n    return 2*x + 3\n\nx = np.linspace(0, 10, 10)\ny = f(x) + np.random.normal(0, 1.5, 10)\np = np.polyfit(x, y, 1)\ny_hat = np.polyval(p, x)\nplt.plot(x, y, \"o\")\nplt.plot(x, y_hat)"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#løsningforslag-c",
+    "href": "lectures/02b_slides.revealjs.html#løsningforslag-c",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Løsningforslag c",
+    "text": "Løsningforslag c\n\n_ = plt.figure()\n\n&lt;Figure size 672x480 with 0 Axes&gt;\n\n\n\n\nN = 10000\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n_ = plt.hist(slopes, bins=30)"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#øke-antallet-punkter-til-100",
+    "href": "lectures/02b_slides.revealjs.html#øke-antallet-punkter-til-100",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Øke antallet punkter til 100",
+    "text": "Øke antallet punkter til 100\n\n\nN = 10000\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 100)\n    y = f(x) + np.random.normal(0, 1.5, 100)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n_ = plt.hist(slopes, 30)\nplt.xticks(fontsize=14)\nplt.yticks(fontsize=14)\nplt.savefig(\"figures/est_beta1.png\")\n\n\n\n\n\n\n\n\n\n\nHva skjedde med fordelingen av stigningstall?"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#tolkning",
+    "href": "lectures/02b_slides.revealjs.html#tolkning",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Tolkning",
+    "text": "Tolkning\n\n\n\n\n\n\nKort diskusjonsoppgave\n\n\na) Hva skjedde med fordelingen av stigningstall ved lineær regresjon da vi økte fra 10 til 100 punkter?\nb) Hvordan skal vi tolke dette?"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#feilestimat",
+    "href": "lectures/02b_slides.revealjs.html#feilestimat",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Feilestimat",
+    "text": "Feilestimat\nFra boka har vi følgende formel for forventet feil i stigningtallet: \\[\\mathrm{SE}(\\hat{\\beta}_1) = \\sqrt{\\frac{\\sigma^2}{\\sum_{i=1}^n(x_i-\\bar{x})^2}}\\]\nder \\(\\sigma\\) er standardavviket til den tilfeldige variablen \\(\\varepsilon\\) i \\(y = f(x) + \\varepsilon\\)"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#anvendt-på-våre-tall",
+    "href": "lectures/02b_slides.revealjs.html#anvendt-på-våre-tall",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Anvendt på våre tall",
+    "text": "Anvendt på våre tall\nVi trakk tilfeldige tall med \\(\\sigma=1.5\\) og hhv. 10 og 100 jevnt fordelte tall fra 0 til 10. Altså:\n\nx = np.linspace(0, 10, 10)\nse = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\nprint(f\"Standard feil for n=10: {se}\")\n\nx = np.linspace(0, 10, 100)\nse = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n\nprint(f\"Standard feil for n=100: {se}\")\n\nStandard feil for n=10: 0.1486301082920587\nStandard feil for n=100: 0.051444481273168134"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#normalfordelinger-med-disse-parametrene",
+    "href": "lectures/02b_slides.revealjs.html#normalfordelinger-med-disse-parametrene",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Normalfordelinger med disse parametrene:",
+    "text": "Normalfordelinger med disse parametrene:\n\ndef est_dist(x, mu, std):\n    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))\n\nfor n, color  in zip([10, 100], [\"red\", \"blue\"]):\n    x = np.linspace(0, 10, n)\n    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n    est_vals = np.linspace(1.5, 2.5, 100)\n    plt.plot(est_vals, est_dist(2, est_vals, se), \"--\", color=color, label=f\"n={n}\")\nplt.legend()"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#normalfordelinger-sammen-med-datasettene",
+    "href": "lectures/02b_slides.revealjs.html#normalfordelinger-sammen-med-datasettene",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Normalfordelinger sammen med datasettene",
+    "text": "Normalfordelinger sammen med datasettene\n\ndef est_dist(x, mu, std):\n    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))\n\nN = 10000\nfor n, color  in zip([10, 100], [\"red\", \"blue\"]):\n    slopes = []\n    for i in range(N):\n        x = np.linspace(0, 10, n)\n        y = f(x) + np.random.normal(0, 1.5, n)\n        p = np.polyfit(x, y, 1)\n        slopes.append(p[0])\n    _ = plt.hist(slopes, 30, color=color, density=True)\n    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n    est_vals = np.linspace(1.5, 2.5, 50)\n    plt.plot(est_vals, est_dist(2, est_vals, se), \"--\", color=color, label=f\"n={n}\")\nplt.legend()"
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#section",
+    "href": "lectures/02b_slides.revealjs.html#section",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "",
+    "text": "Men om vi har målt noe, så har vi jo bare én måleserie. Hva kan vi gjøre da?\nBootstrap: Sample deler av datasettet vårt mange ganger, for å se hvordan regresjonskoeffisiente varierer."
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html",
+    "href": "lectures/llm/hon2110_oppfrisking.html",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "",
+    "text": "Last ned PDF-versjon",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-hva-skriver-koden-ut",
+    "href": "lectures/llm/hon2110_oppfrisking.html#a-hva-skriver-koden-ut",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "a) Hva skriver koden ut?",
+    "text": "a) Hva skriver koden ut?\nFor hver kodeblokk, skriv hva som printes til skjermen.\n\n\n\nx = 10\ny = \"5\"\nz = x + int(y)\nprint(z)\n\n\n\nnavn = \"Ada\"\nalder = 30\nprint(f\"Jeg heter {navn} og er {alder} år gammel\")\n\n\n\ntall = [10, 20, 30, 40, 50]\nprint(tall[0])\nprint(tall[-1])\nprint(tall[2])\n\n\n\nfor i in range(3):\n    print(i * 2)\n\n\n\ndef doble(x):\n    return x * 2\n\nresultat = doble(5)\nprint(resultat)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-finn-feilen",
+    "href": "lectures/llm/hon2110_oppfrisking.html#b-finn-feilen",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "b) Finn feilen",
+    "text": "b) Finn feilen\nHver kodeblokk inneholder én feil. Beskriv feilen og skriv den rettede koden.\n\n\n\nx = \"5\"\ny = 10\nz = x + y\nprint(z)\n\n\n\nliste = [1, 2, 3, 4, 5]\nfor i in range(len(liste) + 1):\n    print(liste[i])\n\n\n\ndef hils():\n    print(\"Hei verden\")\n\nprint(hilsen())\n\n\n\ntall = [1, 2, 3, 4, 5]\ngjennomsnitt = sum(tall) / len(tall)\nprint(\"Gjennomsnitt:\", gjennomsnittet)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-variabler-og-lister",
+    "href": "lectures/llm/hon2110_oppfrisking.html#a-variabler-og-lister",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "a) Variabler og lister",
+    "text": "a) Variabler og lister\n\nLag en liste ukedager som inneholder alle 7 ukedager på norsk (starter med “mandag”).\nGitt listen fra a), skriv kode som:\n\n\nHenter ut “onsdag” fra listen\nLegger til “helg” på slutten av listen\nFinner antall elementer i listen",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-betingelser-if-else",
+    "href": "lectures/llm/hon2110_oppfrisking.html#b-betingelser-if-else",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "b) Betingelser (if-else)",
+    "text": "b) Betingelser (if-else)\n\nSkriv kode som sjekker om variabelen karakter er bestått (4 eller høyere på skala 1-6) og printer passende melding.\nSkriv kode som klassifiserer variabelen temp (temperatur i celsius):\n\n\nUnder 0: “Frost”\n0-15: “Kjølig”\n16-25: “Behagelig”\nOver 25: “Varmt”",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#c-løkker",
+    "href": "lectures/llm/hon2110_oppfrisking.html#c-løkker",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "c) Løkker",
+    "text": "c) Løkker\n\nSkriv en for-løkke som printer tallene 1 til og med 5.\n\nHint: range(start, slutt) gir tall fra start til slutt-1\n\nGitt listen navn = [\"Ada\", \"Bob\", \"Cleo\"], skriv en løkke som printer “Hei, Ada!”, “Hei, Bob!”, osv.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#d-funksjoner",
+    "href": "lectures/llm/hon2110_oppfrisking.html#d-funksjoner",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "d) Funksjoner",
+    "text": "d) Funksjoner\n\nSkriv en funksjon kvadrat(n) som returnerer n².\nSkriv en funksjon er_partall(tall) som returnerer True hvis tallet er partall, ellers False.\nSkriv en funksjon finn_maksimum(liste) som tar inn en liste med tall og returnerer det største tallet.\n\nHint: Du kan bruke en løkke, eller tenke på om Python har en innebygd funksjon for dette.\n\nHva er forskjellen mellom print() og return i en funksjon?\nHva vil følgende kode skrive ut?\n\ndef legg_til_ti(x):\n    return x + 10\n\nresultat = legg_til_ti(5)\nprint(resultat)\nprint(legg_til_ti(resultat))",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-gjennomsnitt-og-median",
+    "href": "lectures/llm/hon2110_oppfrisking.html#a-gjennomsnitt-og-median",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "a) Gjennomsnitt og median",
+    "text": "a) Gjennomsnitt og median\nDu har datasettet: [10, 20, 30, 40, 50]\n\nSkriv kode som regner ut gjennomsnittet av datasettet.\nSkriv kode som finner medianen.\nUtvid koden din til å håndtere datasettet [10, 20, 30, 40, 50, 200]. Hva skjer med gjennomsnittet og medianen når vi legger til en ekstremverdi?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-standardavvik",
+    "href": "lectures/llm/hon2110_oppfrisking.html#b-standardavvik",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "b) Standardavvik",
+    "text": "b) Standardavvik\nDu har datasettet: [2, 4, 6, 7, 10]\n\nSkriv kode som regner ut gjennomsnittet.\nSkriv kode som regner ut variansen.\nSkriv kode som regner ut standardavviket (√varians).",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-jobbe-med-data",
+    "href": "lectures/llm/hon2110_oppfrisking.html#a-jobbe-med-data",
+    "title": "HON2110 Oppfriskingsoppgaver",
+    "section": "a) Jobbe med data",
+    "text": "a) Jobbe med data\nDu har følgende data:\nstudenter = [\n    {\"navn\": \"Anna\", \"alder\": 22, \"karakter\": 4.5},\n    {\"navn\": \"Bo\", \"alder\": 25, \"karakter\": 3.8},\n    {\"navn\": \"Celia\", \"alder\": 23, \"karakter\": 4.2},\n    {\"navn\": \"David\", \"alder\": 21, \"karakter\": 3.5},\n    {\"navn\": \"Elin\", \"alder\": 24, \"karakter\": 4.8}\n]\n\nSkriv kode som finner alle studenter med karakter over 4.0.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 1 – 23. januar",
+      "HON2110 Oppfriskingsoppgaver"
     ]
   },
   {
@@ -927,123 +1693,181 @@
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html",
-    "href": "lectures/llm/hon2110_oppfrisking.html",
-    "title": "HON2110 Oppfriskingsoppgaver",
+    "objectID": "lectures/llm/llm_02_linreg.html",
+    "href": "lectures/llm/llm_02_linreg.html",
+    "title": "Lineær regresjon",
     "section": "",
-    "text": "Last ned PDF-versjon",
+    "text": "Dette notatet er skrevet av en LLM som supplement til forelesningsmateriell i HON2200.",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-hva-skriver-koden-ut",
-    "href": "lectures/llm/hon2110_oppfrisking.html#a-hva-skriver-koden-ut",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "a) Hva skriver koden ut?",
-    "text": "a) Hva skriver koden ut?\nFor hver kodeblokk, skriv hva som printes til skjermen.\n\n\n\nx = 10\ny = \"5\"\nz = x + int(y)\nprint(z)\n\n\n\nnavn = \"Ada\"\nalder = 30\nprint(f\"Jeg heter {navn} og er {alder} år gammel\")\n\n\n\ntall = [10, 20, 30, 40, 50]\nprint(tall[0])\nprint(tall[-1])\nprint(tall[2])\n\n\n\nfor i in range(3):\n    print(i * 2)\n\n\n\ndef doble(x):\n    return x * 2\n\nresultat = doble(5)\nprint(resultat)",
+    "objectID": "lectures/llm/llm_02_linreg.html#læringsmål",
+    "href": "lectures/llm/llm_02_linreg.html#læringsmål",
+    "title": "Lineær regresjon",
+    "section": "Læringsmål",
+    "text": "Læringsmål\nEtter å ha jobbet gjennom dette notatet skal du kunne:\n\nForstå hva lineær regresjon er og når det brukes\nImplementere lineær regresjon med numpy\nForstå begrepene støy og måleusikkerhet\nEstimere usikkerheten i regresjonskoeffisienter\nBruke bootstrap for feilestimering",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-finn-feilen",
-    "href": "lectures/llm/hon2110_oppfrisking.html#b-finn-feilen",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "b) Finn feilen",
-    "text": "b) Finn feilen\nHver kodeblokk inneholder én feil. Beskriv feilen og skriv den rettede koden.\n\n\n\nx = \"5\"\ny = 10\nz = x + y\nprint(z)\n\n\n\nliste = [1, 2, 3, 4, 5]\nfor i in range(len(liste) + 1):\n    print(liste[i])\n\n\n\ndef hils():\n    print(\"Hei verden\")\n\nprint(hilsen())\n\n\n\ntall = [1, 2, 3, 4, 5]\ngjennomsnitt = sum(tall) / len(tall)\nprint(\"Gjennomsnitt:\", gjennomsnittet)",
+    "objectID": "lectures/llm/llm_02_linreg.html#motivasjon-ohms-lov",
+    "href": "lectures/llm/llm_02_linreg.html#motivasjon-ohms-lov",
+    "title": "Lineær regresjon",
+    "section": "Motivasjon: Ohms lov",
+    "text": "Motivasjon: Ohms lov\nLa oss starte med et fysikkeksempel. Ohms lov sier at strøm \\(I\\) er proporsjonal med spenning \\(U\\):\n\\[I = \\frac{1}{R} \\cdot U\\]\nder \\(R\\) er motstanden. Dette er en lineær sammenheng - hvis vi plotter \\(I\\) mot \\(U\\), får vi en rett linje.\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Teoretisk sammenheng\nR = 0.3  # Ohm\nU = np.linspace(0, 10, 100)\nI = U / R\n\nplt.figure(figsize=(8, 5))\nplt.plot(U, I, 'b-', linewidth=2, label='Teoretisk')\nplt.xlabel('Spenning U [V]')\nplt.ylabel('Strøm I [A]')\nplt.title('Ohms lov: I = U/R')\nplt.legend()\nplt.grid(True)\nplt.show()",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-variabler-og-lister",
-    "href": "lectures/llm/hon2110_oppfrisking.html#a-variabler-og-lister",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "a) Variabler og lister",
-    "text": "a) Variabler og lister\n\nLag en liste ukedager som inneholder alle 7 ukedager på norsk (starter med “mandag”).\nGitt listen fra a), skriv kode som:\n\n\nHenter ut “onsdag” fra listen\nLegger til “helg” på slutten av listen\nFinner antall elementer i listen",
+    "objectID": "lectures/llm/llm_02_linreg.html#virkelige-målinger-har-støy",
+    "href": "lectures/llm/llm_02_linreg.html#virkelige-målinger-har-støy",
+    "title": "Lineær regresjon",
+    "section": "Virkelige målinger har støy",
+    "text": "Virkelige målinger har støy\nI virkeligheten får vi aldri perfekte målinger. Det er alltid noe støy:\n\nnp.random.seed(42)\n\n# Simulere målinger med støy\nn_målinger = 20\nU_målt = np.random.uniform(0, 10, n_målinger)\nI_målt = U_målt / R + np.random.normal(0, 1.5, n_målinger)  # Legger til støy\n\nplt.figure(figsize=(8, 5))\nplt.scatter(U_målt, I_målt, s=50, alpha=0.7, label='Målinger')\nplt.plot(U, I, 'b-', linewidth=1, alpha=0.5, label='Sann sammenheng')\nplt.xlabel('Spenning U [V]')\nplt.ylabel('Strøm I [A]')\nplt.title('Målinger med støy')\nplt.legend()\nplt.grid(True)\nplt.show()",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-betingelser-if-else",
-    "href": "lectures/llm/hon2110_oppfrisking.html#b-betingelser-if-else",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "b) Betingelser (if-else)",
-    "text": "b) Betingelser (if-else)\n\nSkriv kode som sjekker om variabelen karakter er bestått (4 eller høyere på skala 1-6) og printer passende melding.\nSkriv kode som klassifiserer variabelen temp (temperatur i celsius):\n\n\nUnder 0: “Frost”\n0-15: “Kjølig”\n16-25: “Behagelig”\nOver 25: “Varmt”",
+    "objectID": "lectures/llm/llm_02_linreg.html#lineær-regresjon-finne-den-beste-linjen",
+    "href": "lectures/llm/llm_02_linreg.html#lineær-regresjon-finne-den-beste-linjen",
+    "title": "Lineær regresjon",
+    "section": "Lineær regresjon: Finne den beste linjen",
+    "text": "Lineær regresjon: Finne den beste linjen\nVi modellerer sammenhengen som:\n\\[y = \\beta_0 + \\beta_1 x + \\varepsilon\\]\nder:\n\n\\(\\beta_0\\) er konstantleddet (skjæring med y-aksen)\n\\(\\beta_1\\) er stigningstallet\n\\(\\varepsilon\\) er et støyledd (det vi ikke kan forklare)\n\nMålet er å finne \\(\\beta_0\\) og \\(\\beta_1\\) som minimerer summen av kvadrerte avvik:\n\\[\\sum_{i=1}^n (y_i - \\hat{y}_i)^2 = \\sum_{i=1}^n (y_i - \\beta_0 - \\beta_1 x_i)^2\\]",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#c-løkker",
-    "href": "lectures/llm/hon2110_oppfrisking.html#c-løkker",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "c) Løkker",
-    "text": "c) Løkker\n\nSkriv en for-løkke som printer tallene 1 til og med 5.\n\nHint: range(start, slutt) gir tall fra start til slutt-1\n\nGitt listen navn = [\"Ada\", \"Bob\", \"Cleo\"], skriv en løkke som printer “Hei, Ada!”, “Hei, Bob!”, osv.",
+    "objectID": "lectures/llm/llm_02_linreg.html#implementasjon-med-numpy",
+    "href": "lectures/llm/llm_02_linreg.html#implementasjon-med-numpy",
+    "title": "Lineær regresjon",
+    "section": "Implementasjon med numpy",
+    "text": "Implementasjon med numpy\n\n# Bruke numpy polyfit for lineær regresjon\n# polyfit(x, y, grad) - grad=1 gir lineær regresjon\nkoeffisienter = np.polyfit(U_målt, I_målt, 1)\nbeta_1, beta_0 = koeffisienter\n\nprint(f\"Estimert stigningstall (1/R): {beta_1:.3f}\")\nprint(f\"Estimert konstantledd: {beta_0:.3f}\")\nprint(f\"Sann verdi av 1/R: {1/R:.3f}\")\n\nEstimert stigningstall (1/R): 3.256\nEstimert konstantledd: -0.055\nSann verdi av 1/R: 3.333\n\n\n\n# Plotte resultatet\nI_predikert = np.polyval(koeffisienter, U)\n\nplt.figure(figsize=(8, 5))\nplt.scatter(U_målt, I_målt, s=50, alpha=0.7, label='Målinger')\nplt.plot(U, I, 'b-', linewidth=1, alpha=0.5, label='Sann sammenheng')\nplt.plot(U, I_predikert, 'r--', linewidth=2, label='Lineær regresjon')\nplt.xlabel('Spenning U [V]')\nplt.ylabel('Strøm I [A]')\nplt.title('Lineær regresjon av Ohms lov')\nplt.legend()\nplt.grid(True)\nplt.show()",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#d-funksjoner",
-    "href": "lectures/llm/hon2110_oppfrisking.html#d-funksjoner",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "d) Funksjoner",
-    "text": "d) Funksjoner\n\nSkriv en funksjon kvadrat(n) som returnerer n².\nSkriv en funksjon er_partall(tall) som returnerer True hvis tallet er partall, ellers False.\nSkriv en funksjon finn_maksimum(liste) som tar inn en liste med tall og returnerer det største tallet.\n\nHint: Du kan bruke en løkke, eller tenke på om Python har en innebygd funksjon for dette.\n\nHva er forskjellen mellom print() og return i en funksjon?\nHva vil følgende kode skrive ut?\n\ndef legg_til_ti(x):\n    return x + 10\n\nresultat = legg_til_ti(5)\nprint(resultat)\nprint(legg_til_ti(resultat))",
+    "objectID": "lectures/llm/llm_02_linreg.html#usikkerhet-i-estimatene",
+    "href": "lectures/llm/llm_02_linreg.html#usikkerhet-i-estimatene",
+    "title": "Lineær regresjon",
+    "section": "Usikkerhet i estimatene",
+    "text": "Usikkerhet i estimatene\nHver gang vi trekker nye målinger med støy, får vi litt forskjellige estimater for \\(\\beta_0\\) og \\(\\beta_1\\). La oss se på dette:\n\n# Gjenta eksperimentet mange ganger\nn_eksperimenter = 1000\nbeta_1_verdier = []\n\nfor _ in range(n_eksperimenter):\n    # Nye målinger\n    U_ny = np.random.uniform(0, 10, n_målinger)\n    I_ny = U_ny / R + np.random.normal(0, 1.5, n_målinger)\n    \n    # Ny regresjon\n    koeff = np.polyfit(U_ny, I_ny, 1)\n    beta_1_verdier.append(koeff[0])\n\nbeta_1_verdier = np.array(beta_1_verdier)\n\nplt.figure(figsize=(8, 5))\nplt.hist(beta_1_verdier, bins=40, edgecolor='black', alpha=0.7)\nplt.axvline(1/R, color='red', linestyle='--', linewidth=2, label=f'Sann verdi = {1/R:.2f}')\nplt.axvline(beta_1_verdier.mean(), color='green', linestyle='--', linewidth=2, \n            label=f'Gjennomsnitt = {beta_1_verdier.mean():.2f}')\nplt.xlabel('Estimert stigningstall')\nplt.ylabel('Antall')\nplt.title('Fordeling av estimert stigningstall over 1000 eksperimenter')\nplt.legend()\nplt.show()\n\nprint(f\"Standardavvik i estimert stigningstall: {beta_1_verdier.std():.3f}\")\n\n\n\n\n\n\n\n\nStandardavvik i estimert stigningstall: 0.121",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-gjennomsnitt-og-median",
-    "href": "lectures/llm/hon2110_oppfrisking.html#a-gjennomsnitt-og-median",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "a) Gjennomsnitt og median",
-    "text": "a) Gjennomsnitt og median\nDu har datasettet: [10, 20, 30, 40, 50]\n\nSkriv kode som regner ut gjennomsnittet av datasettet.\nSkriv kode som finner medianen.\nUtvid koden din til å håndtere datasettet [10, 20, 30, 40, 50, 200]. Hva skjer med gjennomsnittet og medianen når vi legger til en ekstremverdi?",
+    "objectID": "lectures/llm/llm_02_linreg.html#teoretisk-standardfeil",
+    "href": "lectures/llm/llm_02_linreg.html#teoretisk-standardfeil",
+    "title": "Lineær regresjon",
+    "section": "Teoretisk standardfeil",
+    "text": "Teoretisk standardfeil\nFra statistisk teori har vi en formel for standardfeilen i stigningstallet:\n\\[\\text{SE}(\\hat{\\beta}_1) = \\sqrt{\\frac{\\sigma^2}{\\sum_{i=1}^n (x_i - \\bar{x})^2}}\\]\nder \\(\\sigma\\) er standardavviket til støyled.\n\n# Beregne teoretisk standardfeil\nsigma = 1.5  # Standardavviket til støyen vi la til\nx_bar = U_målt.mean()\nsum_sq = np.sum((U_målt - x_bar)**2)\nse_teoretisk = np.sqrt(sigma**2 / sum_sq)\n\nprint(f\"Teoretisk standardfeil: {se_teoretisk:.3f}\")\nprint(f\"Empirisk standardavvik fra simuleringer: {beta_1_verdier.std():.3f}\")\n\nTeoretisk standardfeil: 0.112\nEmpirisk standardavvik fra simuleringer: 0.121",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#b-standardavvik",
-    "href": "lectures/llm/hon2110_oppfrisking.html#b-standardavvik",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "b) Standardavvik",
-    "text": "b) Standardavvik\nDu har datasettet: [2, 4, 6, 7, 10]\n\nSkriv kode som regner ut gjennomsnittet.\nSkriv kode som regner ut variansen.\nSkriv kode som regner ut standardavviket (√varians).",
+    "objectID": "lectures/llm/llm_02_linreg.html#bootstrap-estimere-usikkerhet-fra-én-måleserie",
+    "href": "lectures/llm/llm_02_linreg.html#bootstrap-estimere-usikkerhet-fra-én-måleserie",
+    "title": "Lineær regresjon",
+    "section": "Bootstrap: Estimere usikkerhet fra én måleserie",
+    "text": "Bootstrap: Estimere usikkerhet fra én måleserie\nI virkeligheten har vi bare én måleserie, ikke 1000. Hvordan kan vi da estimere usikkerheten?\nBootstrap er en teknikk der vi:\n\nTrekker tilfeldige utvalg (med tilbakelegging) fra dataene våre\nGjør regresjonen på hvert utvalg\nSer på spredningen i estimatene\n\n\n# Bootstrap\nn_bootstrap = 1000\nbeta_1_bootstrap = []\n\nfor _ in range(n_bootstrap):\n    # Trekk tilfeldige indekser med tilbakelegging\n    idx = np.random.choice(len(U_målt), size=len(U_målt), replace=True)\n    U_boot = U_målt[idx]\n    I_boot = I_målt[idx]\n    \n    # Regresjon på bootstrap-utvalget\n    koeff = np.polyfit(U_boot, I_boot, 1)\n    beta_1_bootstrap.append(koeff[0])\n\nbeta_1_bootstrap = np.array(beta_1_bootstrap)\n\nplt.figure(figsize=(10, 4))\n\nplt.subplot(1, 2, 1)\nplt.hist(beta_1_verdier, bins=40, edgecolor='black', alpha=0.7)\nplt.title('Sanne gjentatte eksperimenter')\nplt.xlabel('Estimert stigningstall')\n\nplt.subplot(1, 2, 2)\nplt.hist(beta_1_bootstrap, bins=40, edgecolor='black', alpha=0.7, color='orange')\nplt.title('Bootstrap fra én måleserie')\nplt.xlabel('Estimert stigningstall')\n\nplt.tight_layout()\nplt.show()\n\nprint(f\"Standardavvik fra gjentatte eksperimenter: {beta_1_verdier.std():.3f}\")\nprint(f\"Standardavvik fra bootstrap: {beta_1_bootstrap.std():.3f}\")\n\n\n\n\n\n\n\n\nStandardavvik fra gjentatte eksperimenter: 0.121\nStandardavvik fra bootstrap: 0.109",
     "crumbs": [
-      "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "LLM-supplement",
+      "Lineær regresjon"
     ]
   },
   {
-    "objectID": "lectures/llm/hon2110_oppfrisking.html#a-jobbe-med-data",
-    "href": "lectures/llm/hon2110_oppfrisking.html#a-jobbe-med-data",
-    "title": "HON2110 Oppfriskingsoppgaver",
-    "section": "a) Jobbe med data",
-    "text": "a) Jobbe med data\nDu har følgende data:\nstudenter = [\n    {\"navn\": \"Anna\", \"alder\": 22, \"karakter\": 4.5},\n    {\"navn\": \"Bo\", \"alder\": 25, \"karakter\": 3.8},\n    {\"navn\": \"Celia\", \"alder\": 23, \"karakter\": 4.2},\n    {\"navn\": \"David\", \"alder\": 21, \"karakter\": 3.5},\n    {\"navn\": \"Elin\", \"alder\": 24, \"karakter\": 4.8}\n]\n\nSkriv kode som finner alle studenter med karakter over 4.0.",
+    "objectID": "lectures/llm/llm_02_linreg.html#visualisere-bootstrap-linjene",
+    "href": "lectures/llm/llm_02_linreg.html#visualisere-bootstrap-linjene",
+    "title": "Lineær regresjon",
+    "section": "Visualisere bootstrap-linjene",
+    "text": "Visualisere bootstrap-linjene\n\nplt.figure(figsize=(8, 5))\n\n# Plotte noen bootstrap-linjer\nfor i in range(50):\n    idx = np.random.choice(len(U_målt), size=len(U_målt), replace=True)\n    koeff = np.polyfit(U_målt[idx], I_målt[idx], 1)\n    I_boot = np.polyval(koeff, U)\n    plt.plot(U, I_boot, 'gray', alpha=0.2, linewidth=0.5)\n\n# Plotte data og beste linje\nplt.scatter(U_målt, I_målt, s=50, zorder=5, label='Målinger')\nplt.plot(U, I_predikert, 'r-', linewidth=2, label='Beste tilpasning')\n\nplt.xlabel('Spenning U [V]')\nplt.ylabel('Strøm I [A]')\nplt.title('Bootstrap-linjer viser usikkerheten')\nplt.legend()\nplt.grid(True)\nplt.show()",
+    "crumbs": [
+      "LLM-supplement",
+      "Lineær regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_02_linreg.html#oppsummering",
+    "href": "lectures/llm/llm_02_linreg.html#oppsummering",
+    "title": "Lineær regresjon",
+    "section": "Oppsummering",
+    "text": "Oppsummering\n\nLineær regresjon finner den linjen som minimerer summen av kvadrerte avvik\nStøy gjør at vi får forskjellige estimater hver gang\nStandardfeil måler usikkerheten i estimatene\nBootstrap lar oss estimere usikkerhet fra én datasett",
+    "crumbs": [
+      "LLM-supplement",
+      "Lineær regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_02_linreg.html#nøkkelfunksjoner",
+    "href": "lectures/llm/llm_02_linreg.html#nøkkelfunksjoner",
+    "title": "Lineær regresjon",
+    "section": "Nøkkelfunksjoner",
+    "text": "Nøkkelfunksjoner\n\n\n\nFunksjon\nBeskrivelse\n\n\n\n\nnp.polyfit(x, y, 1)\nLineær regresjon\n\n\nnp.polyval(koeff, x)\nEvaluere polynom\n\n\nnp.random.choice(..., replace=True)\nBootstrap-sampling",
+    "crumbs": [
+      "LLM-supplement",
+      "Lineær regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/llm/llm_02_linreg.html#øvingsoppgaver",
+    "href": "lectures/llm/llm_02_linreg.html#øvingsoppgaver",
+    "title": "Lineær regresjon",
+    "section": "Øvingsoppgaver",
+    "text": "Øvingsoppgaver\n\nEndre standardavviket til støyen. Hva skjer med usikkerheten i estimatene?\nEndre antall målinger. Hvordan påvirker det usikkerheten?\nBruk bootstrap til å lage et 95% konfidensintervall for stigningstallet",
+    "crumbs": [
+      "LLM-supplement",
+      "Lineær regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/02a_forberedelser.html",
+    "href": "lectures/02a_forberedelser.html",
+    "title": "Forberedelser",
+    "section": "",
+    "text": "Forberedelser\n\nGjør øvingsoppgavene fra forrige uke.\nI Introduction to statistical learning with applications in Python, les følgende sider: 1–13, 15–20, 69–81 (Åpent tilgjengelig på https://www.statlearning.com). Skriv opp tre konsepter du har forstått og tre konsepter du ikke har forstått. Begrunn forstått/ikke forstått. (Det er forskjellige sidetall i bokversjonen for R og Python, og vi forholder oss til sidetallene i Python-versjonen.)",
     "crumbs": [
       "Del 1: Statistikk",
-      "Uke 1 – 23. januar",
-      "HON2110 Oppfriskingsoppgaver"
+      "Uke 2 – 30. januar"
+    ]
+  },
+  {
+    "objectID": "lectures/02c_øvelse.html",
+    "href": "lectures/02c_øvelse.html",
+    "title": "Øvingsoppgaver",
+    "section": "",
+    "text": "Ta utgangspunkt i det klassiske datasettet som inneholder informasjon om størrelsen (lende og bredde) av begerbladene (engelsk: sepal) (de ytre bladene i en blomst) og kronbladene (engelsk: petal) til tre ulike typer Iris (setosa, versicolor og virginica) - på norsk hhv.: villiris, praktiris og blått flagg iris). Dere skal bruke dette datasettet til å se nærmere på lineær regresjon.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Øvingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/02c_øvelse.html#oppgave-1",
+    "href": "lectures/02c_øvelse.html#oppgave-1",
+    "title": "Øvingsoppgaver",
+    "section": "Oppgave 1",
+    "text": "Oppgave 1\na) Les inn iris-datasettet med seaborn:\n\nimport pandas as pd\nimport seaborn as sns\ndf = sns.load_dataset('iris')\n\nb) Kontroller at dataene har blitt lastet inn som et Pandas-dataframe, og merk deg kolonnenavnene.\nc) Vi skal lage en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\nVelg deg ut en type iris-blomst, og hent ut kolonnene som svarer til lengden og bredden til begerbladene for denne iris-typen. Lagre dem i variabler Xog y.\nc) Lag en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\n\nPlot modellen sammen med datasettet?\nHva blir koeffisentene til modellen?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Øvingsoppgaver"
     ]
   }
 ]
