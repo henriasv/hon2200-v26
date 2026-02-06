@@ -28,7 +28,7 @@
     "href": "lectures/03b2_tutorial.html#logistisksigmoid-funksjon",
     "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
     "section": "Logistisk/sigmoid funksjon",
-    "text": "Logistisk/sigmoid funksjon\nPlott den logistiske funksjonen (s. 133 i ITSL). Hvorfor er denne funksjonen egnet til å predikere et binært kategorisk utfall?",
+    "text": "Logistisk/sigmoid funksjon\nPlott den logistiske funksjonen (s. 139 i ITSL). Hvorfor er denne funksjonen egnet til å predikere et binært kategorisk utfall?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 3 – 7. februar",
