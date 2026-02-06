@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/03b2_tutorial.html</loc>
+    <lastmod>2026-02-05T21:24:27.092Z</lastmod>
+  </url>
+  <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/03a_forberedelser.html</loc>
     <lastmod>2026-01-30T10:28:51.313Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02b_slides.html</loc>
-    <lastmod>2026-01-30T09:10:55.508Z</lastmod>
+    <lastmod>2026-01-30T10:41:45.022Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02b_slides.revealjs.html</loc>
-    <lastmod>2026-01-30T10:30:03.824Z</lastmod>
+    <lastmod>2026-02-06T07:43:19.222Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/hon2110_oppfrisking.html</loc>
@@ -18,15 +22,15 @@
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_01_pandas.html</loc>
-    <lastmod>2026-01-23T09:50:39.309Z</lastmod>
+    <lastmod>2026-02-03T10:24:48.683Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.html</loc>
-    <lastmod>2026-01-26T07:16:50.598Z</lastmod>
+    <lastmod>2026-02-04T15:21:04.964Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.revealjs.html</loc>
-    <lastmod>2026-01-30T10:29:58.647Z</lastmod>
+    <lastmod>2026-02-06T07:43:13.643Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/01a_forberedelser.html</loc>
@@ -50,7 +54,7 @@
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_02_linreg.html</loc>
-    <lastmod>2026-01-29T09:08:32.150Z</lastmod>
+    <lastmod>2026-02-03T10:24:48.681Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02a_forberedelser.html</loc>
@@ -59,5 +63,13 @@
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02c_øvelse.html</loc>
     <lastmod>2026-01-30T10:27:59.794Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/03b_slides.revealjs.html</loc>
+    <lastmod>2026-02-06T07:43:20.569Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/03b_slides.html</loc>
+    <lastmod>2026-02-05T20:21:20.505Z</lastmod>
   </url>
 </urlset>

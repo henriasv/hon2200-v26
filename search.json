@@ -1,5 +1,113 @@
 [
   {
+    "objectID": "lectures/03b2_tutorial.html",
+    "href": "lectures/03b2_tutorial.html",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "",
+    "text": "Tutorial\nVi skal jobbe med denne tutorial-oppgaven i undervisningen, så denne trenger dere ikke gjøre på forhånd.\nI leseleksa så dere på logistisk regresjon og på hvordan man kan validere en modell. Dette skal vi nå jobbe med. Vi skal bruke logistisk regresjon til å klassifisere individer som gode eller dårlige betalere av kredittkortregningen sin.\nLogistisk regresjon er en klassifiseringsmetode. Det vil si at vi ønsker å predikere kategoriske utfall. Altså utfall slik som kjønn (mann/kvinne), blodtype (A/B/AB/0) osv. Det som kjennetegner slike utfall er at de ikke enkelt kan tilordnes en numerisk verdi på en skala. Det gir ikke mening å si at blodtype B ligger midt mellom A og AB. De er bare forskjellige blodtyper. Noen ganger kan det være uklart om et utfall må være kategorisk eller om det kunne vært numerisk. Det gjelder i tilfeller der vi vet hvordan vi skal sortere kategoriene. I slike tilfeller kan det gi mening å modellere kategoriske utfall som numeriske utfall.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
+    "objectID": "lectures/03b2_tutorial.html#kategorisk-vs.-numerisk",
+    "href": "lectures/03b2_tutorial.html#kategorisk-vs.-numerisk",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "Kategorisk vs. numerisk",
+    "text": "Kategorisk vs. numerisk\nHvilke av følgende utfall er kategoriske og hvilke er numeriske?\n\nTemperatur\nNavn på by\nVindstyrke\nVindretning\nPolitisk parti\nØltype\nKarakterer\nFarge\nKjønn",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
+    "objectID": "lectures/03b2_tutorial.html#logistisksigmoid-funksjon",
+    "href": "lectures/03b2_tutorial.html#logistisksigmoid-funksjon",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "Logistisk/sigmoid funksjon",
+    "text": "Logistisk/sigmoid funksjon\nPlott den logistiske funksjonen (s. 133 i ITSL). Hvorfor er denne funksjonen egnet til å predikere et binært kategorisk utfall?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
+    "objectID": "lectures/03b2_tutorial.html#parametrene-beta_0-og-beta_1",
+    "href": "lectures/03b2_tutorial.html#parametrene-beta_0-og-beta_1",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "Parametrene \\(\\beta_0\\) og \\(\\beta_1\\)",
+    "text": "Parametrene \\(\\beta_0\\) og \\(\\beta_1\\)\nUforsk hvordan parametrene \\(\\beta_0\\) og \\(\\beta_1\\) flytter på funksjonen.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
+    "objectID": "lectures/03b2_tutorial.html#datasett-med-kredittkortmislighold",
+    "href": "lectures/03b2_tutorial.html#datasett-med-kredittkortmislighold",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "Datasett med kredittkortmislighold",
+    "text": "Datasett med kredittkortmislighold\nLast inn default-datasettet (zenodo.org/record/6199560/files/default.csv). Plott mislighold mot hvor mye kredittkortlån en person har (balance). Ser du noen sammenheng i dataene?\nLitt starthjelp her:\n\nimport pandas as pd\n\n# Load the dataset\nurl = 'https://zenodo.org/record/6199560/files/default.csv'\ndata = pd.read_csv(url)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
+    "objectID": "lectures/03b2_tutorial.html#datavisualisering",
+    "href": "lectures/03b2_tutorial.html#datavisualisering",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "Datavisualisering",
+    "text": "Datavisualisering\nBruk funksjonen np.histogram til å lage et histogram over hvem som misligholder og ikke. Bruk deretter histogramverdiene til å regne ut hvor stor andel som misligholder kridittkortlånene innenfor hvert intervall av balance. Altså for hvert intervall i histogrammet.\nVi kan hente ut arrayer med true/false på mislighold på denne måten:\n\nimport numpy as np\nx = np.linspace(0, 3000, 100)\ndf_yes = data[data[\"default\"] == \"Yes\"]\ndf_no = data[data[\"default\"] == \"No\"]",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
+    "objectID": "lectures/03b2_tutorial.html#tilpasse-beta_0-og-beta_1",
+    "href": "lectures/03b2_tutorial.html#tilpasse-beta_0-og-beta_1",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "Tilpasse \\(\\beta_0\\) og \\(\\beta_1\\)",
+    "text": "Tilpasse \\(\\beta_0\\) og \\(\\beta_1\\)\nPrøv å finne gode verdier for parametrene \\(\\beta_0\\) og \\(\\beta_1\\) slik at du får tegnet en logistisk funksjon som følger dataene brukbart. Trenger ikke å fintune helt, bare finne en strek som er sånn noen lunde på rett sted.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
+    "objectID": "lectures/03b2_tutorial.html#automatisk-tilpassing",
+    "href": "lectures/03b2_tutorial.html#automatisk-tilpassing",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "Automatisk tilpassing",
+    "text": "Automatisk tilpassing\nBruk scikit-learn sin metode for å gjøre logistisk regresjon for mislighold som funsjon av balansen på kredittkortet.\nLitt kode til å komme i gang:\n\nfrom sklearn.linear_model import LogisticRegression\nmy_regressor = LogisticRegression()\nmy_fit = my_regressor.fit(x.reshape(-1,1), y.reshape(-1,1))\n\nMen sett inn riktige tall! Det kjipeste med koden over er at LogisticRegressionsin fit-funksjon forventer å få en array med potensielt flere prediktorer, ikke bare én (som her er “balance”). Derfor vil den ha en array med arrayer, og vi må gjøre .reshape for å lage en array med arrayer av lengde 1. Det er som å pakke bamsemums i cellofan før de går i godteposen.\nOm tilpasningen har gått riktig, vil du nå kunne finne igjen \\(\\beta_0\\) og \\(\\beta_1\\) som henholdsvis my_regressor.intercept_ og my_regressor.coef_.\nPlott deretter den logistiske funksjonen sammen med grafen som viser andel “yes” for å verifisere at du har fått riktige koeffisienter.\nSkriv også opp, med tall, hva som er likningen som beskriver modellen din for mislighold av kredittkortgjeld.\nGår det an å si noe vettugt om verdien på koeffisientene opp mot hva vi ser i plottet?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
+    "objectID": "lectures/03b2_tutorial.html#multippel-logistisk-regresjon",
+    "href": "lectures/03b2_tutorial.html#multippel-logistisk-regresjon",
+    "title": "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)",
+    "section": "Multippel logistisk regresjon",
+    "text": "Multippel logistisk regresjon\nTil nå har vi tenkt av vi modellerer sannsynligheten for å misligholde kun som en funksjon av én forklaringsvariabel \\(x_1\\), som er hvor stor kredittkortgjeld en person har. \\[f(x) = \\frac{e^{\\beta_0 + \\beta_1 x_1}}{1 + e^{\\beta_0 + \\beta_1 x_1}}\\]\nVi skal nå utvide til også å ta med on den som har kredittkortet er student eller ikke:\n\\[f(x) = \\frac{e^{\\beta_0 + \\beta_1 x_1 + \\beta_2 x_2}}{1 + e^{\\beta_0 + \\beta_1 x_1 + \\beta_2 x_2}}\\]\nder \\(x_2\\) inneholder enten tallet 1, smo betyr student eller tallet 0, som betyr ikke student.\nFor å kunne sende forklaringsvariablene våre til LogisticRegression sin fit-funksjon, må vi pakke dataene på en måte som den godtar. Det gjør vi slik:\n\nx_1 = data[\"balance\"].array\nx_2 = data[\"student\"].array == \"Yes\"\ny = data[\"default\"].array == \"Yes\"\nX = np.array([x_1, x_2]).T\n\nPrint først data. Print så x_1, x_2, y og X, og forklar hva vi har gjort med dataene våre.\nGjør så logistisk regresjon på datasettet og les ut koeffisientene \\(\\beta_0, \\beta_1\\) og \\(\\beta_2\\).\nPlott så modellen som funsjon av \"balance\" for studenter og ikke-studenter separat.\n\nPå hvilken måte kan kredittkortselskapet bruke det om en kunde er student eller ikke til å sette en fornuftig kredittgrense?\nHva sier verdien av \\(\\beta_2\\) om hva det å være student har å si for sannsynligheten for å ikke betale kredittkortet sitt?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+    ]
+  },
+  {
     "objectID": "lectures/03a_forberedelser.html",
     "href": "lectures/03a_forberedelser.html",
     "title": "Forberedelser",
@@ -159,7 +267,7 @@
     "href": "lectures/02b_slides.html#hva-nå",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Hva nå?",
-    "text": "Hva nå?\n\nimport numpy as np\ndag_varmepumpe_alternativer = np.arange(12, 21)\n\nfor i, dag_varmepumpe in enumerate(dag_varmepumpe_alternativer):\n    plt.subplot(3,3, i+1)\n    forbruk_per_dag[\"is_varmepumpe\"] = [0] * dag_varmepumpe+[1] * (31-dag_varmepumpe)\n    x = df_temp[\"value\"]\n    y = forbruk_per_dag[\"KWH 60 Forbruk\"]\n    plt.scatter(x, y, c=forbruk_per_dag[\"is_varmepumpe\"])\n    plt.title(f\"{dag_varmepumpe} desember\")\nplt.tight_layout()",
+    "text": "Hva nå?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -219,7 +327,7 @@
     "href": "lectures/02b_slides.html#støy",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Støy",
-    "text": "Støy\nVi får nok heller noe som ser slik ut:\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nR = 0.3\nU = np.random.random(10) * 5\nI = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation\nplt.scatter(U, I)",
+    "text": "Støy\nVi får nok heller noe som ser slik ut:",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -231,7 +339,7 @@
     "href": "lectures/02b_slides.html#er-dette-en-god-ide",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Er dette en god ide?",
-    "text": "Er dette en god ide?\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nR = 0.3\nU = np.random.random(10) * 5\nI = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation\np = np.polyfit(U, I, 10)\nx = np.linspace(np.min(U), np.max(U), 100)\nplt.scatter(U, I)\nplt.plot(x, np.polyval(p, x))",
+    "text": "Er dette en god ide?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -279,7 +387,7 @@
     "href": "lectures/02b_slides.html#plotte-sammen",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Plotte sammen",
-    "text": "Plotte sammen\n\nplt.scatter(U, I)\nI_fit = np.polyval(p, U)\nplt.plot(U, I_fit)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nSkriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon.",
+    "text": "Plotte sammen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nSkriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -291,7 +399,7 @@
     "href": "lectures/02b_slides.html#prøve-flere-ganger",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Prøve flere ganger",
-    "text": "Prøve flere ganger\n\ndef f(x): \n    return 2*x + 3\n\nN = 10\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n    y_fit = np.polyval(p, x)\n    plt.plot(x, y_fit, linewidth=0.75, color=\"k\")\n    plt.plot(x, f(x), color=\"r\")\n\nplt.plot(x, y_fit, linewidth=0.75, color=\"k\", label=\"Samples with n=10\")\nplt.plot(x, f(x), color=\"r\", label=\"Population mean\")\n\nplt.legend()",
+    "text": "Prøve flere ganger",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -327,7 +435,7 @@
     "href": "lectures/02b_slides.html#løsningforslag-c",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Løsningforslag c",
-    "text": "Løsningforslag c\n\n_ = plt.figure()\n\n&lt;Figure size 672x480 with 0 Axes&gt;\n\n\n\nN = 10000\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n_ = plt.hist(slopes, bins=30)",
+    "text": "Løsningforslag c\n\n\n&lt;Figure size 960x480 with 0 Axes&gt;\n\n\n\nN = 10000\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n_ = plt.hist(slopes, bins=30)",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -387,7 +495,7 @@
     "href": "lectures/02b_slides.html#normalfordelinger-med-disse-parametrene",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Normalfordelinger med disse parametrene:",
-    "text": "Normalfordelinger med disse parametrene:\n\ndef est_dist(x, mu, std):\n    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))\n\nfor n, color  in zip([10, 100], [\"red\", \"blue\"]):\n    x = np.linspace(0, 10, n)\n    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n    est_vals = np.linspace(1.5, 2.5, 100)\n    plt.plot(est_vals, est_dist(2, est_vals, se), \"--\", color=color, label=f\"n={n}\")\nplt.legend()",
+    "text": "Normalfordelinger med disse parametrene:",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -399,7 +507,7 @@
     "href": "lectures/02b_slides.html#normalfordelinger-sammen-med-datasettene",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Normalfordelinger sammen med datasettene",
-    "text": "Normalfordelinger sammen med datasettene\n\ndef est_dist(x, mu, std):\n    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))\n\nN = 10000\nfor n, color  in zip([10, 100], [\"red\", \"blue\"]):\n    slopes = []\n    for i in range(N):\n        x = np.linspace(0, 10, n)\n        y = f(x) + np.random.normal(0, 1.5, n)\n        p = np.polyfit(x, y, 1)\n        slopes.append(p[0])\n    _ = plt.hist(slopes, 30, color=color, density=True)\n    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n    est_vals = np.linspace(1.5, 2.5, 50)\n    plt.plot(est_vals, est_dist(2, est_vals, se), \"--\", color=color, label=f\"n={n}\")\nplt.legend()",
+    "text": "Normalfordelinger sammen med datasettene",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -412,6 +520,18 @@
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "",
     "text": "Men om vi har målt noe, så har vi jo bare én måleserie. Hva kan vi gjøre da?\nBootstrap: Sample deler av datasettet vårt mange ganger, for å se hvordan regresjonskoeffisiente varierer.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 2 – 30. januar",
+      "Forelesningsnotat: Lineær regresjon og modellering"
+    ]
+  },
+  {
+    "objectID": "lectures/02b_slides.html#video-om-lineær-regresjon-fra-statquest",
+    "href": "lectures/02b_slides.html#video-om-lineær-regresjon-fra-statquest",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Video om lineær regresjon, fra StatQuest",
+    "text": "Video om lineær regresjon, fra StatQuest",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -507,7 +627,7 @@
     "href": "lectures/02b_slides.revealjs.html#hva-nå",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Hva nå?",
-    "text": "Hva nå?\n\nimport numpy as np\ndag_varmepumpe_alternativer = np.arange(12, 21)\n\nfor i, dag_varmepumpe in enumerate(dag_varmepumpe_alternativer):\n    plt.subplot(3,3, i+1)\n    forbruk_per_dag[\"is_varmepumpe\"] = [0] * dag_varmepumpe+[1] * (31-dag_varmepumpe)\n    x = df_temp[\"value\"]\n    y = forbruk_per_dag[\"KWH 60 Forbruk\"]\n    plt.scatter(x, y, c=forbruk_per_dag[\"is_varmepumpe\"])\n    plt.title(f\"{dag_varmepumpe} desember\")\nplt.tight_layout()"
+    "text": "Hva nå?"
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#leseleksen",
@@ -542,14 +662,14 @@
     "href": "lectures/02b_slides.revealjs.html#støy",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Støy",
-    "text": "Støy\nVi får nok heller noe som ser slik ut:\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nR = 0.3\nU = np.random.random(10) * 5\nI = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation\nplt.scatter(U, I)"
+    "text": "Støy\nVi får nok heller noe som ser slik ut:"
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#er-dette-en-god-ide",
     "href": "lectures/02b_slides.revealjs.html#er-dette-en-god-ide",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Er dette en god ide?",
-    "text": "Er dette en god ide?\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(0)\nR = 0.3\nU = np.random.random(10) * 5\nI = 1.0 / R * U + np.random.normal(0, 0.5, 10) # Current calculation\np = np.polyfit(U, I, 10)\nx = np.linspace(np.min(U), np.max(U), 100)\nplt.scatter(U, I)\nplt.plot(x, np.polyval(p, x))"
+    "text": "Er dette en god ide?"
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#lineær-regresjon",
@@ -577,14 +697,14 @@
     "href": "lectures/02b_slides.revealjs.html#plotte-sammen",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Plotte sammen",
-    "text": "Plotte sammen\n\nplt.scatter(U, I)\nI_fit = np.polyval(p, U)\nplt.plot(U, I_fit)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\nSkriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon."
+    "text": "Plotte sammen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\nSkriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon."
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#prøve-flere-ganger",
     "href": "lectures/02b_slides.revealjs.html#prøve-flere-ganger",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Prøve flere ganger",
-    "text": "Prøve flere ganger\n\ndef f(x): \n    return 2*x + 3\n\nN = 10\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n    y_fit = np.polyval(p, x)\n    plt.plot(x, y_fit, linewidth=0.75, color=\"k\")\n    plt.plot(x, f(x), color=\"r\")\n\nplt.plot(x, y_fit, linewidth=0.75, color=\"k\", label=\"Samples with n=10\")\nplt.plot(x, f(x), color=\"r\", label=\"Population mean\")\n\nplt.legend()"
+    "text": "Prøve flere ganger"
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#trekke-mange-ganger",
@@ -605,7 +725,7 @@
     "href": "lectures/02b_slides.revealjs.html#løsningforslag-c",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Løsningforslag c",
-    "text": "Løsningforslag c\n\n_ = plt.figure()\n\n&lt;Figure size 672x480 with 0 Axes&gt;\n\n\n\n\nN = 10000\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n_ = plt.hist(slopes, bins=30)"
+    "text": "Løsningforslag c\n\n\n&lt;Figure size 960x480 with 0 Axes&gt;\n\n\n\n\nN = 10000\nslopes = []\nfor i in range(N):\n    x = np.linspace(0, 10, 10)\n    y = f(x) + np.random.normal(0, 1.5, 10)\n    p = np.polyfit(x, y, 1)\n    slopes.append(p[0])\n_ = plt.hist(slopes, bins=30)"
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#øke-antallet-punkter-til-100",
@@ -640,14 +760,14 @@
     "href": "lectures/02b_slides.revealjs.html#normalfordelinger-med-disse-parametrene",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Normalfordelinger med disse parametrene:",
-    "text": "Normalfordelinger med disse parametrene:\n\ndef est_dist(x, mu, std):\n    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))\n\nfor n, color  in zip([10, 100], [\"red\", \"blue\"]):\n    x = np.linspace(0, 10, n)\n    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n    est_vals = np.linspace(1.5, 2.5, 100)\n    plt.plot(est_vals, est_dist(2, est_vals, se), \"--\", color=color, label=f\"n={n}\")\nplt.legend()"
+    "text": "Normalfordelinger med disse parametrene:"
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#normalfordelinger-sammen-med-datasettene",
     "href": "lectures/02b_slides.revealjs.html#normalfordelinger-sammen-med-datasettene",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Normalfordelinger sammen med datasettene",
-    "text": "Normalfordelinger sammen med datasettene\n\ndef est_dist(x, mu, std):\n    return 1/np.sqrt(2*np.pi*std**2)*np.exp(-(x-mu)**2/(2*std**2))\n\nN = 10000\nfor n, color  in zip([10, 100], [\"red\", \"blue\"]):\n    slopes = []\n    for i in range(N):\n        x = np.linspace(0, 10, n)\n        y = f(x) + np.random.normal(0, 1.5, n)\n        p = np.polyfit(x, y, 1)\n        slopes.append(p[0])\n    _ = plt.hist(slopes, 30, color=color, density=True)\n    se = np.sqrt(1.5**2/np.sum((x-np.mean(x))**2))\n    est_vals = np.linspace(1.5, 2.5, 50)\n    plt.plot(est_vals, est_dist(2, est_vals, se), \"--\", color=color, label=f\"n={n}\")\nplt.legend()"
+    "text": "Normalfordelinger sammen med datasettene"
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#section",
@@ -655,6 +775,13 @@
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "",
     "text": "Men om vi har målt noe, så har vi jo bare én måleserie. Hva kan vi gjøre da?\nBootstrap: Sample deler av datasettet vårt mange ganger, for å se hvordan regresjonskoeffisiente varierer."
+  },
+  {
+    "objectID": "lectures/02b_slides.revealjs.html#video-om-lineær-regresjon-fra-statquest",
+    "href": "lectures/02b_slides.revealjs.html#video-om-lineær-regresjon-fra-statquest",
+    "title": "Forelesningsnotat: Lineær regresjon og modellering",
+    "section": "Video om lineær regresjon, fra StatQuest",
+    "text": "Video om lineær regresjon, fra StatQuest"
   },
   {
     "objectID": "lectures/llm/hon2110_oppfrisking.html",
@@ -1374,7 +1501,7 @@
     "href": "lectures/01b1_slides.revealjs.html#sjåfører",
     "title": "Forelesningsnotat",
     "section": "Sjåfører",
-    "text": "Sjåfører\n\n\nimport matplotlib.pyplot as plt \nimport pandas as pd\nferdighetsnivå = [\"Veldig god\", \"Bedre enn snittet\", \"Gjennomsnittlig\", \"Under snittet\", \"Veldig dårlig\"]\nandel = [21, 46, 31, 2, 1]\nplt.barh(ferdighetsnivå, andel)\nplt.tick_params(axis='y', labelsize=20) \n\n\n\n\n\n\n\n\n\n\n\nHva så?\n\n\n\n\nHenger dette på greip?\nKan dette i prinsippet henge på greip?\nKom med en hypotese basert på dette datasettet.\n\nHvilke data trenger du å samle inn for å vurdere hypotesen din?"
+    "text": "Sjåfører\n\n\nimport matplotlib.pyplot as plt \nimport pandas as pd\nferdighetsnivå = [\"Veldig god\", \"Bedre enn snittet\", \"Gjennomsnittlig\", \"Under snittet\", \"Veldig dårlig\"]\nandel = [21, 46, 31, 2, 1]\nplt.barh(ferdighetsnivå, andel)\nplt.tick_params(axis='y', labelsize=20) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHva så?\n\n\n\n\nHenger dette på greip?\nKan dette i prinsippet henge på greip?\nKom med en hypotese basert på dette datasettet.\n\nHvilke data trenger du å samle inn for å vurdere hypotesen din?"
   },
   {
     "objectID": "lectures/01b1_slides.revealjs.html#oppfriskning-fra-hon2110in1900",
@@ -1479,7 +1606,7 @@
     "href": "lectures/01b1_slides.revealjs.html#flere-plots-i-samme-figur",
     "title": "Forelesningsnotat",
     "section": "Flere plots i samme figur",
-    "text": "Flere plots i samme figur\n\nfig, axes = plt.subplots(2,2, figsize=(4,5))\naxes[0,0].scatter(df[\"innsats\"], df[\"talent\"])\naxes[0,0].set_xlabel(\"Innsats\")\naxes[0,0].set_ylabel(\"Talent\")\nplt.tight_layout()\n\n\n\n\n\n\n\n\n\nOppgave\n\n\nFullfør plottet og finn ut hva som er viktigst av innsats og talent."
+    "text": "Flere plots i samme figur\n\nfig, axes = plt.subplots(2,2, figsize=(4,5))\naxes[0,0].scatter(df[\"innsats\"], df[\"talent\"])\naxes[0,0].set_xlabel(\"Innsats\")\naxes[0,0].set_ylabel(\"Talent\")\nplt.tight_layout()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\nFullfør plottet og finn ut hva som er viktigst av innsats og talent."
   },
   {
     "objectID": "lectures/01b1_slides.revealjs.html#laste-inn-fra-fil",
@@ -1863,11 +1990,284 @@
     "href": "lectures/02c_øvelse.html#oppgave-1",
     "title": "Øvingsoppgaver",
     "section": "Oppgave 1",
-    "text": "Oppgave 1\na) Les inn iris-datasettet med seaborn:\n\nimport pandas as pd\nimport seaborn as sns\ndf = sns.load_dataset('iris')\n\nb) Kontroller at dataene har blitt lastet inn som et Pandas-dataframe, og merk deg kolonnenavnene.\nc) Vi skal lage en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\nVelg deg ut en type iris-blomst, og hent ut kolonnene som svarer til lengden og bredden til begerbladene for denne iris-typen. Lagre dem i variabler Xog y.\nc) Lag en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\n\nPlot modellen sammen med datasettet?\nHva blir koeffisentene til modellen?",
+    "text": "Oppgave 1\na) Les inn iris-datasettet med seaborn:\n\nimport pandas as pd\nimport seaborn as sns\ndf = sns.load_dataset('iris')\n\nb) Kontroller at dataene har blitt lastet inn som et Pandas-dataframe, og merk deg kolonnenavnene.\n\n\n\n\n\n\nNote\n\n\n\n\n\nLøsningsforslag: Vi kan sjekke med type-funksjonen for å se at det er av type pandas.DataFrame, og vi kan bruke display eller print for å se innholder, og dermed også kolonnenavnene. Vi kan også bruke columns-funksjonen.\n\nprint(type(df))\nprint(df.columns)\ndisplay(df)\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nIndex(['sepal_length', 'sepal_width', 'petal_length', 'petal_width',\n       'species'],\n      dtype='object')\n\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n...\n...\n...\n...\n...\n...\n\n\n145\n6.7\n3.0\n5.2\n2.3\nvirginica\n\n\n146\n6.3\n2.5\n5.0\n1.9\nvirginica\n\n\n147\n6.5\n3.0\n5.2\n2.0\nvirginica\n\n\n148\n6.2\n3.4\n5.4\n2.3\nvirginica\n\n\n149\n5.9\n3.0\n5.1\n1.8\nvirginica\n\n\n\n\n150 rows × 5 columns\n\n\n\n\n\n\nc) Vi skal lage en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\nVelg deg ut en type iris-blomst, og hent ut kolonnene som svarer til lengden og bredden til begerbladene for denne iris-typen. Lagre dem i variabler Xog y.\n\n\n\n\n\n\nLøsningsforslag\n\n\n\n\n\nJeg velger meg setosa.\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\ndf_setosa = df[df[\"species\"]==\"setosa\"]\n# Fit the model\nX = df_setosa['sepal_length']\ny = df_setosa['sepal_width']\n\n\n\n\nc) Lag en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\n\nPlot modellen sammen med datasettet?\nHva blir koeffisentene til modellen?\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nLøsningsforslag:\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Fit the model\np = np.polyfit(X, y, 1) \n\n# Get the coefficients\nintercept = p[1]\nslope = p[0]\n\nprint(f\"Intercept: {intercept}, Slope: {slope}\")\n\ny_model = np.polyval(p, X)\n\n# Plot the data and the model\nplt.figure(figsize=(10, 6))\nplt.plot(X, y, \"o\", label=\"Data\") \nplt.plot(X, y_model, label=\"model\")\nplt.xlabel('Sepal Length (cm)')\nplt.ylabel('Sepal Width (cm)')\n\nplt.legend()\nplt.show()\n\nIntercept: -0.569432673039647, Slope: 0.798528300647153",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
       "Øvingsoppgaver"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#slide-versjon",
+    "href": "lectures/03b_slides.revealjs.html#slide-versjon",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Slide-versjon",
+    "text": "Slide-versjon"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#modellering-med-én-forklaringsvariabel",
+    "href": "lectures/03b_slides.revealjs.html#modellering-med-én-forklaringsvariabel",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Modellering med én forklaringsvariabel",
+    "text": "Modellering med én forklaringsvariabel\n\\[y = f(x) + \\varepsilon\\]\nDer \\(f(x)\\) beskriver fenomenet bortsett fra støy \\(\\varepsilon\\) som vi ikke kan håpe på å forklare.\nVi gjør prediksjoner med\n\\[ \\hat y = \\hat{f}(x) \\]\nOg kaller da \\(\\hat y\\) for “estimert y”. Merk at vi må ta til takke med å bruke \\(\\hat{f}\\), siden vi ikke kjenner \\(f\\)."
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#forrige-uke",
+    "href": "lectures/03b_slides.revealjs.html#forrige-uke",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Forrige uke",
+    "text": "Forrige uke\nVi så på\n\\[ f(x) = ax + b \\]\nOg anvendte dette på fiktive målinger for Ohms lov:\n\\[ I(U) = \\frac{1}{R} U\\]\nsom er \\(ax + b\\), men med \\(a=\\frac{1}{R}\\), \\(b=0\\) og den generelle forklaringsvariablen som generelt heter \\(x\\) heter heller \\(U\\) når den beskriver spenning."
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#i-dag",
+    "href": "lectures/03b_slides.revealjs.html#i-dag",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "I dag",
+    "text": "I dag\n\nSigmoid-funksjonen \\(f(z)=\\frac{e^z}{1+e^z}\\)\nUtvidelse til \\(z = \\beta_0 + \\beta_1 x\\), hvordan påvirkes sigmoiden av \\(\\beta_0\\) og \\(\\beta_1\\)?\nRegresjon med sigmoidfunksjon.\nFlere forklaringsvariable: \\(z = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\cdots\\)\nFunksjonstilpasning med flere variable"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#funksjoner-i-python",
+    "href": "lectures/03b_slides.revealjs.html#funksjoner-i-python",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Funksjoner i Python",
+    "text": "Funksjoner i Python\nEksempel\n\ndef summer_to_tall(tall_1, tall_2): \n    sum = tall_1 + tall_2\n    return sum \n\nmin_sum = summer_to_tall(2, 3)\nprint(f\"sum: {min_sum}\")\n\nsum: 5"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#generell-funksjonssyntaks",
+    "href": "lectures/03b_slides.revealjs.html#generell-funksjonssyntaks",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Generell funksjonssyntaks",
+    "text": "Generell funksjonssyntaks\n\ndef &lt;funksjonsnavn&gt;(parametre, ...):\n    # gjør noe\n    return &lt;resultat&gt;"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#sigmoidfunksjonen",
+    "href": "lectures/03b_slides.revealjs.html#sigmoidfunksjonen",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Sigmoidfunksjonen",
+    "text": "Sigmoidfunksjonen\n\\[ f(z) = \\frac{e^z}{1+e^z} \\]\nHvordan ser denne funksjonen ut?\n\n\n\n\n\n\nUnderveisoppgave\n\n\n\nHva er \\(f(0)\\)?\nHva er \\(f(-\\infty)\\)?\nHva er \\(f(\\infty)\\)? Tegn opp funksjonen"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#sigmoidfunksjonen-1",
+    "href": "lectures/03b_slides.revealjs.html#sigmoidfunksjonen-1",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Sigmoidfunksjonen",
+    "text": "Sigmoidfunksjonen\n\nimport numpy as np\ndef f(z): \n    return np.exp(z)/(1 + np.exp(z))\n\nz = np.linspace(-5, 5, 100)\nimport matplotlib.pyplot as plt \nplt.plot(z, f(z))"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#modell-for-nedbør",
+    "href": "lectures/03b_slides.revealjs.html#modell-for-nedbør",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Modell for nedbør",
+    "text": "Modell for nedbør\n\n\n\n\n\n\nOppgave\n\n\n\n\n\n\n\n\n\n\n\n\nHvorfor er dette en meningsfull modell for hvorvidt nedbør kommer som regn?\nMen stemmer det helt?"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#komplisere-z-i-fz",
+    "href": "lectures/03b_slides.revealjs.html#komplisere-z-i-fz",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Komplisere \\(z\\) i \\(f(z)\\)",
+    "text": "Komplisere \\(z\\) i \\(f(z)\\)\nSette \\(z = \\beta_0 + \\beta_1 x\\).\nDa kan vi heller lage oss \\(p(x) = \\frac{e^{\\beta_0 + \\beta_1 x}}{1 + e^{\\beta_0 + \\beta_1 x}}\\)"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#shift",
+    "href": "lectures/03b_slides.revealjs.html#shift",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Shift",
+    "text": "Shift"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#ny-modell-for-nedbør",
+    "href": "lectures/03b_slides.revealjs.html#ny-modell-for-nedbør",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Ny modell for nedbør",
+    "text": "Ny modell for nedbør\n\nHvordan bør vi sette \\(\\beta_0\\) for å lage en fornuftig modell for nedbør?\n\n\\(p(x) = \\frac{e^{\\beta_0 + \\beta_1 x}}{1 + e^{\\beta_0 + \\beta_1 x}}\\)"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#vi-har-bare-gjettet",
+    "href": "lectures/03b_slides.revealjs.html#vi-har-bare-gjettet",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Vi har bare gjettet",
+    "text": "Vi har bare gjettet\n\nHvordan ville du gå fram hvis du skulle lage en slik modell, og det var viktig at den fungerte?\n\n\\(p(x) = \\frac{e^{\\beta_0 + \\beta_1 x}}{1 + e^{\\beta_0 + \\beta_1 x}}\\)"
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#hva-kan-være-viktig",
+    "href": "lectures/03b_slides.revealjs.html#hva-kan-være-viktig",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Hva kan være viktig",
+    "text": "Hva kan være viktig\n\nOm du er kredittkortselskap er det viktig at kundene betaler for seg. Ikke med en gang, du vil ha renter, men til slutt, du vil også ha pengene tilbake."
+  },
+  {
+    "objectID": "lectures/03b_slides.revealjs.html#default-datasettet",
+    "href": "lectures/03b_slides.revealjs.html#default-datasettet",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Default-datasettet",
+    "text": "Default-datasettet\nVi gjør en egen tutorial som handler om dette datasettet, for å få litt praktisk omgang med logistisk regresjon!"
+  },
+  {
+    "objectID": "lectures/03b_slides.html#modellering-med-én-forklaringsvariabel",
+    "href": "lectures/03b_slides.html#modellering-med-én-forklaringsvariabel",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Modellering med én forklaringsvariabel",
+    "text": "Modellering med én forklaringsvariabel\n\\[y = f(x) + \\varepsilon\\]\nDer \\(f(x)\\) beskriver fenomenet bortsett fra støy \\(\\varepsilon\\) som vi ikke kan håpe på å forklare.\nVi gjør prediksjoner med\n\\[ \\hat y = \\hat{f}(x) \\]\nOg kaller da \\(\\hat y\\) for “estimert y”. Merk at vi må ta til takke med å bruke \\(\\hat{f}\\), siden vi ikke kjenner \\(f\\).",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#forrige-uke",
+    "href": "lectures/03b_slides.html#forrige-uke",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Forrige uke",
+    "text": "Forrige uke\nVi så på\n\\[ f(x) = ax + b \\]\nOg anvendte dette på fiktive målinger for Ohms lov:\n\\[ I(U) = \\frac{1}{R} U\\]\nsom er \\(ax + b\\), men med \\(a=\\frac{1}{R}\\), \\(b=0\\) og den generelle forklaringsvariablen som generelt heter \\(x\\) heter heller \\(U\\) når den beskriver spenning.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#i-dag",
+    "href": "lectures/03b_slides.html#i-dag",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "I dag",
+    "text": "I dag\n\nSigmoid-funksjonen \\(f(z)=\\frac{e^z}{1+e^z}\\)\nUtvidelse til \\(z = \\beta_0 + \\beta_1 x\\), hvordan påvirkes sigmoiden av \\(\\beta_0\\) og \\(\\beta_1\\)?\nRegresjon med sigmoidfunksjon.\nFlere forklaringsvariable: \\(z = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\cdots\\)\nFunksjonstilpasning med flere variable",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#funksjoner-i-python",
+    "href": "lectures/03b_slides.html#funksjoner-i-python",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Funksjoner i Python",
+    "text": "Funksjoner i Python\nEksempel\n\ndef summer_to_tall(tall_1, tall_2): \n    sum = tall_1 + tall_2\n    return sum \n\nmin_sum = summer_to_tall(2, 3)\nprint(f\"sum: {min_sum}\")\n\nsum: 5",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#generell-funksjonssyntaks",
+    "href": "lectures/03b_slides.html#generell-funksjonssyntaks",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Generell funksjonssyntaks",
+    "text": "Generell funksjonssyntaks\n\ndef &lt;funksjonsnavn&gt;(parametre, ...):\n    # gjør noe\n    return &lt;resultat&gt;",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#sigmoidfunksjonen",
+    "href": "lectures/03b_slides.html#sigmoidfunksjonen",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Sigmoidfunksjonen",
+    "text": "Sigmoidfunksjonen\n\\[ f(z) = \\frac{e^z}{1+e^z} \\]\nHvordan ser denne funksjonen ut?\n\n\n\n\n\n\nUnderveisoppgave\n\n\n\n\nHva er \\(f(0)\\)?\nHva er \\(f(-\\infty)\\)?\nHva er \\(f(\\infty)\\)? Tegn opp funksjonen",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#sigmoidfunksjonen-1",
+    "href": "lectures/03b_slides.html#sigmoidfunksjonen-1",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Sigmoidfunksjonen",
+    "text": "Sigmoidfunksjonen\n\nimport numpy as np\ndef f(z): \n    return np.exp(z)/(1 + np.exp(z))\n\nz = np.linspace(-5, 5, 100)\nimport matplotlib.pyplot as plt \nplt.plot(z, f(z))",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#modell-for-nedbør",
+    "href": "lectures/03b_slides.html#modell-for-nedbør",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Modell for nedbør",
+    "text": "Modell for nedbør\n\n\n\n\n\n\nOppgave\n\n\n\n\n\n\n\n\n\n\n\n\n\nHvorfor er dette en meningsfull modell for hvorvidt nedbør kommer som regn?\nMen stemmer det helt?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#komplisere-z-i-fz",
+    "href": "lectures/03b_slides.html#komplisere-z-i-fz",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Komplisere \\(z\\) i \\(f(z)\\)",
+    "text": "Komplisere \\(z\\) i \\(f(z)\\)\nSette \\(z = \\beta_0 + \\beta_1 x\\).\nDa kan vi heller lage oss \\(p(x) = \\frac{e^{\\beta_0 + \\beta_1 x}}{1 + e^{\\beta_0 + \\beta_1 x}}\\)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#shift",
+    "href": "lectures/03b_slides.html#shift",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Shift",
+    "text": "Shift",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#ny-modell-for-nedbør",
+    "href": "lectures/03b_slides.html#ny-modell-for-nedbør",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Ny modell for nedbør",
+    "text": "Ny modell for nedbør\n\nHvordan bør vi sette \\(\\beta_0\\) for å lage en fornuftig modell for nedbør?\n\n\\(p(x) = \\frac{e^{\\beta_0 + \\beta_1 x}}{1 + e^{\\beta_0 + \\beta_1 x}}\\)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#vi-har-bare-gjettet",
+    "href": "lectures/03b_slides.html#vi-har-bare-gjettet",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Vi har bare gjettet",
+    "text": "Vi har bare gjettet\n\nHvordan ville du gå fram hvis du skulle lage en slik modell, og det var viktig at den fungerte?\n\n\\(p(x) = \\frac{e^{\\beta_0 + \\beta_1 x}}{1 + e^{\\beta_0 + \\beta_1 x}}\\)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#hva-kan-være-viktig",
+    "href": "lectures/03b_slides.html#hva-kan-være-viktig",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Hva kan være viktig",
+    "text": "Hva kan være viktig\n\nOm du er kredittkortselskap er det viktig at kundene betaler for seg. Ikke med en gang, du vil ha renter, men til slutt, du vil også ha pengene tilbake.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
+    ]
+  },
+  {
+    "objectID": "lectures/03b_slides.html#default-datasettet",
+    "href": "lectures/03b_slides.html#default-datasettet",
+    "title": "Forelesningsnotat: Logistisk regresjon",
+    "section": "Default-datasettet",
+    "text": "Default-datasettet\nVi gjør en egen tutorial som handler om dette datasettet, for å få litt praktisk omgang med logistisk regresjon!",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 3 – 7. februar",
+      "Forelesningsnotat: Logistisk regresjon"
     ]
   }
 ]
