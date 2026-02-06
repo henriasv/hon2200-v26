@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Henrik Sveinsson">
 
-<title>Forelesningsnotat: Logistisk regresjon – HON2200 – V2026</title>
+<title>a_forberedelser – HON2200 – V2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -74,7 +39,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-aadbdd34b63a8619be62941c6a9b2204.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-079dae96ee513acaaaf5e7535a33b516.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-73c0545440c5197407f91096614fe5e7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -103,35 +68,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -144,7 +80,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/01a_forberedelser.html">Del 1: Statistikk</a></li><li class="breadcrumb-item"><a href="../lectures/03a_forberedelser.html">Uke 3 – 7. februar</a></li><li class="breadcrumb-item"><a href="../lectures/03b_slides.html">Forelesningsnotat: Logistisk regresjon</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/01a_forberedelser.html">Del 1: Statistikk</a></li><li class="breadcrumb-item"><a href="../lectures/04a_forberedelser.html">Uke 4 – 14. februar</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -272,11 +208,11 @@ window.Quarto = {
       <div class="sidebar-item-container"> 
             <a href="../lectures/03a_forberedelser.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Uke 3 – 7. februar</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/03a_forberedelser.html" class="sidebar-item-text sidebar-link">
@@ -285,7 +221,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/03b_slides.html" class="sidebar-item-text sidebar-link active">
+  <a href="../lectures/03b_slides.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Forelesningsnotat: Logistisk regresjon</span></a>
   </div>
 </li>
@@ -299,16 +235,16 @@ window.Quarto = {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../lectures/04a_forberedelser.html" class="sidebar-item-text sidebar-link">
+            <a href="../lectures/04a_forberedelser.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Uke 4 – 14. februar</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../lectures/04a_forberedelser.html" class="sidebar-item-text sidebar-link">
+  <a href="../lectures/04a_forberedelser.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Forberedelser</span></a>
   </div>
 </li>
@@ -363,215 +299,25 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#slide-versjon" id="toc-slide-versjon" class="nav-link active" data-scroll-target="#slide-versjon">Slide-versjon</a></li>
-  <li><a href="#modellering-med-én-forklaringsvariabel" id="toc-modellering-med-én-forklaringsvariabel" class="nav-link" data-scroll-target="#modellering-med-én-forklaringsvariabel">Modellering med én forklaringsvariabel</a></li>
-  <li><a href="#forrige-uke" id="toc-forrige-uke" class="nav-link" data-scroll-target="#forrige-uke">Forrige uke</a></li>
-  <li><a href="#i-dag" id="toc-i-dag" class="nav-link" data-scroll-target="#i-dag">I dag</a></li>
-  <li><a href="#funksjoner-i-python" id="toc-funksjoner-i-python" class="nav-link" data-scroll-target="#funksjoner-i-python">Funksjoner i Python</a></li>
-  <li><a href="#generell-funksjonssyntaks" id="toc-generell-funksjonssyntaks" class="nav-link" data-scroll-target="#generell-funksjonssyntaks">Generell funksjonssyntaks</a></li>
-  <li><a href="#sigmoidfunksjonen" id="toc-sigmoidfunksjonen" class="nav-link" data-scroll-target="#sigmoidfunksjonen">Sigmoidfunksjonen</a></li>
-  <li><a href="#sigmoidfunksjonen-1" id="toc-sigmoidfunksjonen-1" class="nav-link" data-scroll-target="#sigmoidfunksjonen-1">Sigmoidfunksjonen</a></li>
-  <li><a href="#modell-for-nedbør" id="toc-modell-for-nedbør" class="nav-link" data-scroll-target="#modell-for-nedbør">Modell for nedbør</a></li>
-  <li><a href="#komplisere-z-i-fz" id="toc-komplisere-z-i-fz" class="nav-link" data-scroll-target="#komplisere-z-i-fz">Komplisere <span class="math inline">\(z\)</span> i <span class="math inline">\(f(z)\)</span></a></li>
-  <li><a href="#shift" id="toc-shift" class="nav-link" data-scroll-target="#shift">Shift</a></li>
-  <li><a href="#ny-modell-for-nedbør" id="toc-ny-modell-for-nedbør" class="nav-link" data-scroll-target="#ny-modell-for-nedbør">Ny modell for nedbør</a></li>
-  <li><a href="#vi-har-bare-gjettet" id="toc-vi-har-bare-gjettet" class="nav-link" data-scroll-target="#vi-har-bare-gjettet">Vi har bare gjettet</a></li>
-  <li><a href="#hva-kan-være-viktig" id="toc-hva-kan-være-viktig" class="nav-link" data-scroll-target="#hva-kan-være-viktig">Hva kan være viktig</a></li>
-  <li><a href="#default-datasettet" id="toc-default-datasettet" class="nav-link" data-scroll-target="#default-datasettet">Default-datasettet</a></li>
+  <li><a href="#forberedelser" id="toc-forberedelser" class="nav-link active" data-scroll-target="#forberedelser">Forberedelser</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="03b_slides.revealjs.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/01a_forberedelser.html">Del 1: Statistikk</a></li><li class="breadcrumb-item"><a href="../lectures/03a_forberedelser.html">Uke 3 – 7. februar</a></li><li class="breadcrumb-item"><a href="../lectures/03b_slides.html">Forelesningsnotat: Logistisk regresjon</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Forelesningsnotat: Logistisk regresjon</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/01a_forberedelser.html">Del 1: Statistikk</a></li><li class="breadcrumb-item"><a href="../lectures/04a_forberedelser.html">Uke 4 – 14. februar</a></li></ol></nav></header>
 
 
 
-<div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Henrik Sveinsson </p>
-          </div>
-  </div>
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="slide-versjon" class="level2">
-<h2 class="anchored" data-anchor-id="slide-versjon">Slide-versjon</h2>
-<iframe src="03b_slides.revealjs.html" width="960" height="540">
-</iframe>
-</section>
-<section id="modellering-med-én-forklaringsvariabel" class="level2">
-<h2 class="anchored" data-anchor-id="modellering-med-én-forklaringsvariabel">Modellering med én forklaringsvariabel</h2>
-<p><span class="math display">\[y = f(x) + \varepsilon\]</span></p>
-<p>Der <span class="math inline">\(f(x)\)</span> beskriver fenomenet bortsett fra støy <span class="math inline">\(\varepsilon\)</span> som vi ikke kan håpe på å forklare.</p>
-<p>Vi gjør prediksjoner med</p>
-<p><span class="math display">\[ \hat y = \hat{f}(x) \]</span></p>
-<p>Og kaller da <span class="math inline">\(\hat y\)</span> for “estimert y”. Merk at vi må ta til takke med å bruke <span class="math inline">\(\hat{f}\)</span>, siden vi ikke kjenner <span class="math inline">\(f\)</span>.</p>
-</section>
-<section id="forrige-uke" class="level2">
-<h2 class="anchored" data-anchor-id="forrige-uke">Forrige uke</h2>
-<p>Vi så på</p>
-<p><span class="math display">\[ f(x) = ax + b \]</span></p>
-<p>Og anvendte dette på fiktive målinger for <em>Ohms lov</em>:</p>
-<p><span class="math display">\[ I(U) = \frac{1}{R} U\]</span></p>
-<p>som er <span class="math inline">\(ax + b\)</span>, men med <span class="math inline">\(a=\frac{1}{R}\)</span>, <span class="math inline">\(b=0\)</span> og den generelle forklaringsvariablen som generelt heter <span class="math inline">\(x\)</span> heter heller <span class="math inline">\(U\)</span> når den beskriver spenning.</p>
-</section>
-<section id="i-dag" class="level2">
-<h2 class="anchored" data-anchor-id="i-dag">I dag</h2>
+<section id="forberedelser" class="level1 unnumbered">
+<h1 class="unnumbered">Forberedelser</h1>
+<p>Da vi begynte å se på lineær regresjon, viste vi at man får litt forskjellige regresjonskoeffisienter for hver gang man trekker nye tilfeldige samples fra samme fordeling. Nå skal vi se på såkalte <em>resampling</em>-metoder, som er avgjørende for å kunne estimere feilen vi gjør når vi trener modeller til å gjøre prediksjoner. Stikkord er treningsdata, valideringsdata, kryssvalidering, bias-varians-avveining, bootstrap.</p>
+<p>Forberedelser til timen:</p>
 <ul>
-<li>Sigmoid-funksjonen <span class="math inline">\(f(z)=\frac{e^z}{1+e^z}\)</span></li>
-<li>Utvidelse til <span class="math inline">\(z = \beta_0 + \beta_1 x\)</span>, hvordan påvirkes sigmoiden av <span class="math inline">\(\beta_0\)</span> og <span class="math inline">\(\beta_1\)</span>?</li>
-<li>Regresjon med sigmoidfunksjon.</li>
-<li>Flere forklaringsvariable: <span class="math inline">\(z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots\)</span></li>
-<li>Funksjonstilpasning med flere variable</li>
+<li>Introduction to statistical learning (<strong>with applications in Python</strong>), lese s. 201 - 215 (Åpent tilgjengelig på <a href="https://www.statlearning.com">https://www.statlearning.com</a>). I seksjonen om Bootstrap kan det være greit å ikke ta alle detaljer for alvorlig.</li>
+<li>Gjøre ferdig <a href="../lectures/03b2_tutorial.html">tutorial om logistisk regresjon</a> fra forrige forelesning.</li>
 </ul>
-</section>
-<section id="funksjoner-i-python" class="level2">
-<h2 class="anchored" data-anchor-id="funksjoner-i-python">Funksjoner i Python</h2>
-<p>Eksempel</p>
-<div id="8b495306" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summer_to_tall(tall_1, tall_2): </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">=</span> tall_1 <span class="op">+</span> tall_2</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span> </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>min_sum <span class="op">=</span> summer_to_tall(<span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"sum: </span><span class="sc">{</span>min_sum<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>sum: 5</code></pre>
-</div>
-</div>
-</section>
-<section id="generell-funksjonssyntaks" class="level2">
-<h2 class="anchored" data-anchor-id="generell-funksjonssyntaks">Generell funksjonssyntaks</h2>
-<div id="f78eb4db" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="op">&lt;</span>funksjonsnavn<span class="op">&gt;</span>(parametre, ...):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># gjør noe</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">&lt;</span>resultat<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="sigmoidfunksjonen" class="level2">
-<h2 class="anchored" data-anchor-id="sigmoidfunksjonen">Sigmoidfunksjonen</h2>
-<p><span class="math display">\[ f(z) = \frac{e^z}{1+e^z} \]</span></p>
-<p>Hvordan ser denne funksjonen ut?</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Underveisoppgave
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>Hva er <span class="math inline">\(f(0)\)</span>?</li>
-<li>Hva er <span class="math inline">\(f(-\infty)\)</span>?</li>
-<li>Hva er <span class="math inline">\(f(\infty)\)</span>? Tegn opp funksjonen</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="sigmoidfunksjonen-1" class="level2">
-<h2 class="anchored" data-anchor-id="sigmoidfunksjonen-1">Sigmoidfunksjonen</h2>
-<div id="6eb32292" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(z): </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.exp(z)<span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(z))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">100</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.plot(z, f(z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="03b_slides_files/figure-revealjs/cell-4-output-1.png" width="794" height="411" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="modell-for-nedbør" class="level2">
-<h2 class="anchored" data-anchor-id="modell-for-nedbør">Modell for nedbør</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Oppgave
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div id="db07c256" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="03b_slides_files/figure-revealjs/cell-5-output-1.png" width="812" height="429" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>Hvorfor er dette en meningsfull modell for hvorvidt nedbør kommer som regn?</li>
-<li>Men stemmer det helt?</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="komplisere-z-i-fz" class="level2">
-<h2 class="anchored" data-anchor-id="komplisere-z-i-fz">Komplisere <span class="math inline">\(z\)</span> i <span class="math inline">\(f(z)\)</span></h2>
-<p>Sette <span class="math inline">\(z = \beta_0 + \beta_1 x\)</span>.</p>
-<p>Da kan vi heller lage oss <span class="math inline">\(p(x) = \frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}\)</span></p>
-</section>
-<section id="shift" class="level2">
-<h2 class="anchored" data-anchor-id="shift">Shift</h2>
-<div id="37734af5" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="03b_slides_files/figure-revealjs/cell-6-output-1.png" width="814" height="453" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="ny-modell-for-nedbør" class="level2">
-<h2 class="anchored" data-anchor-id="ny-modell-for-nedbør">Ny modell for nedbør</h2>
-<ul>
-<li>Hvordan bør vi sette <span class="math inline">\(\beta_0\)</span> for å lage en fornuftig modell for nedbør?</li>
-</ul>
-<p><span class="math inline">\(p(x) = \frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}\)</span></p>
-</section>
-<section id="vi-har-bare-gjettet" class="level2">
-<h2 class="anchored" data-anchor-id="vi-har-bare-gjettet">Vi har bare gjettet</h2>
-<ul>
-<li>Hvordan ville du gå fram hvis du skulle lage en slik modell, og det var viktig at den fungerte?</li>
-</ul>
-<p><span class="math inline">\(p(x) = \frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}\)</span></p>
-</section>
-<section id="hva-kan-være-viktig" class="level2">
-<h2 class="anchored" data-anchor-id="hva-kan-være-viktig">Hva kan være viktig</h2>
-<ul>
-<li>Om du er kredittkortselskap er det viktig at kundene betaler for seg. Ikke med en gang, du vil ha renter, men til slutt, du vil også ha pengene tilbake.</li>
-</ul>
-</section>
-<section id="default-datasettet" class="level2">
-<h2 class="anchored" data-anchor-id="default-datasettet">Default-datasettet</h2>
-<p>Vi gjør en egen tutorial som handler om dette datasettet, for å få litt praktisk omgang med logistisk regresjon!</p>
+<p>Vi kommer til å bruke et datasett i undervisningstimen, det er <a href="data/hemmelig_funksjon.txt">dette</a>.</p>
 
 
 </section>
