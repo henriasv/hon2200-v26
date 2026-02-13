@@ -1,0 +1,328 @@
+# Obligatorisk oppgave om strømprisklassifisering
+
+:::{.callout-warning}
+## LLM-generert oppgavetekst
+Denne oppgaveteksten er generert av en **stor språkmodell (LLM)** basert på instruksjoner fra faglærer. Innholdet bør kvalitetssikres. Hvis du oppdager feil eller uklarheter, meld fra til faglærer.
+:::
+
+:::{.callout-note}
+Oppgaveteksten er nå fullstendig. Dersom det er noe som er uklart, er det lurt å spørre/sende en mail. Enkelte ting som dukker opp i obligen har ikke vært gjennomgått i undervisningen. Da finnes det forhåpentligvis noe informasjon i statistikkboka, blant medstudenter eller blant underviserne i HON2200!
+:::
+
+Etter å ha fullført denne obligen skal studenten kunne
+
+- Lese inn og behandle data med manglende verdier i pandas
+- Implementere logistisk klassifikasjon
+- Benytte og beskrive beslutningstrær
+- Benytte og beskrive random forests
+
+Denne obligen skal fungere som en øvelse på maskinlæring anvendt på et reelt norsk datasett. Dere skal gjennom forberedelse av data med pandas og scikit-learn, og så tilpasning av dataene med logistisk klassifikasjon og beslutningstrær:
+
+- **Logistisk klassifikasjon** for å få erfaring med å gjøre maskinlæring fra grunnen av,
+- **Beslutningstrær** for å få erfaring med et sentralt verktøy i maskinlæring som brukes i f.eks Random forests.
+- **Random forests** fordi det fungerer veldig bra i praksis.
+
+Dataene dere skal se på inneholder daglige observasjoner fra Oslo-området i perioden 2022–2024: strømpris, temperatur, vindstyrke, nedbør og magasinfylling i vannkraftverkene. Målet er å lage algoritmer som kan predikere om strømprisen en gitt dag er *høy* (over medianen) eller *lav* (under medianen), og å undersøke hvilke faktorer som driver strømprisen.
+
+Datasettet heter *strompris_oslo.csv* og kan lastes ned [her](./data/strompris_oslo.csv).
+
+Gjennom hele obligen har vi gjort det slik at vi først gir oppgavene, og under gir vi en del hint og forklaringer på hvordan de kan løses. Det betyr at om du står fast, kan det være lurt å lese litt lenger nedover på siden. I blant forklarer vi ting i selve oppgaven som ikke har blitt gjennomgått tidligere i undervisningen.
+
+**I tillegg til å gjøre de statistiske analysene vi ber om krever vi også at besvarelsen er godt kommentert. Det holder altså ikke bare å levere et dokument som inneholder riktig kode, tall og figurer, du må også beskrive og diskutere resultatene.**
+
+Merk at **Oppgave 2** har to versjoner
+
+1. Oppgave-2---Bruk-av-scikitlearn for de som går på *samfunnsvitenskap/humanioraprogrammet*
+2. Oppgave-2---Fra-grunnen for de som går på *realfag*
+
+da sistnevnte krever forkunnskaper tilsvarende *MAT1110*.
+
+## Lesing og behandling av data i pandas
+### Oppgave 1:
+
+**a)** Les inn datasettet ("strompris_oslo.csv") med pandas. Bruk `.head()`, `.info()` og `.describe()` til å utforske dataene. Hvilke kolonner finnes? Hva slags datatyper har de? Er det manglende verdier?
+
+**b)** Håndter manglende verdier i `temperatur`, `vindstyrke` og `magasingrad`. Begrunn valget av strategi — f.eks. å fylle inn med gjennomsnitt, median, forward-fill, eller å droppe rader. Hva er fordeler og ulemper med de ulike tilnærmingene?
+
+**c)** Gjør de kategoriske kolonnene (`sesong`, `ukedag`) brukbare ved å gjøre en one-hot encoding.
+
+**d)** Samle kolonnene du vil bruke til å predikere om prisen er høy i en dataframe/array `X`. Samle target-kolonnen (`hoy_pris`) i en annen dataframe/array `Y`. Under er det vist hvordan dere kan hente ut kolonner til egne variabler.
+
+- `X = df[["temperatur", "vindstyrke", "nedbor"]]`
+- `Y = df["hoy_pris"]`
+
+**e)** Del dataene videre inn i treningsdata og testdata. Se dokumentasjonen for scikit-learn sin `train_test_split`: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html.
+
+:::{.callout-note collapse=true}
+## Veiledning til oppgave 1
+
+### Få oversikt over dataene
+
+Man bruker som regel [pd.read_csv()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html) når man leser data med pandas. Da får man et objekt av typen [dataframe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html). For å få denne printet pent i en notebook kan man enten avslutte en celle med dataframe-objektet, eller bruke `display()` funksjonen (ikke `print()`, det blir stygt).
+
+Manglende data er et stort problem i dataanalyse, og har mange løsninger med egne ulemper og fordeler. Du kan få en rask oversikt over manglende data med kodesnutten
+
+```python
+display(df.isnull().sum())
+```
+
+### Manglende data
+
+Manglende data (her NaN verdier) gjør at maskinlæringsalgoritmene feiler. Den enkleste løsningen er å fylle inn manglende verdier med medianen:
+
+```python
+df["temperatur"] = df["temperatur"].fillna(df["temperatur"].median())
+```
+
+En annen tilnærming er forward-fill (`.ffill()`), som bruker siste kjente verdi. Dette gir mening for tidsseriedata der verdien sannsynligvis ligner på gårsdagens verdi. For magasinfylling, som opprinnelig er ukentlige data, er forward-fill et naturlig valg.
+
+```python
+df["magasingrad"] = df["magasingrad"].ffill()
+```
+
+Dere velger selv hvordan dere vil håndtere manglende data.
+
+### Kategorisk data og train-test split
+
+Kategorisk data er data som ikke skal bli tolket som en numerisk verdi. Maskinlæringsalgoritmer skjønner seg kun på numeriske verdier, så dette fører til et problem. Løsningen er å gi hver enkelt mulige verdi av de kategoriske dataene sin egen kolonne. Kolonnen vil da inneholde nuller og enere som forteller om man hører hjemme i den kategorien eller ikke. Dette kalles one hot encoding. Dette gjør man i pandas med metoden [.get_dummies()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.get_dummies.html):
+
+```python
+df = pd.get_dummies(df, columns=["sesong", "ukedag"])
+```
+
+Når manglende og kategorisk data er tatt hånd om, er neste steg å samle de dataene man skal bruke til å gjøre prediksjoner, og de dataene som man prøver å predikere. Man tar ut kolonner av en dataframe ved å bruke hakeparanteser og navnet på kolonnen, eller en liste med navnene på kolonnene man vil ta ut.
+
+```python
+X = df[["temperatur", "vindstyrke", "nedbor", "magasingrad", "maaned",
+        "pris_forrige_dag", "sesong_host", "sesong_sommer", "sesong_var",
+        "sesong_vinter", ...]]  # legg til ukedags-kolonnene
+Y = df["hoy_pris"]
+```
+
+Til slutt må man dele opp dataene i trenings- og testdata. Algoritmene blir trent på treningsdata, og så ser vi hvor godt de funker ved å teste de på testdata.
+
+```python
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+```
+:::
+
+
+## Logistisk klassifisering
+
+Denne oppgaven kommer i to versjoner: Én for dem som går på realfagsprogrammet og en for dem som går på humanioraprogrammet. Det kommer av at realfagsversjonen krever forkunnskaper tilsvarende MAT1110.
+
+### Oppgave 2 - Bruk av scikit-learn (SV/HF):
+
+**a)** Plott sigmoidfunksjonen (den logistiske funksjonen). Hva gjør denne funksjonen godt egnet til å "svare på" ja/nei spørsmål?
+
+**b)** Bruk scikit-learn til å trene en logistisk klassifikasjonsmodell.
+
+**c)** Test logistisk klassifikasjon modellen. Dere kan bruke `clf.score()` til å se hvor stor andel riktige modellen hadde.
+
+**d)** Bruk funksjonen `confusion_matrix` fra `sklearn.metrics` til å finne ut i hvilken grad modellen produserer sanne positive, sanne negative, falske positive og falske negative prediksjoner.
+
+### Oppgave 2 - Fra grunnen (MN-programmet og eventuelt interesserte):
+
+**a)** Plott sigmoid-funksjonen. Hva gjør denne funksjonen godt egnet til å "svare" på ja/nei spørsmål?
+
+**b)** Implementer logistisk klassifisering og tren modellen.
+- Sett opp vekter (array med like mange tall som input) og bias (ett tall)
+- Regn ut output. Multipliser trenings-input (X) med vektene, legg til bias, og mat gjennom sigmoid funksjonen. (Deler av kode under)
+- Regn ut gradienter. (Kode under)
+- Oppdater vekter. (Formler under)
+
+Viktig i alle program med vektorer og vektorprodukter: Få oversikt over dimensjonene til alle variablene i programmet ditt. Er noe et tall, vektor eller matrise (har flere rader og kolonner)? `print()` alt du er usikker på, og `print()` `.shape` egenskapen for å se størrelsen på ting. Gjør dette underveis mens du skriver programmet, men unngå alt unødvendig i det fullførte programmet.
+
+**c)** Test logistisk klassifikasjon modellen på test-dataen ved å ta testing-input (X) gjennom input-prosedyren over og sammenlign med test output (Y).
+
+
+:::{.callout-note collapse=true}
+### Veiledning til implementasjonen av oppgave 2 fra grunnen
+
+Her kommer det en del formeler og teori, men det viktigste er å forstå de overordnede ideene, som skal være overkommelig. Programmet dere skal skrive vil ha en slik struktur:
+
+```
+Lag vekter og bias
+
+for i in range(iterasjoner):
+    Regn ut output (ved hjelp av vekter og bias)
+
+    Regn ut gradienter (ved hjelp av output)
+
+    Oppdater vekter og bias (ved hjelp av gradienter)
+```
+
+En logistisk modell, som alle andre modeller, tar inn en input og gir en output. Vi kaller input til modellen $\textbf{x}$, det representerer alle egenskapene til en dag (temperatur, vind, sesong osv.). De ulike egenskapene som $\textbf{x}$ inneholder kaller vi $x_1$, $x_2$, osv. Om strømprisen er høy eller lav, som er det vi prøver å predikere, kaller vi $y$. Det modellen predikerer kaller vi $\hat{y}$ ("y hatt"). Først ser vi kun på en og en dag, senere regner vi med mange dager, for å finne gjennomsnitt og slikt.
+
+### Output til modellen
+
+Den logistiske modellen inneholder vekter $W$ og en bias $b$, som bestemmer hvordan input $\textbf{x}$ blir om til output $\hat{y}$. Det skal være like mange vekter som egenskaper, og bias skal være et tall. Disse begynner vanligvis med tilfeldige verdier, og kan i Python bli laget med [np.random.randn()](https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html) og [np.random.rand()](https://numpy.org/doc/stable/reference/random/generated/numpy.random.rand.html).
+
+De ulike vektene ganges komponentvis med de ulike egenskapene, og blir så lagt sammen med bias:
+
+$$z = b + w_1 x_1 + w_2 x_2 + \dots + w_m x_m = W \textbf{x} + b$$
+
+Dette kan vi gjøre som et vektorprodukt i Python. Merk at vi kan gange vektene med alle egenskapene til ALLE dagene på en gang! Dette gjør alt mye mer kompakt: (Vi bruker `@` for matrise og vektorprodukt i Python)
+
+```python
+z = X_train @ W + b
+```
+
+Alt dette ($z$) blir så matet gjennom en sigmoid funksjon, som er definert slik:
+
+$$\hat{y} = \sigma (z) = \frac{1}{1 + e^{-z}}$$
+
+**Hvorfor får jeg overflow feil av og til?**
+Det finnes to likegyldige definisjoner av sigmoid funksjonen:
+
+$$\sigma (z) = \frac{1}{1 + e^{-z}} = \frac{e^{z}}{1 + e^{z}}$$
+
+Begge to gir akkurat samme svar, men datamaskiner behandler de to ulikt for veldig store positive og negative tall (fordi utregningen vil inkludere tall som er for store til å behandles av datamaskinen). Den første definisjonen fører til utregningen av $e^{STORTTALL}$ for store *negative* verdier for $z$, som fører til overflow (alt for store tall for datamaskinen). Den andre definisjonen fører til utregningen av $e^{STORTTALL}$ for store *positive* verdier for $z$, som fører til overflow. En måte å programmere en stabil sigmoid funksjon som benytter riktig definisjon til riktig tid er gitt under. `np.where()` er en slags effektiv `if` for utregninger. Å bruke en vanlig `if` til å bruke riktig sigmoid definisjon vil gjøre at man ikke kan bruke funksjonen til vektoriserte utregninger (som å bruke sigmoid funksjonen på en hel vektor på en gang).
+
+```python
+def sigmoid(z):     #hvis?           True                False
+    return np.where(z >= 0, 1 / (1 + np.exp(-z)), np.exp(z) / (1 + np.exp(z)))
+```
+
+Merk at når man gjør disse operasjonene på `X_train` som inneholder egenskapene til alle dagene, blir $\hat{y}$ en vektor som inneholder prediksjonene for alle dagene, og ikke bare for én.
+
+Siden hele modellen kun består av ett sett vekter, en bias og en sigmoid, kan en logistisk modell bli sett på som et nevralt nettverk med kun én node. Hvis modellen tar fem inputs kan man tegne den slik:
+
+```{mermaid}
+graph LR
+    A1["Input 1"] --> B["Output"]
+    A2["Input 2"] --> B["Output"]
+    A3["Input 3"] --> B["Output"]
+    A4["Input 4"] --> B["Output"]
+    A5["Input 5"] --> B["Output"]
+```
+
+### Cost funksjonen og gradient
+Modellen gjør sannsynligvis en veldig dårlig jobb i å predikere noe som helst, siden vektene og bias kun er tilfeldige tall så langt. Vi samler vektene og bias i en variabel $\theta$ for å gjøre ligningene mer kompakt, $\theta$ er da bare parametrene til modellen vår. Før vi kan få modellen vår til å gjøre en bedre jobb, må vi bestemme hva en bedre jobb *betyr*. Vi bestemmer at modellen vår er bedre jo mindre [cross entropy](https://en.wikipedia.org/wiki/Cross_entropy) den har. Denne formelen for cross entropy er litt tung å forstå, bare vit at hvis modellen vår predikerer mye riktig får den lavere cross entropy, ellers får den høyere cross entropy. Indeksen $i$ i uttrykket forteller hvilken dag vi ser på, $\sum$ tegnet sier at vi summerer verdiene for alle dager. Denne formelen skal du **ikke** bruke i programmet ditt.
+
+$$
+\begin{equation*}
+\begin{aligned}
+C(\theta) = - \frac{1}{n} \sum_{i=1}^{n} [y_i log(\hat{y}_i) + (1 - y_i) log(1 - \hat{y}_i)]
+\end{aligned}
+\end{equation*}
+$$
+
+## Hva er motivasjonen bak cost funksjonen?
+Modellen vår vil predikere enten 0 eller 1 (i praksis vil den under trening gi et tall *mellom* 0 og 1 som er sannsynligheten for at den vil predikere 1). Sannsynligheten for at den predikerer 1 gitt en input $\textbf{x}_i$ og parametre $\theta$ er $p(y_i=1 | \textbf{x}_i , \theta)$. Sannsynligheten for at den predikerer 0 gitt en input $\textbf{x}_i$ og parametre $\theta$ er $1 - p(y_i=1 | \textbf{x}_i , \theta)$. For hver $\textbf{x}_i$ er da sannsynligheten for at den predikerer *riktig* det du ser i ligningen under, hvis du ignorerer $\prod$ tegnet. $\prod$ tegnet gjør at vi ganger sammen disse sannsynlighetene for alle $\textbf{x}_i$ i datasettet, så vi ender opp med sannsynligheten for at modellen predikerer alle datapunkter $y_i$ riktig.
+
+$$
+\begin{equation*}
+\begin{aligned}
+P(D | \theta) = \prod_{i=1}^{n} [p(y_i=1 | \textbf{x}_i , \theta)]^{y_i} [1 - p(y_i=1 | \textbf{x}_i , \theta)]^{1-y_i}
+\end{aligned}
+\end{equation*}
+$$
+
+Vi ønsker å maksimere sannsynligheten for at modellen predikerer alle datapunktene riktig, så vi prøver å finne $\theta$ slik at verdien av forrige ligning blir størst mulig. Vi kan trikse litt med ligningen for å gjøre dette enklere. Vi tar noe som heter log-likelihood av ligningen, og setter på en minus. Ved en del ekstra triksing ender vi opp med cost funksjonen, som vi nå ønsker å *minimere*, på grunn av minustegnet.
+
+
+
+Vi vil velge parametre $\theta$ slik at $C(\theta)$ blir så liten som mulig. Dette gjør vi ved å finne den deriverte av $C(\theta)$ og bruke den deriverte til å bevege parametrene $\theta$ nærmere de som tilsvarer bunnen av $C(\theta)$, dette kalles gradient descent. Tenk at du står i en dal og vil finne bunnen, da beveger du deg helst nedover i den retningen det er brattest. De deriverte av $C(\theta)$ med hensyn på $W$ og $b$ viser seg å bli:
+
+$$\frac{\partial C(\theta)}{\partial w_k} = - \frac{1}{n} \sum_{i=1}^{n} \textbf{x}_{i,k} (y_i - \hat{y}_i)$$
+
+$$\frac{\partial C(\theta)}{\partial b} = - \frac{1}{n} \sum_{i=1}^{n} y_i - \hat{y}_i$$
+
+I python kan man bruke likhetene i uttrykkene til å spare litt beregninger, vi lager et mellomledd `delta` som er gjennomsnittlig forskjell mellom $y$ og $\hat{y}$:
+
+```python
+delta = -(Y_train - y_hat) / n
+dCdW = X_train.T @ delta
+dCdb = np.sum(delta, axis = 0)
+```
+
+De deriverte peker i retningen hvor $C(\theta)$ øker raskest, så vi vil endre parametrene med *minus* den deriverte. Den deriverte er ofte for stor, som betyr at når vi endrer på parametrene får vi bare søppel. For å faktisk nærme oss bunnen av $C(\theta)$ må vi dermed velge riktig læringsrate $\gamma$, som vi bruker til å skalere ("krympe") gradienten. Å finne en god læringsrate er enda et stort spørsmål med mange ulike løsninger i maskinlæring. 0.001 med 10000 iterasjoner funker ok her. Dette er hvordan man oppdaterer vektene og bias ved hjelp av de deriverte og læringsraten:
+
+$$W = W - \gamma \frac{\partial C(\theta)}{\partial W}$$
+$$b = b - \gamma \frac{\partial C(\theta)}{\partial b}$$
+
+### Testing av modellen
+
+Når du skal bruke modellen til å gjøre faktiske prediksjoner må du finne $z$ og $\hat{y}$ for test dataen, men rund av tallene slik at $\hat{y}$ bare får nuller og enere. [np.round()](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.round_.html) kan runde av hele arrays. Så må du finne hvor stor andel av prediksjonene som var riktige. scikit learn sin [accuracy_score()](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html) anbefales. Se hvilken accuracy en modell som alltid gjetter "lav pris" får for å sammenligne. Du kan forvente en accuracy på rundt 65–75 % for modellen din.
+:::
+
+
+## Beslutningstrær
+
+### Oppgave 3:
+
+**a)** Lag et beslutningstre med maksdybde 3 som tilpasser treningsdataene.
+
+**b)** Test treet på testdataene.
+
+**c)** Plott treet og beskriv med ord hva alle forgreiningene sier. Hvilke dager sier treet at strømprisen er høy? Gir dette intuitivt mening?
+
+**d)** Se hvordan maksdybden til treet påvirker hvor godt treet klassifiserer testdataene. Hva skjer med trenings- og test-accuracy når maksdybden øker? Forklar hva du observerer med begrepet *overtilpasning* (overfitting).
+
+:::{.callout-note collapse=true}
+### Scikit-learn beslutningstrær
+
+Beslutningstrær fungerer på en helt annen måte enn logistiske modeller eller nevrale nettverk. Istedenfor å justere mange vekter litt og litt med gradienter, finner beslutningstrær ja/nei spørsmål som best skiller dataene inn i kategoriene man er ute etter. I strømpris-eksempelet finner treet de spørsmålene som best skiller dager med høy pris fra dager med lav pris. Et slikt spørsmål kan f.eks. være om temperaturen er under 0 °C, eller om magasinfyllingen er under 50 %. For hvert slikt spørsmål får treet to nye grener, en for ja og en for nei. På hver av disse grenene kan man igjen stille nye spørsmål og få enda flere grener som bedre grupperer dataene.
+
+Når man trener et beslutningstre på data kan man alltid la treet stille så mange spørsmål det bare vil, slik at det kan gruppere alle dataene riktig. Da kan man ende opp med et tre hvor omtrent hvert eneste datapunkt har sin egen forgrening, og treet ikke har noen "overordnede mønstre" det grupperer dataene etter. Treet vil da ha et overtilpasnings ("overfitting") problem som vil føre til at det presterer dårlig på å klassifisere data det aldri har sett før. Dette kan unngås ved å begrense antall forgreninger treet kan ha, eller maks-dybden til treet.
+
+Dere skal bruke [DecisionTreeClassifier](https://scikit-learn.org/stable/modules/tree.html#classification) modellen til scikit-learn. Følg eksempelet i dokumentasjonen (linken til venstre), og lag et tre med maks dybde 3. Bruk scikit learn sin [accuracy_score()](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html) for å teste modellen. For å plotte treet anbefaler vi
+
+```python
+from sklearn import tree
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(16, 10))
+tree.plot_tree(model, max_depth=3, feature_names=X_train.columns,
+               class_names=["Lav pris", "Hoy pris"], filled=True)
+plt.show()
+```
+:::
+
+## Random forest og tolkbarhet
+
+### Oppgave 4:
+
+**a)** Lag en *random forest*-modell som tilpasser treningsdataene.
+
+**b)** Test modellen på testdataene.
+
+**c)** Undersøk hvordan antallet *weak learners* (`n_estimators`) i modellen påvirker nøyaktigheten.
+
+**d)** For din beste modell: Plott "feature importance" og "partial dependence". Hva sier plottene om hva som er avgjørende for om strømprisen er høy eller lav?
+
+:::{.callout-note collapse=true}
+### Feature importance og partial dependence
+
+For å plotte feature importance kan du bruke:
+
+```python
+import matplotlib.pyplot as plt
+
+importances = model.feature_importances_
+feature_names = X_train.columns
+
+plt.barh(feature_names, importances)
+plt.xlabel("Feature importance")
+plt.title("Hvilke variabler er viktigst for modellen?")
+plt.tight_layout()
+plt.show()
+```
+
+For partial dependence-plott kan du bruke:
+
+```python
+from sklearn.inspection import PartialDependenceDisplay
+
+PartialDependenceDisplay.from_estimator(model, X_test, features=["temperatur", "magasingrad"],
+                                        feature_names=X_test.columns)
+plt.tight_layout()
+plt.show()
+```
+:::
+
+**e)** Kan man ut ifra plottene vite hva random forest-modellen vil predikere for en spesifikk dag? Hvor godt kan man forstå hvordan en slik modell fungerer? Hva med et beslutningstre, eller en logistisk klassifiseringsmodell? Diskuter begrepet *tolkbarhet* for de tre modelltypene.
+
+**f)** **Energipolitisk refleksjon:** Hva avslører modellen om hva som driver strømprisen i Oslo-området? Diskuter rollen til temperatur, magasinfylling og sesong. Hvilke implikasjoner kan dette ha for forbrukere og for energipolitikk? Kunne en slik modell være nyttig for å forutsi strømprisen i praksis — og hva er begrensningene?
