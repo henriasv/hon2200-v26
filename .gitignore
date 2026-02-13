@@ -23,7 +23,12 @@ lectures/.vdoc.*.py
 *.log
 *.tex
 
-# Rendered slide outputs (rebuilt by Quarto)
+# Rendered outputs (rebuilt by Quarto)
 lectures/*.revealjs.html
 lectures/04b2_default_live.html
 lectures/04b2_default_live.pdf
+lectures/01b1_slides.pdf
+
+# Rendered PDFs in root (generated from qmd)
+01c_øvelse.pdf
+hon2110_oppfrisking.pdf
