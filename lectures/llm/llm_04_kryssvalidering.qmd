@@ -1,0 +1,364 @@
+---
+title: "Kryssvalidering og overtrening"
+subtitle: "LLM-skrevet supplement til HON2200"
+format: html
+jupyter: python3
+---
+
+*Dette notatet er skrevet av en LLM som supplement til forelesningsmateriell i HON2200.*
+
+## Læringsmål
+
+Etter å ha jobbet gjennom dette notatet skal du kunne:
+
+- Forstå problemet med overtrening (overfitting)
+- Skille mellom treningsfeil og valideringsfeil
+- Implementere train-test split
+- Implementere k-fold kryssvalidering
+- Bruke kryssvalidering til modellvalg
+
+## Motivasjon: Et tilsynelatende perfekt resultat
+
+La oss starte med å se på et overraskende fenomen:
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+
+# Generer data fra en sinuskurve med støy
+n = 30
+x = np.sort(np.random.uniform(0, 2*np.pi, n))
+y_true = np.sin(x)
+y = y_true + np.random.normal(0, 0.3, n)
+
+# Plott dataene
+plt.figure(figsize=(10, 5))
+plt.scatter(x, y, s=50, label='Data')
+plt.plot(np.linspace(0, 2*np.pi, 100), np.sin(np.linspace(0, 2*np.pi, 100)), 
+         'g--', linewidth=2, label='Sann funksjon')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Data generert fra en sinusfunksjon')
+plt.legend()
+plt.show()
+```
+
+### La oss tilpasse polynomer
+
+```{python}
+# Tilpasse polynomer av ulik grad
+x_plot = np.linspace(0, 2*np.pi, 100)
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+for i, grad in enumerate([1, 5, 25]):
+    ax = axes[i]
+    
+    # Tilpass polynom
+    koeff = np.polyfit(x, y, grad)
+    y_pred = np.polyval(koeff, x)
+    y_plot = np.polyval(koeff, x_plot)
+    
+    # Beregn treningsfeil (MSE)
+    mse = np.mean((y - y_pred)**2)
+    
+    ax.scatter(x, y, s=50)
+    ax.plot(x_plot, y_plot, 'r-', linewidth=2)
+    ax.set_title(f'Grad {grad}, MSE = {mse:.4f}')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_ylim(-2, 2)
+
+plt.tight_layout()
+plt.show()
+```
+
+:::{.callout-important}
+## Observasjon
+Grad 25-polynomet har **lavest** treningsfeil! Men ser det ut som den beste modellen?
+:::
+
+## Problemet: Overtrening (overfitting)
+
+Når en modell er for kompleks, lærer den ikke bare den underliggende strukturen - den lærer også støyen i treningsdataene.
+
+```{python}
+# Generer nye testdata
+x_test = np.sort(np.random.uniform(0, 2*np.pi, 30))
+y_test = np.sin(x_test) + np.random.normal(0, 0.3, 30)
+
+# Beregn trenings- og testfeil for ulike grader
+grader = range(1, 20)
+treningsfeil = []
+testfeil = []
+
+for grad in grader:
+    koeff = np.polyfit(x, y, grad)
+    
+    # Treningsfeil
+    y_pred_train = np.polyval(koeff, x)
+    treningsfeil.append(np.mean((y - y_pred_train)**2))
+    
+    # Testfeil
+    y_pred_test = np.polyval(koeff, x_test)
+    testfeil.append(np.mean((y_test - y_pred_test)**2))
+
+plt.figure(figsize=(10, 5))
+plt.plot(grader, treningsfeil, 'b-o', label='Treningsfeil')
+plt.plot(grader, testfeil, 'r-o', label='Testfeil')
+plt.xlabel('Polynomgrad')
+plt.ylabel('Mean Squared Error')
+plt.title('Treningsfeil vs. Testfeil')
+plt.legend()
+plt.yscale('log')
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+**Viktige observasjoner:**
+
+1. Treningsfeil synker alltid med økende kompleksitet
+2. Testfeil synker først, så øker den
+3. Optimal kompleksitet er der testfeilen er lavest
+
+## Train-Test Split
+
+Den enkleste metoden for å evaluere modeller:
+
+1. Del dataene i treningssett og testsett
+2. Tren modellen på treningssettet
+3. Evaluer på testsettet
+
+```{python}
+from sklearn.model_selection import train_test_split
+
+# Original data
+X = x.reshape(-1, 1)
+y_data = y
+
+# Del i trening og test
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y_data, test_size=0.3, random_state=42
+)
+
+print(f"Treningssett: {len(X_train)} punkter")
+print(f"Testsett: {len(X_test)} punkter")
+```
+
+### Visuell fremstilling
+
+```{python}
+plt.figure(figsize=(10, 5))
+plt.scatter(X_train, y_train, s=50, label='Trening', alpha=0.7)
+plt.scatter(X_test, y_test, s=50, marker='x', label='Test', alpha=0.7)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Train-Test Split')
+plt.legend()
+plt.show()
+```
+
+## K-Fold Kryssvalidering
+
+**Problem med train-test split:** Resultatet avhenger av *hvilke* data som havner i test vs. trening.
+
+**Løsning:** K-fold kryssvalidering
+
+1. Del dataene i K like store deler (folds)
+2. For hver fold:
+   - Bruk denne folden som testsett
+   - Bruk de andre K-1 foldene som treningssett
+   - Beregn testfeil
+3. Rapporter gjennomsnittlig testfeil
+
+```{python}
+# Illustrasjon av K-fold
+from sklearn.model_selection import KFold
+
+K = 5
+kf = KFold(n_splits=K, shuffle=True, random_state=42)
+
+fig, axes = plt.subplots(1, K, figsize=(15, 2))
+
+for i, (train_idx, test_idx) in enumerate(kf.split(X)):
+    ax = axes[i]
+    ax.scatter(X[train_idx], np.zeros_like(X[train_idx]), c='blue', label='Trening')
+    ax.scatter(X[test_idx], np.zeros_like(X[test_idx]), c='red', marker='x', s=100, label='Test')
+    ax.set_title(f'Fold {i+1}')
+    ax.set_yticks([])
+    ax.set_xlabel('x')
+
+plt.tight_layout()
+plt.show()
+```
+
+### Implementere K-fold fra scratch
+
+```{python}
+def kfold_kryssvalidering(X, y, grader, K=5):
+    """
+    Utfør K-fold kryssvalidering for polynomregresjon.
+    """
+    kf = KFold(n_splits=K, shuffle=True, random_state=42)
+    
+    resultater = {grad: [] for grad in grader}
+    
+    for train_idx, test_idx in kf.split(X):
+        X_train, X_test = X[train_idx], X[test_idx]
+        y_train, y_test = y[train_idx], y[test_idx]
+        
+        for grad in grader:
+            # Tilpass polynom
+            koeff = np.polyfit(X_train.flatten(), y_train, grad)
+            
+            # Prediksjon på test
+            y_pred = np.polyval(koeff, X_test.flatten())
+            
+            # MSE
+            mse = np.mean((y_test - y_pred)**2)
+            resultater[grad].append(mse)
+    
+    return resultater
+
+# Kjør kryssvalidering
+grader = range(1, 15)
+cv_resultater = kfold_kryssvalidering(X, y_data, grader)
+
+# Beregn gjennomsnitt og standardavvik
+gjennomsnitt = [np.mean(cv_resultater[g]) for g in grader]
+std = [np.std(cv_resultater[g]) for g in grader]
+```
+
+```{python}
+# Plott resultatene
+plt.figure(figsize=(10, 5))
+plt.errorbar(grader, gjennomsnitt, yerr=std, fmt='o-', capsize=5)
+plt.xlabel('Polynomgrad')
+plt.ylabel('Gjennomsnittlig MSE')
+plt.title('5-fold Kryssvalidering')
+plt.grid(True, alpha=0.3)
+
+# Marker beste modell
+beste_grad = grader[np.argmin(gjennomsnitt)]
+plt.axvline(beste_grad, color='red', linestyle='--', 
+            label=f'Beste: grad {beste_grad}')
+plt.legend()
+plt.show()
+
+print(f"Beste polynomgrad: {beste_grad}")
+```
+
+## Bruke scikit-learn sin KFold
+
+```{python}
+from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import make_pipeline
+
+# Lag en pipeline for polynomregresjon
+def lag_polynom_modell(grad):
+    return make_pipeline(
+        PolynomialFeatures(degree=grad),
+        LinearRegression()
+    )
+
+# Kryssvalidering med scikit-learn
+cv_scores = []
+for grad in grader:
+    modell = lag_polynom_modell(grad)
+    # cross_val_score returnerer negative MSE, så vi negerer
+    scores = cross_val_score(modell, X, y_data, cv=5, scoring='neg_mean_squared_error')
+    cv_scores.append(-scores.mean())
+
+plt.figure(figsize=(10, 5))
+plt.plot(grader, cv_scores, 'o-')
+plt.xlabel('Polynomgrad')
+plt.ylabel('MSE (fra cross_val_score)')
+plt.title('Kryssvalidering med scikit-learn')
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+## Bias-Variance Tradeoff
+
+Feilen i en modell kan deles i:
+
+- **Bias**: Systematisk avvik fra sann verdi (for enkel modell)
+- **Varians**: Variasjon i prediksjoner mellom ulike treningssett (for kompleks modell)
+
+$$\text{Forventet feil} = \text{Bias}^2 + \text{Varians} + \text{Uunngåelig støy}$$
+
+```{python}
+# Illustrere bias-variance tradeoff
+kompleksitet = np.linspace(0, 10, 100)
+bias_sq = 2 * np.exp(-kompleksitet)
+varians = 0.2 * np.exp(0.3 * kompleksitet)
+noise = 0.5
+
+total_feil = bias_sq + varians + noise
+
+plt.figure(figsize=(10, 5))
+plt.plot(kompleksitet, bias_sq, label='Bias²')
+plt.plot(kompleksitet, varians, label='Varians')
+plt.axhline(noise, color='gray', linestyle='--', label='Irreducible error')
+plt.plot(kompleksitet, total_feil, 'k-', linewidth=2, label='Total feil')
+
+optimal = kompleksitet[np.argmin(total_feil)]
+plt.axvline(optimal, color='red', linestyle=':', label=f'Optimal: {optimal:.1f}')
+
+plt.xlabel('Modellkompleksitet')
+plt.ylabel('Feil')
+plt.title('Bias-Variance Tradeoff')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+## Viktige retningslinjer
+
+:::{.callout-tip}
+## Tommelfingerregler
+
+1. **Aldri evaluer på treningsdata** - du vil alltid undervurdere feilen
+2. **Hold testdata helt adskilt** - ikke bruk dem til modellvalg
+3. **Bruk kryssvalidering for modellvalg** - mer robust enn enkelt train-test split
+4. **Enklere modeller er ofte bedre** - de generaliserer bedre
+:::
+
+## Oppsummering
+
+| Begrep | Beskrivelse |
+|--------|-------------|
+| Overtrening | Modellen lærer støy, ikke signal |
+| Treningsfeil | Feil på data modellen har sett |
+| Testfeil | Feil på nye data |
+| Train-test split | Enkel oppdeling av data |
+| K-fold CV | Roterende testsett for robust estimat |
+| Bias | Systematisk feil (undertrening) |
+| Varians | Variasjon mellom treningssett (overtrening) |
+
+## Nøkkelfunksjoner
+
+```python
+from sklearn.model_selection import train_test_split, KFold, cross_val_score
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+
+# K-fold
+kf = KFold(n_splits=5, shuffle=True)
+for train_idx, test_idx in kf.split(X):
+    ...
+
+# Kryssvalidering med scoring
+scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
+```
+
+## Øvingsoppgaver
+
+1. Endre antall folds i kryssvalideringen (K=3, 5, 10). Hvordan påvirker det resultatet?
+2. Generer nye data med mer støy. Hvordan påvirker det optimal polynomgrad?
+3. Implementer "leave-one-out" kryssvalidering (K = n)

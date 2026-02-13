@@ -1,13 +1,34 @@
 project:
   type: website
+  
+  render:
+    - index.qmd
+    - undervisningsplan.qmd
+    - lectures/01a_forberedelser.qmd
+    - lectures/01c_øvelse.qmd
+    - lectures/01b1_slides.qmd
+    - lectures/llm/index.qmd
+    - lectures/llm/llm_01_pandas.qmd
+    - lectures/llm/llm_02_linreg.qmd
+    - lectures/llm/hon2110_oppfrisking.qmd
+    - lectures/02a_forberedelser.qmd
+    - lectures/02b_slides.qmd
+    - lectures/02c_øvelse.qmd
+    - lectures/03a_forberedelser.qmd
+    - lectures/03b_slides.qmd
+    - lectures/03b2_tutorial.qmd
+    - lectures/04a_forberedelser.qmd
+    # - oppgaver/oblig_strompris/oblig_strompris.qmd
+
 
 website:
-  title: "HON2200"
-  
+  title: "HON2200 – V2026"
+  favicon: hon_logo.svg
+
   sidebar:
     style: "docked"
-    search: true 
-    title: HON2200
+    search: true
+    title: HON2200 – V2026
 
     contents:
       - section: "Kursinformasjon" # Chapter Group Title
@@ -18,20 +39,21 @@ website:
       - section: "Del 1: Statistikk" # Chapter Group Title
         href: lectures/01a_forberedelser.qmd # File for Chapter 1 (Part I)
         contents: # Sub-sections within Part I
-          - section : "Uke 1 – 24. januar"
+          - section : "Uke 1 – 23. januar"
             href: lectures/01a_forberedelser.qmd # File for Chapter 1 (Part I)
             contents:
               - lectures/01a_forberedelser.qmd # File for Chapter 1 (Part I)
               - lectures/01b1_slides.qmd
+              - lectures/llm/hon2110_oppfrisking.qmd
               - lectures/01c_øvelse.qmd
-              - lectures/01c_øvelse_nosol.qmd
-          - section: "Uke 2 – 31. januar"
+          #    - lectures/01c_øvelse_nosol.qmd
+          - section: "Uke 2 – 30. januar"
             href: lectures/02a_forberedelser.qmd # File for Chapter 2 (Part II)
             contents:
               - lectures/02a_forberedelser.qmd # File for Chapter 2 (Part II)
               - lectures/02b_slides.qmd
               - lectures/02c_øvelse.qmd
-              - lectures/02c_øvelse_nosol.qmd
+          #    - lectures/02c_øvelse_nosol.qmd
           - section: "Uke 3 – 7. februar"
             href: lectures/03a_forberedelser.qmd # File for Chapter 2 (Part II)
             contents:
@@ -61,33 +83,73 @@ website:
               - lectures/07b_slides.qmd
 
       - section: "Del 2: Digital etikk" # Chapter Group Title
+      #   contents:
+      #     - section: "Uke 8 – 14. mars"
+      #       href: lectures/08a_forberedelser.qmd
+      #       contents:
+      #         - lectures/08a_forberedelser.qmd # File for Chapter 2 (Part II)
+      #     - section: "Uke 9 – 21. mars"
+      #       href: lectures/09a_forberedelser.qmd
+      #       contents:
+      #         - lectures/09a_forberedelser.qmd # File for Chapter 2 (Part II)
+
+      - section: "Del 3: Oblig og prosjekt"
+      #   contents:
+      #     - oppgaver/oblig_titanic.qmd
+      #     - oppgaver/oblig_strompris/oblig_strompris.qmd
+      #     - oppgaver/prosjekt_1_compas.qmd
+      #     - oppgaver/prosjekt_2.qmd
+
+      - section: "LLM-supplement"
         contents:
-          - section: "Uke 8 – 14. mars"
-            href: lectures/08a_forberedelser.qmd 
-            contents:
-              - lectures/08a_forberedelser.qmd # File for Chapter 2 (Part II)
-          - section: "Uke 9 – 21. mars"
-            href: lectures/09a_forberedelser.qmd 
-            contents:
-              - lectures/09a_forberedelser.qmd # File for Chapter 2 (Part II)
-      
-      - section: "Del 3: Oppgaver"
-        contents: 
-          - oppgaver/oblig_titanic.qmd
-          - oppgaver/prosjekt_1_compas.qmd
-          - oppgaver/prosjekt_2.qmd
+          - lectures/llm/index.qmd
+          - lectures/llm/llm_01_pandas.qmd
+          - lectures/llm/llm_02_linreg.qmd
+          - lectures/llm/llm_03_logreg.qmd
+      #     - lectures/llm/llm_04_kryssvalidering.qmd
+      #     - lectures/llm/llm_05_beslutningstraer.qmd
+      #     - lectures/llm/llm_06_ensemble.qmd
+      #     - lectures/llm/llm_07_onehot.qmd
+      #     - lectures/llm/llm_ai_assistert_koding.qmd
+      #     - section: "Video-materiale"
+      #       contents:
+      #         - lectures/llm/video_kryssvalidering_kode.qmd
+
+      # - section: "Endringslogg (kun for utvikling)"
+      #   contents:
+      #     - endringslogg/v26_planlegging.md
+      #     - endringslogg/anbefalinger_v26_og_fremover.md
+      #     - section: "Endringer"
+      #       contents:
+      #         - endringslogg/endringer/2026-01-16_v26_oppstart.md
+      #     - section: "Evalueringer"
+      #       contents:
+      #         - endringslogg/evalueringer/evaluering_v25.md
+
+execute:
+  freeze: auto
+  error: true
+  warning: false
 
 format:
   html:
-    theme: cosmo
+    theme:
+      - flatly
+      - custom.css
     toc: true
     toc-location: right
     number-sections: false
     fontcolor: black
     show-notes: false
-  
-exercise_solutions: 
-  week_01: false
-  week_02: false
-  week_03: false
+    code-copy: true
+    code-overflow: wrap
+    mainfont: system-ui
+
+exercise_solutions:
+  week_01: true
+  week_02: true
+  week_03: true
   week_04: false
+
+filters:
+  - remove-notes.lua

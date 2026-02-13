@@ -1,0 +1,164 @@
+/*-- scss:defaults --*/
+
+// 1. Define Furo Color Palette (Light & Dark)
+$furo-blue: #2962ff;
+$furo-blue-dark: #82aaff; // Lighter blue for dark mode readability
+
+// Light Mode Defaults
+$body-bg: #ffffff;
+$body-color: #24292f;
+$sidebar-bg: #f8f9fa;
+$border-color: #e1e4e8;
+
+// Dark Mode Defaults (The "Furo Dark" Look)
+// Furo uses #1b1e23 for body, not pure black
+$body-bg-dark: #1b1e23;
+$body-color-dark: #c9d1d9;
+$sidebar-bg-dark: #16191d; // Slightly darker than body
+$border-color-dark: #30363d;
+
+/*-- scss:rules --*/
+
+// 2. CSS Variables for Auto-Switching
+:root {
+  --bg-color: #{$body-bg};
+  --text-color: #{$body-color};
+  --sidebar-bg: #{$sidebar-bg};
+  --border-color: #{$border-color};
+  --link-color: #{$furo-blue};
+  --pre-bg: #f6f8fa;
+  --admonition-note: #e7f2ff;
+}
+
+// Quarto adds the .quarto-dark class to the body when dark mode is active
+body.quarto-dark {
+  --bg-color: #{$body-bg-dark};
+  --text-color: #{$body-color-dark};
+  --sidebar-bg: #{$sidebar-bg-dark};
+  --border-color: #{$border-color-dark};
+  --link-color: #{$furo-blue-dark};
+  --pre-bg: #21262d;
+  --admonition-note: #1f2937;
+}
+
+/* 3. Base Typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 17px; // Furo is slightly larger than standard
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-color);
+  font-weight: 600;
+  margin-top: 1.5em;
+}
+
+h1 {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.3em;
+}
+
+h2 {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.3em;
+  font-size: 1.5em;
+}
+
+/* Links */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 4. Sidebar Styling (The Left Rail) */
+.sidebar {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+}
+
+.sidebar-title {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+/* 5. The "Right Rail" (TOC) - Crucial for Furo look */
+#quarto-margin-sidebar {
+  font-size: 0.85rem;
+
+  // The "On this page" Label
+  h2 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6e7781; // Muted grey
+    border-bottom: none;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  // The Links
+  ul li a {
+    color: #6e7781;
+    padding-left: 0px;
+    border-left: 1px solid transparent;
+    transition: all 0.2s;
+
+    &:hover,
+    &.active {
+      color: var(--link-color);
+      border-left: 2px solid var(--link-color);
+      padding-left: 10px; // Slide effect
+    }
+  }
+}
+
+/* 6. Code Blocks */
+pre {
+  background-color: var(--pre-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+code {
+  background-color: var(--pre-bg);
+  color: var(--text-color);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+/* 7. Admonitions (Callouts) Refined */
+.callout {
+  border-radius: 4px;
+  border-left-width: 4px;
+  background-color: transparent; // Let the colored background handle it
+}
+
+.callout-note {
+  border-left-color: var(--link-color);
+  background-color: rgba(41, 98, 255, 0.1); // Uses opacity for dark mode compatibility
+}
+
+.callout-warning {
+  border-left-color: #d29922;
+  background-color: rgba(210, 153, 34, 0.1);
+}
+
+/* 8. Search Box (Sidebar) */
+// Makes the search input look like Furo's styling
+.aa-Input {
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}

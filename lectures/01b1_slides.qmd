@@ -12,37 +12,62 @@ format:
     show-notes: false
   revealjs:
     theme: solarized
-    output-ext: revealjs.html # Changed
+    output-ext: revealjs.html
 
 ---
 
+---
+
+::: {.content-hidden when-format="revealjs"}
 ## Slide-versjon
 
 <iframe src="01b1_slides.revealjs.html" width="960" height="540"></iframe>
+:::
 
 
 ## Data-dreven? 
 :::: {.columns}
 
-::: {.column width="40%"}
+::: {.column width="50%"}
 I dag:
 
 - Eksempler på problemstillinger som trenger data
+- Oppfriskningsoppgaver fra HON2110/IN1900
 - Kunne lese inn og utforske datasett i jupyter notebook m/numpy, pandas og matplotlib
 :::
 
-::: {.column width="60%"}
+::: {.column width="50%"}
 ![](images/data_driven.png)
 :::
 ::::
-
-
 
 :::{.notes .hidden}
 Vi skal jobbe med situasjoner der vi kan bruke data til å ta en eller annen beslutning. Så skal vi vurdere om dataene er egnet til å ta beslutningen, og både om det er etiske forsvarlig å ta beslutningen basert på dataene, og om vi burde det. 
 
 Ha lav terskel for å spørre om det er ting dere ikke forstår. Vi må tune oss litt inn på hverandre her.
 :::
+
+## Eksempel: Stad skipstunnel
+- Politisk spørsmål: Skal vi bygge en skipstunnel i Stadlandet?
+
+![](images/skipstunnel.jpg)
+
+:::{.notes .hidden}
+Er dette noe dere bryr dere om? Hvor mange sier Ja, hvor mange sier nei? Hvor mange sier "vet ikke"?
+
+Mange vil ganske enkelt svare: NEI. Det er ikke samfunnsøkonomisk lønnsomt. 
+
+Har dere noen forslag til hvordan vi kan nyansere dette? 
+
+En samfunnsøkonomisk analyse er ikke den fulle og hele sannheten. Det går mange ting inn i en slik analyse som vi ikke har kontroll over. 
+
+Andre spørmål vi kan stille oss:
+- **Sikkerhet:** Er menneskeliv og trygghet prisgitt i analysen?
+- **Næring:** Hva betyr leveringssikkerhet for laksenæringen?
+- **Symbolverdi:** Verdens første skipstunnel – er det verdt noe? Ref. vår månelanding på mongstad for eksempel! 
+- **Usikkerhet:** Tar modellene feil? (Historisk sett blir vei/bane ofte mer brukt enn beregnet).
+:::
+
 
 ## Praktisk info
 
@@ -72,7 +97,7 @@ Ha lav terskel for å spørre om det er ting dere ikke forstår. Vi må tune oss
 
 ## Aksel Sterri (Digital etikk)
 - PhD i filosofi
-- Forskningsdirektør i tenketanken *Langsikt* 
+- Fagsjef i tenketanken *Langsikt* 
 
 ![](images/aksel_bilde.jpg){width=200px} 
 :::
@@ -87,7 +112,7 @@ Ha lav terskel for å spørre om det er ting dere ikke forstår. Vi må tune oss
 :::
 
 :::{.callout-warning}
-## Digital etikk (mars)
+## Digital etikk (februar)
 - vurdere etiske utfordringer med KI-algoritmer 
 - se hvordan opprinnelsen til et datasett legger føringer og begrensninger på
 hva man kan bruke datasettet til
@@ -99,27 +124,15 @@ hva man kan bruke datasettet til
 :::
 
 ## Husk
-- Hjelp hverandre (skal vi sette opp grupper?)
+- Hjelp hverandre
 - Følg med på semestersidene
 - Studentrepresentanter 
 - Still gjerne spørsmål etter timen
 - Send mail om det er noe
 
 
-## More is different 
-![](images/more_different.png)
 
-:::{.notes .hidden}
-I fysikken, så finnes det en ganske berømt artikkel som heter "More is different". Den handler kort sagt om at når ting blir store nok, så endrer de kvalitativt egenskaper, og blir til noe annet enn summen av delene. Dette er grunnen til at det ikke holder med kvantefysikk og høyenergi partikkelfysikk for å skjønne hele verden. Det holder ikke med standardmodellen i partikkelfysikk om du skal forklare hvordan et jordskjelv oppstår. 
-
-Bildet her viser et eksempel. Dette er et ammoniummolekyl. Det består av et nitrogenatom, og tre hydrogenatomer. og de står alle sammen som et tetraeder, altså en trekantet pyramide. På grunn av kvantefysikk er det noen elektronen som svirrer rundt mellom nitrogenet og hydrogenet, og nitrogenet trekker hardere på elektronene enn det hydrogenene gjør. Derfor vil man, om man måler, finne at det i snitt er litt negativ ladning ved nitrogenet og litt positiv ladning ved hydrogenene. Så langt så bra. Dette skulle man tro var helt greit, men det er det ikke. For i følge kvantefysikken kan ikke stasjonære tilstander ha netto dipolmoment. Og det er jo litt trøblete. For hvis kvantefysikken ikke en gang klarer å forholde seg til ammonium, da er den ikke mye verdt. Men selvsagt blir vi reddet. For ammoniummmolekylet står og svinger fra å ha hydrogenene under seg til å ha dem over seg. Så over tid er det netto null forskjell i ladning oppe og nede. Men, dette går bare fint, fordi ammoniummolekylet lett kan svinge slik. Om vi hadde noe større, for eksempel et protein, ville det ikke klart å vrenge seg. Det som skjer da, er at molekylet låser seg fast i en metastabil tilstand. Om man ser på gjennomsnittet av alle ting den kunne ha gjort, oppfyller den kvantemekanikken, men det blir uinteressant om vi skal se på strukturen til et enkelt protein. Det har låst seg fast i en eller annen sær struktur, og det kommer til å ta den mange ganger universets levetid å utforske nok mulige konfigurasjoner til å kunne nærme seg å oppfylle kravet til jevn ladningsfordeling.  I stedet gjør den en eller annen viktig jobb slik som for eksempe å fange opp spike-proteinet i coronaviruset. 
-
-I maskinlæring og stordata er noe lignende i ferd med å skje. Vi er i ferd med å komme inn i et regime der vi kan erstatte mye menneskelig intelligens med maskinintelligens, fordi maskinintelligensen har blitt kvalitativt endret.
-
-Lenge prøvde man å beskrive for datamaskinen hva som var de forskjellige karakteristiske trekkene ved forskjellige objekter. Nå bare viser man den nok eksempler, og den finner det ut selv. Det er bare noen år siden denne teknologien plutselig suste forbi alle de andre teknologiene, og gjorde at vi nå kan tro på det når internett sier at noe er et bilde av en katt. Og det kommer av to ting: Mer data, og mer regnekraft, slik at man kan lage større nevrale nettverk og trene dem bedre. Plutselig klarer disse nettene å gjøre noe nytt.
-
-Lenge prøvde man å fysikkmodellere seg til å predikere proteinstrukturer fra gensekvenser. I praksis se på hvordan proteinkjeder knyter seg til og låser seg fast i en metastabil tilstand.  Nå gjør google DeepMind dette med maskinlæring.
-:::
+## Et par oppvarmingseksempler
 
 ## SHOT
 > Omtrent 4 av 10 studenter (42 %) oppgir at de har god eller svært god livskvalitet. Samtidig vurderer 31 % av studentene sin livskvalitet som litt under middels eller dårligere
@@ -134,7 +147,9 @@ Lenge prøvde man å fysikkmodellere seg til å predikere proteinstrukturer fra 
 
 Hvordan skal vi tolke dette utsagnet? 
 
-Her skal vi se på situasjoner det statistikk oppgis på en lite hensiktsmessig måte. 
+Man kan jo tenke at dette betyr at folk ikke har det så bra. Hva tenker dere? 
+
+Her mener jeg at infomasjonen har blitt gitt på en villedende måte. For står det ikke egenlig her at over halvparten av studentene mener de har det bedre enn snittet? 
 
 :::
 
@@ -166,6 +181,7 @@ plt.tick_params(axis='y', labelsize=20)
 
 
 :::{.fragment .absolute top=0 left=200 width="900" height="300"}
+
 :::{.callout-note background-color="aquamarine"}
 ## Hva så?
 :::{.incremental}
@@ -177,8 +193,14 @@ plt.tick_params(axis='y', labelsize=20)
 :::
 :::
 
+
 :::{.notes .hidden}
 Sjåfører flest er bedre enn snittet ? 
+
+Henger dette på greip? Kanskje. Kanskje ikke. Det er jo litt sånn at noen må være bedre og noen må være dårligere enn snittet. Og om veldig mange mener de er bedre enn snittet, så kan det hende at folk feilvurderer litt. 
+
+Men det kan hende det henger på greip. Hva om fordelingen er litt skjeiv? Det kan hende at De som er dårlige er veldig dårlige. Men hvordan måler vi dårlig for å lage et gjennomsnitt? 
+Kanskje vi kan gjøre det med kostnad for forsikringsselskapet. Eller risiko vurdert av forsikringsselskapet, beregnet som forsikringspremien? Hva tenker dere? 
 
 Dette bør vi ha i mente når vi leser at folk rapporterer om forskjellige ting. 
 
@@ -186,9 +208,19 @@ En ting jeg ønsker meg for dere i dette faget, er at dere skal få et bredt spe
 :::
 
 
+## Oppfriskning fra HON2110/IN1900
+- Oppfriskninsoppgaver med penn og papir!
+
+:::{.notes .hidden}
+Vi skal etterhvert videre på databehandling med pandas i jupyter notebook, men før vi gjør det vil jeg at vi skal gjøre noen oppfriskningsoppgaver, med penn og papir. Jeg har printet ut noen programmeringsoppgaver som skal passe som en oppfriskning fra HON2110, siden det er ganske lenge siden eksamen i det kurset. Så dere kan sette dere i ro og mak og gjøre disse oppgavene individuelt. Men spør gjerne oss eller sidemannen om du trenger hjelp. For nå er det ikke lov til å bruke hjelpemidler andre enn andre mennesker.
+:::
+
+
 ## Å kunne håndtere data med Pandas
 
 ![](images/pandas_jesus.gif)
+
+Åpne laptop og kod med! 
 
 :::{.notes .hidden}
 Når vi har data tilgjengelig trenger vi en måte å håndtere dem på! 
@@ -197,7 +229,6 @@ Jeg håper vi nå er enige om at det finnes ting som vi bryr oss om som vi kan f
 :::
 
 ## Aritmetikk i jupyter notebook
-(Prøv å kjøre dette i egen notebook, meld ifra med postitlapp om det ikke er mulig å holde følge)
 ```{python}
 #| echo: true
 a = 3
@@ -206,9 +237,6 @@ c = a*b
 print("a*b = %i"%(a*b))
 ```
 
-:::{.notes .hidden}
-Nå vil jeg at vi skal ta fram postitlapper, slik at dere kan sette grønn lapp på maskinen om det virker, og rød lapp om det er trøbbel. 
-:::
 
 ## Legge til ny/fjerne celle
 Kommer an på VSCode/jupyter notebook/juyter lab
@@ -283,7 +311,7 @@ import pandas as pd
 
 :::{.callout-important}
 ## Feilmeldinger?
-Funker installasjon og import av disse pakkene? Opp med grønn/rød postit!
+Funker installasjon og import av disse pakkene? Rop ut!
 :::
 
 ## Håndtere data i python/jupyter
@@ -292,7 +320,6 @@ Funker installasjon og import av disse pakkene? Opp med grønn/rød postit!
 - Håndtere data med pandas DataFrames
 
 ## Numpy-arrayer
-(trenger ikke kode med her)
 
 :::{.fragment}
 ```{python}
@@ -453,6 +480,7 @@ print(df_pris)
 
 ## Hente ut kolonner 
 ```{python}
+#| echo: true
 df_pris = pd.read_csv("data/meteringvalues-dec-2024.csv", sep=";", decimal=",")
 df_pris["KWH 60 Forbruk"]
 ```

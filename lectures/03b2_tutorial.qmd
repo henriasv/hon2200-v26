@@ -1,21 +1,21 @@
 ---
-title: "Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
+title: "Øvingsoppgave/Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)"
 author: "Henrik Sveinsson"
 number-subsections: true
 ---
 
 **Tutorial**  
-Vi skal jobbe med denne tutorial-oppgaven i undervisningen, så denne trenger dere ikke gjøre på forhånd. 
+Vi skal jobbe med denne tutorial-oppgaven i undervisningen, så denne trenger dere ikke gjøre på forhånd. Denne tutorial-oppgaven er også ukens øvingsoppgave, så ikke noen ekstra øvingsoppgaver ut over denne tutorialen. 
 
 I leseleksa så dere på logistisk regresjon og på hvordan man kan validere en modell. Dette skal vi nå jobbe med. Vi skal bruke  logistisk regresjon til å klassifisere individer som gode eller dårlige betalere av kredittkortregningen sin. 
 
 Logistisk regresjon er en klassifiseringsmetode. Det vil si at vi ønsker å predikere *kategoriske* utfall. Altså utfall slik som kjønn (mann/kvinne), blodtype (A/B/AB/0) osv. Det som kjennetegner slike utfall er at de ikke enkelt kan tilordnes en numerisk verdi på en skala. Det gir ikke mening å si at blodtype B ligger midt mellom A og AB. De er bare forskjellige blodtyper. Noen ganger kan det være uklart om et utfall må være kategorisk eller om det kunne vært numerisk. Det gjelder i tilfeller der vi vet hvordan vi skal sortere kategoriene. I slike tilfeller kan det gi mening å modellere kategoriske utfall som numeriske utfall.
 
+
 ## Videoløsning
 Her er video med løsning av en tidligere, men ganske lik, versjon av denne tutorial-oppgaven. 
- 
-{{< video https://youtu.be/DRDN3HBavvI >}}
 
+{{< video https://youtu.be/DRDN3HBavvI >}}
 
 ## Kategorisk vs. numerisk
 Hvilke av følgende utfall er kategoriske og hvilke er numeriske?

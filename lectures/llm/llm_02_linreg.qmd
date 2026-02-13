@@ -1,0 +1,257 @@
+---
+title: "Lineær regresjon"
+subtitle: "LLM-skrevet supplement til HON2200"
+format: html
+jupyter: python3
+---
+
+*Dette notatet er skrevet av en LLM som supplement til forelesningsmateriell i HON2200.*
+
+## Læringsmål
+
+Etter å ha jobbet gjennom dette notatet skal du kunne:
+
+- Forstå hva lineær regresjon er og når det brukes
+- Implementere lineær regresjon med numpy
+- Forstå begrepene støy og måleusikkerhet
+- Estimere usikkerheten i regresjonskoeffisienter
+- Bruke bootstrap for feilestimering
+
+## Motivasjon: Ohms lov
+
+La oss starte med et fysikkeksempel. Ohms lov sier at strøm $I$ er proporsjonal med spenning $U$:
+
+$$I = \frac{1}{R} \cdot U$$
+
+der $R$ er motstanden. Dette er en lineær sammenheng - hvis vi plotter $I$ mot $U$, får vi en rett linje.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Teoretisk sammenheng
+R = 0.3  # Ohm
+U = np.linspace(0, 10, 100)
+I = U / R
+
+plt.figure(figsize=(8, 5))
+plt.plot(U, I, 'b-', linewidth=2, label='Teoretisk')
+plt.xlabel('Spenning U [V]')
+plt.ylabel('Strøm I [A]')
+plt.title('Ohms lov: I = U/R')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+## Virkelige målinger har støy
+
+I virkeligheten får vi aldri perfekte målinger. Det er alltid noe støy:
+
+```{python}
+np.random.seed(42)
+
+# Simulere målinger med støy
+n_målinger = 20
+U_målt = np.random.uniform(0, 10, n_målinger)
+I_målt = U_målt / R + np.random.normal(0, 1.5, n_målinger)  # Legger til støy
+
+plt.figure(figsize=(8, 5))
+plt.scatter(U_målt, I_målt, s=50, alpha=0.7, label='Målinger')
+plt.plot(U, I, 'b-', linewidth=1, alpha=0.5, label='Sann sammenheng')
+plt.xlabel('Spenning U [V]')
+plt.ylabel('Strøm I [A]')
+plt.title('Målinger med støy')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+## Lineær regresjon: Finne den beste linjen
+
+Vi modellerer sammenhengen som:
+
+$$y = \beta_0 + \beta_1 x + \varepsilon$$
+
+der:
+
+- $\beta_0$ er konstantleddet (skjæring med y-aksen)
+- $\beta_1$ er stigningstallet
+- $\varepsilon$ er et støyledd (det vi ikke kan forklare)
+
+Målet er å finne $\beta_0$ og $\beta_1$ som minimerer summen av kvadrerte avvik:
+
+$$\sum_{i=1}^n (y_i - \hat{y}_i)^2 = \sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)^2$$
+
+## Implementasjon med numpy
+
+```{python}
+# Bruke numpy polyfit for lineær regresjon
+# polyfit(x, y, grad) - grad=1 gir lineær regresjon
+koeffisienter = np.polyfit(U_målt, I_målt, 1)
+beta_1, beta_0 = koeffisienter
+
+print(f"Estimert stigningstall (1/R): {beta_1:.3f}")
+print(f"Estimert konstantledd: {beta_0:.3f}")
+print(f"Sann verdi av 1/R: {1/R:.3f}")
+```
+
+```{python}
+# Plotte resultatet
+I_predikert = np.polyval(koeffisienter, U)
+
+plt.figure(figsize=(8, 5))
+plt.scatter(U_målt, I_målt, s=50, alpha=0.7, label='Målinger')
+plt.plot(U, I, 'b-', linewidth=1, alpha=0.5, label='Sann sammenheng')
+plt.plot(U, I_predikert, 'r--', linewidth=2, label='Lineær regresjon')
+plt.xlabel('Spenning U [V]')
+plt.ylabel('Strøm I [A]')
+plt.title('Lineær regresjon av Ohms lov')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+## Usikkerhet i estimatene
+
+Hver gang vi trekker nye målinger med støy, får vi litt forskjellige estimater for $\beta_0$ og $\beta_1$. La oss se på dette:
+
+```{python}
+# Gjenta eksperimentet mange ganger
+n_eksperimenter = 1000
+beta_1_verdier = []
+
+for _ in range(n_eksperimenter):
+    # Nye målinger
+    U_ny = np.random.uniform(0, 10, n_målinger)
+    I_ny = U_ny / R + np.random.normal(0, 1.5, n_målinger)
+    
+    # Ny regresjon
+    koeff = np.polyfit(U_ny, I_ny, 1)
+    beta_1_verdier.append(koeff[0])
+
+beta_1_verdier = np.array(beta_1_verdier)
+
+plt.figure(figsize=(8, 5))
+plt.hist(beta_1_verdier, bins=40, edgecolor='black', alpha=0.7)
+plt.axvline(1/R, color='red', linestyle='--', linewidth=2, label=f'Sann verdi = {1/R:.2f}')
+plt.axvline(beta_1_verdier.mean(), color='green', linestyle='--', linewidth=2, 
+            label=f'Gjennomsnitt = {beta_1_verdier.mean():.2f}')
+plt.xlabel('Estimert stigningstall')
+plt.ylabel('Antall')
+plt.title('Fordeling av estimert stigningstall over 1000 eksperimenter')
+plt.legend()
+plt.show()
+
+print(f"Standardavvik i estimert stigningstall: {beta_1_verdier.std():.3f}")
+```
+
+## Teoretisk standardfeil
+
+Fra statistisk teori har vi en formel for standardfeilen i stigningstallet:
+
+$$\text{SE}(\hat{\beta}_1) = \sqrt{\frac{\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2}}$$
+
+der $\sigma$ er standardavviket til støyled.
+
+```{python}
+# Beregne teoretisk standardfeil
+sigma = 1.5  # Standardavviket til støyen vi la til
+x_bar = U_målt.mean()
+sum_sq = np.sum((U_målt - x_bar)**2)
+se_teoretisk = np.sqrt(sigma**2 / sum_sq)
+
+print(f"Teoretisk standardfeil: {se_teoretisk:.3f}")
+print(f"Empirisk standardavvik fra simuleringer: {beta_1_verdier.std():.3f}")
+```
+
+## Bootstrap: Estimere usikkerhet fra én måleserie
+
+I virkeligheten har vi bare én måleserie, ikke 1000. Hvordan kan vi da estimere usikkerheten?
+
+**Bootstrap** er en teknikk der vi:
+
+1. Trekker tilfeldige utvalg (med tilbakelegging) fra dataene våre
+2. Gjør regresjonen på hvert utvalg
+3. Ser på spredningen i estimatene
+
+```{python}
+# Bootstrap
+n_bootstrap = 1000
+beta_1_bootstrap = []
+
+for _ in range(n_bootstrap):
+    # Trekk tilfeldige indekser med tilbakelegging
+    idx = np.random.choice(len(U_målt), size=len(U_målt), replace=True)
+    U_boot = U_målt[idx]
+    I_boot = I_målt[idx]
+    
+    # Regresjon på bootstrap-utvalget
+    koeff = np.polyfit(U_boot, I_boot, 1)
+    beta_1_bootstrap.append(koeff[0])
+
+beta_1_bootstrap = np.array(beta_1_bootstrap)
+
+plt.figure(figsize=(10, 4))
+
+plt.subplot(1, 2, 1)
+plt.hist(beta_1_verdier, bins=40, edgecolor='black', alpha=0.7)
+plt.title('Sanne gjentatte eksperimenter')
+plt.xlabel('Estimert stigningstall')
+
+plt.subplot(1, 2, 2)
+plt.hist(beta_1_bootstrap, bins=40, edgecolor='black', alpha=0.7, color='orange')
+plt.title('Bootstrap fra én måleserie')
+plt.xlabel('Estimert stigningstall')
+
+plt.tight_layout()
+plt.show()
+
+print(f"Standardavvik fra gjentatte eksperimenter: {beta_1_verdier.std():.3f}")
+print(f"Standardavvik fra bootstrap: {beta_1_bootstrap.std():.3f}")
+```
+
+## Visualisere bootstrap-linjene
+
+```{python}
+plt.figure(figsize=(8, 5))
+
+# Plotte noen bootstrap-linjer
+for i in range(50):
+    idx = np.random.choice(len(U_målt), size=len(U_målt), replace=True)
+    koeff = np.polyfit(U_målt[idx], I_målt[idx], 1)
+    I_boot = np.polyval(koeff, U)
+    plt.plot(U, I_boot, 'gray', alpha=0.2, linewidth=0.5)
+
+# Plotte data og beste linje
+plt.scatter(U_målt, I_målt, s=50, zorder=5, label='Målinger')
+plt.plot(U, I_predikert, 'r-', linewidth=2, label='Beste tilpasning')
+
+plt.xlabel('Spenning U [V]')
+plt.ylabel('Strøm I [A]')
+plt.title('Bootstrap-linjer viser usikkerheten')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+## Oppsummering
+
+1. **Lineær regresjon** finner den linjen som minimerer summen av kvadrerte avvik
+2. **Støy** gjør at vi får forskjellige estimater hver gang
+3. **Standardfeil** måler usikkerheten i estimatene
+4. **Bootstrap** lar oss estimere usikkerhet fra én datasett
+
+## Nøkkelfunksjoner
+
+| Funksjon | Beskrivelse |
+|----------|-------------|
+| `np.polyfit(x, y, 1)` | Lineær regresjon |
+| `np.polyval(koeff, x)` | Evaluere polynom |
+| `np.random.choice(..., replace=True)` | Bootstrap-sampling |
+
+## Øvingsoppgaver
+
+1. Endre standardavviket til støyen. Hva skjer med usikkerheten i estimatene?
+2. Endre antall målinger. Hvordan påvirker det usikkerheten?
+3. Bruk bootstrap til å lage et 95% konfidensintervall for stigningstallet

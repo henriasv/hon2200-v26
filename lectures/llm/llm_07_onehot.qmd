@@ -1,0 +1,292 @@
+---
+title: "One-hot encoding av kategoriske variabler"
+subtitle: "LLM-skrevet supplement til HON2200"
+format: html
+jupyter: python3
+---
+
+*Dette notatet er skrevet av en LLM som supplement til forelesningsmateriell i HON2200.*
+
+## Læringsmål
+
+Etter å ha jobbet gjennom dette notatet skal du kunne:
+
+- Forstå forskjellen på kategoriske og numeriske variabler
+- Forklare hvorfor vi trenger one-hot encoding
+- Bruke `pd.get_dummies()` til one-hot encoding
+- Bruke kategoriske variabler i lineær regresjon
+- Unngå "dummy variable trap"
+
+## Kategoriske vs. numeriske variabler
+
+**Numeriske variabler** har en naturlig ordning og målbart avstand:
+- Temperatur (20°C er 10° varmere enn 10°C)
+- Alder (40 år er dobbelt så mye som 20 år)
+- Inntekt
+
+**Kategoriske variabler** er grupperinger uten naturlig tall-verdi:
+- Farge (rød, blå, grønn)
+- Land (Norge, Sverige, Danmark)
+- Yrke (lærer, lege, ingeniør)
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Eksempel: Dyredata
+df = pd.read_csv("../data/animal_data.csv")
+df.head()
+```
+
+## Problemet med kategoriske data
+
+Mange maskinlæringsalgoritmer forventer numeriske input. Hva skjer om vi bare gir kategoriske variabler tall-etiketter?
+
+```{python}
+# Naiv koding: Art = 0, 1, 2, ...
+art_mapping = {'cat': 0, 'dog': 1, 'hamster': 2}
+df['art_numerisk'] = df['species'].map(art_mapping)
+print(df[['species', 'art_numerisk']].head())
+```
+
+:::{.callout-warning}
+## Problemet med numerisk koding
+Denne kodingen innfører en **falsk ordning**: modellen vil tro at "hamster" (2) er "mer" enn "hund" (1), som igjen er "mer" enn "katt" (0). Men dette gir ingen mening!
+:::
+
+## One-hot encoding: Løsningen
+
+One-hot encoding lager én binær kolonne per kategori:
+
+| Dyr | katt | hund | hamster |
+|-----|------|------|---------|
+| katt | 1 | 0 | 0 |
+| hund | 0 | 1 | 0 |
+| hamster | 0 | 0 | 1 |
+| katt | 1 | 0 | 0 |
+
+```{python}
+# One-hot encoding med pandas
+df_onehot = pd.get_dummies(df, columns=['species'])
+print(df_onehot.head())
+```
+
+## Visuell forklaring
+
+```{python}
+# Illustrere one-hot encoding
+fig, axes = plt.subplots(1, 2, figsize=(14, 4))
+
+# Original data
+ax = axes[0]
+categories = df['species'].unique()
+colors = ['red', 'blue', 'green']
+for i, cat in enumerate(categories):
+    mask = df['species'] == cat
+    ax.scatter(df.loc[mask, 'height'], df.loc[mask, 'weight'], 
+               c=colors[i], label=cat, s=50, alpha=0.7)
+ax.set_xlabel('Height')
+ax.set_ylabel('Weight')
+ax.set_title('Originale kategorier')
+ax.legend()
+
+# One-hot kolonner
+ax = axes[1]
+for i, cat in enumerate(categories):
+    col_name = f'species_{cat}'
+    if col_name in df_onehot.columns:
+        ax.bar(df_onehot.index[:10], df_onehot[col_name][:10].values + i*0.1, 
+               width=0.25, label=col_name, alpha=0.7)
+ax.set_xlabel('Rad-indeks')
+ax.set_ylabel('Verdi (forskjøvet for synlighet)')
+ax.set_title('One-hot kolonner (første 10 rader)')
+ax.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+## Praktisk eksempel: Helsedata
+
+La oss se på et datasett med helseutgifter per land:
+
+```{python}
+# Lage et eksempeldatasett
+np.random.seed(42)
+
+data = {
+    'land': np.random.choice(['Norge', 'Sverige', 'Danmark', 'Finland'], 100),
+    'bnp_per_capita': np.random.uniform(40000, 80000, 100),
+    'helseutgifter': np.zeros(100)
+}
+
+# Simuler at helseutgifter avhenger av BNP og land
+for i, land in enumerate(data['land']):
+    base = data['bnp_per_capita'][i] * 0.08  # 8% av BNP
+    if land == 'Norge':
+        base += 2000
+    elif land == 'Sverige':
+        base += 1500
+    elif land == 'Danmark':
+        base += 1000
+    data['helseutgifter'][i] = base + np.random.normal(0, 500)
+
+df_health = pd.DataFrame(data)
+df_health.head()
+```
+
+### Visualisere sammenhengen
+
+```{python}
+plt.figure(figsize=(10, 6))
+colors = {'Norge': 'blue', 'Sverige': 'yellow', 'Danmark': 'red', 'Finland': 'white'}
+for land in df_health['land'].unique():
+    mask = df_health['land'] == land
+    plt.scatter(df_health.loc[mask, 'bnp_per_capita'], 
+                df_health.loc[mask, 'helseutgifter'],
+                c=colors[land], edgecolors='black', s=50, label=land, alpha=0.7)
+plt.xlabel('BNP per capita (USD)')
+plt.ylabel('Helseutgifter per capita (USD)')
+plt.title('Helseutgifter vs BNP for nordiske land')
+plt.legend()
+plt.show()
+```
+
+### Regresjon uten landinfo
+
+```{python}
+# Bare bruke BNP som prediktor
+X_simple = df_health[['bnp_per_capita']].values
+y = df_health['helseutgifter'].values
+
+model_simple = LinearRegression()
+model_simple.fit(X_simple, y)
+
+print(f"R² uten landinfo: {model_simple.score(X_simple, y):.3f}")
+```
+
+### Regresjon med one-hot encoding
+
+```{python}
+# One-hot encode landkolonnen
+df_encoded = pd.get_dummies(df_health, columns=['land'], drop_first=True)
+print(df_encoded.columns.tolist())
+```
+
+```{python}
+# Bruk alle features inkludert one-hot kolonner
+X_full = df_encoded.drop('helseutgifter', axis=1).values
+y = df_encoded['helseutgifter'].values
+
+model_full = LinearRegression()
+model_full.fit(X_full, y)
+
+print(f"R² med landinfo: {model_full.score(X_full, y):.3f}")
+```
+
+## Dummy Variable Trap
+
+:::{.callout-important}
+## Viktig: drop_first=True
+Legg merke til at vi brukte `drop_first=True`. Hvorfor?
+:::
+
+Hvis vi har 4 kategorier og lager 4 kolonner, blir de **lineært avhengige**:
+
+$$\text{Norge} + \text{Sverige} + \text{Danmark} + \text{Finland} = 1$$
+
+Dette skaper problemer for lineær regresjon. Løsningen er å droppe én kolonne:
+
+```{python}
+# Uten drop_first (alle kolonner)
+df_all = pd.get_dummies(df_health[['land']], columns=['land'], drop_first=False)
+print("Alle dummy-kolonner:")
+print(df_all.head())
+print(f"Sum per rad: {df_all.sum(axis=1).unique()}")  # Alltid 1!
+
+print("\nMed drop_first=True:")
+df_dropped = pd.get_dummies(df_health[['land']], columns=['land'], drop_first=True)
+print(df_dropped.head())
+```
+
+Den droppede kategorien blir **referansekategorien**. Koeffisientene viser forskjellen *fra* denne kategorien.
+
+## Tolke koeffisientene
+
+```{python}
+# Hent ut koeffisientene
+feature_names = df_encoded.drop('helseutgifter', axis=1).columns.tolist()
+koeff = dict(zip(feature_names, model_full.coef_))
+
+print("Koeffisienter:")
+for feat, val in koeff.items():
+    print(f"  {feat}: {val:.2f}")
+print(f"\nKonstantledd: {model_full.intercept_:.2f}")
+```
+
+**Tolkning:**
+- Hver ekstra USD i BNP per capita gir ~0.08 USD ekstra helseutgifter
+- Sverige bruker ~500 USD mer enn Danmark (referansen)
+- Norge bruker ~1000 USD mer enn Danmark
+- Finland bruker ~1000 USD mindre enn Danmark
+
+## Praktiske tips
+
+### 1. Når bruke one-hot encoding?
+
+✅ Kategorier uten naturlig ordning (farger, land, yrker)
+✅ Når du vil at hver kategori skal ha sin egen effekt
+
+❌ Ordnede kategorier (lav/middels/høy) - bruk heller ordinal encoding
+❌ Kategorier med veldig mange unike verdier - kan gi for mange kolonner
+
+### 2. Håndtere mange kategorier
+
+```{python}
+# Hvis du har mange kategorier, kan du gruppere de sjeldne
+df_example = pd.DataFrame({
+    'by': ['Oslo', 'Bergen', 'Trondheim', 'Stavanger', 
+           'Lillehammer', 'Bodø', 'Tromsø', 'Ålesund'] * 10
+})
+
+# Behold bare de 3 vanligste, rest blir "Andre"
+top_3 = df_example['by'].value_counts().head(3).index
+df_example['by_grouped'] = df_example['by'].apply(
+    lambda x: x if x in top_3 else 'Andre'
+)
+print(df_example['by_grouped'].value_counts())
+```
+
+## Oppsummering
+
+| Begrep | Beskrivelse |
+|--------|-------------|
+| Kategorisk variabel | Gruppering uten naturlig tall-verdi |
+| One-hot encoding | Lage én binær kolonne per kategori |
+| Dummy Variable Trap | Problem med lineært avhengige kolonner |
+| drop_first | Fjerne én kolonne for å unngå trap |
+| Referansekategori | Den droppede kategorien |
+
+## Nøkkelfunksjoner
+
+```python
+import pandas as pd
+
+# One-hot encoding
+df_encoded = pd.get_dummies(df, columns=['kategori'])
+
+# Med drop_first for regresjon
+df_encoded = pd.get_dummies(df, columns=['kategori'], drop_first=True)
+
+# Velge hvilke kolonner å encode
+df_encoded = pd.get_dummies(df, columns=['kat1', 'kat2'])
+```
+
+## Øvingsoppgaver
+
+1. Last inn `bestsellers_with_categories.csv` og one-hot encode `Genre`-kolonnen
+2. Bygg en regresjonsmodell som predikerer `User Rating` basert på `Reviews`, `Price` og `Genre`
+3. Tolke koeffisientene: Hvilken sjanger har høyest baseline rating?
+4. Hva skjer hvis du IKKE bruker `drop_first=True` i scikit-learn sin LinearRegression?

@@ -1,0 +1,249 @@
+---
+title: "AI-assistert koding"
+subtitle: "Hvordan bruke språkmodeller effektivt og forsvarlig"
+format: html
+jupyter: python3
+---
+
+*Dette er en arbeidsøkt på 45 minutter om bruk av AI-verktøy i koding og dataanalyse.*
+
+## Læringsmål
+
+Etter denne økten skal du kunne:
+
+- Bruke AI-verktøy effektivt til feilsøking og forklaring av kode
+- Gjenkjenne situasjoner der AI kan lede deg på villspor
+- Vurdere og verifisere AI-generert kode kritisk
+- Reflektere over etiske aspekter ved AI-bruk i akademisk arbeid
+
+---
+
+## Del 1: Diskusjon (10 min)
+
+### Gruppeoppgave
+
+Diskuter i gruppen (2-3 min per spørsmål):
+
+1. **Har du brukt ChatGPT, Claude, Copilot eller lignende til koding?**
+   - Til hva?
+   - Var det nyttig?
+
+2. **Hva er forskjellen på å:**
+   - Spørre en AI om hjelp
+   - Spørre en medstudent om hjelp
+   - Slå opp i dokumentasjon
+
+3. **Når føler du at du har "lært" noe vs. bare "kopiert" noe?**
+
+---
+
+## Del 2: Når er AI nyttig? (10 min)
+
+### ✅ Gode bruksområder
+
+#### 1. Feilsøking (debugging)
+
+```{python}
+#| eval: false
+
+# Denne koden gir en feil. Prøv å kjøre den:
+import pandas as pd
+
+data = {'navn': ['Anna', 'Bjørn'], 'alder': [25, 32]}
+df = pd.DataFrame(data)
+
+# Vil finne alle over 30
+resultat = df[df['alder'] > 30]
+print(resultat['navn'].values[0])  # Krasjer!
+```
+
+**Prompt til AI:**
+> "Jeg får IndexError når jeg kjører denne koden. Kan du forklare hvorfor og foreslå en løsning?"
+
+**AI er god på:** Identifisere at `resultat` kan være tom, og foreslå å sjekke dette først.
+
+#### 2. Forklare eksisterende kode
+
+```{python}
+#| eval: false
+
+# Hva gjør denne koden?
+df.groupby('kategori')['pris'].transform(lambda x: (x - x.mean()) / x.std())
+```
+
+**Prompt til AI:**
+> "Kan du forklare steg for steg hva denne pandas-koden gjør?"
+
+**AI er god på:** Bryte ned kompleks kode i forståelige deler.
+
+#### 3. Finne riktig syntaks
+
+**Prompt til AI:**
+> "Hvordan lager jeg et histogram med matplotlib der jeg setter antall bins til 30 og legger til en tittel?"
+
+**AI er god på:** Huske syntaks og parametre du har glemt.
+
+#### 4. Generere startkode
+
+**Prompt til AI:**
+> "Lag en Python-funksjon som tar inn en liste med tall og returnerer gjennomsnitt og standardavvik."
+
+**AI er god på:** Gi deg et utgangspunkt du kan bygge videre på.
+
+---
+
+## Del 3: Når er AI farlig? (10 min)
+
+### ⚠️ Situasjoner der du må være ekstra kritisk
+
+#### 1. Statistiske tolkninger
+
+```{python}
+#| eval: false
+
+# AI kan gi teknisk riktig kode, men feil tolkning
+from scipy import stats
+
+gruppe_a = [23, 25, 27, 24, 26]
+gruppe_b = [28, 30, 29, 31, 27]
+
+t_stat, p_value = stats.ttest_ind(gruppe_a, gruppe_b)
+print(f"p-verdi: {p_value:.4f}")
+```
+
+**Spør du AI:** "Er denne forskjellen signifikant?"
+
+**Problem:** AI kan si "ja, p < 0.05 så forskjellen er signifikant" uten å diskutere:
+- Er t-test riktig metode?
+- Hva med effektstørrelse?
+- Har vi nok data?
+- Hva betyr "signifikant" egentlig?
+
+#### 2. Valg av modell/metode
+
+**Du spør:** "Hvilken maskinlæringsmodell bør jeg bruke for dette datasettet?"
+
+**Problem:** AI kan foreslå en modell uten å forstå:
+- Hva er målet ditt?
+- Hvor viktig er tolkbarhet vs. nøyaktighet?
+- Hva slags data har du egentlig?
+
+#### 3. Kode som "ser riktig ut" men er feil
+
+```{python}
+#| eval: false
+
+# AI-generert kode for kryssvalidering - ser du feilen?
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+# Feil: Skalerer HELE datasettet før split!
+X_scaled = StandardScaler().fit_transform(X)
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y)
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+print(f"Test accuracy: {model.score(X_test, y_test)}")
+```
+
+**Feilen:** Skalering burde skje ETTER split, kun på treningsdata. Ellers "lekker" informasjon fra testsettet.
+
+---
+
+## Del 4: Praktisk øvelse (10 min)
+
+### Oppgave: Sammenlign din løsning med AI
+
+**Scenario:** Du skal analysere Titanic-datasettet og finne overlevelsesrate per klasse.
+
+#### Steg 1: Prøv selv først (3 min)
+
+```{python}
+#| eval: false
+
+import pandas as pd
+
+# Last inn Titanic-data (eller bruk en enkel versjon)
+# Skriv kode som beregner overlevelsesrate per passasjerklasse
+
+# Din kode her:
+
+```
+
+#### Steg 2: Spør AI om hjelp (2 min)
+
+Bruk ChatGPT, Claude, eller lignende og spør:
+> "Hvordan beregner jeg overlevelsesrate per passasjerklasse i Titanic-datasettet med pandas?"
+
+#### Steg 3: Sammenlign og reflekter (5 min)
+
+Diskuter i gruppen:
+
+- Var AI-løsningen bedre, verre, eller lik din?
+- Lærte du noe nytt av AI-løsningen?
+- Ville du forstått AI-løsningen hvis du ikke hadde prøvd selv først?
+- Hva ville skjedd om du bare kopierte uten å forstå?
+
+---
+
+## Del 5: Etiske retningslinjer (5 min)
+
+### UiOs forventninger
+
+Ved UiO forventes det at du:
+
+1. **Oppgir bruk av AI** når det er relevant
+2. **Forstår koden du leverer** - du er ansvarlig for innholdet
+3. **Ikke presenterer AI-tekst som din egen** uten bearbeiding
+4. **Kan forklare valgene dine** på muntlig eksamen
+
+### For HON2200 spesifikt
+
+- Du **kan** bruke AI til feilsøking og å forstå kode
+- Du **kan** bruke AI til å generere startkode som du bygger videre på
+- Du **skal** forstå og kunne forklare all kode du leverer
+- Du **skal** oppgi vesentlig AI-bruk i rapporten
+
+### Gode spørsmål å stille deg selv
+
+- "Kan jeg forklare denne koden til en medstudent?"
+- "Forstår jeg hvorfor denne metoden er valgt?"
+- "Ville jeg klart å finne feilen hvis koden ikke fungerte?"
+
+---
+
+## Oppsummering
+
+### AI er et verktøy - bruk det klokt
+
+| Bruk AI til... | Vær kritisk når... |
+|----------------|-------------------|
+| Feilsøking | AI tolker resultater |
+| Forklare kode | AI velger metoder |
+| Syntaks-hjelp | Kode "ser riktig ut" |
+| Generere startkode | Du ikke forstår output |
+
+### Tommelfingerregler
+
+1. **Prøv selv først** - du lærer mer
+2. **Verifiser alltid** - AI kan ta feil
+3. **Forstå før du bruker** - du er ansvarlig
+4. **Vær ærlig** - oppgi AI-bruk
+
+---
+
+## Ressurser
+
+- [UiO: Kunstig intelligens i utdanning](https://www.uio.no/for-ansatte/arbeidsstotte/ki/)
+- [Retningslinjer for bruk av KI-verktøy ved MN-fakultetet](https://www.mn.uio.no/studier/ki/)
+
+---
+
+## Etter økten
+
+Ta med deg disse spørsmålene inn i prosjektarbeidet:
+
+1. Hvordan kan AI hjelpe meg med dette prosjektet?
+2. Hvilke deler må jeg absolutt forstå selv?
+3. Hvordan dokumenterer jeg AI-bruken min?

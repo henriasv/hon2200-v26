@@ -1,0 +1,319 @@
+---
+title: "Beslutningstrær"
+subtitle: "LLM-skrevet supplement til HON2200"
+format: html
+jupyter: python3
+---
+
+*Dette notatet er skrevet av en LLM som supplement til forelesningsmateriell i HON2200.*
+
+## Læringsmål
+
+Etter å ha jobbet gjennom dette notatet skal du kunne:
+
+- Forstå hvordan et beslutningstre fungerer
+- Bruke beslutningstrær til regresjon og klassifisering
+- Visualisere og tolke et beslutningstre
+- Forstå hvordan treet gjør sine oppdelinger
+- Kontrollere treeets kompleksitet
+
+## Hva er et beslutningstre?
+
+Et beslutningstre er en modell som gjør prediksjoner ved å stille en serie med ja/nei-spørsmål.
+
+**Hverdagseksempel:** Hvordan bestemmer du om du skal ta med paraply?
+
+```
+Er det overskyet?
+├── Ja → Høy sjanse for regn → Ta med paraply
+└── Nei → Er det meldt regn?
+          ├── Ja → Ta med paraply
+          └── Nei → Ikke ta med paraply
+```
+
+## Et enkelt eksempel med data
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier, plot_tree
+
+np.random.seed(42)
+
+# Generer enkel data
+n = 50
+x = np.random.uniform(0, 10, n)
+y = np.where(x < 5, x + np.random.normal(0, 0.3, n), 
+             7 - 0.2*(x-5) + np.random.normal(0, 0.3, n))
+
+plt.figure(figsize=(10, 5))
+plt.scatter(x, y, s=50, alpha=0.7)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Data med en klar knekk')
+plt.show()
+```
+
+## Beslutningstre for regresjon
+
+```{python}
+# Tren et beslutningstre
+X = x.reshape(-1, 1)
+tre = DecisionTreeRegressor(max_depth=2)
+tre.fit(X, y)
+
+# Prediksjoner
+x_plot = np.linspace(0, 10, 200).reshape(-1, 1)
+y_pred = tre.predict(x_plot)
+
+plt.figure(figsize=(10, 5))
+plt.scatter(x, y, s=50, alpha=0.7, label='Data')
+plt.plot(x_plot, y_pred, 'r-', linewidth=2, label='Beslutningstre')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Beslutningstre (max_depth=2)')
+plt.legend()
+plt.show()
+```
+
+### Visualisere treet
+
+```{python}
+plt.figure(figsize=(12, 8))
+plot_tree(tre, feature_names=['x'], filled=True, rounded=True, fontsize=10)
+plt.title('Visualisering av beslutningstre')
+plt.tight_layout()
+plt.show()
+```
+
+**Hvordan lese treet:**
+
+- **Rotnode** (øverst): Første spørsmål
+- **Grener**: Ja (venstre) / Nei (høyre)
+- **Bladnoder** (nederst): Predikert verdi
+- **samples**: Antall datapunkter i noden
+- **value**: Gjennomsnittlig y-verdi
+
+## Hvordan finner treet de beste oppdelingene?
+
+Treet velger den oppdeling som **minimerer variansen** (for regresjon) eller **maksimerer informasjonsgevinsten** (for klassifisering) i de resulterende gruppene.
+
+```{python}
+# Illustrere ulike mulige oppdelinger
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+for i, split in enumerate([2, 5, 8]):
+    ax = axes[i]
+    
+    # Beregn gjennomsnitt i hver gruppe
+    left_mask = x < split
+    right_mask = ~left_mask
+    
+    left_mean = y[left_mask].mean() if left_mask.sum() > 0 else 0
+    right_mean = y[right_mask].mean() if right_mask.sum() > 0 else 0
+    
+    # Beregn total varians etter split
+    left_var = y[left_mask].var() if left_mask.sum() > 0 else 0
+    right_var = y[right_mask].var() if right_mask.sum() > 0 else 0
+    
+    n_left = left_mask.sum()
+    n_right = right_mask.sum()
+    weighted_var = (n_left * left_var + n_right * right_var) / (n_left + n_right)
+    
+    ax.scatter(x[left_mask], y[left_mask], c='blue', alpha=0.7)
+    ax.scatter(x[right_mask], y[right_mask], c='orange', alpha=0.7)
+    ax.axvline(split, color='red', linestyle='--', linewidth=2)
+    ax.axhline(left_mean, xmax=split/10, color='blue', linewidth=2)
+    ax.axhline(right_mean, xmin=split/10, color='orange', linewidth=2)
+    ax.set_title(f'Split ved x={split}\nVektet varians: {weighted_var:.2f}')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+
+plt.tight_layout()
+plt.show()
+```
+
+## Dybde og overtrening
+
+Jo dypere treet, jo mer komplekst - og jo større fare for overtrening:
+
+```{python}
+fig, axes = plt.subplots(1, 4, figsize=(16, 4))
+
+for i, depth in enumerate([1, 2, 4, None]):
+    ax = axes[i]
+    
+    tre = DecisionTreeRegressor(max_depth=depth, random_state=42)
+    tre.fit(X, y)
+    y_pred = tre.predict(x_plot)
+    
+    ax.scatter(x, y, s=30, alpha=0.5)
+    ax.plot(x_plot, y_pred, 'r-', linewidth=2)
+    
+    depth_str = str(depth) if depth else '∞'
+    ax.set_title(f'max_depth = {depth_str}')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+
+plt.tight_layout()
+plt.show()
+```
+
+:::{.callout-warning}
+## Overtrening
+Legg merke til at med ubegrenset dybde (max_depth=None) lærer treet hver datapunkt nesten perfekt - men dette generaliserer dårlig til nye data!
+:::
+
+## Beslutningstre for klassifisering
+
+La oss se på et klassifiseringsproblem - Iris-datasettet:
+
+```{python}
+from sklearn.datasets import load_iris
+import pandas as pd
+
+# Last inn Iris-data
+iris = load_iris()
+X_iris = iris.data[:, :2]  # Bare de to første features for visualisering
+y_iris = iris.target
+
+# Vis dataene
+df = pd.DataFrame(X_iris, columns=['Sepal length', 'Sepal width'])
+df['Species'] = [iris.target_names[i] for i in y_iris]
+print(df.head())
+```
+
+```{python}
+# Plott dataene
+plt.figure(figsize=(10, 6))
+colors = ['red', 'green', 'blue']
+for i, species in enumerate(iris.target_names):
+    mask = y_iris == i
+    plt.scatter(X_iris[mask, 0], X_iris[mask, 1], 
+                c=colors[i], label=species, alpha=0.7, s=50)
+plt.xlabel('Sepal length')
+plt.ylabel('Sepal width')
+plt.title('Iris-datasettet')
+plt.legend()
+plt.show()
+```
+
+### Tren et klassifiseringstre
+
+```{python}
+tre_class = DecisionTreeClassifier(max_depth=3, random_state=42)
+tre_class.fit(X_iris, y_iris)
+
+# Visualiser treet
+plt.figure(figsize=(15, 10))
+plot_tree(tre_class, feature_names=['Sepal length', 'Sepal width'],
+          class_names=iris.target_names, filled=True, rounded=True, fontsize=9)
+plt.tight_layout()
+plt.show()
+```
+
+### Visualisere beslutningsgrenser
+
+```{python}
+# Lag et rutenett
+h = 0.02
+x_min, x_max = X_iris[:, 0].min() - 0.5, X_iris[:, 0].max() + 0.5
+y_min, y_max = X_iris[:, 1].min() - 0.5, X_iris[:, 1].max() + 0.5
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                     np.arange(y_min, y_max, h))
+
+# Prediker på rutenettet
+Z = tre_class.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+plt.figure(figsize=(10, 6))
+plt.contourf(xx, yy, Z, alpha=0.3, cmap='RdYlBu')
+for i, species in enumerate(iris.target_names):
+    mask = y_iris == i
+    plt.scatter(X_iris[mask, 0], X_iris[mask, 1], 
+                c=colors[i], label=species, alpha=0.7, s=50)
+plt.xlabel('Sepal length')
+plt.ylabel('Sepal width')
+plt.title('Beslutningsgrenser for Iris-klassifisering')
+plt.legend()
+plt.show()
+```
+
+## Fordeler og ulemper med beslutningstrær
+
+### Fordeler
+
+- **Enkle å forstå** - kan visualiseres og tolkes
+- **Ingen behov for skalering** - fungerer med ulike skalaer
+- **Håndterer både numeriske og kategoriske data**
+- **Raskt å trene og predikere**
+
+### Ulemper
+
+- **Lett å overtrene** - spesielt dype trær
+- **Ustabile** - små endringer i data gir ulike trær
+- **Begrenset prediksjonskraft** - sammenlignet med ensemble-metoder
+
+## Viktige hyperparametere
+
+| Parameter | Beskrivelse |
+|-----------|-------------|
+| `max_depth` | Maksimal dybde på treet |
+| `min_samples_split` | Minimum antall samples for å gjøre en split |
+| `min_samples_leaf` | Minimum antall samples i bladnoder |
+| `max_features` | Antall features å vurdere ved hver split |
+
+```{python}
+# Sammenligne ulike min_samples_leaf verdier
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+for i, min_samples in enumerate([1, 5, 10]):
+    ax = axes[i]
+    
+    tre = DecisionTreeRegressor(min_samples_leaf=min_samples, random_state=42)
+    tre.fit(X, y)
+    y_pred = tre.predict(x_plot)
+    
+    ax.scatter(x, y, s=30, alpha=0.5)
+    ax.plot(x_plot, y_pred, 'r-', linewidth=2)
+    ax.set_title(f'min_samples_leaf = {min_samples}')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+
+plt.tight_layout()
+plt.show()
+```
+
+## Oppsummering
+
+1. **Beslutningstrær** gjør prediksjoner ved å stille ja/nei-spørsmål
+2. De velger oppdelinger som **minimerer feil** i resultatgruppene
+3. **Dybde** kontrollerer kompleksiteten
+4. For **regresjon**: predikerer gjennomsnitt i bladnoder
+5. For **klassifisering**: predikerer majoritetsklasse
+
+## Nøkkelfunksjoner
+
+```python
+from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier, plot_tree
+
+# Regresjon
+tre_reg = DecisionTreeRegressor(max_depth=3)
+tre_reg.fit(X, y)
+y_pred = tre_reg.predict(X_new)
+
+# Klassifisering
+tre_class = DecisionTreeClassifier(max_depth=3)
+tre_class.fit(X, y)
+y_pred = tre_class.predict(X_new)
+y_prob = tre_class.predict_proba(X_new)
+
+# Visualisering
+plot_tree(tre, filled=True, feature_names=[...])
+```
+
+## Øvingsoppgaver
+
+1. Tren et beslutningstre på hele Iris-datasettet (alle 4 features). Hva er nøyaktigheten?
+2. Bruk kryssvalidering til å finne optimal `max_depth` for Iris-datasettet
+3. Last inn Boston Housing-datasettet og tren et regresjonstre. Hvilke features er viktigst?

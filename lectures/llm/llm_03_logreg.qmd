@@ -1,0 +1,292 @@
+---
+title: "Logistisk regresjon"
+subtitle: "LLM-skrevet supplement til HON2200"
+format: html
+jupyter: python3
+---
+
+*Dette notatet er skrevet av en LLM som supplement til forelesningsmateriell i HON2200.*
+
+## Læringsmål
+
+Etter å ha jobbet gjennom dette notatet skal du kunne:
+
+- Skille mellom kategoriske og numeriske utfall
+- Forstå og plotte sigmoid-funksjonen
+- Forstå hva parametrene $\beta_0$ og $\beta_1$ gjør
+- Bruke scikit-learn til logistisk regresjon
+- Tolke resultatene av en logistisk modell
+
+## Kategoriske vs. numeriske utfall
+
+I lineær regresjon predikerte vi *numeriske* utfall - verdier som kan ta hvilken som helst verdi på en skala (temperatur, strømforbruk, etc.).
+
+Men noen ganger vil vi predikere *kategoriske* utfall - verdier som faller i diskrete kategorier:
+
+- Ja/Nei
+- Syk/Frisk  
+- Spam/Ikke spam
+- God/Dårlig
+
+:::{.callout-note}
+## Oppgave
+Hvilke av disse er kategoriske og hvilke er numeriske?
+
+- Temperatur
+- Blodtype (A/B/AB/0)
+- Karakterer (A-F)
+- Politisk parti
+:::
+
+## Sigmoid-funksjonen
+
+For å predikere sannsynligheter (som må være mellom 0 og 1), bruker vi sigmoid-funksjonen:
+
+$$\sigma(z) = \frac{e^z}{1 + e^z} = \frac{1}{1 + e^{-z}}$$
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+z = np.linspace(-6, 6, 100)
+
+plt.figure(figsize=(8, 5))
+plt.plot(z, sigmoid(z), 'b-', linewidth=2)
+plt.axhline(0.5, color='gray', linestyle='--', alpha=0.5)
+plt.axvline(0, color='gray', linestyle='--', alpha=0.5)
+plt.xlabel('z')
+plt.ylabel('σ(z)')
+plt.title('Sigmoid-funksjonen')
+plt.grid(True, alpha=0.3)
+plt.ylim(-0.1, 1.1)
+plt.show()
+```
+
+**Viktige egenskaper:**
+
+- $\sigma(0) = 0.5$
+- $\sigma(-\infty) = 0$
+- $\sigma(\infty) = 1$
+- Alltid mellom 0 og 1 - perfekt for sannsynligheter!
+
+## Logistisk regresjon: Modellen
+
+I logistisk regresjon setter vi:
+
+$$z = \beta_0 + \beta_1 x$$
+
+slik at sannsynligheten for "ja" blir:
+
+$$P(y=1|x) = \sigma(\beta_0 + \beta_1 x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}$$
+
+## Hva gjør $\beta_0$ og $\beta_1$?
+
+### Effekten av $\beta_0$ (konstantleddet)
+
+$\beta_0$ flytter kurven horisontalt:
+
+```{python}
+plt.figure(figsize=(10, 4))
+
+x = np.linspace(-5, 5, 100)
+
+for beta_0 in [-2, 0, 2]:
+    z = beta_0 + 1 * x  # beta_1 = 1
+    plt.plot(x, sigmoid(z), label=f'β₀ = {beta_0}')
+
+plt.xlabel('x')
+plt.ylabel('P(y=1)')
+plt.title('Effekten av β₀ (med β₁ = 1)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+### Effekten av $\beta_1$ (stigningstallet)
+
+$\beta_1$ påvirker hvor bratt overgangen er:
+
+```{python}
+plt.figure(figsize=(10, 4))
+
+x = np.linspace(-5, 5, 100)
+
+for beta_1 in [0.5, 1, 2]:
+    z = 0 + beta_1 * x  # beta_0 = 0
+    plt.plot(x, sigmoid(z), label=f'β₁ = {beta_1}')
+
+plt.xlabel('x')
+plt.ylabel('P(y=1)')
+plt.title('Effekten av β₁ (med β₀ = 0)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+## Eksempel: Kredittkortmislighold
+
+La oss bruke et ekte datasett om kredittkortmislighold:
+
+```{python}
+import pandas as pd
+
+# Last inn data
+url = 'https://zenodo.org/record/6199560/files/default.csv'
+data = pd.read_csv(url)
+data.head()
+```
+
+```{python}
+# Se på fordelingen av default
+print(data['default'].value_counts())
+```
+
+### Visualisere sammenhengen
+
+```{python}
+# Konvertere til tall
+data['default_num'] = (data['default'] == 'Yes').astype(int)
+
+# Beregne andel som misligholder for ulike balanse-intervaller
+bins = np.linspace(0, 2500, 20)
+data['balance_bin'] = pd.cut(data['balance'], bins=bins)
+grouped = data.groupby('balance_bin')['default_num'].mean()
+
+plt.figure(figsize=(10, 5))
+plt.scatter(data['balance'], data['default_num'], alpha=0.1, s=5)
+plt.plot(grouped.index.categories.mid, grouped.values, 'ro-', markersize=8, linewidth=2, label='Andel mislighold')
+plt.xlabel('Balance (kredittkortsaldo)')
+plt.ylabel('Mislighold (1=Ja, 0=Nei)')
+plt.title('Mislighold som funksjon av kredittkortsaldo')
+plt.legend()
+plt.show()
+```
+
+## Logistisk regresjon med scikit-learn
+
+```{python}
+from sklearn.linear_model import LogisticRegression
+
+# Forberede data
+X = data[['balance']].values
+y = (data['default'] == 'Yes').astype(int)
+
+# Trene modell
+model = LogisticRegression()
+model.fit(X, y)
+
+print(f"β₀ (intercept): {model.intercept_[0]:.4f}")
+print(f"β₁ (coefficient): {model.coef_[0][0]:.6f}")
+```
+
+```{python}
+# Plotte predikert sannsynlighet
+x_plot = np.linspace(0, 2700, 100).reshape(-1, 1)
+y_prob = model.predict_proba(x_plot)[:, 1]
+
+plt.figure(figsize=(10, 5))
+plt.scatter(data['balance'], data['default_num'], alpha=0.1, s=5, label='Data')
+plt.plot(x_plot, y_prob, 'r-', linewidth=2, label='Logistisk regresjon')
+plt.xlabel('Balance')
+plt.ylabel('P(Mislighold)')
+plt.title('Logistisk regresjon: Mislighold vs Balance')
+plt.legend()
+plt.show()
+```
+
+## Multippel logistisk regresjon
+
+Vi kan bruke flere forklaringsvariabler:
+
+$$P(y=1|x_1, x_2, ...) = \sigma(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + ...)$$
+
+```{python}
+# Legge til "student" som forklaringsvariabel
+data['student_num'] = (data['student'] == 'Yes').astype(int)
+
+X_multi = data[['balance', 'student_num']].values
+y = (data['default'] == 'Yes').astype(int)
+
+model_multi = LogisticRegression()
+model_multi.fit(X_multi, y)
+
+print(f"β₀: {model_multi.intercept_[0]:.4f}")
+print(f"β₁ (balance): {model_multi.coef_[0][0]:.6f}")
+print(f"β₂ (student): {model_multi.coef_[0][1]:.4f}")
+```
+
+```{python}
+# Sammenligne student vs ikke-student
+x_balance = np.linspace(0, 2700, 100)
+
+plt.figure(figsize=(10, 5))
+
+for student_val, label, color in [(0, 'Ikke student', 'blue'), (1, 'Student', 'orange')]:
+    X_plot = np.column_stack([x_balance, np.full(100, student_val)])
+    y_prob = model_multi.predict_proba(X_plot)[:, 1]
+    plt.plot(x_balance, y_prob, color=color, linewidth=2, label=label)
+
+plt.xlabel('Balance')
+plt.ylabel('P(Mislighold)')
+plt.title('Misligholdsrisiko: Student vs. Ikke-student')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+## Tolkning av koeffisienter
+
+Koeffisienten $\beta_2$ for student er **negativ**. Hva betyr det?
+
+- Gitt samme kredittkortsaldo, har studenter *lavere* sannsynlighet for å misligholde
+- Dette kan virke overraskende! 
+
+:::{.callout-warning}
+## Simpsons paradoks
+Studenter har i gjennomsnitt *høyere* misligholdrate totalt, men *lavere* rate når vi kontrollerer for saldo. Dette skyldes at studenter har høyere saldo i gjennomsnitt.
+:::
+
+## Evaluere modellen
+
+```{python}
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# Predikere klasse (ikke sannsynlighet)
+y_pred = model.predict(X)
+
+# Nøyaktighet
+accuracy = accuracy_score(y, y_pred)
+print(f"Nøyaktighet: {accuracy:.3f}")
+
+# Forvirringsmatrise
+cm = confusion_matrix(y, y_pred)
+print(f"\nForvirringsmatrise:")
+print(cm)
+```
+
+## Oppsummering
+
+1. **Logistisk regresjon** brukes for kategoriske (ja/nei) utfall
+2. **Sigmoid-funksjonen** konverterer fra $(-\infty, \infty)$ til $(0, 1)$
+3. **$\beta_0$** flytter kurven horisontalt
+4. **$\beta_1$** påvirker brattheten
+5. **Multippel regresjon** bruker flere forklaringsvariabler
+
+## Nøkkelfunksjoner
+
+| Funksjon | Beskrivelse |
+|----------|-------------|
+| `LogisticRegression()` | Lage modell |
+| `.fit(X, y)` | Trene modellen |
+| `.predict(X)` | Predikere klasse |
+| `.predict_proba(X)` | Predikere sannsynlighet |
+| `.coef_`, `.intercept_` | Hente ut koeffisienter |
+
+## Øvingsoppgaver
+
+1. Hva skjer med modellen hvis du bare bruker `income` som forklaringsvariabel?
+2. Lag en modell med både `balance`, `income` og `student`. Hvilken variabel er viktigst?
+3. Bruk `model.predict_proba()` til å finne sannsynligheten for mislighold for en student med saldo 1500.

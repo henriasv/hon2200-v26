@@ -1,6 +1,19 @@
 ---
 jupyter: python3
+format:
+  html:
+    format-links: false
+  pdf:
+    documentclass: article
+    geometry: margin=2cm
+    toc: false
+    number-sections: false
+    colorlinks: true
 ---
+
+::: {.content-visible when-format="html"}
+[Last ned PDF-versjon](01c_øvelse.pdf)
+:::
 
 # Øvingsoppgaver {.unnumbered #sec-oving-1}
 
@@ -11,7 +24,7 @@ Her er øvingsopgaver som passer å gjøre etter første undervisningsøkt i kur
 **a)** Last ned filen "bestsellers with categories.xls" [her](https://www.kaggle.com/sootersaalu/amazon-top-50-bestselling-books-2009-2019), og les den inn med pandas.
 
 :::: {.content-hidden unless-meta="exercise_solutions.week_01"}
-::: {.callout-note collapse="false"}
+::: {.callout-note collapse="true"}
 ### Løsningsforslag
 
 Vi laster ned filen og bruker `df.head` til å vise fram de første radene.
@@ -30,7 +43,7 @@ Hvorfor ber vi dere om å laste ned datasettet, og ikke bare hente direkte fra i
 **b)** Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med `.drop_duplicates("Name")` - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser
 
 :::: {.content-hidden unless-meta="exercise_solutions.week_01"}
-::: {.callout-note collapse="false"}
+::: {.callout-note collapse="true"}
 ### Løsningsforslag
 
 ```{python}
@@ -98,7 +111,7 @@ df_pris.to_csv("data/nordpool-dec-24.csv")
 - Hva er spotpriskostnaden for strømforbruket i desember 2024?
 
 :::: {.content-hidden unless-meta="exercise_solutions.week_01"}
-::: {.callout-note collapse="false"}
+::: {.callout-note collapse="true"}
 ## Løsningsforslag
 
 ```{python}
@@ -119,7 +132,7 @@ Merk at vi la på moms i omregningen fra nordpool-priser til egen beregnet pris 
 Tips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.
 
 :::: {.content-hidden unless-meta="exercise_solutions.week_01"}
-::: {.callout-note collapse="false"}
+::: {.callout-note collapse="true"}
 ### Løsningsforslag
 
 ```{python}
@@ -164,7 +177,7 @@ json = r.json()
 ```
 
 :::: {.content-hidden unless-meta="exercise_solutions.week_01"}
-::: {.callout-note collapse="false"}
+::: {.callout-note collapse="true"}
 ### Løsningsforslag
 
 ```{python}
@@ -197,7 +210,7 @@ plt.ylabel("Strømforbruk [kWh]")
 **e)** Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?
 
 :::: {.content-hidden unless-meta="exercise_solutions.week_01"}
-::: {.callout-note collapse="false"}
+::: {.callout-note collapse="true"}
 ### Løsningsforslag
 
 ```{python}

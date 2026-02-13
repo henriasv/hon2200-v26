@@ -15,21 +15,23 @@ format:
     output-ext: revealjs.html # Changed
 ---
 
+::: {.content-hidden when-format="revealjs"}
 ## Slide-versjon
 
 <iframe src="03b_slides.revealjs.html" width="960" height="540"></iframe>
+:::
 
 ## Modellering med én forklaringsvariabel
 
 $$y = f(x) + \varepsilon$$
 
-Der $f(x)$ er det vi greier å forklare med modellen vår, og $\varepsilon$ er det vi ikke klarer å forklare. 
+Der $f(x)$ beskriver fenomenet bortsett fra støy $\varepsilon$ som vi ikke kan håpe på å forklare. 
 
 Vi gjør prediksjoner med 
 
-$$ \hat y = f(x) $$ 
+$$ \hat y = \hat{f}(x) $$ 
 
-Og kaller da $\hat y$ for "estimert y"
+Og kaller da $\hat y$ for "estimert y". Merk at vi må ta til takke med å bruke $\hat{f}$, siden vi ikke kjenner $f$. 
 
 
 ## Forrige uke 
@@ -41,15 +43,37 @@ Og anvendte dette på fiktive målinger for *Ohms lov*:
 
 $$ I(U) = \frac{1}{R} U$$
 
-som er $ax + b$, men med $a=\frac{1}{R}$, $b=0$ og den generelle forklaringsvariablen som generelt heter $x$ heter heller $U$ når den beskriver strøm. 
+som er $ax + b$, men med $a=\frac{1}{R}$, $b=0$ og den generelle forklaringsvariablen som generelt heter $x$ heter heller $U$ når den beskriver spenning. 
 
 ## I dag
 
-- Sigmoid-fuksjonen $f(z)=\frac{e^z}{1+e^z}$
+- Sigmoid-funksjonen $f(z)=\frac{e^z}{1+e^z}$
 - Utvidelse til $z = \beta_0 + \beta_1 x$, hvordan påvirkes sigmoiden av $\beta_0$ og $\beta_1$?
 - Regresjon med sigmoidfunksjon. 
 - Flere forklaringsvariable: $z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots$
 - Funksjonstilpasning med flere variable
+
+## Funksjoner i Python
+Eksempel
+```{python}
+#| echo: true 
+def summer_to_tall(tall_1, tall_2): 
+    sum = tall_1 + tall_2
+    return sum 
+
+min_sum = summer_to_tall(2, 3)
+print(f"sum: {min_sum}")
+```
+
+## Generell funksjonssyntaks
+```{python}
+#| echo: true 
+#| eval: false
+def <funksjonsnavn>(parametre, ...):
+    # gjør noe
+    return <resultat>
+```
+
 
 ## Sigmoidfunksjonen 
 $$ f(z) = \frac{e^z}{1+e^z} $$
@@ -92,6 +116,7 @@ plt.plot(z, f(z))
 plt.xlabel("Temperatur (celsius)")
 _= plt.ylabel("Nedbør som regn?")
 ```
+
 - Hvorfor er dette en meningsfull modell for hvorvidt nedbør kommer som regn? 
 - Men stemmer det helt? 
 :::
@@ -152,11 +177,15 @@ plt.show()
 ## Ny modell for nedbør 
 - Hvordan bør vi sette $\beta_0$ for å lage en fornuftig modell for nedbør?
 
+$p(x) = \frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}$
+
 ## Vi har bare gjettet
 - Hvordan ville du gå fram hvis du skulle lage en slik modell, og det var viktig at den fungerte? 
 
+$p(x) = \frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}$
+
 ## Hva kan være viktig
-- Om du er kredittkortselskap er det viktig at kundene betaler for seg (ikke med en gang), men til slutt, de bør ikke misligholde. 
+- Om du er kredittkortselskap er det viktig at kundene betaler for seg. Ikke med en gang, du vil ha renter, men til slutt, du vil også ha pengene tilbake. 
 
 ## Default-datasettet 
 Vi gjør en egen tutorial som handler om dette datasettet, for å få litt praktisk omgang med logistisk regresjon! 
