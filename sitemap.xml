@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/09a_forberedelser.html</loc>
+    <lastmod>2026-02-18T09:16:37.322Z</lastmod>
+  </url>
+  <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/04b_slides.html</loc>
     <lastmod>2026-02-12T14:21:38.009Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/04b_slides.revealjs.html</loc>
-    <lastmod>2026-02-15T18:36:46.712Z</lastmod>
+    <lastmod>2026-02-18T09:20:41.176Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/03b2_tutorial.html</loc>
@@ -22,7 +26,7 @@
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02b_slides.revealjs.html</loc>
-    <lastmod>2026-02-15T18:36:35.039Z</lastmod>
+    <lastmod>2026-02-18T09:20:37.300Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/hon2110_oppfrisking.html</loc>
@@ -38,7 +42,7 @@
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.revealjs.html</loc>
-    <lastmod>2026-02-15T18:36:29.486Z</lastmod>
+    <lastmod>2026-02-18T09:20:30.452Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/01a_forberedelser.html</loc>
@@ -74,7 +78,7 @@
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/03b_slides.revealjs.html</loc>
-    <lastmod>2026-02-15T18:36:36.422Z</lastmod>
+    <lastmod>2026-02-18T09:20:39.020Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/03b_slides.html</loc>
@@ -83,5 +87,9 @@
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/04a_forberedelser.html</loc>
     <lastmod>2026-01-22T09:41:18.759Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/08a_forberedelser.html</loc>
+    <lastmod>2026-02-18T09:18:40.947Z</lastmod>
   </url>
 </urlset>

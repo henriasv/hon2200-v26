@@ -1,5 +1,16 @@
 [
   {
+    "objectID": "lectures/09a_forberedelser.html",
+    "href": "lectures/09a_forberedelser.html",
+    "title": "Forberedelser",
+    "section": "",
+    "text": "Digital etikk med Aksel Sterri.\n\n1–3\n\nSend inn svar på underveisevalueringen innen timen.\nLes så følgende artikler før timen. Det er en fordel om dere skummer litt i Viljoen sin artikkel.\n\n\n1. Viljoen, S. A relational theory of data governance. Yale Law Journal 131, (2021).\n\n\n2. Jones, C. I. & Tonetti, C. Nonrivalry and the Economics of Data. American Economic Review 110, 2819–2858 (2020).\n\n\n3. Lanier, J. & Weyl, E. G. A blueprint for a better digital society. Harvard Business Review (2018).",
+    "crumbs": [
+      "Del 2: Digital etikk",
+      "Uke 9 – 21. mars"
+    ]
+  },
+  {
     "objectID": "lectures/04b_slides.html#fra-default-tutorialen",
     "href": "lectures/04b_slides.html#fra-default-tutorialen",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
@@ -2877,6 +2888,17 @@
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar"
+    ]
+  },
+  {
+    "objectID": "lectures/08a_forberedelser.html",
+    "href": "lectures/08a_forberedelser.html",
+    "title": "Forberedelser",
+    "section": "",
+    "text": "Digital etikk med Aksel Sterri.\n\n1–4\n\nLes følgende artikler før timen. Særlig den første er det viktig å ha lest ordentlig.\n\n\n1. Binns, R. What can political philosophy teach us about algorithmic fairness? IEEE Security & Privacy 16, 73–80 (2018).\n\n\n2. Yona, G. A gentle introduction to the discussion on algorithmic fairness. TDS Archive (2017).\n\n\n3. DeLong, J. B. Affirmative action: A primer, & a finger exercise. Brad DeLong’s Grasping Reality (2024).\n\n\n4. Kleinberg, J., Ludwig, J., Mullainathan, S. & Sunstein, C. R. Discrimination in the age of algorithms. Journal of Legal Analysis 10, 113–174 (2018).\n\n\nValgfri lesning: Algorithmic Fairness (Stanford Encyclopedia of Philosophy)",
+    "crumbs": [
+      "Del 2: Digital etikk",
+      "Uke 8 – 14. mars"
     ]
   }
 ]
