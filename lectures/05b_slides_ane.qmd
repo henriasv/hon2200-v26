@@ -3,8 +3,16 @@ title: "Forelesningsnotat: Beslutningstrær"
 subtitle: "HON2200"
 author: "Ane Kristine Espeseth"
 format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    number-sections: false
+    fontcolor: black
+    show-notes: false
   revealjs:
     theme: solarized
+    output-ext: revealjs.html
     slide-number: true
     progress: true
     chalkboard: true
@@ -15,6 +23,12 @@ execute:
   echo: true
   warning: false
 ---
+
+::: {.content-hidden when-format="revealjs"}
+## Slide-versjon
+
+<iframe src="05b_slides_ane.revealjs.html" width="960" height="540"></iframe>
+:::
 
 # Oppvarming: Hvor var vi igjen? {background-color="#1a2634"}
 
