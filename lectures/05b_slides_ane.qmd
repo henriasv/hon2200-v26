@@ -1,5 +1,5 @@
 ---
-title: "Beslutningstrær"
+title: "Forelesningsnotat: Beslutningstrær"
 subtitle: "HON2200"
 author: "Ane Kristine Espeseth"
 format:
@@ -260,6 +260,8 @@ df[["Quality", "quality_num"]].head(6)
 ```
 
 ## Fra tekst til tall — en mer generell måte
+
+Dette kalles også `one-hot encoding`.
 
 ```{python}
 pd.get_dummies(df["Quality"]).head(6)
