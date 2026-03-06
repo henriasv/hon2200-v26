@@ -8,12 +8,12 @@ format: html
 Digital etikk med Aksel Sterri. 
 
 :::{.hidden}
-[@ballantyneHowShouldWe2020; @jonesNonrivalryEconomicsData2020]
+[@viljoen2021relational; @jonesNonrivalryEconomicsData2020; @lanierBlueprintBetterDigital2018]
 :::
 
-Send inn svar på [underveisevalueringen](https://nettskjema.no/a/504824) innen timen. 
+Send inn svar på [underveisevalueringen](https://nettskjema.no/a/504824) innen timen.
 
-Les så følgende artikler før timen. 
+Les så følgende artikler før timen. Det er en fordel om dere skummer litt i Viljoen sin artikkel.
 
 ::: {#refs}
 :::

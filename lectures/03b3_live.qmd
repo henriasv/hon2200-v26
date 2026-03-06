@@ -1,0 +1,40 @@
+## Overskrift
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+url = 'https://zenodo.org/record/6199560/files/default.csv'
+data = pd.read_csv(url)
+
+#plt.scatter(data['balance'], data['default'])
+
+df_yes = data[data['default'] == "Yes"]
+df_no = data[data['default'] == "No"]
+
+x = np.linspace(0, 3000, 100)
+
+hist_yes, edges_yes = np.histogram(df_yes["balance"], bins=x)
+hist_no, edges_no = np.histogram(df_no["balance"], bins=x)
+
+midpoints = edges_yes[:-1] + np.diff(edges_yes) / 2 
+
+plt.plot(midpoints, hist_yes, label="Mislighold")
+plt.plot(midpoints, hist_no, label="Betaler")
+plt.legend()
+plt.xlabel("Balance")
+plt.ylabel("Antall")
+
+proportions = hist_yes/(hist_yes+hist_no)
+plt.figure()
+plt.plot(midpoints, proportions, label="Andel mislighold")
+
+def sigmoid(x, beta_0, beta_1):
+    return np.exp(beta_0+beta_1*x)/(1 + np.exp(beta_0 + beta_1*x))
+
+x_test = np.linspace(0, 3000, 100)
+y_test = sigmoid(x_test, -10, 0.0053)
+plt.plot(x_test, y_test, label="Modell")
+plt.legend()
+```

@@ -18,6 +18,10 @@ project:
     - lectures/03b_slides.qmd
     - lectures/03b2_tutorial.qmd
     - lectures/04a_forberedelser.qmd
+    - lectures/04b_slides.qmd
+    - lectures/08a_forberedelser.qmd
+    - lectures/09a_forberedelser.qmd
+    - oppgaver/oblig_titanic.qmd
     # - oppgaver/oblig_strompris/oblig_strompris.qmd
 
 
@@ -83,19 +87,19 @@ website:
               - lectures/07b_slides.qmd
 
       - section: "Del 2: Digital etikk" # Chapter Group Title
-      #   contents:
-      #     - section: "Uke 8 – 14. mars"
-      #       href: lectures/08a_forberedelser.qmd
-      #       contents:
-      #         - lectures/08a_forberedelser.qmd # File for Chapter 2 (Part II)
-      #     - section: "Uke 9 – 21. mars"
-      #       href: lectures/09a_forberedelser.qmd
-      #       contents:
-      #         - lectures/09a_forberedelser.qmd # File for Chapter 2 (Part II)
+        contents:
+          - section: "Uke 8 – 14. mars"
+            href: lectures/08a_forberedelser.qmd
+            contents:
+              - lectures/08a_forberedelser.qmd # File for Chapter 2 (Part II)
+          - section: "Uke 9 – 21. mars"
+            href: lectures/09a_forberedelser.qmd
+            contents:
+              - lectures/09a_forberedelser.qmd # File for Chapter 2 (Part II)
 
       - section: "Del 3: Oblig og prosjekt"
-      #   contents:
-      #     - oppgaver/oblig_titanic.qmd
+        contents:
+          - oppgaver/oblig_titanic.qmd
       #     - oppgaver/oblig_strompris/oblig_strompris.qmd
       #     - oppgaver/prosjekt_1_compas.qmd
       #     - oppgaver/prosjekt_2.qmd
@@ -106,7 +110,7 @@ website:
           - lectures/llm/llm_01_pandas.qmd
           - lectures/llm/llm_02_linreg.qmd
           - lectures/llm/llm_03_logreg.qmd
-      #     - lectures/llm/llm_04_kryssvalidering.qmd
+          - lectures/llm/llm_04_kryssvalidering.qmd
       #     - lectures/llm/llm_05_beslutningstraer.qmd
       #     - lectures/llm/llm_06_ensemble.qmd
       #     - lectures/llm/llm_07_onehot.qmd
@@ -149,7 +153,7 @@ exercise_solutions:
   week_01: true
   week_02: true
   week_03: true
-  week_04: false
+  week_04: true
 
 filters:
   - remove-notes.lua

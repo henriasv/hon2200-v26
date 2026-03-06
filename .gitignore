@@ -1,6 +1,7 @@
 /.quarto/
 /_book/
 /_site/
+/_freeze/
 /site_libs
 /tmp/
 /lectures/*_files/

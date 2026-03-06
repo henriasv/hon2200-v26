@@ -89,3 +89,7 @@ Always use the local `.venv` in the project root. If it doesn't exist, create it
 ## Progressive Content Release
 
 The course releases content week by week. In `_quarto.yml`, future weeks are commented out in both the `render:` list and the `sidebar:` contents. To add a new week: uncomment the relevant entries in both sections and set the appropriate `exercise_solutions.week_XX` flag.
+
+## TODO / Reminders
+
+- **Midtveisevaluering**: Skal legges inn senere i semesteret (nettskjema: <https://nettskjema.no/a/504824>). Legg til lenke i en passende forberedelsesside når tidspunktet nærmer seg.

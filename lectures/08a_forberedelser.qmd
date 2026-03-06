@@ -8,12 +8,12 @@ format: html
 Digital etikk med Aksel Sterri. 
 
 :::{.hidden}
-[@greenEscapingImpossibilityFairness2022; @yona2017gentle;  @delong2024affirmative; @kleinberg2018discrimination]
+[@binns2018political; @yona2017gentle; @delong2024affirmative; @kleinberg2018discrimination]
 :::
 
-Vi begynner å nærme oss halvveis i kurset. Derfor skal vi ha midtveisevaluering. Send inn svar på [nettskjema](https://nettskjema.no/a/504824) innen timen. 
-
-Les så følgende artikler før timen. Særlig den første er det viktig å ha lest ordentlig. 
+Les følgende artikler før timen. Særlig den første er det viktig å ha lest ordentlig.
 
 ::: {#refs}
 :::
+
+Valgfri lesning: [Algorithmic Fairness](https://plato.stanford.edu/entries/algorithmic-fairness/) (Stanford Encyclopedia of Philosophy)

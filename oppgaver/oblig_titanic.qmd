@@ -1,10 +1,12 @@
-# Obligatorisk oppgave om Titanic (frist 28. mars)
+# Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)
 
-:::{.callout-note}
-Oppgaveteksten er nå fullstendig. Dersom det er noe som er uklart, er det lurt å spørre/sende en mail. Enkelte ting som dukker opp i obligen har ikke vært gjennomgått i undervisningen. Da finnes det forhåpentligvis noe informasjon i statistikkboka, blant medstudenter eller blant underviserne i HON2200!
+:::{.callout-important}
+## Bruk av kunstig intelligens
+I denne oppgaven er det **ikke tillatt** å bruke kunstig intelligens (som ChatGPT, Copilot o.l.) til å skrive kode eller tekst i innleveringen. Poenget med oppgaven er at du selv skal lære å forstå og implementere det som blir gjennomgått. Det er akkurat som en eksamen uten hjelpemidler — man lærer ikke ved å la noen andre gjøre jobben. Senere i livet vil du selvfølgelig bruke KI-verktøy i praktisk koding, men akkurat nå er det opplæring som gjelder.
 :::
 
 Etter å ha fullført denne obligen skal studenten kunne
+
 - Lese inn og behandle kategoriske data i pandas
 - Implementere logistisk klassifikasjon
 - Benytte og beskrive beslutningstrær
