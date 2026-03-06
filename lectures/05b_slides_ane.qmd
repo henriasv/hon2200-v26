@@ -1,0 +1,722 @@
+---
+title: "Beslutningstrær"
+subtitle: "HON2200"
+author: "Ane Kristine Espeseth"
+format:
+  revealjs:
+    theme: solarized
+    slide-number: true
+    progress: true
+    chalkboard: true
+    smaller: true
+    code-block-height: 320px
+    code-overflow: scroll
+execute:
+  echo: true
+  warning: false
+---
+
+# Oppvarming: Hvor var vi igjen? {background-color="#1a2634"}
+
+## Hva kan dere allerede?
+
+::::{.columns}
+:::{.column width="58%"}
+**Dere har lært:**
+
+- Grunnleggende Python og kodelogikk
+- Data i tabeller: filter, gruppe, aggregering
+- Litt visualisering med matplotlib
+- Lineær og logistisk regresjon
+- Etiske problemstillinger i dataanalyse og maskinlæring
+
+**De siste 2 ukene:** rettferdige algoritmer
+
+**I dag:** det første nye modellverktøyet siden regresjon.
+:::
+:::{.column width="42%"}
+::: {.callout-note}
+**Veien vår:**
+
+Dataanalyse (deskriptiv)\
+↓ Regresjon (prediktiv)\
+↓ Algoritmisk rettferdighet\
+↓ **Beslutningstrær** ← her\
+↓ Random forest + ensembler
+:::
+:::
+::::
+
+::: {.notes}
+Bruk listen aktivt: de kan alt dette allerede. Etter to uker med etikk og ikke kode kan det hende noen har glemt det, så det er verdt å minne dem på hva de faktisk har i bagasjen.
+:::
+
+## Fra regressjonslinje til beslutningsgrense
+
+Hva om vi bruker en rett linje til å avgjøre om en blomst er *versicolor* eller *virginica* — bare ut fra kronbladlengden?
+
+```{python}
+#| echo: false
+#| fig-height: 6
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+
+iris = load_iris()
+# Versicolor (1) vs virginica (2), kronbladlengde (index 2)
+mask = iris.target != 0
+x = iris.data[mask, 2]
+y = (iris.target[mask] == 2).astype(int)  # 0 = versicolor, 1 = virginica
+
+x_plot = np.linspace(2.5, 7.5, 300)
+
+fig, axes = plt.subplots(2, 1, figsize=(7, 5.5))
+
+# --- Øverst: lineær regresjon på 0/1-data ---
+p = np.polyfit(x, y, 1)
+y_lin = np.polyval(p, x_plot)
+axes[0].scatter(x[y==0], y[y==0], c="steelblue", s=30, alpha=0.7, label="Versicolor (0)")
+axes[0].scatter(x[y==1], y[y==1], c="tomato", s=30, alpha=0.7, label="Virginica (1)")
+axes[0].plot(x_plot, y_lin, "k-", linewidth=2)
+axes[0].axhline(0.5, color="gray", linestyle="--", linewidth=1)
+axes[0].axhline(0.35, color="gray", linestyle=":", linewidth=1, alpha=0.5)
+axes[0].text(7.0, 0.53, "0.5?", fontsize=9, color="gray")
+axes[0].text(7.0, 0.38, "0.35?", fontsize=9, color="gray", alpha=0.7)
+axes[0].set_ylabel("Predikert verdi", fontsize=11)
+axes[0].set_title("Lineær regresjon — hvor skal grensen gå?", fontsize=12)
+axes[0].legend(fontsize=8, loc="upper left")
+axes[0].set_ylim(-0.3, 1.3)
+
+# --- Nederst: logistisk regresjon (sigmoid) ---
+clf = LogisticRegression().fit(x.reshape(-1, 1), y)
+y_prob = clf.predict_proba(x_plot.reshape(-1, 1))[:, 1]
+x_boundary = x_plot[np.argmin(np.abs(y_prob - 0.5))]
+
+axes[1].axvspan(2.5, x_boundary, alpha=0.08, color="steelblue")
+axes[1].axvspan(x_boundary, 7.5, alpha=0.08, color="tomato")
+axes[1].scatter(x[y==0], y[y==0], c="steelblue", s=30, alpha=0.7, label="Versicolor (0)")
+axes[1].scatter(x[y==1], y[y==1], c="tomato", s=30, alpha=0.7, label="Virginica (1)")
+axes[1].plot(x_plot, y_prob, "k-", linewidth=2)
+axes[1].axhline(0.5, color="gray", linestyle="--", linewidth=1)
+axes[1].axvline(x_boundary, color="black", linestyle="--", linewidth=1.5)
+axes[1].text(x_boundary + 0.15, 0.25, "Beslutningsgrense\n(sannsynlighet = 0.5)", fontsize=9)
+axes[1].text(3.3, -0.05, "→ Versicolor", fontsize=9, color="steelblue", ha="center")
+axes[1].text(6.5, -0.05, "→ Virginica", fontsize=9, color="tomato", ha="center")
+axes[1].set_xlabel("Kronbladlengde (cm)", fontsize=11)
+axes[1].set_ylabel("Sannsynlighet", fontsize=11)
+axes[1].set_title("Logistisk regresjon — naturlig grense ved 0.5", fontsize=12)
+axes[1].legend(fontsize=8, loc="upper left")
+axes[1].set_ylim(-0.1, 1.1)
+
+plt.tight_layout()
+plt.show()
+```
+
+Lineær regresjon gir verdier utenfor 0 og 1, og ingen naturlig grense. Logistisk regresjon gir **sannsynligheter**, og da er 0.5 et naturlig skille.
+
+::: {.notes}
+Iris-datasettet er kjent fra datautforsking-timen, så studentene trenger ikke lære nye data og ny modell samtidig. Versicolor og virginica overlapper nok på kronbladlengde til at S-kurven ser ut som en ekte S — ikke bare en bratt trapp.
+:::
+
+## Fra én måling til to
+
+Hva om én måling ikke er nok? La oss bruke *to* mål — kronbladlengde **og** kronbladbredde — og se hvordan logistisk regresjon og et beslutningstre tegner grensen forskjellig.
+
+```{python}
+#| echo: false
+#| fig-height: 3.8
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+
+iris = load_iris()
+mask = iris.target != 0
+X = iris.data[mask][:, [2, 3]]  # kronbladlengde, kronbladbredde
+y = (iris.target[mask] == 2).astype(int)  # 0 = versicolor, 1 = virginica
+
+xx, yy = np.meshgrid(
+    np.linspace(X[:, 0].min() - 0.5, X[:, 0].max() + 0.5, 200),
+    np.linspace(X[:, 1].min() - 0.3, X[:, 1].max() + 0.3, 200))
+
+clf_lr = LogisticRegression().fit(X, y)
+Z1 = clf_lr.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
+clf_tree = DecisionTreeClassifier(max_depth=2, random_state=42).fit(X, y)
+Z2 = clf_tree.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
+
+cmap_bg = ListedColormap(["#B0C4DE", "#FFBABA"])
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 3.8))
+for ax, Z, title in zip(axes, [Z1, Z2],
+    ["Logistisk regresjon\n(én rett linje)", "Beslutningstre\n(loddrette og vannrette kutt)"]):
+    ax.contourf(xx, yy, Z, alpha=0.35, cmap=cmap_bg)
+    ax.scatter(X[y==0, 0], X[y==0, 1], c="steelblue", edgecolors="k",
+               linewidth=0.5, s=25, label="Versicolor")
+    ax.scatter(X[y==1, 0], X[y==1, 1], c="tomato", edgecolors="k",
+               linewidth=0.5, s=25, label="Virginica")
+    ax.set_xlabel("Kronbladlengde (cm)", fontsize=10)
+    ax.set_ylabel("Kronbladbredde (cm)", fontsize=10)
+    ax.set_title(title, fontsize=12)
+    ax.legend(fontsize=8, loc="upper left")
+plt.tight_layout()
+plt.show()
+```
+
+. . .
+
+::::{.columns}
+:::{.column width="50%"}
+**Logistisk regresjon** veier variablene sammen. Grensen er der vektet sum = 0.
+:::
+:::{.column width="50%"}
+**Et tre** spør om én variabel om gangen:
+
+«Kronbladlengde > 4.8?» → loddrett kutt
+«Kronbladbredde > 1.7?» → vannrett kutt
+
+Flere kutt → rektangler.
+:::
+::::
+
+::: {.notes}
+Samme arter, samme farger som sliden før — men nå med to mål istedenfor ett. Vis plottet først, la dem se forskjellen. Spør: «Hva er forskjellig på de to?» Du er ute etter at grensen til venstre er en skrå linje, mens grensen til høyre er trappetrinns-aktige rektangler.
+:::
+
+# Akt 1: Hva er et tre, og hvorfor trenger vi det? {background-color="#2c3e50"}
+
+## Tenk deg at vi spiller «20 spørsmål»
+
+Jeg tenker på et dyr. Hva er det beste første spørsmålet?
+
+. . .
+
+::::{.columns}
+:::{.column width="52%"}
+> **Er det et pattedyr?** → Ja
+> **Er det større enn en hund?** → Nei
+> **Er det husdyr?** → Ja
+> **Er det en katt?** → **Ja!**
+
+Et beslutningstre gjør akkurat dette, men med data istedenfor gjetninger.
+:::
+:::{.column width="48%"}
+```{mermaid}
+%%| echo: false
+graph TD
+    A[Pattedyr?] -->|Ja| B[Større enn hund?]
+    A -->|Nei| X((Fugl...))
+    B -->|Nei| C[Husdyr?]
+    B -->|Ja| Y((Ku...))
+    C -->|Ja| D((🐱 Katt!))
+    C -->|Nei| Z((Rev...))
+    style D fill:#ccf,stroke:#333,stroke-width:2px
+```
+:::
+::::
+
+::: {.notes}
+Gå gjennom spørsmålene muntlig, ett etter ett, som om du faktisk spiller spillet. Gi dem et sekund til å tenke på svaret for hvert spørsmål.
+:::
+
+## Tre begreper om trær
+
+```{mermaid}
+%%| echo: false
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px'}}}%%
+graph LR
+    A["🔵 Node<br>Stiller et spørsmål"] -->|"Sant → venstre"| B["🔵 Node<br>nytt spørsmål"]
+    A -->|"Usant → høyre"| C["🟣 Blad<br>Gir en prediksjon"]
+    B -->|Sant| D["🟣 Blad<br>Gir en prediksjon"]
+    B -->|Usant| E["🟣 Blad<br>Gir en prediksjon"]
+```
+
+| Del | Funksjon | Eksempel |
+|-----|----------|---------|
+| **Node** | Stiller et spørsmål | `Pattedyr?` |
+| **Gren** | Svaret | Ja (venstre) / Nei (høyre) |
+| **Blad** | Prediksjon | «Katt!» |
+
+## Datasettet: eplekvalitet
+
+Nå vet vi hva et tre er og hvordan det deler rommet. La oss bygge ett fra bunnen av med et nytt datasett.
+
+```{python}
+import pandas as pd
+df = pd.read_csv("data/apple_quality.csv").dropna()
+df["Acidity"] = pd.to_numeric(df["Acidity"])
+df.head(3)
+```
+
+## Fra tekst til tall
+
+Kolonnen `Quality` inneholder tekst: `"good"` og `"bad"`. Modellen trenger tall. Husker dere `Default`-datasettet? Der var svaret allerede kodet som 0 og 1. Her gjør vi det selv:
+
+```{python}
+df["quality_num"] = (df["Quality"] == "good").astype(int)
+df[["Quality", "quality_num"]].head(6)
+```
+
+## Fra tekst til tall — en mer generell måte
+
+```{python}
+pd.get_dummies(df["Quality"]).head(6)
+```
+
+`get_dummies` lager én kolonne per klasse. Vi bruker dette mer neste gang, I dag holder den enkle måten. 
+
+## Treningsdata og testsett
+
+```{python}
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Vi dropper tre kolonner:
+#   Quality og quality_num — det er svaret, vi kan ikke trene på det
+#   A_id — en løpenummer-ID som ikke sier noe om eplekvalitet
+X = df.drop(columns=["A_id", "Quality", "quality_num"])
+y = df["quality_num"]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+print(f"Prediktorer: {list(X.columns)}")
+print(f"Treningssett: {X_train.shape[0]} rader  |  Testsett: {X_test.shape[0]} rader")
+print(f"Balanse: {y.mean()*100:.1f}% gode epler")
+```
+
+## Grunt beslutningstre (max_depth=2)
+
+**Gjett først:** hvilken egenskap tror du treet velger som *første* spørsmål?
+
+. . .
+
+```{python}
+tre = DecisionTreeClassifier(max_depth=2, random_state=42)
+tre.fit(X_train, y_train)
+print(f"Nøyaktighet: {accuracy_score(y_test, tre.predict(X_test))*100:.1f}%")
+```
+
+```{python}
+#| echo: false
+#| fig-height: 3.5
+fig, ax = plt.subplots(figsize=(13, 3.5))
+plot_tree(tre, feature_names=X.columns, class_names=["dårlig", "god"],
+          filled=True, rounded=True, fontsize=11, ax=ax)
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-note}
+**Nøyaktighet (accuracy)** = andel riktig klassifiserte. 850 av 1000 riktige → 85%.
+:::
+
+::: {.notes}
+Rotspørsmålet er den egenskapen som deler treningsdataene best i to rene grupper. Hvorfor akkurat den egenskapen? Det forklarer vi om et par slides med Gini-indeksen.
+:::
+
+## Les treet, øv deg
+
+```{python}
+#| echo: false
+#| fig-height: 3
+fig, ax = plt.subplots(figsize=(13, 3))
+plot_tree(tre, feature_names=X.columns, class_names=["dårlig", "god"],
+          filled=True, rounded=True, fontsize=9, ax=ax)
+plt.tight_layout()
+plt.show()
+```
+
+::::{.columns}
+:::{.column width="52%"}
+I hver node finner du:
+
+| Felt | Betyr |
+|------|-------|
+| **Betingelse** | f.eks. `Sweetness ≤ 0.21` |
+| **Gini** | uryddighetsmål (0 = rent) |
+| **Samples** | antall datapunkter her |
+| **Value** | `[dårlige, gode]` |
+| **Class** | flertallsklassen |
+
+Sant → *venstre* · Usant → *høyre*
+:::
+:::{.column width="48%"}
+::: {.callout-tip}
+**Prøv:**
+Et eple har
+
+`Juiciness = 0.0`
+
+`Ripeness = 1.1`
+
+`Weight = 1.0`
+
+Følg treet fra roten.
+Hvilken klasse får eplet?
+:::
+:::
+::::
+
+## Hva bestemmer splittepunktet?
+
+Dere så at treet valgte `juiciness` som første spørsmål. Men hvorfor akkurat det?
+
+. . .
+
+For hver kolonne prøver maskinen ulike grenseverdier og velger den som gir renest oppdeling. Vi trenger et tall for å måle renhet — det kalles **Gini-indeksen:**
+
+$$\text{Gini} = 1 - p_1^2 - p_2^2$$
+
+der $p_1$ og $p_2$ er andelen i hver klasse.
+
+. . .
+
+| Eksempel | Fordeling | Gini |
+|----------|-----------|------|
+| Perfekt rent | 100/0 | $1 - 1^2 - 0^2 = 0$ |
+| Maksimalt blandet | 50/50 | $1 - 0.5^2 - 0.5^2 = 0.5$ |
+
+Algoritmen velger alltid spørsmålet som gir lavest Gini i nodene under.
+
+::: {.notes}
+Nå har de sett Gini-verdiene i treet allerede — de sto i hver node. Denne sliden setter navn og formel på noe de allerede har møtt visuelt. Pek gjerne tilbake på treet: «Husker dere tallene i nodene? Det var dette.»
+:::
+
+## ✅ Sjekk forståelsen
+
+::: {.callout-tip}
+Et blad har `value = [10, 490]` og `class = good`.
+Hva er Gini-indeksen omtrent?
+
+**A)** Nær 0 · **B)** Nær 0.5 · **C)** Nær 1.0 · **D)** Umulig å si uten formelen
+:::
+
+. . .
+
+::: {.callout-tip}
+**Svar: A.** 490 av 500 er i én klasse, nesten rent.
+Gini ≈ 1 − (0.02² + 0.98²) ≈ **0.04**
+
+❌ B: Gini = 0.5 betyr 50/50, maksimal uryddighet
+❌ C: Gini overstiger aldri 0.5 for binær klassifisering
+:::
+
+# Akt 2: Hvor dypt skal treet gå? {background-color="#2c3e50"}
+
+## Husker du overtilpasning?
+
+Hovedlærdommen fra modellvalidering: en mer kompleks modell gir alltid bedre trening, men ikke nødvendigvis bedre test scores.
+
+`max_depth` er litt som polynomgrad:
+
+| Polynomgrad | | `max_depth` |
+|:------------|:-:|:------------|
+| Lav → rett linje | ↔ | Lav → ett spørsmål |
+| Høy → slanger rundt punktene | ↔ | Høy → ett spørsmål per datapunkt |
+
+. . .
+
+::: {.callout-tip}
+**Gjett før vi kjører:** skisser (i hodet eller på papir) trenings- og testkurven som funksjon av `max_depth = 1..20`.
+Hva skjer med *gapet* mellom dem?
+:::
+
+## ✍️ Forklar med egne ord
+
+::: {.callout-tip}
+Et tre med `max_depth=20` får **100% nøyaktighet på treningsdataene**, men gjør det dårlig på nye data.
+
+**Forklar hvorfor, uten å bruke ordene «overtilpasning» eller «overfitting».**
+Forklar til personen ved siden av deg. Har dere eksempler fra tidligere forelesninger? Hva kan hjelpe?
+:::
+
+::: {.notes}
+La parene jobbe ferdig før du avbryter.
+:::
+
+## Dybde vs. nøyaktighet, live
+
+Hva skjer når vi varierer `max_depth` fra 1 til 20?
+
+```{python}
+dybder = range(1, 21)
+train_acc, test_acc = [], []
+
+for d in dybder:
+    t = DecisionTreeClassifier(max_depth=d, random_state=42)
+    t.fit(X_train, y_train)
+    train_acc.append(accuracy_score(y_train, t.predict(X_train)))
+    test_acc.append(accuracy_score(y_test, t.predict(X_test)))
+
+beste = list(dybder)[np.argmax(test_acc)]
+print(f"Beste testnøyaktighet ved dybde: {beste}")
+print(f"Treningsnøyaktighet ved dybde 20: {train_acc[-1]*100:.1f}%")
+print(f"Testnøyaktighet ved dybde 20:     {test_acc[-1]*100:.1f}%")
+```
+
+## Trenings- vs. testkurven
+
+```{python}
+#| echo: false
+#| fig-height: 4
+plt.figure(figsize=(10, 4))
+plt.plot(list(dybder), train_acc, "bo-", label="Treningsnøyaktighet", markersize=5)
+plt.plot(list(dybder), test_acc, "ro-", label="Testnøyaktighet", markersize=5)
+plt.axvline(x=beste, color="green", linestyle="--",
+            alpha=0.8, label=f"Beste test: dybde {beste}")
+plt.xlabel("max_depth"); plt.ylabel("Nøyaktighet")
+plt.title("Trenings- vs. testnøyaktighet for ulike tredybder")
+plt.legend(); plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+Treningskurven går mot 100% fordi et dypt tre memorerer treningsdataene. Det er ikke et godt tegn.
+:::
+
+## `max_depth` er et tolkningsvalg
+
+Treningsnøyaktigheten når 100%, men testkurven flater ut. Gapet mellom dem er overtilpasning.
+
+. . .
+
+Når du velger `max_depth` velger du egentlig:  
+*Hvor mye kompleksitet tror jeg at mønsteret faktisk har?*
+
+. . .
+
+::: {.callout-important}
+`max_depth=2` sier noe sånt som: «Én eller to egenskaper forklarer det meste»  
+`max_depth=15` sier: «Nesten all variasjon er reelt signal», nesten alltid feil
+
+Dette er en **tolkningsbeslutning**, ikke bare en teknisk innstilling.
+:::
+
+## Kryssvalidering for tredybde
+
+Én tilfeldig splitt kan gi tilfeldig god eller dårlig dybde.
+
+**Kryssvalidering:** del dataene i 5 biter. Tren på 4, test på 1. Gjenta 5 ganger. Snitt resultatene.
+
+. . .
+
+```{python}
+#| echo: false
+#| output: false
+from sklearn.model_selection import KFold
+
+kf = KFold(n_splits=5, shuffle=True, random_state=1)
+dybder_cv = list(range(1, 16))
+alle_scores = []  # liste av lister: 15 dybder × 5 folds
+
+for d in dybder_cv:
+    scores = []
+    for idx_tre, idx_val in kf.split(X):
+        t = DecisionTreeClassifier(max_depth=d, random_state=42)
+        t.fit(X.iloc[idx_tre], y.iloc[idx_tre])
+        scores.append(
+            accuracy_score(y.iloc[idx_val], t.predict(X.iloc[idx_val])))
+    alle_scores.append(scores)
+
+cv_mean = [np.mean(s) for s in alle_scores]
+beste_cv = dybder_cv[np.argmax(cv_mean)]
+```
+
+## CV-kurven
+
+```{python}
+#| echo: false
+#| fig-height: 4.5
+fold_farger = ["#a6cee3", "#b2df8a", "#fb9a99", "#fdbf6f", "#cab2d6"]
+bar_bredde = 0.14
+
+plt.figure(figsize=(11, 4.5))
+for fold_i in range(5):
+    x_pos = [d + (fold_i - 2) * bar_bredde for d in dybder_cv]
+    verdier = [alle_scores[d_i][fold_i] for d_i in range(len(dybder_cv))]
+    plt.bar(x_pos, verdier, width=bar_bredde, alpha=0.6,
+            color=fold_farger[fold_i], label=f"Fold {fold_i+1}")
+
+plt.plot(dybder_cv, cv_mean, "ko-", linewidth=2, markersize=5,
+         label="Gjennomsnitt", zorder=5)
+plt.axvline(x=beste_cv, color="green", linestyle="--",
+            alpha=0.8, label=f"Optimal: dybde {beste_cv}")
+plt.xlabel("max_depth"); plt.ylabel("Nøyaktighet")
+plt.title("5-fold kryssvalidering: hver fold er én stolpe")
+plt.legend(fontsize=8, ncol=4, loc="lower right")
+plt.grid(True, alpha=0.2, axis="y")
+plt.xticks(dybder_cv)
+plt.tight_layout()
+plt.show()
+```
+
+Hver farge er én fold (én av de fem oppdelingene). Den svarte linjen er gjennomsnittet.
+
+```{python}
+#| echo: false
+print(f"Optimal dybde (CV): {beste_cv}  |  CV-nøyaktighet: {cv_mean[beste_cv - 1]*100:.1f}%")
+```
+
+::: {.notes}
+Hver farge er én fold. Der stolpene spriker mye, er modellen sensitiv for hvilke data den trenes på — det er i seg selv relevant informasjon. Der de fem stolpene er omtrent like høye, er resultatet stabilt.
+:::
+
+# Akt 3: Kan vi stole på treet? {background-color="#2c3e50"}
+
+Vi har valgt dybde og fått en nøyaktighet vi er fornøyde med. Men *hvilke* egenskaper bruker treet? Ville vi fått samme svar med en annen splitt?
+
+## Feature importance
+
+```{python}
+#| fig-height: 3.5
+tre_fi = DecisionTreeClassifier(max_depth=beste_cv, random_state=42)
+tre_fi.fit(X_train, y_train)
+
+importance = tre_fi.feature_importances_
+sortering = np.argsort(importance)
+
+plt.figure(figsize=(8, 3.5))
+plt.barh(X.columns[sortering], importance[sortering], color="steelblue")
+plt.xlabel("Feature importance")
+plt.title("Hvilke egenskaper bruker treet mest?")
+plt.tight_layout()
+plt.show()
+```
+
+## Feature importance ≠ regresjonskoeffisient
+
+::::{.columns}
+:::{.column width="50%"}
+**Regresjonskoeffisient:**
+`β_sweetness = 0.73`
+→ positivt tall = mer søthet trekker sannsynligheten *opp* mot 1 ("good")
+
+*Retning + styrke per enhet*
+:::
+:::{.column width="50%" .fragment}
+**Feature importance (tre):**
+`importance_sweetness = 0.42`
+→ søthet er involvert i 42% av splittebeslutningene
+
+*Ingen retning, ingen enhet*
+:::
+::::
+
+. . .
+
+::: {.callout-tip}
+**Refleksjon:** vi trener to trær med `max_depth=3` og `max_depth=8` på de *samme* dataene. Får vi like feature importances?
+:::
+
+## Trær er ustabile
+
+::::{.columns}
+:::{.column width="60%"}
+Regresjonskoeffisienter endrer seg litt med nye treningsdata. Da dere lærte regresjon, så dere at stigningstallet varierte fra trekning til trekning (ulike `seed`-verdier).
+
+Trær er **ustabile**: splittepunktet avhenger av treningsdataene, og en liten endring kan gi et helt annet tre.
+:::
+:::{.column width="40%"}
+::: {.callout-tip .fragment}
+Hvis vi bare stokker om hvilke epler som havner i trenings- vs. testsettet, tror du *rotspørsmålet* endrer seg?
+:::
+:::
+::::
+
+::: {.notes}
+Spør muntlig: treet velger splittepunktet med lavest Gini. Hva avhenger det valget av? Treningsdataene. Så hvis vi bytter ut 20% av dem, hva skjer? De optimale splittepunktene kan endre seg, og dermed hele trestrukturen.
+:::
+
+## Ustabilitet, trærenes store svakhet
+
+```{python}
+#| echo: false
+#| fig-height: 6
+from sklearn.model_selection import train_test_split as tts
+
+fig, axes = plt.subplots(2, 3, figsize=(16, 6))
+for i, ax in enumerate(axes.ravel()):
+    Xt, Xe, yt, ye = tts(X, y, test_size=0.2, random_state=i)
+    t = DecisionTreeClassifier(max_depth=2, random_state=42).fit(Xt, yt)
+    acc = accuracy_score(ye, t.predict(Xe))
+    plot_tree(t, feature_names=X.columns, class_names=["dårlig", "god"],
+              filled=True, rounded=True, fontsize=8, ax=ax)
+    ax.set_title(f"Splitt {i}, {acc*100:.1f}%", fontsize=9)
+plt.suptitle("Samme data, seks ulike splitter, seks ulike trær", fontsize=12)
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+Se på rotspørsmålene i de seks trærne. De er ikke de samme, selv om algoritmen er identisk. Det er ustabiliteten til beslutningstrær i praksis: små endringer i treningsdataene kan gi helt andre spørsmål, i en annen rekkefølge.
+:::
+
+## Tolkbart — men pålitelig?
+
+Trær blir ofte kalt «tolkbare»: du kan peke på treet og si hvordan en beslutning ble tatt.
+
+Men vi har nettopp sett seks ulike trær fra seks ulike splitter av de *samme* dataene.
+
+. . .
+
+::: {.callout-important}
+Tre A: «Dårlig eple, fordi Sweetness < −0.2.»
+Tre B: «Godt eple, fordi Juiciness > 0.5.»
+
+Samme eple, samme data, ulik forklaring. **Er det bedre med en forklaring som endrer seg med vinden, eller ingen forklaring?**
+:::
+
+::: {.notes}
+La dem diskutere i par i ett minutt. Det finnes ikke ett riktig svar.
+:::
+
+## Fordeler og ulemper
+
+::::{.columns}
+:::{.column width="50%"}
+✅ **Fordeler**
+
+- Intuitivt, ligner menneskelig resonnering
+- Takler naturlig flere klasser
+- Krever ikke standardisering (at variablene skaleres til samme enhet)
+- Fanger ikke-lineære mønstre
+:::
+:::{.column width="50%"}
+❌ **Ulemper**
+
+- **Ustabile:** små dataendringer gir store treeendringer
+- **Overtilpasning** ved stor dybde
+- **Grådig:** velger beste splitt *akkurat nå*, uten å tenke fremover
+- Feature importance sier ikke retning
+:::
+::::
+
+. . .
+
+::: {.callout-note}
+**Naturlig neste spørsmål:** hva om vi kombinerte *mange* ustabile trær og lot dem stemme på svaret?  
+→ *Tilfeldig skog (random forest),* neste gang.
+:::
+
+## Neste gang
+
+- Tilfeldig skog og boosting
+- Feature importance fra skoger, mer stabil enn fra ett tre
+- Partial dependence plots, retningseffekten vi savnet i dag
+
+. . .
+
+**Forberedelse:** Les ISLP s. 341–354 (konsepter, ikke matematikk). Gå gjennom øvelsene om beslutningstrær på kursnettsiden. 
+Prøv å formulere: *Hvordan kan mange ustabile trær til sammen gi en stabil modell?*
+
+. . .
+
+::: {.callout-important}
+**Oblig — frist 19. mars**
+
+Orakeltimer hver torsdag i Tellefsens tårn, kl. 16:15–18:00.
+:::
