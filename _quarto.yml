@@ -10,6 +10,9 @@ project:
     - lectures/llm/index.qmd
     - lectures/llm/llm_01_pandas.qmd
     - lectures/llm/llm_02_linreg.qmd
+    - lectures/llm/llm_03_logreg.qmd
+    - lectures/llm/llm_04_kryssvalidering.qmd
+    - lectures/llm/llm_05_beslutningstraer.qmd
     - lectures/llm/hon2110_oppfrisking.qmd
     - lectures/02a_forberedelser.qmd
     - lectures/02b_slides.qmd
@@ -19,8 +22,15 @@ project:
     - lectures/03b2_tutorial.qmd
     - lectures/04a_forberedelser.qmd
     - lectures/04b_slides.qmd
-    - lectures/08a_forberedelser.qmd
-    - lectures/09a_forberedelser.qmd
+    - lectures/etikk_01a_forberedelser.qmd
+    - lectures/etikk_02a_forberedelser.qmd
+    - lectures/05a_forberedelser.qmd
+    - lectures/05b_slides_ane.qmd
+    # - lectures/05c_øvelse.qmd
+    # - lectures/06a_forberedelser.qmd
+    # - lectures/06b_slides.qmd
+    # - lectures/07a_forberedelser.qmd
+    # - lectures/07b_slides.qmd
     - oppgaver/oblig_titanic.qmd
     # - oppgaver/oblig_strompris/oblig_strompris.qmd
 
@@ -69,33 +79,34 @@ website:
             contents:
               - lectures/04a_forberedelser.qmd # File for Chapter 2 (Part II)
               - lectures/04b_slides.qmd
-          - section: "Uke 5 – 21. februar"
-            href: lectures/05a_forberedelser.qmd # File for Chapter 2 (Part II)
-            contents:
-              - lectures/05a_forberedelser.qmd # File for Chapter 2 (Part II)
-              - lectures/05b_slides_ane.qmd
-              - lectures/05c_øvelse.qmd
-          - section: "Uke 6 – 28. februar"
-            href: lectures/06a_forberedelser.qmd # File for Chapter 2 (Part II)
-            contents:
-              - lectures/06a_forberedelser.qmd # File for Chapter 2 (Part II)
-              - lectures/06b_slides.qmd
-          - section: "Uke 7 – 7. mars"
-            href: lectures/07a_forberedelser.qmd # File for Chapter 2 (Part II)
-            contents:
-              - lectures/07a_forberedelser.qmd # File for Chapter 2 (Part II)
-              - lectures/07b_slides.qmd
-
       - section: "Del 2: Digital etikk" # Chapter Group Title
         contents:
-          - section: "Uke 8 – 14. mars"
-            href: lectures/08a_forberedelser.qmd
+          - section: "Uke 5 – 20. februar"
+            href: lectures/etikk_01a_forberedelser.qmd
             contents:
-              - lectures/08a_forberedelser.qmd # File for Chapter 2 (Part II)
-          - section: "Uke 9 – 21. mars"
-            href: lectures/09a_forberedelser.qmd
+              - lectures/etikk_01a_forberedelser.qmd
+          - section: "Uke 6 – 27. februar"
+            href: lectures/etikk_02a_forberedelser.qmd
             contents:
-              - lectures/09a_forberedelser.qmd # File for Chapter 2 (Part II)
+              - lectures/etikk_02a_forberedelser.qmd
+
+      - section: "Del 1: Statistikk (forts.)" # Chapter Group Title
+        contents:
+          - section: "Uke 7 – 6. mars"
+            href: lectures/05a_forberedelser.qmd
+            contents:
+              - lectures/05a_forberedelser.qmd
+              - lectures/05b_slides_ane.qmd
+          # - section: "Uke 8 – 13. mars"
+          #   href: lectures/06a_forberedelser.qmd
+          #   contents:
+          #     - lectures/06a_forberedelser.qmd
+          #     - lectures/06b_slides.qmd
+          # - section: "Uke 9 – 20. mars"
+          #   href: lectures/07a_forberedelser.qmd
+          #   contents:
+          #     - lectures/07a_forberedelser.qmd
+          #     - lectures/07b_slides.qmd
 
       - section: "Del 3: Oblig og prosjekt"
         contents:
@@ -111,7 +122,7 @@ website:
           - lectures/llm/llm_02_linreg.qmd
           - lectures/llm/llm_03_logreg.qmd
           - lectures/llm/llm_04_kryssvalidering.qmd
-      #     - lectures/llm/llm_05_beslutningstraer.qmd
+          - lectures/llm/llm_05_beslutningstraer.qmd
       #     - lectures/llm/llm_06_ensemble.qmd
       #     - lectures/llm/llm_07_onehot.qmd
       #     - lectures/llm/llm_ai_assistert_koding.qmd

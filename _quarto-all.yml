@@ -63,13 +63,13 @@ website:
       - section: "Del 2: Digital etikk" # Chapter Group Title
         contents:
           - section: "Uke 8 – 14. mars"
-            href: lectures/08a_forberedelser.qmd 
+            href: lectures/etikk_01a_forberedelser.qmd 
             contents:
-              - lectures/08a_forberedelser.qmd # File for Chapter 2 (Part II)
+              - lectures/etikk_01a_forberedelser.qmd # File for Chapter 2 (Part II)
           - section: "Uke 9 – 21. mars"
-            href: lectures/09a_forberedelser.qmd 
+            href: lectures/etikk_02a_forberedelser.qmd 
             contents:
-              - lectures/09a_forberedelser.qmd # File for Chapter 2 (Part II)
+              - lectures/etikk_02a_forberedelser.qmd # File for Chapter 2 (Part II)
       
       - section: "Del 3: Oppgaver"
         contents:
