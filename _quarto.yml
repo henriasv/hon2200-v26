@@ -79,19 +79,6 @@ website:
             contents:
               - lectures/04a_forberedelser.qmd # File for Chapter 2 (Part II)
               - lectures/04b_slides.qmd
-      - section: "Del 2: Digital etikk" # Chapter Group Title
-        contents:
-          - section: "Uke 5 – 20. februar"
-            href: lectures/etikk_01a_forberedelser.qmd
-            contents:
-              - lectures/etikk_01a_forberedelser.qmd
-          - section: "Uke 6 – 27. februar"
-            href: lectures/etikk_02a_forberedelser.qmd
-            contents:
-              - lectures/etikk_02a_forberedelser.qmd
-
-      - section: "Del 1: Statistikk (forts.)" # Chapter Group Title
-        contents:
           - section: "Uke 7 – 6. mars"
             href: lectures/05a_forberedelser.qmd
             contents:
@@ -107,6 +94,17 @@ website:
           #   contents:
           #     - lectures/07a_forberedelser.qmd
           #     - lectures/07b_slides.qmd
+
+      - section: "Del 2: Digital etikk" # Chapter Group Title
+        contents:
+          - section: "Uke 5 – 20. februar"
+            href: lectures/etikk_01a_forberedelser.qmd
+            contents:
+              - lectures/etikk_01a_forberedelser.qmd
+          - section: "Uke 6 – 27. februar"
+            href: lectures/etikk_02a_forberedelser.qmd
+            contents:
+              - lectures/etikk_02a_forberedelser.qmd
 
       - section: "Del 3: Oblig og prosjekt"
         contents:
