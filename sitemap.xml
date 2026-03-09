@@ -2,11 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/oppgaver/oblig_titanic.html</loc>
-    <lastmod>2026-03-05T20:32:06.101Z</lastmod>
+    <lastmod>2026-03-06T08:39:25.460Z</lastmod>
   </url>
   <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/08a_forberedelser.html</loc>
-    <lastmod>2026-02-18T09:18:40.947Z</lastmod>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/05a_forberedelser.html</loc>
+    <lastmod>2026-01-22T09:41:18.759Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/etikk_01a_forberedelser.html</loc>
+    <lastmod>2026-03-06T08:39:25.459Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/04a_forberedelser.html</loc>
@@ -14,86 +18,106 @@
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/03b_slides.html</loc>
-    <lastmod>2026-02-12T14:08:02.473Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.308Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/03b_slides.revealjs.html</loc>
-    <lastmod>2026-03-05T20:33:15.186Z</lastmod>
+    <lastmod>2026-03-09T20:25:25.196Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02c_øvelse.html</loc>
-    <lastmod>2026-01-30T10:27:59.794Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.306Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02a_forberedelser.html</loc>
-    <lastmod>2026-01-27T11:18:17.400Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.306Z</lastmod>
   </url>
   <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_02_linreg.html</loc>
-    <lastmod>2026-02-03T10:24:48.681Z</lastmod>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_05_beslutningstraer.html</loc>
+    <lastmod>2026-03-06T08:39:03.365Z</lastmod>
   </url>
   <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/index.html</loc>
-    <lastmod>2026-01-23T09:40:53.807Z</lastmod>
-  </url>
-  <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/01c_øvelse.html</loc>
-    <lastmod>2026-01-30T09:11:53.371Z</lastmod>
-  </url>
-  <url>
-    <loc>https://henriasv.github.io/hon2200-v26/undervisningsplan.html</loc>
-    <lastmod>2026-01-22T09:41:18.874Z</lastmod>
-  </url>
-  <url>
-    <loc>https://henriasv.github.io/hon2200-v26/index.html</loc>
-    <lastmod>2026-01-22T09:41:18.873Z</lastmod>
-  </url>
-  <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/01a_forberedelser.html</loc>
-    <lastmod>2026-01-22T14:21:08.793Z</lastmod>
-  </url>
-  <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.revealjs.html</loc>
-    <lastmod>2026-03-05T20:33:08.455Z</lastmod>
-  </url>
-  <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.html</loc>
-    <lastmod>2026-02-04T15:21:04.964Z</lastmod>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_03_logreg.html</loc>
+    <lastmod>2026-03-06T08:39:03.364Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_01_pandas.html</loc>
-    <lastmod>2026-02-03T10:24:48.683Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.364Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.html</loc>
+    <lastmod>2026-03-06T08:39:03.305Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/01b1_slides.revealjs.html</loc>
+    <lastmod>2026-03-09T20:25:16.457Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/01a_forberedelser.html</loc>
+    <lastmod>2026-03-06T08:39:03.304Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/index.html</loc>
+    <lastmod>2026-03-06T08:39:03.304Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/undervisningsplan.html</loc>
+    <lastmod>2026-03-06T08:39:03.370Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/01c_øvelse.html</loc>
+    <lastmod>2026-03-06T08:39:03.305Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/index.html</loc>
+    <lastmod>2026-03-06T08:39:03.363Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_02_linreg.html</loc>
+    <lastmod>2026-03-06T08:39:03.364Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/llm_04_kryssvalidering.html</loc>
+    <lastmod>2026-03-06T08:39:03.365Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/llm/hon2110_oppfrisking.html</loc>
-    <lastmod>2026-01-26T07:35:43.094Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.340Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02b_slides.revealjs.html</loc>
-    <lastmod>2026-03-05T20:33:13.817Z</lastmod>
+    <lastmod>2026-03-09T20:25:23.730Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/02b_slides.html</loc>
-    <lastmod>2026-01-30T10:41:45.022Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.306Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/03a_forberedelser.html</loc>
-    <lastmod>2026-01-30T10:28:51.313Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.307Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/03b2_tutorial.html</loc>
-    <lastmod>2026-02-10T22:47:39.383Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.307Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/04b_slides.revealjs.html</loc>
-    <lastmod>2026-03-05T20:33:16.866Z</lastmod>
+    <lastmod>2026-03-09T20:25:26.992Z</lastmod>
   </url>
   <url>
     <loc>https://henriasv.github.io/hon2200-v26/lectures/04b_slides.html</loc>
-    <lastmod>2026-02-12T14:21:38.009Z</lastmod>
+    <lastmod>2026-03-06T08:39:03.308Z</lastmod>
   </url>
   <url>
-    <loc>https://henriasv.github.io/hon2200-v26/lectures/09a_forberedelser.html</loc>
-    <lastmod>2026-02-18T09:16:37.322Z</lastmod>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/etikk_02a_forberedelser.html</loc>
+    <lastmod>2026-03-06T08:39:25.460Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/05b_slides_ane.revealjs.html</loc>
+    <lastmod>2026-03-09T20:25:29.557Z</lastmod>
+  </url>
+  <url>
+    <loc>https://henriasv.github.io/hon2200-v26/lectures/05b_slides_ane.html</loc>
+    <lastmod>2026-03-06T09:48:43.601Z</lastmod>
   </url>
 </urlset>
