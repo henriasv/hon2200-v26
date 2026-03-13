@@ -1,0 +1,6 @@
+# Forberedelser {.unnumbered}
+
+I forrige uke så vi på beslutningstrær. Beslutningstrær er svært fleksible i hvordan de tilpasser seg data, men man risikerer litt ustabile modeller siden små endringer  endringer i et beslutningstre kan føre til store i utfall. Dessuten kan det være litt tilfeldig hvordan et beslutningstre ender opp med å se ut, avhengig av tifeldigheter i tilpasningsprosessen. Derfor er det en fordel å bruke *ensemble*-metoder, som bruker mange modeller for å gjøre prediksjoner. Et eksempler på en slik ensemble-metode er *random forest*. 
+
+- Introduction to statistical learning (**with applications in Python**), lese side 341–354 (Åpent tilgjengelig på [https://www.statlearning.com](https://www.statlearning.com)). Her er det viktigst å få med seg konsepter, ikke matematiske detaljer. 
+

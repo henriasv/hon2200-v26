@@ -4,7 +4,7 @@
     "href": "oppgaver/oblig_titanic.html",
     "title": "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)",
     "section": "",
-    "text": "Bruk av kunstig intelligens\n\n\n\nI denne oppgaven er det ikke tillatt å bruke kunstig intelligens (som ChatGPT, Copilot o.l.) til å skrive kode eller tekst i innleveringen. Poenget med oppgaven er at du selv skal lære å forstå og implementere det som blir gjennomgått. Det er akkurat som en eksamen uten hjelpemidler — man lærer ikke ved å la noen andre gjøre jobben. Senere i livet vil du selvfølgelig bruke KI-verktøy i praktisk koding, men akkurat nå er det opplæring som gjelder.\n\n\nEtter å ha fullført denne obligen skal studenten kunne\n\nLese inn og behandle kategoriske data i pandas\nImplementere logistisk klassifikasjon\nBenytte og beskrive beslutningstrær\nBenytte og beskrive random forests\n\nDenne obligen skal fungere som en øvelse på maskinlæring anvendt på kategoriske data. Dere skal gjennom forbereding av data med pandas og scikit-learn, og så tilpasning av dataene med logistisk klassifikasjon og beslutningstrær:\n\nLogistisk klassifikasjon for å få erfaring med å gjøre maskinlæring fra grunnen av,\nBeslutningstrær for å få erfaring med et sentralt verktøy i maskinlæring som brukes i f.eks Random forests.\nRandom forests fordi det fungerer veldig bra i praksis.\n\nDataene dere skal se på inneholder informasjon om passasjerene på Titanic, inkludert om de overlevde katestrofen eller ikke. Målet er å lage algoritmer som kan predikere om en gitt person på titanic overlevde eller ikke, og å se hvilke personlige egenskaper som var “avgjørende”.\nDatasettet dere skal bruke heter train.csv og kan lastes ned her\nGjennom hele obligen har vi gjort det slik at vi først gir oppgavene, og under gir vi en del hint og forklaringer på hvordan de kan løses. Det betyr at om du står fast, kan det være lurt å lese litt lenger nedover på siden. I blant forklarer vi ting i selve oppgaven som ikke har blitt gjennomgått tidligere i undervisningen.\nI tillegg til å gjøre de statistiske analysene vi ber om krever vi også at besvarelsen er godt kommentert. Det holder altså ikke bare å levere et dokument som inneholder riktig kode, tall og figurer, du må også beskrive og diskutere resultatene.\nMerk at Oppgave 2 har to versjoner\n\nOppgave-2—Bruk-av-scikitlearn for de som går på humanioraprogrammet\nOppgave-2—Fra-grunnen for de som går på realfag\n\nda sistnevnte krever forkunnskaper tilsvarende MAT1110.\n\n\n\n\na) Les datasettet (“train.csv”) med pandas. Se på dataene! Finn ut hva kolonnene betyr.\nb) Håndter de manglende dataene for alder.\nc) Gjør de kategoriske dataene du vil benytte brukbare ved å gjøre en one hot encoding.\nd) Samle kolonnene du vil bruke til å predikere overlevelse i en dataframe/array X. Samle overlevelses-kolonnen i en annen dataframe/array Y. Under er det vist hvordan dere kan hente ut kolonner til en egene variable. - X = df[[\"Alder\", \"Kjønn\"]] - Y = df[\"Lønn\"]\ne) Del dataenne videre inn i trening og test data. Se dokumentasjonen for scikit-learn sin train_test_split: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html.\n\n\n\n\n\n\nVeiledning til oppgave 1\n\n\n\n\n\n\n\nMan bruker som regel pd.read_csv() når man leser data med pandas. Da får man et objekt av typen dataframe. For å få denne printet pent i en notebook kan man enten avslutte en celle med dataframe objektet, eller bruke display() funksjonen (ikke print(), det blir stygt).\nManglende data er et stort problem i dataanalyse, og har mange løsninger med egne ulemper og fordeler. I dette datasettet er det mye manglende data for alder og kabin. Du kan få en rask oversikt over manglende data med kodesnutten\ndisplay(df.isnull().sum())\nManglende data (her NaN verdier) gjør at maskinlæringsalgoritmene feiler. Den enkleste løsningen er å fjerne alle rader med manglende data. Dette kan man f.eks gjør med koden\ndf = df.dropna(subset=[\"Age\"])\nMen, når vi allerede jobber med så lite data er det en stor kostnad å bare kaste bort så mye. En annen løsning er å fylle inn manglende verdier med gjennomsnittlig alder for kombinasjonen av kjønnet og klassen personen har. Om denne dataen vi fyller inn gjør mer godt enn skade vil variere fra dataset til dataset. Dere velger selv hvordan dere vil håndtere manglende data.\ndf[\"Age\"] = df.groupby([\"Pclass\", \"Sex\"],group_keys=False)[\"Age\"].apply(lambda x: x.fillna(x.median()))\n\n\n\nKategorisk data er data som ikke skal bli tolket som en numerisk verdi. Maskinlæringsalgoritmer skjønner seg kun på numeriske verdier, så dette fører til et problem. Eksempler på kategorisk data kan være nasjonalitet og telefonnummer. Når en maskinlæringsalgoritme ser telefonnummerene 12345678, 23456789 og 34567891 vil den prøve å finne en sammenheng basert på størrelsen til tallene, selv om det ikke gir mening. Og når den ser ordet “Norge”, får du en feilmelding.\nLøsningen er å gi hver enkelt mulige verdi av de kategoriske dataene sin egen kolonne. Kolonnen vil da inneholde nuller og enere som forteller om man hører hjemme i den kategorien eller ikke. En kolonne Norge kan da ha en null hvis personen ikke kommer fra Norge, eller et ett-tall hvis personen kommer fra Norge. Dette kalles one hot encoding. Dette gjør man i pandas med metoden .get_dummies(). Hvis kolonnene Nasjonalitet og Telefonnummer skal bli gjort om til en one-hot kolonner gjøres det slik:\ncategorical_cols = [\"Nasjonalitet\", \"Telefonnummer\"]\ndf = pd.get_dummies(df, columns=categorical_cols, prefix=categorical_cols, prefix_sep='_')\nMerk at kategoriske data som navn og telefonnummer ikke er særlig nyttige, spesielt når du ender opp med en kolonne for hver person.\nNår manglende og kategorisk data er tatt hånd om, er neste steg å samle de dataene man skal bruke til å gjøre prediksjoner, og de dataene som man prøver å predikere. Man tar ut kolonner av en dataframe ved å bruke hakeparanteser og navnet på kolonnen, eller en liste med navnene på kolonnene man vil ta ut.\nX = df[[\"Nasjonalitet_Norge\", \"Nasjonalitet_Sverige\", \"Alder\"]]\nY = df[\"Lønn\"]\nTil slutt må man dele opp dataene i trenings-, validerings- og testdata. Algoritmene blir trent på treningsdata, og så ser vi hvor godt de funker ved å teste de på test data. Merk at i denne obligen holder det at dere deler opp i treningsdata og valideringsdata. Vi har låst ned testdataene i kjelleren på forhånd.\n\n\n\n\n\n\n\n\nDenne oppgaven kommer i to versjoner: Én for dem som går på realgasprogrammet og en for dem som går på humanioraprogrammet. Det kommer av at realfagsversjonen krever forkunnskaper tilsvarende MAT1110.\n\n\na) Plott sigmoidfunksjonen (den logistiske funksjonen). Hva gjør denne funksjonen godt egnet til å “svare på” ja/nei spørsmål?\nb) Bruk scikit-learn til å trene en logistisk klassifikasjonsmodell.\nc) Test logistisk klassifikasjon modellen. Dere kan bruke clf.score() til å se hvor stor andel riktige modellen hadde.\nd) Bruk funksjonen confusion_matrix fra sklearn.metrics til å finne ut i hvilken grad modellen produserer sanne positive, sanne negative, falske positive og falske negative prediksjoner.\n\n\n\na) Plott sigmoid-funksjonen. Hva gjør denne funksjonen godt egnet til å “svare” på ja/nei spørsmål?\nb) Implementer logistisk klassifisering og tren modellen. - Sett opp vekter (array med like mange tall som input) og bias (ett tall) - Regn ut output. Multipliser trenings-input (X) med vektene, legg til bias, og mat gjennom sigmoid funksjonen. (Deler av kode under) - Regn ut gradienter. (Kode under) - Oppdater vekter. (Formler under)\nViktig i alle program med vektorer og vektorprodukter: Få oversikt over dimensjonene til alle variablene i programmet ditt. Er noe et tall, vektor eller matrise(har flere rader og kolonner)? print() alt du er usikker på, og print() .shape egenskapen for å se størrelsen på ting. Gjør dette underveis mens du skriver programmet, men unngå alt unødvendig i det fullførte programmet.\nc) Test logistisk klassifikasjon modellen på test-dataen ved å ta testing-input (X) gjennom input-prosedyren over og sammenlign med test output (Y).\n\n\n\n\n\n\nVeiledning til implementasjonen av oppgave 2 fra grunnen\n\n\n\n\n\nHer kommer det en del formeler og teori, men det viktigste er å forstå de overordnede ideene, som skal være overkommelig. Programmet dere skal skrive vil ha en slik struktur:\nLag vekter og bias\n\nfor i in range(iterasjoner):\n    Regn ut output (ved hjelp av vekter og bias)\n    \n    Regn ut gradienter (ved hjelp av output)\n    \n    Oppdater vekter og bias (ved hjelp av gradienter)\nEn logistisk modell, som alle andre modeller, tar inn en input og gir en output. Vi kaller input til modellen \\(\\textbf{x}\\), det representerer alle egenskapene til en passasjer. De ulike egenskapene som \\(\\textbf{x}\\) inneholder kaller vi \\(x_1\\), \\(x_2\\), osv. Om passasjeren overlever eller er ikke, som er det vi prøver å predikere, kaller vi \\(y\\). Det modellen predikerer kaller vi \\(\\hat{y}\\) (“y hatt”). Først ser vi kun på en og en passasjer, senere regner vi med mange passasjerer, for å finne gjennomsnitt og slikt.\n\n\nDen logistiske modellen inneholder vekter \\(W\\) og en bias \\(b\\), som bestemmer hvordan input \\(\\textbf{x}\\) blir om til output \\(\\hat{y}\\). Det skal være like mange vekter som egenskaper, og bias skal være et tall. Disse begynner vanligvis med tilfeldige verdier, og kan i Python bli laget med np.random.randn() og np.random.rand().\nDe ulike vektene ganges komponentvis med de ulike egenskapene, og blir så lagt sammen med bias:\n\\[z = b + w_1 x_1 + w_2 x_2 + \\dots + w_m x_m = W \\textbf{x} + b\\]\nDette kan vi gjøre som et vektorprodukt i Python. Merk at vi kan gange vektene med alle egenskapene til ALLE passasjerene på en gang! Dette gjør alt mye mer kompakt: (Vi bruker @ for matrise og vektorprodukt i Python)\nz = X_train @ W + b\nAlt dette (\\(z\\)) blir så matet gjennom en sigmoid funksjon, som er definert slik:\n\\[\\hat{y} = \\sigma (z) = \\frac{1}{1 + e^{-z}}\\]\nHvorfor får jeg overflow feil av og til? Det finnes to likegyldige definisjoner av sigmoid funksjonen:\n\\[\\sigma (z) = \\frac{1}{1 + e^{-z}} = \\frac{e^{z}}{1 + e^{z}}\\]\nBegge to gir akkurat samme svar, men datamaskiner behandler de to ulikt for veldig store positive og negative tall (fordi utregningen vil inkludere tall som er for store til å behandles av datamaskinen). Den første definisjonen fører til utregningen av \\(e^{STORTTALL}\\) for store negative verdier for \\(z\\), som fører til overflow(alt for store tall for datamaskinen). Den andre definisjonen fører til utregningen av \\(e^{STORTTALL}\\) for store positive verdier for \\(z\\), som fører til overflow. En måte å programmere en stabil sigmoid funksjon som benytter riktig definisjon til riktig tid er gitt under. np.where() er en slags effektiv if for utregninger. Å bruke en vanlig if til å bruke riktig sigmoid definisjon vil gjøre at man ikke kan bruke funksjonen til vektoriserte utregninger (som å bruke sigmoid funksjonen på en hel vektor på en gang).\ndef sigmoid(z):     #hvis?           True                False \n    return np.where(z &gt;= 0, 1 / (1 + np.exp(-z)), np.exp(z) / (1 + np.exp(z)))\nMerk at når man gjør disse operasjonene på X_train som inneholder egenskapene til alle passasjerene, blir \\(\\hat{y}\\) en vektor som inneholder prediksjonene for alle passasjerene, og ikke bare for én.\nSiden hele modellen kun består av ett sett vekter, en bias og en sigmoid, kan en logistisk modell bli sett på som et nevralt nettverk med kun én node. Hvis modellen tar fem inputs kan man tegne den slik:\n\n\n\n\n\ngraph LR\n    A1[\"Input 1\"] --&gt; B[\"Output\"]\n    A2[\"Input 2\"] --&gt; B[\"Output\"]\n    A3[\"Input 3\"] --&gt; B[\"Output\"]\n    A4[\"Input 4\"] --&gt; B[\"Output\"]\n    A5[\"Input 5\"] --&gt; B[\"Output\"]\n\n\n\n\n\n\n\n\n\nModellen gjør sannsynligvis en veldig dårlig jobb i å predikere noe som helst, siden vektene og bias kun er tilfeldige tall så langt. Vi samler vektene og bias i en variabel \\(\\theta\\) for å gjøre ligningene mer kompakt, \\(\\theta\\) er da bare parametrene til modellen vår. Før vi kan få modellen vår til å gjøre en bedre jobb, må vi bestemme hva en bedre jobb betyr. Vi bestemmer at modellen vår er bedre jo mindre cross entropy den har. Denne formelen for cross entropy er litt tung å forstå, bare vit at hvis modellen vår predikerer mye riktig får den lavere cross entropy, ellers får den høyere cross entropy. Indeksen \\(i\\) i uttrykket forteller hvilken passasjer vi ser på, \\(\\sum\\) tegnet sier at vi summerer verdiene for alle passasjerer. Denne formelen skal du ikke bruke i programmet ditt.\n\\[\n\\begin{equation*}\n\\begin{aligned}\nC(\\theta) = - \\frac{1}{n} \\sum_{i=1}^{n} [y_i log(\\hat{y}_i) + (1 - y_i) log(1 - \\hat{y}_i)]\n\\end{aligned}\n\\end{equation*}\n\\]\n\n\n\nModellen vår vil predikere enten 0 eller 1 (i praksis vil den under trening gi et tall mellom 0 og 1 som er sannsynligheten for at den vil predikere 1). Sannsynligheten for at den predikerer 1 gitt en input \\(\\textbf{x}_i\\) og parametre \\(\\theta\\) er \\(p(y_i=1 | \\textbf{x}_i , \\theta)\\). Sannsynligheten for at den predikerer 0 gitt en input \\(\\textbf{x}_i\\) og parametre \\(\\theta\\) er \\(1 - p(y_i=1 | \\textbf{x}_i , \\theta)\\). For hver \\(\\textbf{x}_i\\) er da sannsynligheten for at den predikerer riktig det du ser i ligningen under, hvis du ignorerer \\(\\prod\\) tegnet. \\(\\prod\\) tegnet gjør at vi ganger sammen disse sannsynlighetene for alle \\(\\textbf{x}_i\\) i datasettet, så vi ender opp med sannsynligheten for at modellen predikerer alle datapunkter \\(y_i\\) riktig.\n\\[\n\\begin{equation*}\n\\begin{aligned}\nP(D | \\theta) = \\prod_{i=1}^{n} [p(y_i=1 | \\textbf{x}_i , \\theta)]^{y_i} [1 - p(y_i=1 | \\textbf{x}_i , \\theta)]^{1-y_i}\n\\end{aligned}\n\\end{equation*}\n\\]\nVi ønsker å maksimere sannsynligheten for at modellen predikerer alle datapunktene riktig, så vi prøver å finne \\(\\theta\\) slik at verdien av forrige ligning blir størst mulig. Vi kan trikse litt med ligningen for å gjøre dette enklere. Vi tar noe som heter log-likelihood av ligningen, og setter på en minus. Ved en del ekstra triksing ender vi opp med cost funksjonen, som vi nå ønsker å minimere, på grunn av minustegnet.\nVi vil velge parametre \\(\\theta\\) slik at \\(C(\\theta)\\) blir så liten som mulig. Dette gjør vi ved å finne den deriverte av \\(C(\\theta)\\) og bruke den deriverte til å bevege parametrene \\(\\theta\\) nærmere de som tilsvarer bunnen av \\(C(\\theta)\\), dette kalles gradient descent. Tenk at du står i en dal og vil finne bunnen, da beveger du deg helst nedover i den retningen det er brattest. De deriverte av \\(C(\\theta)\\) med hensyn på \\(W\\) og \\(b\\) viser seg å bli:\n\\[\\frac{\\partial C(\\theta)}{\\partial w_k} = - \\frac{1}{n} \\sum_{i=1}^{n} \\textbf{x}_{i,k} (y_i - \\hat{y}_i)\\]\n\\[\\frac{\\partial C(\\theta)}{\\partial b} = - \\frac{1}{n} \\sum_{i=1}^{n} y_i - \\hat{y}_i\\]\nI python kan man bruke likhetene i uttrykkene til å spare litt beregninger, vi lager et mellomledd delta som er gjennomsnittlig forskjell mellom \\(y\\) og \\(\\hat{y}\\):\ndelta = -(Y_train - y_hat) / n\ndCdW = X_train.T @ delta\ndCdb = np.sum(delta, axis = 0)\nDe deriverte peker i retningen hvor \\(C(\\theta)\\) øker raskest, så vi vil endre parametrene med minus den deriverte. Den deriverte er ofte for stor, som betyr at når vi endrer på parametrene får vi bare søppel, se figur under. For å faktisk nærme oss bunnen av \\(C(\\theta)\\) må vi dermed velge riktig læringsrate \\(\\gamma\\), som vi bruker til å skalere(“krympe”) gradienten. Å finne en god læringsrate er enda et stort spørsmål med mange ulike løsninger i maskinlæring. 0.001 med 10000 iterasjoner funker ok her. Dette er hvordan man oppdaterer vektene og bias ved hjelp av de deriverte og læringsraten:\n\\[W = W - \\gamma \\frac{\\partial C(\\theta)}{\\partial W}\\] \\[b = b - \\gamma \\frac{\\partial C(\\theta)}{\\partial b}\\]\n\n\n\nFigur av Jeremy Jordan fra https://www.jeremyjordan.me/nn-learning-rate/\n\n\n\n\nNår du skal bruke modellen til å gjøre faktiske prediksjoner må du finne \\(z\\) og \\(\\hat{y}\\) for test dataen, men rund av tallene slik at \\(\\hat{y}\\) bare får nuller og enere. np.round() kan runde av hele arrays. Så må du finne hvor stor andel av prediksjonene som var riktige. scikit learn sin accuracy_score() anbefales. Se hvilken accuracy en modell som antar at alle dør får for å sammenligne. Du kan forvente en accuracy på rundt 75% for modellen din.\n\n\n\n\n\n\n\n\n\nOppgave 3:\na) Lag et tre med maksdybde 3 som tilpasser treningsdataene.\nb) Test treet på testdataene.\nc) Plot treet og beskriv med ord hva alle forgreningene sier, og hvilke personer treet sier vil overleve.\nd) Se hvordan maksdybden til treet påvirker hvor godt treet klassifiserer testdataene.\n\n\n\n\n\n\nScikit-learn Beslutningstrær\n\n\n\n\n\nBeslutningstrær fungerer på en helt annen måte enn logistiske modeller eller nevrale nettverk. Istedenfor å justere mange vekter litt og litt med gradienter, finner beslutningstrær ja/nei spørsmål som best skiller dataene inn i kategoriene man er ute etter. I Titanic eksempelet finner treet de spørsmålene som best skiller de som overlever fra de som dør. Et slikt spørsmål kan f.eks være om en passasjer er en kvinne, eller om de er yngre enn 50 år. For hvert slikt spørsmål får treet to nye grener, en for ja og en for nei. På hver av disse grenene kan man igjen stille nye spørsmål og få enda flere grener som bedre grupperer dataene.\nNår man trener et beslutningstre på data kan man alltid la treet stille så mange spørsmål det bare vil, slik at det kan gruppere alle dataene riktig. Da kan man ende opp med et tre hvor omtrent hvert eneste datapunkt har sin egen forgrening, og treet ikke har noen “overordnede mønstre” det grupperer dataene etter. Treet vil da ha et overtilpasnings(“overfitting”) problem som vil føre til at det presterer dårlig på å klassifisere data det aldri har sett før. Dette kan unngås ved å begrense antall forgreninger treet kan ha, eller maks-dybden til treet.\nDere skal bruke DecisionTreeClassifier modellen til scikit-learn. Følg eksempelet i dokumentasjonen(linken til venstre), og lag et tre med maks dybde 3. Bruk scikit learn sin accuracy_score() for å teste modellen. For å plotte treet anbefaler vi\nplt.figure(figsize=(16,10))\ntree.plot_tree(model, max_depth=3, feature_names=X_train.columns, class_names=[\"Dead\", \"Alive\"], filled=True)\nplt.show()\n\n\n\n\n\n\n\n\na) Lag en random forest-modell som tilpasser treningsdataene.\nb) Test modellen på testdataene.\nc) Undersøk hvordan antallet weak learners i modellen påvirker nøyaktigheten.\nd) For din beste modell: Plot “feature importance” og “partial dependance”. Hva sier plottene om hva som var avgjørende for om noen overlevde på Titanic?\ne) Kan man ut ifra plottene vite hva Random forest-modellen vil predikere for en spesifikk person? Hvor godt kan man forstå hvordan en slik modell fungerer? Hva med et beslutningstre, eller en logistisk klassifiseringsmodell?",
+    "text": "ImportantBruk av kunstig intelligens\n\n\n\nI denne oppgaven er det ikke tillatt å bruke kunstig intelligens (som ChatGPT, Copilot o.l.) til å skrive kode eller tekst i innleveringen. Poenget med oppgaven er at du selv skal lære å forstå og implementere det som blir gjennomgått. Det er akkurat som en eksamen uten hjelpemidler — man lærer ikke ved å la noen andre gjøre jobben. Senere i livet vil du selvfølgelig bruke KI-verktøy i praktisk koding, men akkurat nå er det opplæring som gjelder.\n\n\nEtter å ha fullført denne obligen skal studenten kunne\n\nLese inn og behandle kategoriske data i pandas\nImplementere logistisk klassifikasjon\nBenytte og beskrive beslutningstrær\nBenytte og beskrive random forests\n\nDenne obligen skal fungere som en øvelse på maskinlæring anvendt på kategoriske data. Dere skal gjennom forbereding av data med pandas og scikit-learn, og så tilpasning av dataene med logistisk klassifikasjon og beslutningstrær:\n\nLogistisk klassifikasjon for å få erfaring med å gjøre maskinlæring fra grunnen av,\nBeslutningstrær for å få erfaring med et sentralt verktøy i maskinlæring som brukes i f.eks Random forests.\nRandom forests fordi det fungerer veldig bra i praksis.\n\nDataene dere skal se på inneholder informasjon om passasjerene på Titanic, inkludert om de overlevde katestrofen eller ikke. Målet er å lage algoritmer som kan predikere om en gitt person på titanic overlevde eller ikke, og å se hvilke personlige egenskaper som var “avgjørende”.\nDatasettet dere skal bruke heter train.csv og kan lastes ned her\nGjennom hele obligen har vi gjort det slik at vi først gir oppgavene, og under gir vi en del hint og forklaringer på hvordan de kan løses. Det betyr at om du står fast, kan det være lurt å lese litt lenger nedover på siden. I blant forklarer vi ting i selve oppgaven som ikke har blitt gjennomgått tidligere i undervisningen.\nI tillegg til å gjøre de statistiske analysene vi ber om krever vi også at besvarelsen er godt kommentert. Det holder altså ikke bare å levere et dokument som inneholder riktig kode, tall og figurer, du må også beskrive og diskutere resultatene.\nMerk at Oppgave 2 har to versjoner\n\nOppgave-2—Bruk-av-scikitlearn for de som går på humanioraprogrammet\nOppgave-2—Fra-grunnen for de som går på realfag\n\nda sistnevnte krever forkunnskaper tilsvarende MAT1110.\n\n\n\n\na) Les datasettet (“train.csv”) med pandas. Se på dataene! Finn ut hva kolonnene betyr.\nb) Håndter de manglende dataene for alder.\nc) Gjør de kategoriske dataene du vil benytte brukbare ved å gjøre en one hot encoding.\nd) Samle kolonnene du vil bruke til å predikere overlevelse i en dataframe/array X. Samle overlevelses-kolonnen i en annen dataframe/array Y. Under er det vist hvordan dere kan hente ut kolonner til en egene variable. - X = df[[\"Alder\", \"Kjønn\"]] - Y = df[\"Lønn\"]\ne) Del dataenne videre inn i trening og test data. Se dokumentasjonen for scikit-learn sin train_test_split: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html.\n\n\n\n\n\n\nNoteVeiledning til oppgave 1\n\n\n\n\n\n\n\nMan bruker som regel pd.read_csv() når man leser data med pandas. Da får man et objekt av typen dataframe. For å få denne printet pent i en notebook kan man enten avslutte en celle med dataframe objektet, eller bruke display() funksjonen (ikke print(), det blir stygt).\nManglende data er et stort problem i dataanalyse, og har mange løsninger med egne ulemper og fordeler. I dette datasettet er det mye manglende data for alder og kabin. Du kan få en rask oversikt over manglende data med kodesnutten\ndisplay(df.isnull().sum())\nManglende data (her NaN verdier) gjør at maskinlæringsalgoritmene feiler. Den enkleste løsningen er å fjerne alle rader med manglende data. Dette kan man f.eks gjør med koden\ndf = df.dropna(subset=[\"Age\"])\nMen, når vi allerede jobber med så lite data er det en stor kostnad å bare kaste bort så mye. En annen løsning er å fylle inn manglende verdier med gjennomsnittlig alder for kombinasjonen av kjønnet og klassen personen har. Om denne dataen vi fyller inn gjør mer godt enn skade vil variere fra dataset til dataset. Dere velger selv hvordan dere vil håndtere manglende data.\ndf[\"Age\"] = df.groupby([\"Pclass\", \"Sex\"],group_keys=False)[\"Age\"].apply(lambda x: x.fillna(x.median()))\n\n\n\nKategorisk data er data som ikke skal bli tolket som en numerisk verdi. Maskinlæringsalgoritmer skjønner seg kun på numeriske verdier, så dette fører til et problem. Eksempler på kategorisk data kan være nasjonalitet og telefonnummer. Når en maskinlæringsalgoritme ser telefonnummerene 12345678, 23456789 og 34567891 vil den prøve å finne en sammenheng basert på størrelsen til tallene, selv om det ikke gir mening. Og når den ser ordet “Norge”, får du en feilmelding.\nLøsningen er å gi hver enkelt mulige verdi av de kategoriske dataene sin egen kolonne. Kolonnen vil da inneholde nuller og enere som forteller om man hører hjemme i den kategorien eller ikke. En kolonne Norge kan da ha en null hvis personen ikke kommer fra Norge, eller et ett-tall hvis personen kommer fra Norge. Dette kalles one hot encoding. Dette gjør man i pandas med metoden .get_dummies(). Hvis kolonnene Nasjonalitet og Telefonnummer skal bli gjort om til en one-hot kolonner gjøres det slik:\ncategorical_cols = [\"Nasjonalitet\", \"Telefonnummer\"]\ndf = pd.get_dummies(df, columns=categorical_cols, prefix=categorical_cols, prefix_sep='_')\nMerk at kategoriske data som navn og telefonnummer ikke er særlig nyttige, spesielt når du ender opp med en kolonne for hver person.\nNår manglende og kategorisk data er tatt hånd om, er neste steg å samle de dataene man skal bruke til å gjøre prediksjoner, og de dataene som man prøver å predikere. Man tar ut kolonner av en dataframe ved å bruke hakeparanteser og navnet på kolonnen, eller en liste med navnene på kolonnene man vil ta ut.\nX = df[[\"Nasjonalitet_Norge\", \"Nasjonalitet_Sverige\", \"Alder\"]]\nY = df[\"Lønn\"]\nTil slutt må man dele opp dataene i trenings-, validerings- og testdata. Algoritmene blir trent på treningsdata, og så ser vi hvor godt de funker ved å teste de på test data. Merk at i denne obligen holder det at dere deler opp i treningsdata og valideringsdata. Vi har låst ned testdataene i kjelleren på forhånd.\n\n\n\n\n\n\n\n\nDenne oppgaven kommer i to versjoner: Én for dem som går på realgasprogrammet og en for dem som går på humanioraprogrammet. Det kommer av at realfagsversjonen krever forkunnskaper tilsvarende MAT1110.\n\n\na) Plott sigmoidfunksjonen (den logistiske funksjonen). Hva gjør denne funksjonen godt egnet til å “svare på” ja/nei spørsmål?\nb) Bruk scikit-learn til å trene en logistisk klassifikasjonsmodell.\nc) Test logistisk klassifikasjon modellen. Dere kan bruke clf.score() til å se hvor stor andel riktige modellen hadde.\nd) Bruk funksjonen confusion_matrix fra sklearn.metrics til å finne ut i hvilken grad modellen produserer sanne positive, sanne negative, falske positive og falske negative prediksjoner.\n\n\n\na) Plott sigmoid-funksjonen. Hva gjør denne funksjonen godt egnet til å “svare” på ja/nei spørsmål?\nb) Implementer logistisk klassifisering og tren modellen. - Sett opp vekter (array med like mange tall som input) og bias (ett tall) - Regn ut output. Multipliser trenings-input (X) med vektene, legg til bias, og mat gjennom sigmoid funksjonen. (Deler av kode under) - Regn ut gradienter. (Kode under) - Oppdater vekter. (Formler under)\nViktig i alle program med vektorer og vektorprodukter: Få oversikt over dimensjonene til alle variablene i programmet ditt. Er noe et tall, vektor eller matrise(har flere rader og kolonner)? print() alt du er usikker på, og print() .shape egenskapen for å se størrelsen på ting. Gjør dette underveis mens du skriver programmet, men unngå alt unødvendig i det fullførte programmet.\nc) Test logistisk klassifikasjon modellen på test-dataen ved å ta testing-input (X) gjennom input-prosedyren over og sammenlign med test output (Y).\n\n\n\n\n\n\nNoteVeiledning til implementasjonen av oppgave 2 fra grunnen\n\n\n\n\n\nHer kommer det en del formeler og teori, men det viktigste er å forstå de overordnede ideene, som skal være overkommelig. Programmet dere skal skrive vil ha en slik struktur:\nLag vekter og bias\n\nfor i in range(iterasjoner):\n    Regn ut output (ved hjelp av vekter og bias)\n    \n    Regn ut gradienter (ved hjelp av output)\n    \n    Oppdater vekter og bias (ved hjelp av gradienter)\nEn logistisk modell, som alle andre modeller, tar inn en input og gir en output. Vi kaller input til modellen \\(\\textbf{x}\\), det representerer alle egenskapene til en passasjer. De ulike egenskapene som \\(\\textbf{x}\\) inneholder kaller vi \\(x_1\\), \\(x_2\\), osv. Om passasjeren overlever eller er ikke, som er det vi prøver å predikere, kaller vi \\(y\\). Det modellen predikerer kaller vi \\(\\hat{y}\\) (“y hatt”). Først ser vi kun på en og en passasjer, senere regner vi med mange passasjerer, for å finne gjennomsnitt og slikt.\n\n\nDen logistiske modellen inneholder vekter \\(W\\) og en bias \\(b\\), som bestemmer hvordan input \\(\\textbf{x}\\) blir om til output \\(\\hat{y}\\). Det skal være like mange vekter som egenskaper, og bias skal være et tall. Disse begynner vanligvis med tilfeldige verdier, og kan i Python bli laget med np.random.randn() og np.random.rand().\nDe ulike vektene ganges komponentvis med de ulike egenskapene, og blir så lagt sammen med bias:\n\\[z = b + w_1 x_1 + w_2 x_2 + \\dots + w_m x_m = W \\textbf{x} + b\\]\nDette kan vi gjøre som et vektorprodukt i Python. Merk at vi kan gange vektene med alle egenskapene til ALLE passasjerene på en gang! Dette gjør alt mye mer kompakt: (Vi bruker @ for matrise og vektorprodukt i Python)\nz = X_train @ W + b\nAlt dette (\\(z\\)) blir så matet gjennom en sigmoid funksjon, som er definert slik:\n\\[\\hat{y} = \\sigma (z) = \\frac{1}{1 + e^{-z}}\\]\nHvorfor får jeg overflow feil av og til? Det finnes to likegyldige definisjoner av sigmoid funksjonen:\n\\[\\sigma (z) = \\frac{1}{1 + e^{-z}} = \\frac{e^{z}}{1 + e^{z}}\\]\nBegge to gir akkurat samme svar, men datamaskiner behandler de to ulikt for veldig store positive og negative tall (fordi utregningen vil inkludere tall som er for store til å behandles av datamaskinen). Den første definisjonen fører til utregningen av \\(e^{STORTTALL}\\) for store negative verdier for \\(z\\), som fører til overflow(alt for store tall for datamaskinen). Den andre definisjonen fører til utregningen av \\(e^{STORTTALL}\\) for store positive verdier for \\(z\\), som fører til overflow. En måte å programmere en stabil sigmoid funksjon som benytter riktig definisjon til riktig tid er gitt under. np.where() er en slags effektiv if for utregninger. Å bruke en vanlig if til å bruke riktig sigmoid definisjon vil gjøre at man ikke kan bruke funksjonen til vektoriserte utregninger (som å bruke sigmoid funksjonen på en hel vektor på en gang).\ndef sigmoid(z):     #hvis?           True                False \n    return np.where(z &gt;= 0, 1 / (1 + np.exp(-z)), np.exp(z) / (1 + np.exp(z)))\nMerk at når man gjør disse operasjonene på X_train som inneholder egenskapene til alle passasjerene, blir \\(\\hat{y}\\) en vektor som inneholder prediksjonene for alle passasjerene, og ikke bare for én.\nSiden hele modellen kun består av ett sett vekter, en bias og en sigmoid, kan en logistisk modell bli sett på som et nevralt nettverk med kun én node. Hvis modellen tar fem inputs kan man tegne den slik:\n\n\n\n\n\ngraph LR\n    A1[\"Input 1\"] --&gt; B[\"Output\"]\n    A2[\"Input 2\"] --&gt; B[\"Output\"]\n    A3[\"Input 3\"] --&gt; B[\"Output\"]\n    A4[\"Input 4\"] --&gt; B[\"Output\"]\n    A5[\"Input 5\"] --&gt; B[\"Output\"]\n\n\n\n\n\n\n\n\n\nModellen gjør sannsynligvis en veldig dårlig jobb i å predikere noe som helst, siden vektene og bias kun er tilfeldige tall så langt. Vi samler vektene og bias i en variabel \\(\\theta\\) for å gjøre ligningene mer kompakt, \\(\\theta\\) er da bare parametrene til modellen vår. Før vi kan få modellen vår til å gjøre en bedre jobb, må vi bestemme hva en bedre jobb betyr. Vi bestemmer at modellen vår er bedre jo mindre cross entropy den har. Denne formelen for cross entropy er litt tung å forstå, bare vit at hvis modellen vår predikerer mye riktig får den lavere cross entropy, ellers får den høyere cross entropy. Indeksen \\(i\\) i uttrykket forteller hvilken passasjer vi ser på, \\(\\sum\\) tegnet sier at vi summerer verdiene for alle passasjerer. Denne formelen skal du ikke bruke i programmet ditt.\n\\[\n\\begin{equation*}\n\\begin{aligned}\nC(\\theta) = - \\frac{1}{n} \\sum_{i=1}^{n} [y_i log(\\hat{y}_i) + (1 - y_i) log(1 - \\hat{y}_i)]\n\\end{aligned}\n\\end{equation*}\n\\]\n\n\n\nModellen vår vil predikere enten 0 eller 1 (i praksis vil den under trening gi et tall mellom 0 og 1 som er sannsynligheten for at den vil predikere 1). Sannsynligheten for at den predikerer 1 gitt en input \\(\\textbf{x}_i\\) og parametre \\(\\theta\\) er \\(p(y_i=1 | \\textbf{x}_i , \\theta)\\). Sannsynligheten for at den predikerer 0 gitt en input \\(\\textbf{x}_i\\) og parametre \\(\\theta\\) er \\(1 - p(y_i=1 | \\textbf{x}_i , \\theta)\\). For hver \\(\\textbf{x}_i\\) er da sannsynligheten for at den predikerer riktig det du ser i ligningen under, hvis du ignorerer \\(\\prod\\) tegnet. \\(\\prod\\) tegnet gjør at vi ganger sammen disse sannsynlighetene for alle \\(\\textbf{x}_i\\) i datasettet, så vi ender opp med sannsynligheten for at modellen predikerer alle datapunkter \\(y_i\\) riktig.\n\\[\n\\begin{equation*}\n\\begin{aligned}\nP(D | \\theta) = \\prod_{i=1}^{n} [p(y_i=1 | \\textbf{x}_i , \\theta)]^{y_i} [1 - p(y_i=1 | \\textbf{x}_i , \\theta)]^{1-y_i}\n\\end{aligned}\n\\end{equation*}\n\\]\nVi ønsker å maksimere sannsynligheten for at modellen predikerer alle datapunktene riktig, så vi prøver å finne \\(\\theta\\) slik at verdien av forrige ligning blir størst mulig. Vi kan trikse litt med ligningen for å gjøre dette enklere. Vi tar noe som heter log-likelihood av ligningen, og setter på en minus. Ved en del ekstra triksing ender vi opp med cost funksjonen, som vi nå ønsker å minimere, på grunn av minustegnet.\nVi vil velge parametre \\(\\theta\\) slik at \\(C(\\theta)\\) blir så liten som mulig. Dette gjør vi ved å finne den deriverte av \\(C(\\theta)\\) og bruke den deriverte til å bevege parametrene \\(\\theta\\) nærmere de som tilsvarer bunnen av \\(C(\\theta)\\), dette kalles gradient descent. Tenk at du står i en dal og vil finne bunnen, da beveger du deg helst nedover i den retningen det er brattest. De deriverte av \\(C(\\theta)\\) med hensyn på \\(W\\) og \\(b\\) viser seg å bli:\n\\[\\frac{\\partial C(\\theta)}{\\partial w_k} = - \\frac{1}{n} \\sum_{i=1}^{n} \\textbf{x}_{i,k} (y_i - \\hat{y}_i)\\]\n\\[\\frac{\\partial C(\\theta)}{\\partial b} = - \\frac{1}{n} \\sum_{i=1}^{n} y_i - \\hat{y}_i\\]\nI python kan man bruke likhetene i uttrykkene til å spare litt beregninger, vi lager et mellomledd delta som er gjennomsnittlig forskjell mellom \\(y\\) og \\(\\hat{y}\\):\ndelta = -(Y_train - y_hat) / n\ndCdW = X_train.T @ delta\ndCdb = np.sum(delta, axis = 0)\nDe deriverte peker i retningen hvor \\(C(\\theta)\\) øker raskest, så vi vil endre parametrene med minus den deriverte. Den deriverte er ofte for stor, som betyr at når vi endrer på parametrene får vi bare søppel, se figur under. For å faktisk nærme oss bunnen av \\(C(\\theta)\\) må vi dermed velge riktig læringsrate \\(\\gamma\\), som vi bruker til å skalere(“krympe”) gradienten. Å finne en god læringsrate er enda et stort spørsmål med mange ulike løsninger i maskinlæring. 0.001 med 10000 iterasjoner funker ok her. Dette er hvordan man oppdaterer vektene og bias ved hjelp av de deriverte og læringsraten:\n\\[W = W - \\gamma \\frac{\\partial C(\\theta)}{\\partial W}\\] \\[b = b - \\gamma \\frac{\\partial C(\\theta)}{\\partial b}\\]\n\n\n\nFigur av Jeremy Jordan fra https://www.jeremyjordan.me/nn-learning-rate/\n\n\n\n\nNår du skal bruke modellen til å gjøre faktiske prediksjoner må du finne \\(z\\) og \\(\\hat{y}\\) for test dataen, men rund av tallene slik at \\(\\hat{y}\\) bare får nuller og enere. np.round() kan runde av hele arrays. Så må du finne hvor stor andel av prediksjonene som var riktige. scikit learn sin accuracy_score() anbefales. Se hvilken accuracy en modell som antar at alle dør får for å sammenligne. Du kan forvente en accuracy på rundt 75% for modellen din.\n\n\n\n\n\n\n\n\n\nOppgave 3:\na) Lag et tre med maksdybde 3 som tilpasser treningsdataene.\nb) Test treet på testdataene.\nc) Plot treet og beskriv med ord hva alle forgreningene sier, og hvilke personer treet sier vil overleve.\nd) Se hvordan maksdybden til treet påvirker hvor godt treet klassifiserer testdataene.\n\n\n\n\n\n\nNoteScikit-learn Beslutningstrær\n\n\n\n\n\nBeslutningstrær fungerer på en helt annen måte enn logistiske modeller eller nevrale nettverk. Istedenfor å justere mange vekter litt og litt med gradienter, finner beslutningstrær ja/nei spørsmål som best skiller dataene inn i kategoriene man er ute etter. I Titanic eksempelet finner treet de spørsmålene som best skiller de som overlever fra de som dør. Et slikt spørsmål kan f.eks være om en passasjer er en kvinne, eller om de er yngre enn 50 år. For hvert slikt spørsmål får treet to nye grener, en for ja og en for nei. På hver av disse grenene kan man igjen stille nye spørsmål og få enda flere grener som bedre grupperer dataene.\nNår man trener et beslutningstre på data kan man alltid la treet stille så mange spørsmål det bare vil, slik at det kan gruppere alle dataene riktig. Da kan man ende opp med et tre hvor omtrent hvert eneste datapunkt har sin egen forgrening, og treet ikke har noen “overordnede mønstre” det grupperer dataene etter. Treet vil da ha et overtilpasnings(“overfitting”) problem som vil føre til at det presterer dårlig på å klassifisere data det aldri har sett før. Dette kan unngås ved å begrense antall forgreninger treet kan ha, eller maks-dybden til treet.\nDere skal bruke DecisionTreeClassifier modellen til scikit-learn. Følg eksempelet i dokumentasjonen(linken til venstre), og lag et tre med maks dybde 3. Bruk scikit learn sin accuracy_score() for å teste modellen. For å plotte treet anbefaler vi\nplt.figure(figsize=(16,10))\ntree.plot_tree(model, max_depth=3, feature_names=X_train.columns, class_names=[\"Dead\", \"Alive\"], filled=True)\nplt.show()\n\n\n\n\n\n\n\n\na) Lag en random forest-modell som tilpasser treningsdataene.\nb) Test modellen på testdataene.\nc) Undersøk hvordan antallet weak learners i modellen påvirker nøyaktigheten.\nd) For din beste modell: Plot “feature importance” og “partial dependance”. Hva sier plottene om hva som var avgjørende for om noen overlevde på Titanic?\ne) Kan man ut ifra plottene vite hva Random forest-modellen vil predikere for en spesifikk person? Hvor godt kan man forstå hvordan en slik modell fungerer? Hva med et beslutningstre, eller en logistisk klassifiseringsmodell?",
     "crumbs": [
       "Del 3: Oblig og prosjekt",
       "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)"
@@ -15,7 +15,7 @@
     "href": "oppgaver/oblig_titanic.html#lesing-og-behandling-av-kategoriske-data-i-pandas",
     "title": "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)",
     "section": "",
-    "text": "a) Les datasettet (“train.csv”) med pandas. Se på dataene! Finn ut hva kolonnene betyr.\nb) Håndter de manglende dataene for alder.\nc) Gjør de kategoriske dataene du vil benytte brukbare ved å gjøre en one hot encoding.\nd) Samle kolonnene du vil bruke til å predikere overlevelse i en dataframe/array X. Samle overlevelses-kolonnen i en annen dataframe/array Y. Under er det vist hvordan dere kan hente ut kolonner til en egene variable. - X = df[[\"Alder\", \"Kjønn\"]] - Y = df[\"Lønn\"]\ne) Del dataenne videre inn i trening og test data. Se dokumentasjonen for scikit-learn sin train_test_split: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html.\n\n\n\n\n\n\nVeiledning til oppgave 1\n\n\n\n\n\n\n\nMan bruker som regel pd.read_csv() når man leser data med pandas. Da får man et objekt av typen dataframe. For å få denne printet pent i en notebook kan man enten avslutte en celle med dataframe objektet, eller bruke display() funksjonen (ikke print(), det blir stygt).\nManglende data er et stort problem i dataanalyse, og har mange løsninger med egne ulemper og fordeler. I dette datasettet er det mye manglende data for alder og kabin. Du kan få en rask oversikt over manglende data med kodesnutten\ndisplay(df.isnull().sum())\nManglende data (her NaN verdier) gjør at maskinlæringsalgoritmene feiler. Den enkleste løsningen er å fjerne alle rader med manglende data. Dette kan man f.eks gjør med koden\ndf = df.dropna(subset=[\"Age\"])\nMen, når vi allerede jobber med så lite data er det en stor kostnad å bare kaste bort så mye. En annen løsning er å fylle inn manglende verdier med gjennomsnittlig alder for kombinasjonen av kjønnet og klassen personen har. Om denne dataen vi fyller inn gjør mer godt enn skade vil variere fra dataset til dataset. Dere velger selv hvordan dere vil håndtere manglende data.\ndf[\"Age\"] = df.groupby([\"Pclass\", \"Sex\"],group_keys=False)[\"Age\"].apply(lambda x: x.fillna(x.median()))\n\n\n\nKategorisk data er data som ikke skal bli tolket som en numerisk verdi. Maskinlæringsalgoritmer skjønner seg kun på numeriske verdier, så dette fører til et problem. Eksempler på kategorisk data kan være nasjonalitet og telefonnummer. Når en maskinlæringsalgoritme ser telefonnummerene 12345678, 23456789 og 34567891 vil den prøve å finne en sammenheng basert på størrelsen til tallene, selv om det ikke gir mening. Og når den ser ordet “Norge”, får du en feilmelding.\nLøsningen er å gi hver enkelt mulige verdi av de kategoriske dataene sin egen kolonne. Kolonnen vil da inneholde nuller og enere som forteller om man hører hjemme i den kategorien eller ikke. En kolonne Norge kan da ha en null hvis personen ikke kommer fra Norge, eller et ett-tall hvis personen kommer fra Norge. Dette kalles one hot encoding. Dette gjør man i pandas med metoden .get_dummies(). Hvis kolonnene Nasjonalitet og Telefonnummer skal bli gjort om til en one-hot kolonner gjøres det slik:\ncategorical_cols = [\"Nasjonalitet\", \"Telefonnummer\"]\ndf = pd.get_dummies(df, columns=categorical_cols, prefix=categorical_cols, prefix_sep='_')\nMerk at kategoriske data som navn og telefonnummer ikke er særlig nyttige, spesielt når du ender opp med en kolonne for hver person.\nNår manglende og kategorisk data er tatt hånd om, er neste steg å samle de dataene man skal bruke til å gjøre prediksjoner, og de dataene som man prøver å predikere. Man tar ut kolonner av en dataframe ved å bruke hakeparanteser og navnet på kolonnen, eller en liste med navnene på kolonnene man vil ta ut.\nX = df[[\"Nasjonalitet_Norge\", \"Nasjonalitet_Sverige\", \"Alder\"]]\nY = df[\"Lønn\"]\nTil slutt må man dele opp dataene i trenings-, validerings- og testdata. Algoritmene blir trent på treningsdata, og så ser vi hvor godt de funker ved å teste de på test data. Merk at i denne obligen holder det at dere deler opp i treningsdata og valideringsdata. Vi har låst ned testdataene i kjelleren på forhånd.",
+    "text": "a) Les datasettet (“train.csv”) med pandas. Se på dataene! Finn ut hva kolonnene betyr.\nb) Håndter de manglende dataene for alder.\nc) Gjør de kategoriske dataene du vil benytte brukbare ved å gjøre en one hot encoding.\nd) Samle kolonnene du vil bruke til å predikere overlevelse i en dataframe/array X. Samle overlevelses-kolonnen i en annen dataframe/array Y. Under er det vist hvordan dere kan hente ut kolonner til en egene variable. - X = df[[\"Alder\", \"Kjønn\"]] - Y = df[\"Lønn\"]\ne) Del dataenne videre inn i trening og test data. Se dokumentasjonen for scikit-learn sin train_test_split: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html.\n\n\n\n\n\n\nNoteVeiledning til oppgave 1\n\n\n\n\n\n\n\nMan bruker som regel pd.read_csv() når man leser data med pandas. Da får man et objekt av typen dataframe. For å få denne printet pent i en notebook kan man enten avslutte en celle med dataframe objektet, eller bruke display() funksjonen (ikke print(), det blir stygt).\nManglende data er et stort problem i dataanalyse, og har mange løsninger med egne ulemper og fordeler. I dette datasettet er det mye manglende data for alder og kabin. Du kan få en rask oversikt over manglende data med kodesnutten\ndisplay(df.isnull().sum())\nManglende data (her NaN verdier) gjør at maskinlæringsalgoritmene feiler. Den enkleste løsningen er å fjerne alle rader med manglende data. Dette kan man f.eks gjør med koden\ndf = df.dropna(subset=[\"Age\"])\nMen, når vi allerede jobber med så lite data er det en stor kostnad å bare kaste bort så mye. En annen løsning er å fylle inn manglende verdier med gjennomsnittlig alder for kombinasjonen av kjønnet og klassen personen har. Om denne dataen vi fyller inn gjør mer godt enn skade vil variere fra dataset til dataset. Dere velger selv hvordan dere vil håndtere manglende data.\ndf[\"Age\"] = df.groupby([\"Pclass\", \"Sex\"],group_keys=False)[\"Age\"].apply(lambda x: x.fillna(x.median()))\n\n\n\nKategorisk data er data som ikke skal bli tolket som en numerisk verdi. Maskinlæringsalgoritmer skjønner seg kun på numeriske verdier, så dette fører til et problem. Eksempler på kategorisk data kan være nasjonalitet og telefonnummer. Når en maskinlæringsalgoritme ser telefonnummerene 12345678, 23456789 og 34567891 vil den prøve å finne en sammenheng basert på størrelsen til tallene, selv om det ikke gir mening. Og når den ser ordet “Norge”, får du en feilmelding.\nLøsningen er å gi hver enkelt mulige verdi av de kategoriske dataene sin egen kolonne. Kolonnen vil da inneholde nuller og enere som forteller om man hører hjemme i den kategorien eller ikke. En kolonne Norge kan da ha en null hvis personen ikke kommer fra Norge, eller et ett-tall hvis personen kommer fra Norge. Dette kalles one hot encoding. Dette gjør man i pandas med metoden .get_dummies(). Hvis kolonnene Nasjonalitet og Telefonnummer skal bli gjort om til en one-hot kolonner gjøres det slik:\ncategorical_cols = [\"Nasjonalitet\", \"Telefonnummer\"]\ndf = pd.get_dummies(df, columns=categorical_cols, prefix=categorical_cols, prefix_sep='_')\nMerk at kategoriske data som navn og telefonnummer ikke er særlig nyttige, spesielt når du ender opp med en kolonne for hver person.\nNår manglende og kategorisk data er tatt hånd om, er neste steg å samle de dataene man skal bruke til å gjøre prediksjoner, og de dataene som man prøver å predikere. Man tar ut kolonner av en dataframe ved å bruke hakeparanteser og navnet på kolonnen, eller en liste med navnene på kolonnene man vil ta ut.\nX = df[[\"Nasjonalitet_Norge\", \"Nasjonalitet_Sverige\", \"Alder\"]]\nY = df[\"Lønn\"]\nTil slutt må man dele opp dataene i trenings-, validerings- og testdata. Algoritmene blir trent på treningsdata, og så ser vi hvor godt de funker ved å teste de på test data. Merk at i denne obligen holder det at dere deler opp i treningsdata og valideringsdata. Vi har låst ned testdataene i kjelleren på forhånd.",
     "crumbs": [
       "Del 3: Oblig og prosjekt",
       "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)"
@@ -26,7 +26,7 @@
     "href": "oppgaver/oblig_titanic.html#logistisk-klassifisering",
     "title": "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)",
     "section": "",
-    "text": "Denne oppgaven kommer i to versjoner: Én for dem som går på realgasprogrammet og en for dem som går på humanioraprogrammet. Det kommer av at realfagsversjonen krever forkunnskaper tilsvarende MAT1110.\n\n\na) Plott sigmoidfunksjonen (den logistiske funksjonen). Hva gjør denne funksjonen godt egnet til å “svare på” ja/nei spørsmål?\nb) Bruk scikit-learn til å trene en logistisk klassifikasjonsmodell.\nc) Test logistisk klassifikasjon modellen. Dere kan bruke clf.score() til å se hvor stor andel riktige modellen hadde.\nd) Bruk funksjonen confusion_matrix fra sklearn.metrics til å finne ut i hvilken grad modellen produserer sanne positive, sanne negative, falske positive og falske negative prediksjoner.\n\n\n\na) Plott sigmoid-funksjonen. Hva gjør denne funksjonen godt egnet til å “svare” på ja/nei spørsmål?\nb) Implementer logistisk klassifisering og tren modellen. - Sett opp vekter (array med like mange tall som input) og bias (ett tall) - Regn ut output. Multipliser trenings-input (X) med vektene, legg til bias, og mat gjennom sigmoid funksjonen. (Deler av kode under) - Regn ut gradienter. (Kode under) - Oppdater vekter. (Formler under)\nViktig i alle program med vektorer og vektorprodukter: Få oversikt over dimensjonene til alle variablene i programmet ditt. Er noe et tall, vektor eller matrise(har flere rader og kolonner)? print() alt du er usikker på, og print() .shape egenskapen for å se størrelsen på ting. Gjør dette underveis mens du skriver programmet, men unngå alt unødvendig i det fullførte programmet.\nc) Test logistisk klassifikasjon modellen på test-dataen ved å ta testing-input (X) gjennom input-prosedyren over og sammenlign med test output (Y).\n\n\n\n\n\n\nVeiledning til implementasjonen av oppgave 2 fra grunnen\n\n\n\n\n\nHer kommer det en del formeler og teori, men det viktigste er å forstå de overordnede ideene, som skal være overkommelig. Programmet dere skal skrive vil ha en slik struktur:\nLag vekter og bias\n\nfor i in range(iterasjoner):\n    Regn ut output (ved hjelp av vekter og bias)\n    \n    Regn ut gradienter (ved hjelp av output)\n    \n    Oppdater vekter og bias (ved hjelp av gradienter)\nEn logistisk modell, som alle andre modeller, tar inn en input og gir en output. Vi kaller input til modellen \\(\\textbf{x}\\), det representerer alle egenskapene til en passasjer. De ulike egenskapene som \\(\\textbf{x}\\) inneholder kaller vi \\(x_1\\), \\(x_2\\), osv. Om passasjeren overlever eller er ikke, som er det vi prøver å predikere, kaller vi \\(y\\). Det modellen predikerer kaller vi \\(\\hat{y}\\) (“y hatt”). Først ser vi kun på en og en passasjer, senere regner vi med mange passasjerer, for å finne gjennomsnitt og slikt.\n\n\nDen logistiske modellen inneholder vekter \\(W\\) og en bias \\(b\\), som bestemmer hvordan input \\(\\textbf{x}\\) blir om til output \\(\\hat{y}\\). Det skal være like mange vekter som egenskaper, og bias skal være et tall. Disse begynner vanligvis med tilfeldige verdier, og kan i Python bli laget med np.random.randn() og np.random.rand().\nDe ulike vektene ganges komponentvis med de ulike egenskapene, og blir så lagt sammen med bias:\n\\[z = b + w_1 x_1 + w_2 x_2 + \\dots + w_m x_m = W \\textbf{x} + b\\]\nDette kan vi gjøre som et vektorprodukt i Python. Merk at vi kan gange vektene med alle egenskapene til ALLE passasjerene på en gang! Dette gjør alt mye mer kompakt: (Vi bruker @ for matrise og vektorprodukt i Python)\nz = X_train @ W + b\nAlt dette (\\(z\\)) blir så matet gjennom en sigmoid funksjon, som er definert slik:\n\\[\\hat{y} = \\sigma (z) = \\frac{1}{1 + e^{-z}}\\]\nHvorfor får jeg overflow feil av og til? Det finnes to likegyldige definisjoner av sigmoid funksjonen:\n\\[\\sigma (z) = \\frac{1}{1 + e^{-z}} = \\frac{e^{z}}{1 + e^{z}}\\]\nBegge to gir akkurat samme svar, men datamaskiner behandler de to ulikt for veldig store positive og negative tall (fordi utregningen vil inkludere tall som er for store til å behandles av datamaskinen). Den første definisjonen fører til utregningen av \\(e^{STORTTALL}\\) for store negative verdier for \\(z\\), som fører til overflow(alt for store tall for datamaskinen). Den andre definisjonen fører til utregningen av \\(e^{STORTTALL}\\) for store positive verdier for \\(z\\), som fører til overflow. En måte å programmere en stabil sigmoid funksjon som benytter riktig definisjon til riktig tid er gitt under. np.where() er en slags effektiv if for utregninger. Å bruke en vanlig if til å bruke riktig sigmoid definisjon vil gjøre at man ikke kan bruke funksjonen til vektoriserte utregninger (som å bruke sigmoid funksjonen på en hel vektor på en gang).\ndef sigmoid(z):     #hvis?           True                False \n    return np.where(z &gt;= 0, 1 / (1 + np.exp(-z)), np.exp(z) / (1 + np.exp(z)))\nMerk at når man gjør disse operasjonene på X_train som inneholder egenskapene til alle passasjerene, blir \\(\\hat{y}\\) en vektor som inneholder prediksjonene for alle passasjerene, og ikke bare for én.\nSiden hele modellen kun består av ett sett vekter, en bias og en sigmoid, kan en logistisk modell bli sett på som et nevralt nettverk med kun én node. Hvis modellen tar fem inputs kan man tegne den slik:\n\n\n\n\n\ngraph LR\n    A1[\"Input 1\"] --&gt; B[\"Output\"]\n    A2[\"Input 2\"] --&gt; B[\"Output\"]\n    A3[\"Input 3\"] --&gt; B[\"Output\"]\n    A4[\"Input 4\"] --&gt; B[\"Output\"]\n    A5[\"Input 5\"] --&gt; B[\"Output\"]\n\n\n\n\n\n\n\n\n\nModellen gjør sannsynligvis en veldig dårlig jobb i å predikere noe som helst, siden vektene og bias kun er tilfeldige tall så langt. Vi samler vektene og bias i en variabel \\(\\theta\\) for å gjøre ligningene mer kompakt, \\(\\theta\\) er da bare parametrene til modellen vår. Før vi kan få modellen vår til å gjøre en bedre jobb, må vi bestemme hva en bedre jobb betyr. Vi bestemmer at modellen vår er bedre jo mindre cross entropy den har. Denne formelen for cross entropy er litt tung å forstå, bare vit at hvis modellen vår predikerer mye riktig får den lavere cross entropy, ellers får den høyere cross entropy. Indeksen \\(i\\) i uttrykket forteller hvilken passasjer vi ser på, \\(\\sum\\) tegnet sier at vi summerer verdiene for alle passasjerer. Denne formelen skal du ikke bruke i programmet ditt.\n\\[\n\\begin{equation*}\n\\begin{aligned}\nC(\\theta) = - \\frac{1}{n} \\sum_{i=1}^{n} [y_i log(\\hat{y}_i) + (1 - y_i) log(1 - \\hat{y}_i)]\n\\end{aligned}\n\\end{equation*}\n\\]\n\n\n\nModellen vår vil predikere enten 0 eller 1 (i praksis vil den under trening gi et tall mellom 0 og 1 som er sannsynligheten for at den vil predikere 1). Sannsynligheten for at den predikerer 1 gitt en input \\(\\textbf{x}_i\\) og parametre \\(\\theta\\) er \\(p(y_i=1 | \\textbf{x}_i , \\theta)\\). Sannsynligheten for at den predikerer 0 gitt en input \\(\\textbf{x}_i\\) og parametre \\(\\theta\\) er \\(1 - p(y_i=1 | \\textbf{x}_i , \\theta)\\). For hver \\(\\textbf{x}_i\\) er da sannsynligheten for at den predikerer riktig det du ser i ligningen under, hvis du ignorerer \\(\\prod\\) tegnet. \\(\\prod\\) tegnet gjør at vi ganger sammen disse sannsynlighetene for alle \\(\\textbf{x}_i\\) i datasettet, så vi ender opp med sannsynligheten for at modellen predikerer alle datapunkter \\(y_i\\) riktig.\n\\[\n\\begin{equation*}\n\\begin{aligned}\nP(D | \\theta) = \\prod_{i=1}^{n} [p(y_i=1 | \\textbf{x}_i , \\theta)]^{y_i} [1 - p(y_i=1 | \\textbf{x}_i , \\theta)]^{1-y_i}\n\\end{aligned}\n\\end{equation*}\n\\]\nVi ønsker å maksimere sannsynligheten for at modellen predikerer alle datapunktene riktig, så vi prøver å finne \\(\\theta\\) slik at verdien av forrige ligning blir størst mulig. Vi kan trikse litt med ligningen for å gjøre dette enklere. Vi tar noe som heter log-likelihood av ligningen, og setter på en minus. Ved en del ekstra triksing ender vi opp med cost funksjonen, som vi nå ønsker å minimere, på grunn av minustegnet.\nVi vil velge parametre \\(\\theta\\) slik at \\(C(\\theta)\\) blir så liten som mulig. Dette gjør vi ved å finne den deriverte av \\(C(\\theta)\\) og bruke den deriverte til å bevege parametrene \\(\\theta\\) nærmere de som tilsvarer bunnen av \\(C(\\theta)\\), dette kalles gradient descent. Tenk at du står i en dal og vil finne bunnen, da beveger du deg helst nedover i den retningen det er brattest. De deriverte av \\(C(\\theta)\\) med hensyn på \\(W\\) og \\(b\\) viser seg å bli:\n\\[\\frac{\\partial C(\\theta)}{\\partial w_k} = - \\frac{1}{n} \\sum_{i=1}^{n} \\textbf{x}_{i,k} (y_i - \\hat{y}_i)\\]\n\\[\\frac{\\partial C(\\theta)}{\\partial b} = - \\frac{1}{n} \\sum_{i=1}^{n} y_i - \\hat{y}_i\\]\nI python kan man bruke likhetene i uttrykkene til å spare litt beregninger, vi lager et mellomledd delta som er gjennomsnittlig forskjell mellom \\(y\\) og \\(\\hat{y}\\):\ndelta = -(Y_train - y_hat) / n\ndCdW = X_train.T @ delta\ndCdb = np.sum(delta, axis = 0)\nDe deriverte peker i retningen hvor \\(C(\\theta)\\) øker raskest, så vi vil endre parametrene med minus den deriverte. Den deriverte er ofte for stor, som betyr at når vi endrer på parametrene får vi bare søppel, se figur under. For å faktisk nærme oss bunnen av \\(C(\\theta)\\) må vi dermed velge riktig læringsrate \\(\\gamma\\), som vi bruker til å skalere(“krympe”) gradienten. Å finne en god læringsrate er enda et stort spørsmål med mange ulike løsninger i maskinlæring. 0.001 med 10000 iterasjoner funker ok her. Dette er hvordan man oppdaterer vektene og bias ved hjelp av de deriverte og læringsraten:\n\\[W = W - \\gamma \\frac{\\partial C(\\theta)}{\\partial W}\\] \\[b = b - \\gamma \\frac{\\partial C(\\theta)}{\\partial b}\\]\n\n\n\nFigur av Jeremy Jordan fra https://www.jeremyjordan.me/nn-learning-rate/\n\n\n\n\nNår du skal bruke modellen til å gjøre faktiske prediksjoner må du finne \\(z\\) og \\(\\hat{y}\\) for test dataen, men rund av tallene slik at \\(\\hat{y}\\) bare får nuller og enere. np.round() kan runde av hele arrays. Så må du finne hvor stor andel av prediksjonene som var riktige. scikit learn sin accuracy_score() anbefales. Se hvilken accuracy en modell som antar at alle dør får for å sammenligne. Du kan forvente en accuracy på rundt 75% for modellen din.",
+    "text": "Denne oppgaven kommer i to versjoner: Én for dem som går på realgasprogrammet og en for dem som går på humanioraprogrammet. Det kommer av at realfagsversjonen krever forkunnskaper tilsvarende MAT1110.\n\n\na) Plott sigmoidfunksjonen (den logistiske funksjonen). Hva gjør denne funksjonen godt egnet til å “svare på” ja/nei spørsmål?\nb) Bruk scikit-learn til å trene en logistisk klassifikasjonsmodell.\nc) Test logistisk klassifikasjon modellen. Dere kan bruke clf.score() til å se hvor stor andel riktige modellen hadde.\nd) Bruk funksjonen confusion_matrix fra sklearn.metrics til å finne ut i hvilken grad modellen produserer sanne positive, sanne negative, falske positive og falske negative prediksjoner.\n\n\n\na) Plott sigmoid-funksjonen. Hva gjør denne funksjonen godt egnet til å “svare” på ja/nei spørsmål?\nb) Implementer logistisk klassifisering og tren modellen. - Sett opp vekter (array med like mange tall som input) og bias (ett tall) - Regn ut output. Multipliser trenings-input (X) med vektene, legg til bias, og mat gjennom sigmoid funksjonen. (Deler av kode under) - Regn ut gradienter. (Kode under) - Oppdater vekter. (Formler under)\nViktig i alle program med vektorer og vektorprodukter: Få oversikt over dimensjonene til alle variablene i programmet ditt. Er noe et tall, vektor eller matrise(har flere rader og kolonner)? print() alt du er usikker på, og print() .shape egenskapen for å se størrelsen på ting. Gjør dette underveis mens du skriver programmet, men unngå alt unødvendig i det fullførte programmet.\nc) Test logistisk klassifikasjon modellen på test-dataen ved å ta testing-input (X) gjennom input-prosedyren over og sammenlign med test output (Y).\n\n\n\n\n\n\nNoteVeiledning til implementasjonen av oppgave 2 fra grunnen\n\n\n\n\n\nHer kommer det en del formeler og teori, men det viktigste er å forstå de overordnede ideene, som skal være overkommelig. Programmet dere skal skrive vil ha en slik struktur:\nLag vekter og bias\n\nfor i in range(iterasjoner):\n    Regn ut output (ved hjelp av vekter og bias)\n    \n    Regn ut gradienter (ved hjelp av output)\n    \n    Oppdater vekter og bias (ved hjelp av gradienter)\nEn logistisk modell, som alle andre modeller, tar inn en input og gir en output. Vi kaller input til modellen \\(\\textbf{x}\\), det representerer alle egenskapene til en passasjer. De ulike egenskapene som \\(\\textbf{x}\\) inneholder kaller vi \\(x_1\\), \\(x_2\\), osv. Om passasjeren overlever eller er ikke, som er det vi prøver å predikere, kaller vi \\(y\\). Det modellen predikerer kaller vi \\(\\hat{y}\\) (“y hatt”). Først ser vi kun på en og en passasjer, senere regner vi med mange passasjerer, for å finne gjennomsnitt og slikt.\n\n\nDen logistiske modellen inneholder vekter \\(W\\) og en bias \\(b\\), som bestemmer hvordan input \\(\\textbf{x}\\) blir om til output \\(\\hat{y}\\). Det skal være like mange vekter som egenskaper, og bias skal være et tall. Disse begynner vanligvis med tilfeldige verdier, og kan i Python bli laget med np.random.randn() og np.random.rand().\nDe ulike vektene ganges komponentvis med de ulike egenskapene, og blir så lagt sammen med bias:\n\\[z = b + w_1 x_1 + w_2 x_2 + \\dots + w_m x_m = W \\textbf{x} + b\\]\nDette kan vi gjøre som et vektorprodukt i Python. Merk at vi kan gange vektene med alle egenskapene til ALLE passasjerene på en gang! Dette gjør alt mye mer kompakt: (Vi bruker @ for matrise og vektorprodukt i Python)\nz = X_train @ W + b\nAlt dette (\\(z\\)) blir så matet gjennom en sigmoid funksjon, som er definert slik:\n\\[\\hat{y} = \\sigma (z) = \\frac{1}{1 + e^{-z}}\\]\nHvorfor får jeg overflow feil av og til? Det finnes to likegyldige definisjoner av sigmoid funksjonen:\n\\[\\sigma (z) = \\frac{1}{1 + e^{-z}} = \\frac{e^{z}}{1 + e^{z}}\\]\nBegge to gir akkurat samme svar, men datamaskiner behandler de to ulikt for veldig store positive og negative tall (fordi utregningen vil inkludere tall som er for store til å behandles av datamaskinen). Den første definisjonen fører til utregningen av \\(e^{STORTTALL}\\) for store negative verdier for \\(z\\), som fører til overflow(alt for store tall for datamaskinen). Den andre definisjonen fører til utregningen av \\(e^{STORTTALL}\\) for store positive verdier for \\(z\\), som fører til overflow. En måte å programmere en stabil sigmoid funksjon som benytter riktig definisjon til riktig tid er gitt under. np.where() er en slags effektiv if for utregninger. Å bruke en vanlig if til å bruke riktig sigmoid definisjon vil gjøre at man ikke kan bruke funksjonen til vektoriserte utregninger (som å bruke sigmoid funksjonen på en hel vektor på en gang).\ndef sigmoid(z):     #hvis?           True                False \n    return np.where(z &gt;= 0, 1 / (1 + np.exp(-z)), np.exp(z) / (1 + np.exp(z)))\nMerk at når man gjør disse operasjonene på X_train som inneholder egenskapene til alle passasjerene, blir \\(\\hat{y}\\) en vektor som inneholder prediksjonene for alle passasjerene, og ikke bare for én.\nSiden hele modellen kun består av ett sett vekter, en bias og en sigmoid, kan en logistisk modell bli sett på som et nevralt nettverk med kun én node. Hvis modellen tar fem inputs kan man tegne den slik:\n\n\n\n\n\ngraph LR\n    A1[\"Input 1\"] --&gt; B[\"Output\"]\n    A2[\"Input 2\"] --&gt; B[\"Output\"]\n    A3[\"Input 3\"] --&gt; B[\"Output\"]\n    A4[\"Input 4\"] --&gt; B[\"Output\"]\n    A5[\"Input 5\"] --&gt; B[\"Output\"]\n\n\n\n\n\n\n\n\n\nModellen gjør sannsynligvis en veldig dårlig jobb i å predikere noe som helst, siden vektene og bias kun er tilfeldige tall så langt. Vi samler vektene og bias i en variabel \\(\\theta\\) for å gjøre ligningene mer kompakt, \\(\\theta\\) er da bare parametrene til modellen vår. Før vi kan få modellen vår til å gjøre en bedre jobb, må vi bestemme hva en bedre jobb betyr. Vi bestemmer at modellen vår er bedre jo mindre cross entropy den har. Denne formelen for cross entropy er litt tung å forstå, bare vit at hvis modellen vår predikerer mye riktig får den lavere cross entropy, ellers får den høyere cross entropy. Indeksen \\(i\\) i uttrykket forteller hvilken passasjer vi ser på, \\(\\sum\\) tegnet sier at vi summerer verdiene for alle passasjerer. Denne formelen skal du ikke bruke i programmet ditt.\n\\[\n\\begin{equation*}\n\\begin{aligned}\nC(\\theta) = - \\frac{1}{n} \\sum_{i=1}^{n} [y_i log(\\hat{y}_i) + (1 - y_i) log(1 - \\hat{y}_i)]\n\\end{aligned}\n\\end{equation*}\n\\]\n\n\n\nModellen vår vil predikere enten 0 eller 1 (i praksis vil den under trening gi et tall mellom 0 og 1 som er sannsynligheten for at den vil predikere 1). Sannsynligheten for at den predikerer 1 gitt en input \\(\\textbf{x}_i\\) og parametre \\(\\theta\\) er \\(p(y_i=1 | \\textbf{x}_i , \\theta)\\). Sannsynligheten for at den predikerer 0 gitt en input \\(\\textbf{x}_i\\) og parametre \\(\\theta\\) er \\(1 - p(y_i=1 | \\textbf{x}_i , \\theta)\\). For hver \\(\\textbf{x}_i\\) er da sannsynligheten for at den predikerer riktig det du ser i ligningen under, hvis du ignorerer \\(\\prod\\) tegnet. \\(\\prod\\) tegnet gjør at vi ganger sammen disse sannsynlighetene for alle \\(\\textbf{x}_i\\) i datasettet, så vi ender opp med sannsynligheten for at modellen predikerer alle datapunkter \\(y_i\\) riktig.\n\\[\n\\begin{equation*}\n\\begin{aligned}\nP(D | \\theta) = \\prod_{i=1}^{n} [p(y_i=1 | \\textbf{x}_i , \\theta)]^{y_i} [1 - p(y_i=1 | \\textbf{x}_i , \\theta)]^{1-y_i}\n\\end{aligned}\n\\end{equation*}\n\\]\nVi ønsker å maksimere sannsynligheten for at modellen predikerer alle datapunktene riktig, så vi prøver å finne \\(\\theta\\) slik at verdien av forrige ligning blir størst mulig. Vi kan trikse litt med ligningen for å gjøre dette enklere. Vi tar noe som heter log-likelihood av ligningen, og setter på en minus. Ved en del ekstra triksing ender vi opp med cost funksjonen, som vi nå ønsker å minimere, på grunn av minustegnet.\nVi vil velge parametre \\(\\theta\\) slik at \\(C(\\theta)\\) blir så liten som mulig. Dette gjør vi ved å finne den deriverte av \\(C(\\theta)\\) og bruke den deriverte til å bevege parametrene \\(\\theta\\) nærmere de som tilsvarer bunnen av \\(C(\\theta)\\), dette kalles gradient descent. Tenk at du står i en dal og vil finne bunnen, da beveger du deg helst nedover i den retningen det er brattest. De deriverte av \\(C(\\theta)\\) med hensyn på \\(W\\) og \\(b\\) viser seg å bli:\n\\[\\frac{\\partial C(\\theta)}{\\partial w_k} = - \\frac{1}{n} \\sum_{i=1}^{n} \\textbf{x}_{i,k} (y_i - \\hat{y}_i)\\]\n\\[\\frac{\\partial C(\\theta)}{\\partial b} = - \\frac{1}{n} \\sum_{i=1}^{n} y_i - \\hat{y}_i\\]\nI python kan man bruke likhetene i uttrykkene til å spare litt beregninger, vi lager et mellomledd delta som er gjennomsnittlig forskjell mellom \\(y\\) og \\(\\hat{y}\\):\ndelta = -(Y_train - y_hat) / n\ndCdW = X_train.T @ delta\ndCdb = np.sum(delta, axis = 0)\nDe deriverte peker i retningen hvor \\(C(\\theta)\\) øker raskest, så vi vil endre parametrene med minus den deriverte. Den deriverte er ofte for stor, som betyr at når vi endrer på parametrene får vi bare søppel, se figur under. For å faktisk nærme oss bunnen av \\(C(\\theta)\\) må vi dermed velge riktig læringsrate \\(\\gamma\\), som vi bruker til å skalere(“krympe”) gradienten. Å finne en god læringsrate er enda et stort spørsmål med mange ulike løsninger i maskinlæring. 0.001 med 10000 iterasjoner funker ok her. Dette er hvordan man oppdaterer vektene og bias ved hjelp av de deriverte og læringsraten:\n\\[W = W - \\gamma \\frac{\\partial C(\\theta)}{\\partial W}\\] \\[b = b - \\gamma \\frac{\\partial C(\\theta)}{\\partial b}\\]\n\n\n\nFigur av Jeremy Jordan fra https://www.jeremyjordan.me/nn-learning-rate/\n\n\n\n\nNår du skal bruke modellen til å gjøre faktiske prediksjoner må du finne \\(z\\) og \\(\\hat{y}\\) for test dataen, men rund av tallene slik at \\(\\hat{y}\\) bare får nuller og enere. np.round() kan runde av hele arrays. Så må du finne hvor stor andel av prediksjonene som var riktige. scikit learn sin accuracy_score() anbefales. Se hvilken accuracy en modell som antar at alle dør får for å sammenligne. Du kan forvente en accuracy på rundt 75% for modellen din.",
     "crumbs": [
       "Del 3: Oblig og prosjekt",
       "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)"
@@ -48,7 +48,7 @@
     "href": "oppgaver/oblig_titanic.html#beslutningstrær",
     "title": "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)",
     "section": "",
-    "text": "Oppgave 3:\na) Lag et tre med maksdybde 3 som tilpasser treningsdataene.\nb) Test treet på testdataene.\nc) Plot treet og beskriv med ord hva alle forgreningene sier, og hvilke personer treet sier vil overleve.\nd) Se hvordan maksdybden til treet påvirker hvor godt treet klassifiserer testdataene.\n\n\n\n\n\n\nScikit-learn Beslutningstrær\n\n\n\n\n\nBeslutningstrær fungerer på en helt annen måte enn logistiske modeller eller nevrale nettverk. Istedenfor å justere mange vekter litt og litt med gradienter, finner beslutningstrær ja/nei spørsmål som best skiller dataene inn i kategoriene man er ute etter. I Titanic eksempelet finner treet de spørsmålene som best skiller de som overlever fra de som dør. Et slikt spørsmål kan f.eks være om en passasjer er en kvinne, eller om de er yngre enn 50 år. For hvert slikt spørsmål får treet to nye grener, en for ja og en for nei. På hver av disse grenene kan man igjen stille nye spørsmål og få enda flere grener som bedre grupperer dataene.\nNår man trener et beslutningstre på data kan man alltid la treet stille så mange spørsmål det bare vil, slik at det kan gruppere alle dataene riktig. Da kan man ende opp med et tre hvor omtrent hvert eneste datapunkt har sin egen forgrening, og treet ikke har noen “overordnede mønstre” det grupperer dataene etter. Treet vil da ha et overtilpasnings(“overfitting”) problem som vil føre til at det presterer dårlig på å klassifisere data det aldri har sett før. Dette kan unngås ved å begrense antall forgreninger treet kan ha, eller maks-dybden til treet.\nDere skal bruke DecisionTreeClassifier modellen til scikit-learn. Følg eksempelet i dokumentasjonen(linken til venstre), og lag et tre med maks dybde 3. Bruk scikit learn sin accuracy_score() for å teste modellen. For å plotte treet anbefaler vi\nplt.figure(figsize=(16,10))\ntree.plot_tree(model, max_depth=3, feature_names=X_train.columns, class_names=[\"Dead\", \"Alive\"], filled=True)\nplt.show()",
+    "text": "Oppgave 3:\na) Lag et tre med maksdybde 3 som tilpasser treningsdataene.\nb) Test treet på testdataene.\nc) Plot treet og beskriv med ord hva alle forgreningene sier, og hvilke personer treet sier vil overleve.\nd) Se hvordan maksdybden til treet påvirker hvor godt treet klassifiserer testdataene.\n\n\n\n\n\n\nNoteScikit-learn Beslutningstrær\n\n\n\n\n\nBeslutningstrær fungerer på en helt annen måte enn logistiske modeller eller nevrale nettverk. Istedenfor å justere mange vekter litt og litt med gradienter, finner beslutningstrær ja/nei spørsmål som best skiller dataene inn i kategoriene man er ute etter. I Titanic eksempelet finner treet de spørsmålene som best skiller de som overlever fra de som dør. Et slikt spørsmål kan f.eks være om en passasjer er en kvinne, eller om de er yngre enn 50 år. For hvert slikt spørsmål får treet to nye grener, en for ja og en for nei. På hver av disse grenene kan man igjen stille nye spørsmål og få enda flere grener som bedre grupperer dataene.\nNår man trener et beslutningstre på data kan man alltid la treet stille så mange spørsmål det bare vil, slik at det kan gruppere alle dataene riktig. Da kan man ende opp med et tre hvor omtrent hvert eneste datapunkt har sin egen forgrening, og treet ikke har noen “overordnede mønstre” det grupperer dataene etter. Treet vil da ha et overtilpasnings(“overfitting”) problem som vil føre til at det presterer dårlig på å klassifisere data det aldri har sett før. Dette kan unngås ved å begrense antall forgreninger treet kan ha, eller maks-dybden til treet.\nDere skal bruke DecisionTreeClassifier modellen til scikit-learn. Følg eksempelet i dokumentasjonen(linken til venstre), og lag et tre med maks dybde 3. Bruk scikit learn sin accuracy_score() for å teste modellen. For å plotte treet anbefaler vi\nplt.figure(figsize=(16,10))\ntree.plot_tree(model, max_depth=3, feature_names=X_train.columns, class_names=[\"Dead\", \"Alive\"], filled=True)\nplt.show()",
     "crumbs": [
       "Del 3: Oblig og prosjekt",
       "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)"
@@ -63,6 +63,17 @@
     "crumbs": [
       "Del 3: Oblig og prosjekt",
       "Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)"
+    ]
+  },
+  {
+    "objectID": "lectures/06a_forberedelser.html",
+    "href": "lectures/06a_forberedelser.html",
+    "title": "Forberedelser",
+    "section": "",
+    "text": "Forberedelser\nI forrige uke så vi på beslutningstrær. Beslutningstrær er svært fleksible i hvordan de tilpasser seg data, men man risikerer litt ustabile modeller siden små endringer endringer i et beslutningstre kan føre til store i utfall. Dessuten kan det være litt tilfeldig hvordan et beslutningstre ender opp med å se ut, avhengig av tifeldigheter i tilpasningsprosessen. Derfor er det en fordel å bruke ensemble-metoder, som bruker mange modeller for å gjøre prediksjoner. Et eksempler på en slik ensemble-metode er random forest.\n\nIntroduction to statistical learning (with applications in Python), lese side 341–354 (Åpent tilgjengelig på https://www.statlearning.com). Her er det viktigst å få med seg konsepter, ikke matematiske detaljer.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars"
     ]
   },
   {
@@ -163,7 +174,7 @@
     "href": "lectures/03b_slides.html#sigmoidfunksjonen",
     "title": "Forelesningsnotat: Logistisk regresjon",
     "section": "Sigmoidfunksjonen",
-    "text": "Sigmoidfunksjonen\n\\[ f(z) = \\frac{e^z}{1+e^z} \\]\nHvordan ser denne funksjonen ut?\n\n\n\n\n\n\nUnderveisoppgave\n\n\n\n\nHva er \\(f(0)\\)?\nHva er \\(f(-\\infty)\\)?\nHva er \\(f(\\infty)\\)? Tegn opp funksjonen",
+    "text": "Sigmoidfunksjonen\n\\[ f(z) = \\frac{e^z}{1+e^z} \\]\nHvordan ser denne funksjonen ut?\n\n\n\n\n\n\nNoteUnderveisoppgave\n\n\n\n\nHva er \\(f(0)\\)?\nHva er \\(f(-\\infty)\\)?\nHva er \\(f(\\infty)\\)? Tegn opp funksjonen",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 3 – 7. februar",
@@ -187,7 +198,7 @@
     "href": "lectures/03b_slides.html#modell-for-nedbør",
     "title": "Forelesningsnotat: Logistisk regresjon",
     "section": "Modell for nedbør",
-    "text": "Modell for nedbør\n\n\n\n\n\n\nOppgave\n\n\n\n\n\n\n\n\n\n\n\n\n\nHvorfor er dette en meningsfull modell for hvorvidt nedbør kommer som regn?\nMen stemmer det helt?",
+    "text": "Modell for nedbør\n\n\n\n\n\n\nNoteOppgave\n\n\n\n\n\n\n\n\n\n\n\n\n\nHvorfor er dette en meningsfull modell for hvorvidt nedbør kommer som regn?\nMen stemmer det helt?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 3 – 7. februar",
@@ -381,7 +392,7 @@
     "href": "lectures/02c_øvelse.html#oppgave-1",
     "title": "Øvingsoppgaver",
     "section": "Oppgave 1",
-    "text": "Oppgave 1\na) Les inn iris-datasettet med seaborn:\n\nimport pandas as pd\nimport seaborn as sns\ndf = sns.load_dataset('iris')\n\nb) Kontroller at dataene har blitt lastet inn som et Pandas-dataframe, og merk deg kolonnenavnene.\n\n\n\n\n\n\nNote\n\n\n\n\n\nLøsningsforslag: Vi kan sjekke med type-funksjonen for å se at det er av type pandas.DataFrame, og vi kan bruke display eller print for å se innholder, og dermed også kolonnenavnene. Vi kan også bruke columns-funksjonen.\n\nprint(type(df))\nprint(df.columns)\ndisplay(df)\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nIndex(['sepal_length', 'sepal_width', 'petal_length', 'petal_width',\n       'species'],\n      dtype='object')\n\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n...\n...\n...\n...\n...\n...\n\n\n145\n6.7\n3.0\n5.2\n2.3\nvirginica\n\n\n146\n6.3\n2.5\n5.0\n1.9\nvirginica\n\n\n147\n6.5\n3.0\n5.2\n2.0\nvirginica\n\n\n148\n6.2\n3.4\n5.4\n2.3\nvirginica\n\n\n149\n5.9\n3.0\n5.1\n1.8\nvirginica\n\n\n\n\n150 rows × 5 columns\n\n\n\n\n\n\nc) Vi skal lage en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\nVelg deg ut en type iris-blomst, og hent ut kolonnene som svarer til lengden og bredden til begerbladene for denne iris-typen. Lagre dem i variabler Xog y.\n\n\n\n\n\n\nLøsningsforslag\n\n\n\n\n\nJeg velger meg setosa.\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\ndf_setosa = df[df[\"species\"]==\"setosa\"]\n# Fit the model\nX = df_setosa['sepal_length']\ny = df_setosa['sepal_width']\n\n\n\n\nc) Lag en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\n\nPlot modellen sammen med datasettet?\nHva blir koeffisentene til modellen?\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nLøsningsforslag:\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Fit the model\np = np.polyfit(X, y, 1) \n\n# Get the coefficients\nintercept = p[1]\nslope = p[0]\n\nprint(f\"Intercept: {intercept}, Slope: {slope}\")\n\ny_model = np.polyval(p, X)\n\n# Plot the data and the model\nplt.figure(figsize=(10, 6))\nplt.plot(X, y, \"o\", label=\"Data\") \nplt.plot(X, y_model, label=\"model\")\nplt.xlabel('Sepal Length (cm)')\nplt.ylabel('Sepal Width (cm)')\n\nplt.legend()\nplt.show()\n\nIntercept: -0.569432673039647, Slope: 0.798528300647153",
+    "text": "Oppgave 1\na) Les inn iris-datasettet med seaborn:\n\nimport pandas as pd\nimport seaborn as sns\ndf = sns.load_dataset('iris')\n\nb) Kontroller at dataene har blitt lastet inn som et Pandas-dataframe, og merk deg kolonnenavnene.\n\n\n\n\n\n\nNote\n\n\n\n\n\nLøsningsforslag: Vi kan sjekke med type-funksjonen for å se at det er av type pandas.DataFrame, og vi kan bruke display eller print for å se innholder, og dermed også kolonnenavnene. Vi kan også bruke columns-funksjonen.\n\nprint(type(df))\nprint(df.columns)\ndisplay(df)\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nIndex(['sepal_length', 'sepal_width', 'petal_length', 'petal_width',\n       'species'],\n      dtype='object')\n\n\n\n\n\n\n\n\n\nsepal_length\nsepal_width\npetal_length\npetal_width\nspecies\n\n\n\n\n0\n5.1\n3.5\n1.4\n0.2\nsetosa\n\n\n1\n4.9\n3.0\n1.4\n0.2\nsetosa\n\n\n2\n4.7\n3.2\n1.3\n0.2\nsetosa\n\n\n3\n4.6\n3.1\n1.5\n0.2\nsetosa\n\n\n4\n5.0\n3.6\n1.4\n0.2\nsetosa\n\n\n...\n...\n...\n...\n...\n...\n\n\n145\n6.7\n3.0\n5.2\n2.3\nvirginica\n\n\n146\n6.3\n2.5\n5.0\n1.9\nvirginica\n\n\n147\n6.5\n3.0\n5.2\n2.0\nvirginica\n\n\n148\n6.2\n3.4\n5.4\n2.3\nvirginica\n\n\n149\n5.9\n3.0\n5.1\n1.8\nvirginica\n\n\n\n\n150 rows × 5 columns\n\n\n\n\n\n\nc) Vi skal lage en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\nVelg deg ut en type iris-blomst, og hent ut kolonnene som svarer til lengden og bredden til begerbladene for denne iris-typen. Lagre dem i variabler Xog y.\n\n\n\n\n\n\nNoteLøsningsforslag\n\n\n\n\n\nJeg velger meg setosa.\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\ndf_setosa = df[df[\"species\"]==\"setosa\"]\n# Fit the model\nX = df_setosa['sepal_length']\ny = df_setosa['sepal_width']\n\n\n\n\nc) Lag en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.\n\nPlot modellen sammen med datasettet?\nHva blir koeffisentene til modellen?\n\n\n\n\n\n\n\nNote\n\n\n\n\n\nLøsningsforslag:\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Fit the model\np = np.polyfit(X, y, 1) \n\n# Get the coefficients\nintercept = p[1]\nslope = p[0]\n\nprint(f\"Intercept: {intercept}, Slope: {slope}\")\n\ny_model = np.polyval(p, X)\n\n# Plot the data and the model\nplt.figure(figsize=(10, 6))\nplt.plot(X, y, \"o\", label=\"Data\") \nplt.plot(X, y_model, label=\"model\")\nplt.xlabel('Sepal Length (cm)')\nplt.ylabel('Sepal Width (cm)')\n\nplt.legend()\nplt.show()\n\nIntercept: -0.569432673039647, Slope: 0.798528300647153",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -470,7 +481,7 @@
     "href": "lectures/llm/llm_05_beslutningstraer.html#dybde-og-overtrening",
     "title": "Beslutningstrær",
     "section": "Dybde og overtrening",
-    "text": "Dybde og overtrening\nJo dypere treet, jo mer komplekst - og jo større fare for overtrening:\n\nfig, axes = plt.subplots(1, 4, figsize=(16, 4))\n\nfor i, depth in enumerate([1, 2, 4, None]):\n    ax = axes[i]\n    \n    tre = DecisionTreeRegressor(max_depth=depth, random_state=42)\n    tre.fit(X, y)\n    y_pred = tre.predict(x_plot)\n    \n    ax.scatter(x, y, s=30, alpha=0.5)\n    ax.plot(x_plot, y_pred, 'r-', linewidth=2)\n    \n    depth_str = str(depth) if depth else '∞'\n    ax.set_title(f'max_depth = {depth_str}')\n    ax.set_xlabel('x')\n    ax.set_ylabel('y')\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOvertrening\n\n\n\nLegg merke til at med ubegrenset dybde (max_depth=None) lærer treet hver datapunkt nesten perfekt - men dette generaliserer dårlig til nye data!",
+    "text": "Dybde og overtrening\nJo dypere treet, jo mer komplekst - og jo større fare for overtrening:\n\nfig, axes = plt.subplots(1, 4, figsize=(16, 4))\n\nfor i, depth in enumerate([1, 2, 4, None]):\n    ax = axes[i]\n    \n    tre = DecisionTreeRegressor(max_depth=depth, random_state=42)\n    tre.fit(X, y)\n    y_pred = tre.predict(x_plot)\n    \n    ax.scatter(x, y, s=30, alpha=0.5)\n    ax.plot(x_plot, y_pred, 'r-', linewidth=2)\n    \n    depth_str = str(depth) if depth else '∞'\n    ax.set_title(f'max_depth = {depth_str}')\n    ax.set_xlabel('x')\n    ax.set_ylabel('y')\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarningOvertrening\n\n\n\nLegg merke til at med ubegrenset dybde (max_depth=None) lærer treet hver datapunkt nesten perfekt - men dette generaliserer dårlig til nye data!",
     "crumbs": [
       "LLM-supplement",
       "Beslutningstrær"
@@ -569,7 +580,7 @@
     "href": "lectures/llm/llm_03_logreg.html#kategoriske-vs.-numeriske-utfall",
     "title": "Logistisk regresjon",
     "section": "Kategoriske vs. numeriske utfall",
-    "text": "Kategoriske vs. numeriske utfall\nI lineær regresjon predikerte vi numeriske utfall - verdier som kan ta hvilken som helst verdi på en skala (temperatur, strømforbruk, etc.).\nMen noen ganger vil vi predikere kategoriske utfall - verdier som faller i diskrete kategorier:\n\nJa/Nei\nSyk/Frisk\n\nSpam/Ikke spam\nGod/Dårlig\n\n\n\n\n\n\n\nOppgave\n\n\n\nHvilke av disse er kategoriske og hvilke er numeriske?\n\nTemperatur\nBlodtype (A/B/AB/0)\nKarakterer (A-F)\nPolitisk parti",
+    "text": "Kategoriske vs. numeriske utfall\nI lineær regresjon predikerte vi numeriske utfall - verdier som kan ta hvilken som helst verdi på en skala (temperatur, strømforbruk, etc.).\nMen noen ganger vil vi predikere kategoriske utfall - verdier som faller i diskrete kategorier:\n\nJa/Nei\nSyk/Frisk\n\nSpam/Ikke spam\nGod/Dårlig\n\n\n\n\n\n\n\nNoteOppgave\n\n\n\nHvilke av disse er kategoriske og hvilke er numeriske?\n\nTemperatur\nBlodtype (A/B/AB/0)\nKarakterer (A-F)\nPolitisk parti",
     "crumbs": [
       "LLM-supplement",
       "Logistisk regresjon"
@@ -613,7 +624,7 @@
     "href": "lectures/llm/llm_03_logreg.html#eksempel-kredittkortmislighold",
     "title": "Logistisk regresjon",
     "section": "Eksempel: Kredittkortmislighold",
-    "text": "Eksempel: Kredittkortmislighold\nLa oss bruke et ekte datasett om kredittkortmislighold:\n\nimport pandas as pd\n\n# Last inn data\nurl = 'https://zenodo.org/record/6199560/files/default.csv'\ndata = pd.read_csv(url)\ndata.head()\n\n\n\n\n\n\n\n\nUnnamed: 0\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\n1\nNo\nNo\n729.526495\n44361.625074\n\n\n1\n2\nNo\nYes\n817.180407\n12106.134700\n\n\n2\n3\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\n4\nNo\nNo\n529.250605\n35704.493935\n\n\n4\n5\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\n\n# Se på fordelingen av default\nprint(data['default'].value_counts())\n\nNo     9667\nYes     333\nName: default, dtype: int64\n\n\n\nVisualisere sammenhengen\n\n# Konvertere til tall\ndata['default_num'] = (data['default'] == 'Yes').astype(int)\n\n# Beregne andel som misligholder for ulike balanse-intervaller\nbins = np.linspace(0, 2500, 20)\ndata['balance_bin'] = pd.cut(data['balance'], bins=bins)\ngrouped = data.groupby('balance_bin')['default_num'].mean()\n\nplt.figure(figsize=(10, 5))\nplt.scatter(data['balance'], data['default_num'], alpha=0.1, s=5)\nplt.plot(grouped.index.categories.mid, grouped.values, 'ro-', markersize=8, linewidth=2, label='Andel mislighold')\nplt.xlabel('Balance (kredittkortsaldo)')\nplt.ylabel('Mislighold (1=Ja, 0=Nei)')\nplt.title('Mislighold som funksjon av kredittkortsaldo')\nplt.legend()\nplt.show()",
+    "text": "Eksempel: Kredittkortmislighold\nLa oss bruke et ekte datasett om kredittkortmislighold:\n\nimport pandas as pd\n\n# Last inn data\nurl = 'https://zenodo.org/record/6199560/files/default.csv'\ndata = pd.read_csv(url)\ndata.head()\n\n\n\n\n\n\n\n\nUnnamed: 0\ndefault\nstudent\nbalance\nincome\n\n\n\n\n0\n1\nNo\nNo\n729.526495\n44361.625074\n\n\n1\n2\nNo\nYes\n817.180407\n12106.134700\n\n\n2\n3\nNo\nNo\n1073.549164\n31767.138947\n\n\n3\n4\nNo\nNo\n529.250605\n35704.493935\n\n\n4\n5\nNo\nNo\n785.655883\n38463.495879\n\n\n\n\n\n\n\n\n# Se på fordelingen av default\nprint(data['default'].value_counts())\n\ndefault\nNo     9667\nYes     333\nName: count, dtype: int64\n\n\n\nVisualisere sammenhengen\n\n# Konvertere til tall\ndata['default_num'] = (data['default'] == 'Yes').astype(int)\n\n# Beregne andel som misligholder for ulike balanse-intervaller\nbins = np.linspace(0, 2500, 20)\ndata['balance_bin'] = pd.cut(data['balance'], bins=bins)\ngrouped = data.groupby('balance_bin')['default_num'].mean()\n\nplt.figure(figsize=(10, 5))\nplt.scatter(data['balance'], data['default_num'], alpha=0.1, s=5)\nplt.plot(grouped.index.categories.mid, grouped.values, 'ro-', markersize=8, linewidth=2, label='Andel mislighold')\nplt.xlabel('Balance (kredittkortsaldo)')\nplt.ylabel('Mislighold (1=Ja, 0=Nei)')\nplt.title('Mislighold som funksjon av kredittkortsaldo')\nplt.legend()\nplt.show()",
     "crumbs": [
       "LLM-supplement",
       "Logistisk regresjon"
@@ -646,7 +657,7 @@
     "href": "lectures/llm/llm_03_logreg.html#tolkning-av-koeffisienter",
     "title": "Logistisk regresjon",
     "section": "Tolkning av koeffisienter",
-    "text": "Tolkning av koeffisienter\nKoeffisienten \\(\\beta_2\\) for student er negativ. Hva betyr det?\n\nGitt samme kredittkortsaldo, har studenter lavere sannsynlighet for å misligholde\nDette kan virke overraskende!\n\n\n\n\n\n\n\nSimpsons paradoks\n\n\n\nStudenter har i gjennomsnitt høyere misligholdrate totalt, men lavere rate når vi kontrollerer for saldo. Dette skyldes at studenter har høyere saldo i gjennomsnitt.",
+    "text": "Tolkning av koeffisienter\nKoeffisienten \\(\\beta_2\\) for student er negativ. Hva betyr det?\n\nGitt samme kredittkortsaldo, har studenter lavere sannsynlighet for å misligholde\nDette kan virke overraskende!\n\n\n\n\n\n\n\nWarningSimpsons paradoks\n\n\n\nStudenter har i gjennomsnitt høyere misligholdrate totalt, men lavere rate når vi kontrollerer for saldo. Dette skyldes at studenter har høyere saldo i gjennomsnitt.",
     "crumbs": [
       "LLM-supplement",
       "Logistisk regresjon"
@@ -914,7 +925,7 @@
     "href": "lectures/01b1_slides.html#undervisere",
     "title": "Forelesningsnotat",
     "section": "Undervisere",
-    "text": "Undervisere\n\n\n\n\n\n\n\nHenrik Sveinsson (Emneansvarlig)\n\n\n\n\nForsker i fysikk\n\n\n\n\n\n\n\n\n\n\n\nAne Kristine Espeseth (Seminarlærer)\n\n\n\n\nJobber med doktorgrad i kunstig intelligens\n\n\n\n\n\n\n\n\n\n\n\nAksel Sterri (Digital etikk)\n\n\n\n\nPhD i filosofi\nFagsjef i tenketanken Langsikt",
+    "text": "Undervisere\n\n\n\n\n\n\n\nWarningHenrik Sveinsson (Emneansvarlig)\n\n\n\n\nForsker i fysikk\n\n\n\n\n\n\n\n\n\n\n\nNoteAne Kristine Espeseth (Seminarlærer)\n\n\n\n\nJobber med doktorgrad i kunstig intelligens\n\n\n\n\n\n\n\n\n\n\n\nTipAksel Sterri (Digital etikk)\n\n\n\n\nPhD i filosofi\nFagsjef i tenketanken Langsikt",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -926,7 +937,7 @@
     "href": "lectures/01b1_slides.html#plan-for-semesteret",
     "title": "Forelesningsnotat",
     "section": "Plan for semesteret",
-    "text": "Plan for semesteret\n\n\n\n\n\n\nStatistikk og databehandling (januar-februar)\n\n\n\n\nForstå og anvende sentrale konsepter innen statistikk (Lineær og logistisk regresjon, Beslutningstrær)\nforstå, bearbeide, analysere og visualisere datasett av moderat størrelse på en informert måte, samt trekke etterprøvbare konklusjoner\n\n\n\n\n\n\n\n\n\nDigital etikk (februar)\n\n\n\n\nvurdere etiske utfordringer med KI-algoritmer\nse hvordan opprinnelsen til et datasett legger føringer og begrensninger på hva man kan bruke datasettet til\n\n\n\n\n\n\n\n\n\nProsjektoppgave (mars-mai)\n\n\n\n\nJobbe med prosjekt i tverrfaglige team og kommunisere resulatene muntlig og skriftlig",
+    "text": "Plan for semesteret\n\n\n\n\n\n\nNoteStatistikk og databehandling (januar-februar)\n\n\n\n\nForstå og anvende sentrale konsepter innen statistikk (Lineær og logistisk regresjon, Beslutningstrær)\nforstå, bearbeide, analysere og visualisere datasett av moderat størrelse på en informert måte, samt trekke etterprøvbare konklusjoner\n\n\n\n\n\n\n\n\n\nWarningDigital etikk (februar)\n\n\n\n\nvurdere etiske utfordringer med KI-algoritmer\nse hvordan opprinnelsen til et datasett legger føringer og begrensninger på hva man kan bruke datasettet til\n\n\n\n\n\n\n\n\n\nTipProsjektoppgave (mars-mai)\n\n\n\n\nJobbe med prosjekt i tverrfaglige team og kommunisere resulatene muntlig og skriftlig",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -974,7 +985,7 @@
     "href": "lectures/01b1_slides.html#sjåfører",
     "title": "Forelesningsnotat",
     "section": "Sjåfører",
-    "text": "Sjåfører\n\n\nimport matplotlib.pyplot as plt \nimport pandas as pd\nferdighetsnivå = [\"Veldig god\", \"Bedre enn snittet\", \"Gjennomsnittlig\", \"Under snittet\", \"Veldig dårlig\"]\nandel = [21, 46, 31, 2, 1]\nplt.barh(ferdighetsnivå, andel)\nplt.tick_params(axis='y', labelsize=20) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHva så?\n\n\n\n\n\nHenger dette på greip?\nKan dette i prinsippet henge på greip?\nKom med en hypotese basert på dette datasettet.\n\nHvilke data trenger du å samle inn for å vurdere hypotesen din?",
+    "text": "Sjåfører\n\n\nimport matplotlib.pyplot as plt \nimport pandas as pd\nferdighetsnivå = [\"Veldig god\", \"Bedre enn snittet\", \"Gjennomsnittlig\", \"Under snittet\", \"Veldig dårlig\"]\nandel = [21, 46, 31, 2, 1]\nplt.barh(ferdighetsnivå, andel)\nplt.tick_params(axis='y', labelsize=20) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteHva så?\n\n\n\n\n\nHenger dette på greip?\nKan dette i prinsippet henge på greip?\nKom med en hypotese basert på dette datasettet.\n\nHvilke data trenger du å samle inn for å vurdere hypotesen din?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1046,7 +1057,7 @@
     "href": "lectures/01b1_slides.html#markdown-celle",
     "title": "Forelesningsnotat",
     "section": "Markdown-celle",
-    "text": "Markdown-celle\nHer kan jeg skrive tekst-innhold, likninger og slikt. \n$\\int_0^\\infty f(x) dx$\n\n\n\n\n\n\nMarkdown-celle\n\n\n\nHer kan jeg skrive tekst-innhold, likninger og slikt. \\(\\int_0^\\infty f(x) dx\\)",
+    "text": "Markdown-celle\nHer kan jeg skrive tekst-innhold, likninger og slikt. \n$\\int_0^\\infty f(x) dx$\n\n\n\n\n\n\nNoteMarkdown-celle\n\n\n\nHer kan jeg skrive tekst-innhold, likninger og slikt. \\(\\int_0^\\infty f(x) dx\\)",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1070,7 +1081,7 @@
     "href": "lectures/01b1_slides.html#importere-pakker",
     "title": "Forelesningsnotat",
     "section": "Importere pakker",
-    "text": "Importere pakker\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n. . .\n\n\n\n\n\n\nFeilmeldinger?\n\n\n\nFunker installasjon og import av disse pakkene? Rop ut!",
+    "text": "Importere pakker\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n. . .\n\n\n\n\n\n\nImportantFeilmeldinger?\n\n\n\nFunker installasjon og import av disse pakkene? Rop ut!",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1118,7 +1129,7 @@
     "href": "lectures/01b1_slides.html#matplotlib",
     "title": "Forelesningsnotat",
     "section": "Matplotlib",
-    "text": "Matplotlib\n\n\n\n\n\n\nOppgave\n\n\n\nKan du få plottet til å bli glattere?\n\nimport matplotlib.pyplot as plt\nimport numpy as np\ndef f(x):\n    return np.exp(-x**2)\n\na = np.linspace(-4, 4, 15)\ny = f(a) \nplt.plot...\nplt.xlabel...\nplt.ylabel...\n\n\n\n\n\nimport matplotlib.pyplot as plt\na = np.linspace(-4, 4, 101)\ny = f(a)\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')\n\n\n\n\n\n\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\na = np.linspace(-4, 4, 101)\ny = f(a)\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')",
+    "text": "Matplotlib\n\n\n\n\n\n\nNoteOppgave\n\n\n\nKan du få plottet til å bli glattere?\n\nimport matplotlib.pyplot as plt\nimport numpy as np\ndef f(x):\n    return np.exp(-x**2)\n\na = np.linspace(-4, 4, 15)\ny = f(a) \nplt.plot...\nplt.xlabel...\nplt.ylabel...\n\n\n\n\n\nimport matplotlib.pyplot as plt\na = np.linspace(-4, 4, 101)\ny = f(a)\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')\n\n\n\n\n\n\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\na = np.linspace(-4, 4, 101)\ny = f(a)\nplt.plot(a, y)\nplt.xlabel(\"a\")\nplt.ylabel(\"f(x)\")\n\nText(0, 0.5, 'f(x)')",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1130,7 +1141,7 @@
     "href": "lectures/01b1_slides.html#lage-pandas-dataframe-manuelt",
     "title": "Forelesningsnotat",
     "section": "Lage Pandas DataFrame manuelt",
-    "text": "Lage Pandas DataFrame manuelt\n\nimport pandas as pd\ndf = pd.DataFrame({\n    \"talent\" : [4, 5, 3, 4, 6, 2],\n    \"innsats\" : [2, 4, 3, 7, 4, 1],\n    \"resultat\" : [24, 73, 25, 204, 93, 4]\n})\nprint(df)\n\n   talent  innsats  resultat\n0       4        2        24\n1       5        4        73\n2       3        3        25\n3       4        7       204\n4       6        4        93\n5       2        1         4\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nSkriv inn dette i notebooken din, og kjør koden (vi trenger det etterpå)",
+    "text": "Lage Pandas DataFrame manuelt\n\nimport pandas as pd\ndf = pd.DataFrame({\n    \"talent\" : [4, 5, 3, 4, 6, 2],\n    \"innsats\" : [2, 4, 3, 7, 4, 1],\n    \"resultat\" : [24, 73, 25, 204, 93, 4]\n})\nprint(df)\n\n   talent  innsats  resultat\n0       4        2        24\n1       5        4        73\n2       3        3        25\n3       4        7       204\n4       6        4        93\n5       2        1         4\n\n\n\n\n\n\n\n\nNoteOppgave\n\n\n\nSkriv inn dette i notebooken din, og kjør koden (vi trenger det etterpå)",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1154,7 +1165,7 @@
     "href": "lectures/01b1_slides.html#flere-plots-i-samme-figur",
     "title": "Forelesningsnotat",
     "section": "Flere plots i samme figur",
-    "text": "Flere plots i samme figur\n\nfig, axes = plt.subplots(2,2, figsize=(4,5))\naxes[0,0].scatter(df[\"innsats\"], df[\"talent\"])\naxes[0,0].set_xlabel(\"Innsats\")\naxes[0,0].set_ylabel(\"Talent\")\nplt.tight_layout()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nFullfør plottet og finn ut hva som er viktigst av innsats og talent.",
+    "text": "Flere plots i samme figur\n\nfig, axes = plt.subplots(2,2, figsize=(4,5))\naxes[0,0].scatter(df[\"innsats\"], df[\"talent\"])\naxes[0,0].set_xlabel(\"Innsats\")\naxes[0,0].set_ylabel(\"Talent\")\nplt.tight_layout()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteOppgave\n\n\n\nFullfør plottet og finn ut hva som er viktigst av innsats og talent.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1214,7 +1225,7 @@
     "href": "lectures/01b1_slides.html#plotting",
     "title": "Forelesningsnotat",
     "section": "Plotting",
-    "text": "Plotting\n\n\n\n\n\n\nOppgave\n\n\n\nLast ned datasettet med strømforbruk (finnes under oppgavene på kursnettsiden) Plott kolonnen “KWH 60 Forbruk”\n\n\nStarthjelp:\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", \n    sep=\";\", \n    decimal=\",\")\n\nOm du blir ferdig, start på oppgave 2 fra øvingsoppgavene.",
+    "text": "Plotting\n\n\n\n\n\n\nNoteOppgave\n\n\n\nLast ned datasettet med strømforbruk (finnes under oppgavene på kursnettsiden) Plott kolonnen “KWH 60 Forbruk”\n\n\nStarthjelp:\n\nimport pandas as pd\ndf_pris = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", \n    sep=\";\", \n    decimal=\",\")\n\nOm du blir ferdig, start på oppgave 2 fra øvingsoppgavene.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1226,7 +1237,7 @@
     "href": "lectures/01b1_slides.html#til-neste-uke",
     "title": "Forelesningsnotat",
     "section": "Til neste uke",
-    "text": "Til neste uke\n\nGjør oppgavene som vi har gitt dere\nGjør forberedelsene som vi har satt opp\n\n\n\n\n\n\n\nHvor mye tid tar HON2200 per uke?\n\n\n\n\n\n6–7 timer?",
+    "text": "Til neste uke\n\nGjør oppgavene som vi har gitt dere\nGjør forberedelsene som vi har satt opp\n\n\n\n\n\n\n\nNoteHvor mye tid tar HON2200 per uke?\n\n\n\n\n\n6–7 timer?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1287,14 +1298,14 @@
     "href": "lectures/01b1_slides.revealjs.html#shot",
     "title": "Forelesningsnotat",
     "section": "SHOT",
-    "text": "SHOT\n\nOmtrent 4 av 10 studenter (42 %) oppgir at de har god eller svært god livskvalitet. Samtidig vurderer 31 % av studentene sin livskvalitet som litt under middels eller dårligere\n\n\n\nBør vi sette inn tiltak?\nStudenter flest mener de har det bedre enn snittet (!)"
+    "text": "SHOT\n\nOmtrent 4 av 10 studenter (42 %) oppgir at de har god eller svært god livskvalitet. Samtidig vurderer 31 % av studentene sin livskvalitet som litt under middels eller dårligere\n\n\nBør vi sette inn tiltak?\nStudenter flest mener de har det bedre enn snittet (!)"
   },
   {
     "objectID": "lectures/01b1_slides.revealjs.html#sjåfører",
     "href": "lectures/01b1_slides.revealjs.html#sjåfører",
     "title": "Forelesningsnotat",
     "section": "Sjåfører",
-    "text": "Sjåfører\n\n\nimport matplotlib.pyplot as plt \nimport pandas as pd\nferdighetsnivå = [\"Veldig god\", \"Bedre enn snittet\", \"Gjennomsnittlig\", \"Under snittet\", \"Veldig dårlig\"]\nandel = [21, 46, 31, 2, 1]\nplt.barh(ferdighetsnivå, andel)\nplt.tick_params(axis='y', labelsize=20) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHva så?\n\n\n\n\nHenger dette på greip?\nKan dette i prinsippet henge på greip?\nKom med en hypotese basert på dette datasettet.\n\nHvilke data trenger du å samle inn for å vurdere hypotesen din?"
+    "text": "Sjåfører\n\n\nimport matplotlib.pyplot as plt \nimport pandas as pd\nferdighetsnivå = [\"Veldig god\", \"Bedre enn snittet\", \"Gjennomsnittlig\", \"Under snittet\", \"Veldig dårlig\"]\nandel = [21, 46, 31, 2, 1]\nplt.barh(ferdighetsnivå, andel)\nplt.tick_params(axis='y', labelsize=20) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHva så?\n\n\n\nHenger dette på greip?\nKan dette i prinsippet henge på greip?\nKom med en hypotese basert på dette datasettet.\n\nHvilke data trenger du å samle inn for å vurdere hypotesen din?"
   },
   {
     "objectID": "lectures/01b1_slides.revealjs.html#oppfriskning-fra-hon2110in1900",
@@ -1571,7 +1582,7 @@
     "href": "lectures/01c_øvelse.html#trekke-ut-informasjon-fra-datasett",
     "title": "Øvingsoppgaver",
     "section": "Trekke ut informasjon fra datasett",
-    "text": "Trekke ut informasjon fra datasett\na) Last ned filen “bestsellers with categories.xls” her, og les den inn med pandas.\n\n\n\n\n\n\nLøsningsforslag\n\n\n\n\n\nVi laster ned filen og bruker df.head til å vise fram de første radene.\n\nimport pandas as pd\ndf = pd.read_csv(\"data/bestsellers_with_categories.csv\")\ndf.head()\n\n\n\n\n\n\n\n\nName\nAuthor\nUser Rating\nReviews\nPrice\nYear\nGenre\n\n\n\n\n0\n10-Day Green Smoothie Cleanse\nJJ Smith\n4.7\n17350\n8\n2016\nNon Fiction\n\n\n1\n11/22/63: A Novel\nStephen King\n4.6\n2052\n22\n2011\nFiction\n\n\n2\n12 Rules for Life: An Antidote to Chaos\nJordan B. Peterson\n4.7\n18979\n15\n2018\nNon Fiction\n\n\n3\n1984 (Signet Classics)\nGeorge Orwell\n4.7\n21424\n6\n2017\nFiction\n\n\n4\n5,000 Awesome Facts (About Everything!) (Natio...\nNational Geographic Kids\n4.8\n7665\n12\n2019\nNon Fiction\n\n\n\n\n\n\n\nHvorfor ber vi dere om å laste ned datasettet, og ikke bare hente direkte fra internett? For øve på å legge filer på fornuftige steder.\n\n\n\nb) Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med .drop_duplicates(\"Name\") - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser\n\n\n\n\n\n\nLøsningsforslag\n\n\n\n\n\n\ndf_dropped = df.drop_duplicates(\"Name\")\nprint(f\"Lengde på opprinnelig datasett: {len(df)}\")\nprint(f\"Lengde på droppet datasett: {len(df_dropped)}\")\n\nLengde på opprinnelig datasett: 550\nLengde på droppet datasett: 351\n\n\nSå tar vi vekk de som har færre enn 1000 anmeldelser\n\n\n\nc) Plot - Gjennomsnittlig anmeldelsesskårer for fiksjon og sakprosa - Gjennomsnittlig anmeldelsesskårer for hvert utgivelsesår. - Antall bøker for hver score - Antall anmeldelser for hver score\nd) Hvor mange fiksjonsbøker fra 2017 fikk en score bedre enn 4.6?",
+    "text": "Trekke ut informasjon fra datasett\na) Last ned filen “bestsellers with categories.xls” her, og les den inn med pandas.\n\n\n\n\n\n\nNoteLøsningsforslag\n\n\n\n\n\nVi laster ned filen og bruker df.head til å vise fram de første radene.\n\nimport pandas as pd\ndf = pd.read_csv(\"data/bestsellers_with_categories.csv\")\ndf.head()\n\n\n\n\n\n\n\n\nName\nAuthor\nUser Rating\nReviews\nPrice\nYear\nGenre\n\n\n\n\n0\n10-Day Green Smoothie Cleanse\nJJ Smith\n4.7\n17350\n8\n2016\nNon Fiction\n\n\n1\n11/22/63: A Novel\nStephen King\n4.6\n2052\n22\n2011\nFiction\n\n\n2\n12 Rules for Life: An Antidote to Chaos\nJordan B. Peterson\n4.7\n18979\n15\n2018\nNon Fiction\n\n\n3\n1984 (Signet Classics)\nGeorge Orwell\n4.7\n21424\n6\n2017\nFiction\n\n\n4\n5,000 Awesome Facts (About Everything!) (Natio...\nNational Geographic Kids\n4.8\n7665\n12\n2019\nNon Fiction\n\n\n\n\n\n\n\nHvorfor ber vi dere om å laste ned datasettet, og ikke bare hente direkte fra internett? For øve på å legge filer på fornuftige steder.\n\n\n\nb) Behandling av data: - Datasettet har noen bøker med flere ganger. Fjern duplikatene med .drop_duplicates(\"Name\") - Fjern navnet på boken og forfatteren fra dataen - Fjern alle bøker med mindre enn 1000 anmeldelser\n\n\n\n\n\n\nNoteLøsningsforslag\n\n\n\n\n\n\ndf_dropped = df.drop_duplicates(\"Name\")\nprint(f\"Lengde på opprinnelig datasett: {len(df)}\")\nprint(f\"Lengde på droppet datasett: {len(df_dropped)}\")\n\nLengde på opprinnelig datasett: 550\nLengde på droppet datasett: 351\n\n\nSå tar vi vekk de som har færre enn 1000 anmeldelser\n\n\n\nc) Plot - Gjennomsnittlig anmeldelsesskårer for fiksjon og sakprosa - Gjennomsnittlig anmeldelsesskårer for hvert utgivelsesår. - Antall bøker for hver score - Antall anmeldelser for hver score\nd) Hvor mange fiksjonsbøker fra 2017 fikk en score bedre enn 4.6?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1583,7 +1594,7 @@
     "href": "lectures/01c_øvelse.html#beregning-av-strømregning-basert-på-forbruksdata-og-prisdata",
     "title": "Øvingsoppgaver",
     "section": "Beregning av strømregning basert på forbruksdata og prisdata",
-    "text": "Beregning av strømregning basert på forbruksdata og prisdata\nHar du betalt rett pris for strømmen din? Last ned dette datasettet som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra Elhub.\na) Plott strømforbruket som funksjon av tid.\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\nplt.plot(df_forbruk['KWH 60 Forbruk'])\n\n\n\n\n\n\n\n\nb) Vi kan så hente prisdata fra Nordpool. Vi har lastet ned prisene for desember 2024 for dere her.\n\n\n\n\n\n\nHvordan hentet vi data fra nordpool?\n\n\n\n\n\n\nfrom nordpool import elspot\nimport datetime\nprice_list = []\nprices_spot = elspot.Prices(currency=\"NOK\")\nfor i in range(1, 32):\n    entry = prices_spot.hourly(end_date=datetime.datetime(2024, 12, i), areas=['NO1'], )\n    price_list.append(entry)\n\nSå henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.\n\nimport pandas as pd\nclean_list = []\nfor element in price_list: \n    clean_list += element[\"areas\"][\"NO1\"][\"values\"]\ndf_pris = pd.DataFrame(clean_list)\ndf_pris.to_csv(\"data/nordpool-dec-24.csv\")\n\n\n\n\n\nHva er spotpriskostnaden for strømforbruket i desember 2024?\n\n\n\n\n\n\n\nLøsningsforslag\n\n\n\n\n\n\ndf_pris = pd.read_csv(\"data/nordpool-dec-24.csv\")\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\n\nnettopris = sum(df_forbruk['KWH 60 Forbruk']*df_pris[\"value\"])/1000\nmed_moms = nettopris*1.25\nprint(f\"Spotpris på strømmen inkl. moms er {med_moms:.2f} kr\")\n\nSpotpris på strømmen inkl. moms er 2899.55 kr\n\n\nMerk at vi la på moms i omregningen fra nordpool-priser til egen beregnet pris for strømforbruket, derav gange med 1.25\n\n\n\nc) For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?\nTips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.\n\n\n\n\n\n\nLøsningsforslag\n\n\n\n\n\n\nimport numpy as np\ndef strømstøtte(pris):\n    # Antar pris i kroner \n    if pris &lt;= 0.73: \n        return 0\n    else: \n        return (pris-0.73)*0.9\n\ndf_pris[\"value\"]\nstrømstøtte(0.753)\nstrømstøtte_sats = np.array([strømstøtte(pris) for pris in df_pris[\"value\"]/1000])\nstrømstøtte = sum(df_forbruk['KWH 60 Forbruk']*strømstøtte_sats)\nprint(strømstøtte*1.25)\n\n840.7654382812502\n\n\n\n\n\nd) Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt frost-API. Først oppretter du en bruker her (det går superfort). Så kan du hente data med følgende python-kode:\n\nimport requests\nimport pandas as pd\n\nclient_id = client_id\nendpoint = 'https://frost.met.no/observations/v0.jsonld'\nparameters = {\n    'sources': 'SN18700',\n    'elements': 'mean(air_temperature P1D)',\n    'referencetime': '2024-12-01/2025-01-01',\n}\nr = requests.get(endpoint, parameters, auth=(client_id,''))\n\njson = r.json()\n\n\n\n\n\n\n\nLøsningsforslag\n\n\n\n\n\n\nmy_list = []\nfor data in json[\"data\"]:\n    my_list += data[\"observations\"]\ndf_temp = pd.DataFrame(my_list)\ndf_temp = df_temp[df_temp[\"timeOffset\"] == \"PT6H\"]\n\n\nfrom datetime import datetime\ndef date_func(row): \n    date_object = datetime.strptime(row[\"Fra\"], \"%d.%m.%Y %H:%M\")\n    return date_object.date()\n\ndf_forbruk[\"date\"] = df_forbruk.apply(date_func, axis=1) \nforbruk_per_dag = df_forbruk.groupby(\"date\").sum()\nx = df_temp[\"value\"]\ny = forbruk_per_dag[\"KWH 60 Forbruk\"]\n\nplt.scatter(x, y)\n\nplt.xlabel(\"Utetemperatur [$^\\circ$C]\")\nplt.ylabel(\"Strømforbruk [kWh]\")\n\nText(0, 0.5, 'Strømforbruk [kWh]')\n\n\n\n\n\n\n\n\n\n\n\n\ne) Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?\n\n\n\n\n\n\nLøsningsforslag\n\n\n\n\n\n\ndag_varmepumpe = 16\nforbruk_per_dag[\"is_varmepumpe\"] = [0] * dag_varmepumpe+[1] * (31-dag_varmepumpe)\n\nx = df_temp[\"value\"]\ny = forbruk_per_dag[\"KWH 60 Forbruk\"]\n\nplt.scatter(x, y, c=forbruk_per_dag[\"is_varmepumpe\"])",
+    "text": "Beregning av strømregning basert på forbruksdata og prisdata\nHar du betalt rett pris for strømmen din? Last ned dette datasettet som inneholder strømavlesninger fra en adresse i oslo-området i desember 2024. Alle som har et strømabonnement i Norge kan laste ned sine forbruksdata fra Elhub.\na) Plott strømforbruket som funksjon av tid.\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\nplt.plot(df_forbruk['KWH 60 Forbruk'])\n\n\n\n\n\n\n\n\nb) Vi kan så hente prisdata fra Nordpool. Vi har lastet ned prisene for desember 2024 for dere her.\n\n\n\n\n\n\nWarningHvordan hentet vi data fra nordpool?\n\n\n\n\n\n\nfrom nordpool import elspot\nimport datetime\nprice_list = []\nprices_spot = elspot.Prices(currency=\"NOK\")\nfor i in range(1, 32):\n    entry = prices_spot.hourly(end_date=datetime.datetime(2024, 12, i), areas=['NO1'], )\n    price_list.append(entry)\n\nSå henter vi ut den delen av informasjonen som vi er interessert i og lagrer som csv-fil.\n\nimport pandas as pd\nclean_list = []\nfor element in price_list: \n    clean_list += element[\"areas\"][\"NO1\"][\"values\"]\ndf_pris = pd.DataFrame(clean_list)\ndf_pris.to_csv(\"data/nordpool-dec-24.csv\")\n\n\n\n\n\nHva er spotpriskostnaden for strømforbruket i desember 2024?\n\n\n\n\n\n\n\nNoteLøsningsforslag\n\n\n\n\n\n\ndf_pris = pd.read_csv(\"data/nordpool-dec-24.csv\")\ndf_forbruk = pd.read_csv(\"data/meteringvalues-dec-2024.csv\", sep=\";\", decimal=\",\")\n\nnettopris = sum(df_forbruk['KWH 60 Forbruk']*df_pris[\"value\"])/1000\nmed_moms = nettopris*1.25\nprint(f\"Spotpris på strømmen inkl. moms er {med_moms:.2f} kr\")\n\nSpotpris på strømmen inkl. moms er 2899.55 kr\n\n\nMerk at vi la på moms i omregningen fra nordpool-priser til egen beregnet pris for strømforbruket, derav gange med 1.25\n\n\n\nc) For å komplisere saken videre, har staten innført strømstøtte. I 2024 dekket staten 90 % av den delen av strømprisen som var over 73 øre eks moms. Hvor mye strømstøtte kommer denne kunden til å få?\nTips: Lag først en funksjon som konverterer strømpris til strømpris med strømstøtte.\n\n\n\n\n\n\nNoteLøsningsforslag\n\n\n\n\n\n\nimport numpy as np\ndef strømstøtte(pris):\n    # Antar pris i kroner \n    if pris &lt;= 0.73: \n        return 0\n    else: \n        return (pris-0.73)*0.9\n\ndf_pris[\"value\"]\nstrømstøtte(0.753)\nstrømstøtte_sats = np.array([strømstøtte(pris) for pris in df_pris[\"value\"]/1000])\nstrømstøtte = sum(df_forbruk['KWH 60 Forbruk']*strømstøtte_sats)\nprint(strømstøtte*1.25)\n\n840.7654382812502\n\n\n\n\n\nd) Vi kan så se om vi klarer å finne en sammenheng mellom strømforbruk og utetemperatur. Du kan hente data fra meteorologisk institutt sitt frost-API. Først oppretter du en bruker her (det går superfort). Så kan du hente data med følgende python-kode:\n\nimport requests\nimport pandas as pd\n\nclient_id = client_id\nendpoint = 'https://frost.met.no/observations/v0.jsonld'\nparameters = {\n    'sources': 'SN18700',\n    'elements': 'mean(air_temperature P1D)',\n    'referencetime': '2024-12-01/2025-01-01',\n}\nr = requests.get(endpoint, parameters, auth=(client_id,''))\n\njson = r.json()\n\n\n\n\n\n\n\nNoteLøsningsforslag\n\n\n\n\n\n\nmy_list = []\nfor data in json[\"data\"]:\n    my_list += data[\"observations\"]\ndf_temp = pd.DataFrame(my_list)\ndf_temp = df_temp[df_temp[\"timeOffset\"] == \"PT6H\"]\n\n\nfrom datetime import datetime\ndef date_func(row): \n    date_object = datetime.strptime(row[\"Fra\"], \"%d.%m.%Y %H:%M\")\n    return date_object.date()\n\ndf_forbruk[\"date\"] = df_forbruk.apply(date_func, axis=1) \nforbruk_per_dag = df_forbruk.groupby(\"date\").sum()\nx = df_temp[\"value\"]\ny = forbruk_per_dag[\"KWH 60 Forbruk\"]\n\nplt.scatter(x, y)\n\nplt.xlabel(\"Utetemperatur [$^\\circ$C]\")\nplt.ylabel(\"Strømforbruk [kWh]\")\n\nText(0, 0.5, 'Strømforbruk [kWh]')\n\n\n\n\n\n\n\n\n\n\n\n\ne) Om du lusker rundt på denne adressen, vil du kanskje finne en ganske ny varmepumpe. Kan du med informasjon om strømforbruk og temperatur fastslå omtrent når denne ble installert?\n\n\n\n\n\n\nNoteLøsningsforslag\n\n\n\n\n\n\ndag_varmepumpe = 16\nforbruk_per_dag[\"is_varmepumpe\"] = [0] * dag_varmepumpe+[1] * (31-dag_varmepumpe)\n\nx = df_temp[\"value\"]\ny = forbruk_per_dag[\"KWH 60 Forbruk\"]\n\nplt.scatter(x, y, c=forbruk_per_dag[\"is_varmepumpe\"])",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 1 – 23. januar",
@@ -1782,7 +1793,7 @@
     "href": "lectures/llm/llm_04_kryssvalidering.html#motivasjon-et-tilsynelatende-perfekt-resultat",
     "title": "Kryssvalidering og overtrening",
     "section": "Motivasjon: Et tilsynelatende perfekt resultat",
-    "text": "Motivasjon: Et tilsynelatende perfekt resultat\nLa oss starte med å se på et overraskende fenomen:\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\n# Generer data fra en sinuskurve med støy\nn = 30\nx = np.sort(np.random.uniform(0, 2*np.pi, n))\ny_true = np.sin(x)\ny = y_true + np.random.normal(0, 0.3, n)\n\n# Plott dataene\nplt.figure(figsize=(10, 5))\nplt.scatter(x, y, s=50, label='Data')\nplt.plot(np.linspace(0, 2*np.pi, 100), np.sin(np.linspace(0, 2*np.pi, 100)), \n         'g--', linewidth=2, label='Sann funksjon')\nplt.xlabel('x')\nplt.ylabel('y')\nplt.title('Data generert fra en sinusfunksjon')\nplt.legend()\nplt.show()\n\n\n\n\n\n\n\n\n\nLa oss tilpasse polynomer\n\n# Tilpasse polynomer av ulik grad\nx_plot = np.linspace(0, 2*np.pi, 100)\n\nfig, axes = plt.subplots(1, 3, figsize=(15, 4))\n\nfor i, grad in enumerate([1, 5, 25]):\n    ax = axes[i]\n    \n    # Tilpass polynom\n    koeff = np.polyfit(x, y, grad)\n    y_pred = np.polyval(koeff, x)\n    y_plot = np.polyval(koeff, x_plot)\n    \n    # Beregn treningsfeil (MSE)\n    mse = np.mean((y - y_pred)**2)\n    \n    ax.scatter(x, y, s=50)\n    ax.plot(x_plot, y_plot, 'r-', linewidth=2)\n    ax.set_title(f'Grad {grad}, MSE = {mse:.4f}')\n    ax.set_xlabel('x')\n    ax.set_ylabel('y')\n    ax.set_ylim(-2, 2)\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nObservasjon\n\n\n\nGrad 25-polynomet har lavest treningsfeil! Men ser det ut som den beste modellen?",
+    "text": "Motivasjon: Et tilsynelatende perfekt resultat\nLa oss starte med å se på et overraskende fenomen:\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\n# Generer data fra en sinuskurve med støy\nn = 30\nx = np.sort(np.random.uniform(0, 2*np.pi, n))\ny_true = np.sin(x)\ny = y_true + np.random.normal(0, 0.3, n)\n\n# Plott dataene\nplt.figure(figsize=(10, 5))\nplt.scatter(x, y, s=50, label='Data')\nplt.plot(np.linspace(0, 2*np.pi, 100), np.sin(np.linspace(0, 2*np.pi, 100)), \n         'g--', linewidth=2, label='Sann funksjon')\nplt.xlabel('x')\nplt.ylabel('y')\nplt.title('Data generert fra en sinusfunksjon')\nplt.legend()\nplt.show()\n\n\n\n\n\n\n\n\n\nLa oss tilpasse polynomer\n\n# Tilpasse polynomer av ulik grad\nx_plot = np.linspace(0, 2*np.pi, 100)\n\nfig, axes = plt.subplots(1, 3, figsize=(15, 4))\n\nfor i, grad in enumerate([1, 5, 25]):\n    ax = axes[i]\n    \n    # Tilpass polynom\n    koeff = np.polyfit(x, y, grad)\n    y_pred = np.polyval(koeff, x)\n    y_plot = np.polyval(koeff, x_plot)\n    \n    # Beregn treningsfeil (MSE)\n    mse = np.mean((y - y_pred)**2)\n    \n    ax.scatter(x, y, s=50)\n    ax.plot(x_plot, y_plot, 'r-', linewidth=2)\n    ax.set_title(f'Grad {grad}, MSE = {mse:.4f}')\n    ax.set_xlabel('x')\n    ax.set_ylabel('y')\n    ax.set_ylim(-2, 2)\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImportantObservasjon\n\n\n\nGrad 25-polynomet har lavest treningsfeil! Men ser det ut som den beste modellen?",
     "crumbs": [
       "LLM-supplement",
       "Kryssvalidering og overtrening"
@@ -1848,7 +1859,7 @@
     "href": "lectures/llm/llm_04_kryssvalidering.html#viktige-retningslinjer",
     "title": "Kryssvalidering og overtrening",
     "section": "Viktige retningslinjer",
-    "text": "Viktige retningslinjer\n\n\n\n\n\n\nTommelfingerregler\n\n\n\n\nAldri evaluer på treningsdata - du vil alltid undervurdere feilen\nHold testdata helt adskilt - ikke bruk dem til modellvalg\nBruk kryssvalidering for modellvalg - mer robust enn enkelt train-test split\nEnklere modeller er ofte bedre - de generaliserer bedre",
+    "text": "Viktige retningslinjer\n\n\n\n\n\n\nTipTommelfingerregler\n\n\n\n\nAldri evaluer på treningsdata - du vil alltid undervurdere feilen\nHold testdata helt adskilt - ikke bruk dem til modellvalg\nBruk kryssvalidering for modellvalg - mer robust enn enkelt train-test split\nEnklere modeller er ofte bedre - de generaliserer bedre",
     "crumbs": [
       "LLM-supplement",
       "Kryssvalidering og overtrening"
@@ -2061,7 +2072,7 @@
     "href": "lectures/02b_slides.revealjs.html#forrige-ukes-oppgaver",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Forrige ukes oppgaver",
-    "text": "Forrige ukes oppgaver\n\n\nNår ble varmepumpen installert?\nOg viktigst: Hvordan fant dere ut av det? Det krever litt kreativitet."
+    "text": "Forrige ukes oppgaver\n\nNår ble varmepumpen installert?\nOg viktigst: Hvordan fant dere ut av det? Det krever litt kreativitet."
   },
   {
     "objectID": "lectures/02b_slides.revealjs.html#en-skisse-av-en-løsning",
@@ -2269,7 +2280,7 @@
     "href": "lectures/02b_slides.html#i-dag",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "I dag",
-    "text": "I dag\nHvordan kan vi lære noe av et datasett?\n\nGrunnleggende numpy, pandas og plotting\nLineær regresjon\nEstimere feilen i estimerte parametre\n\n\n\n\n\n\n\nHusk\n\n\n\nIkke alt dekkes i forelesninger. Noe er bare i boka",
+    "text": "I dag\nHvordan kan vi lære noe av et datasett?\n\nGrunnleggende numpy, pandas og plotting\nLineær regresjon\nEstimere feilen i estimerte parametre\n\n\n\n\n\n\n\nWarningHusk\n\n\n\nIkke alt dekkes i forelesninger. Noe er bare i boka",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -2413,7 +2424,7 @@
     "href": "lectures/02b_slides.html#leseleksen",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Leseleksen",
-    "text": "Leseleksen\n\nSkriv opp tre konsepter du forstod, og tre konsepter du ikke forstod\n\n\n\n\n\n\n\nOppgave\n\n\n\n\nSkriv opp på tre forskjellige postit-lapper, konseptene du ikke forstod. Alle legger lappene sammen i en bunke. SÅ tar dere dem en og en og ser om dere kan få forklart dem på gruppa\nEtterpå oppsummerer vi litt i plenum",
+    "text": "Leseleksen\n\nSkriv opp tre konsepter du forstod, og tre konsepter du ikke forstod\n\n\n\n\n\n\n\nTipOppgave\n\n\n\n\nSkriv opp på tre forskjellige postit-lapper, konseptene du ikke forstod. Alle legger lappene sammen i en bunke. SÅ tar dere dem en og en og ser om dere kan få forklart dem på gruppa\nEtterpå oppsummerer vi litt i plenum",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -2521,7 +2532,7 @@
     "href": "lectures/02b_slides.html#plotte-sammen",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Plotte sammen",
-    "text": "Plotte sammen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nSkriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon.",
+    "text": "Plotte sammen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteOppgave\n\n\n\nSkriv opp for deg selv, hva som er sammenhengen mellom den rette linja og datapunktene her om vi har gjort lineær regresjon.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -2545,7 +2556,7 @@
     "href": "lectures/02b_slides.html#trekke-mange-ganger",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Trekke mange ganger",
-    "text": "Trekke mange ganger\n\n\n\n\n\n\nOppgave\n\n\n\na) Lag deg en affin funsjon (f. eks \\(f(x) = 2x + 3\\)). Trekk 10 tilfeldige tall, beregn \\(f(x) + \\varepsilon\\) der du setter inn et tilfeldig normalfordelt tall som \\(\\varepsilon\\) med np.random.normal(...). Verifiser med et plott at ting fungerer som de skal\nb) Gjør en lineærtilpasning med np.polyfit(x, y, 1). Plott lineærtilpasningen sammen med de litt spredte punktene dine.\nc) Gjenta mange ganger (f. eks 10000 i en for-løkke), og lagre stigningstallet som estimeres for hver enkelt linje. Plott et histogram over stigningstallene, med plt.hist.",
+    "text": "Trekke mange ganger\n\n\n\n\n\n\nNoteOppgave\n\n\n\na) Lag deg en affin funsjon (f. eks \\(f(x) = 2x + 3\\)). Trekk 10 tilfeldige tall, beregn \\(f(x) + \\varepsilon\\) der du setter inn et tilfeldig normalfordelt tall som \\(\\varepsilon\\) med np.random.normal(...). Verifiser med et plott at ting fungerer som de skal\nb) Gjør en lineærtilpasning med np.polyfit(x, y, 1). Plott lineærtilpasningen sammen med de litt spredte punktene dine.\nc) Gjenta mange ganger (f. eks 10000 i en for-løkke), og lagre stigningstallet som estimeres for hver enkelt linje. Plott et histogram over stigningstallene, med plt.hist.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -2593,7 +2604,7 @@
     "href": "lectures/02b_slides.html#tolkning",
     "title": "Forelesningsnotat: Lineær regresjon og modellering",
     "section": "Tolkning",
-    "text": "Tolkning\n\n\n\n\n\n\nKort diskusjonsoppgave\n\n\n\na) Hva skjedde med fordelingen av stigningstall ved lineær regresjon da vi økte fra 10 til 100 punkter?\nb) Hvordan skal vi tolke dette?",
+    "text": "Tolkning\n\n\n\n\n\n\nNoteKort diskusjonsoppgave\n\n\n\na) Hva skjedde med fordelingen av stigningstall ved lineær regresjon da vi økte fra 10 til 100 punkter?\nb) Hvordan skal vi tolke dette?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 2 – 30. januar",
@@ -2843,7 +2854,7 @@
     "href": "lectures/04b_slides.revealjs.html#test-av-forskjellige-polynomer",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Test av forskjellige polynomer",
-    "text": "Test av forskjellige polynomer\n\nfrom lammps_logfile import get_color_value\nplt.plot(x, y, \"o\")\nfor i in range(1,15):\n    p = np.polyfit(x, y, i)\n    xv = np.linspace(-2.5, 2.5, 200)\n    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, 15, cmap=\"jet\"), label=f\"{i}\")\nplt.legend()\n\n\n\n\n\n\n\n\nVi skjønner kanskje at vi må stoppe et sted, men hvor?"
+    "text": "Test av forskjellige polynomer\n\nfrom lammps_logfile import get_color_value\nplt.plot(x, y, \"o\")\nfor i in range(1,15):\n    p = np.polyfit(x, y, i)\n    xv = np.linspace(-2.5, 2.5, 200)\n    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, 15, cmap=\"jet\"), label=f\"{i}\")\nplt.legend()\n\n\n---------------------------------------------------------------------------\nModuleNotFoundError                       Traceback (most recent call last)\nCell In[4], line 1\n----&gt; 1 from lammps_logfile import get_color_value\n      2 plt.plot(x, y, \"o\")\n      3 for i in range(1,15):\n\nModuleNotFoundError: No module named 'lammps_logfile'\n\n\n\nVi skjønner kanskje at vi må stoppe et sted, men hvor?"
   },
   {
     "objectID": "lectures/04b_slides.revealjs.html#mean-squared-error",
@@ -2871,14 +2882,14 @@
     "href": "lectures/04b_slides.revealjs.html#løsning-output",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Løsning",
-    "text": "Løsning"
+    "text": "Løsning\n\n\n---------------------------------------------------------------------------\nNameError                                 Traceback (most recent call last)\nCell In[6], line 10\n      8     xv = np.linspace(-2.5, 2.5, 200)\n      9     plt.subplot(1,2,1)\n---&gt; 10     plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n     11     training_errors[i] = np.mean((np.polyval(p, x)-y)**2)\n     13 plt.legend()\n\nNameError: name 'get_color_value' is not defined"
   },
   {
     "objectID": "lectures/04b_slides.revealjs.html#øke-n",
     "href": "lectures/04b_slides.revealjs.html#øke-n",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Øke N",
-    "text": "Øke N\n\n\n\n\n\n\n\n\n\n\nHva kan vi lære om hvilken N vi bør velge av dette?"
+    "text": "Øke N\n\n\n\n---------------------------------------------------------------------------\nNameError                                 Traceback (most recent call last)\nCell In[7], line 10\n      8     xv = np.linspace(-2.5, 2.5, 200)\n      9     plt.subplot(1,2,1)\n---&gt; 10     plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n     11     training_errors[i] = np.mean((np.polyval(p, x)-y)**2)\n     13 plt.legend()\n\nNameError: name 'get_color_value' is not defined\n\n\n\n\n\n\n\n\n\n\n\nHva kan vi lære om hvilken N vi bør velge av dette?"
   },
   {
     "objectID": "lectures/04b_slides.revealjs.html#validerings-trenings-splitt-5050",
@@ -2920,7 +2931,7 @@
     "href": "lectures/04b_slides.revealjs.html#implementasjon-output",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Implementasjon",
-    "text": "Implementasjon"
+    "text": "Implementasjon\n\n\n---------------------------------------------------------------------------\nNameError                                 Traceback (most recent call last)\nCell In[11], line 11\n      9 xv = np.linspace(-2.5, 2.5, 200)\n     10 plt.subplot(1,2,1)\n---&gt; 11 plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n     12 training_errors[i] = np.mean((np.polyval(p, x_train)-y_train)**2)\n     13 validation_errors[i] = np.mean((np.polyval(p, x_validate)-y_validate)**2)\n\nNameError: name 'get_color_value' is not defined"
   },
   {
     "objectID": "lectures/04b_slides.revealjs.html#foreløpig-oppsummering",
@@ -3113,7 +3124,7 @@
     "href": "lectures/04b_slides.html#test-av-forskjellige-polynomer",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Test av forskjellige polynomer",
-    "text": "Test av forskjellige polynomer\n\nfrom lammps_logfile import get_color_value\nplt.plot(x, y, \"o\")\nfor i in range(1,15):\n    p = np.polyfit(x, y, i)\n    xv = np.linspace(-2.5, 2.5, 200)\n    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, 15, cmap=\"jet\"), label=f\"{i}\")\nplt.legend()\n\n\n\n\n\n\n\n\nVi skjønner kanskje at vi må stoppe et sted, men hvor?",
+    "text": "Test av forskjellige polynomer\n\nfrom lammps_logfile import get_color_value\nplt.plot(x, y, \"o\")\nfor i in range(1,15):\n    p = np.polyfit(x, y, i)\n    xv = np.linspace(-2.5, 2.5, 200)\n    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, 15, cmap=\"jet\"), label=f\"{i}\")\nplt.legend()\n\n\n---------------------------------------------------------------------------\nModuleNotFoundError                       Traceback (most recent call last)\nCell In[4], line 1\n----&gt; 1 from lammps_logfile import get_color_value\n      2 plt.plot(x, y, \"o\")\n      3 for i in range(1,15):\n\nModuleNotFoundError: No module named 'lammps_logfile'\n\n\n\nVi skjønner kanskje at vi må stoppe et sted, men hvor?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3137,7 +3148,7 @@
     "href": "lectures/04b_slides.html#mean-squared-error-1",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Mean squared error",
-    "text": "Mean squared error\n\n\n\n\n\n\nUnderveisoppgave\n\n\n\n\nLast inn datasettet trukket fra den hemmelige fordelingen.\nPlott datasettet for å verifisere at det er korrekt innlest.\nGjør polynomtilpasning med \\(p(x)=\\sum_{i=0}^N c_i x^i\\) for \\(N\\) opp til \\(20\\). Plott de forskjellige polynomene på intervallet \\([-2.5, 2.5]\\)\nFinn treningsfeilen, altså \\(\\sum_{i=0}^n (p(x_i)-y_i)^2\\), for hver polynomgrad N, og plott feilen som funksjon av N.\n\nStarthjelp\n\ndata = np.loadtxt(\"data/hemmelig_funksjon.txt\")\nx = data[:,0]\ny = data[:,1]\nfor i in range(1,15):\n    p = np.polyfit(x, y, i)",
+    "text": "Mean squared error\n\n\n\n\n\n\nNoteUnderveisoppgave\n\n\n\n\nLast inn datasettet trukket fra den hemmelige fordelingen.\nPlott datasettet for å verifisere at det er korrekt innlest.\nGjør polynomtilpasning med \\(p(x)=\\sum_{i=0}^N c_i x^i\\) for \\(N\\) opp til \\(20\\). Plott de forskjellige polynomene på intervallet \\([-2.5, 2.5]\\)\nFinn treningsfeilen, altså \\(\\sum_{i=0}^n (p(x_i)-y_i)^2\\), for hver polynomgrad N, og plott feilen som funksjon av N.\n\nStarthjelp\n\ndata = np.loadtxt(\"data/hemmelig_funksjon.txt\")\nx = data[:,0]\ny = data[:,1]\nfor i in range(1,15):\n    p = np.polyfit(x, y, i)",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3149,7 +3160,7 @@
     "href": "lectures/04b_slides.html#løsning",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Løsning",
-    "text": "Løsning\n\nplt.subplot(1,2,1)\nplt.plot(x,y, \"o\")\n\nN = 5\ntraining_errors = np.zeros(N+1)\nfor i in range(N+1):\n    p = np.polyfit(x, y, i)\n    xv = np.linspace(-2.5, 2.5, 200)\n    plt.subplot(1,2,1)\n    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n    training_errors[i] = np.mean((np.polyval(p, x)-y)**2)\n\nplt.legend()\nplt.subplot(1,2,2)\nplt.plot(training_errors)\nplt.xlabel(\"Grad av polynom\")\nplt.ylabel(\"Treningsfeil\")\nplt.tight_layout()",
+    "text": "Løsning\n\nplt.subplot(1,2,1)\nplt.plot(x,y, \"o\")\n\nN = 5\ntraining_errors = np.zeros(N+1)\nfor i in range(N+1):\n    p = np.polyfit(x, y, i)\n    xv = np.linspace(-2.5, 2.5, 200)\n    plt.subplot(1,2,1)\n    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n    training_errors[i] = np.mean((np.polyval(p, x)-y)**2)\n\nplt.legend()\nplt.subplot(1,2,2)\nplt.plot(training_errors)\nplt.xlabel(\"Grad av polynom\")\nplt.ylabel(\"Treningsfeil\")\nplt.tight_layout()\n\n\n---------------------------------------------------------------------------\nNameError                                 Traceback (most recent call last)\nCell In[6], line 10\n      8     xv = np.linspace(-2.5, 2.5, 200)\n      9     plt.subplot(1,2,1)\n---&gt; 10     plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n     11     training_errors[i] = np.mean((np.polyval(p, x)-y)**2)\n     13 plt.legend()\n\nNameError: name 'get_color_value' is not defined",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3161,7 +3172,7 @@
     "href": "lectures/04b_slides.html#øke-n",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Øke N",
-    "text": "Øke N\n\n\n\n\n\n\n\n\n\n\nHva kan vi lære om hvilken N vi bør velge av dette?",
+    "text": "Øke N\n\n\n\n---------------------------------------------------------------------------\nNameError                                 Traceback (most recent call last)\nCell In[7], line 10\n      8     xv = np.linspace(-2.5, 2.5, 200)\n      9     plt.subplot(1,2,1)\n---&gt; 10     plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n     11     training_errors[i] = np.mean((np.polyval(p, x)-y)**2)\n     13 plt.legend()\n\nNameError: name 'get_color_value' is not defined\n\n\n\n\n\n\n\n\n\n\n\nHva kan vi lære om hvilken N vi bør velge av dette?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3185,7 +3196,7 @@
     "href": "lectures/04b_slides.html#eksempel-på-datasplitting",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Eksempel på datasplitting",
-    "text": "Eksempel på datasplitting\n\nindices = np.random.permutation(len(x))\nidx_train, idx_validate = np.array_split(indices, 2)\nx_train = x[idx_train]\ny_train = y[idx_train]\nx_validate = x[idx_validate]\ny_validate = y[idx_validate]\n\n\n\n\n\n\n\nOppgave\n\n\n\n\nPrint indeksene for treningsdata og valideringsdata.\nVerifiser (med programmering) at indeksene i treningsdata og valideringsdata er forskjellige.\nPlott treningsdata og valideringsdata i forskjellige farger for å verifisere at de er tilfeldig, og ikke systematisk, trukket!",
+    "text": "Eksempel på datasplitting\n\nindices = np.random.permutation(len(x))\nidx_train, idx_validate = np.array_split(indices, 2)\nx_train = x[idx_train]\ny_train = y[idx_train]\nx_validate = x[idx_validate]\ny_validate = y[idx_validate]\n\n\n\n\n\n\n\nNoteOppgave\n\n\n\n\nPrint indeksene for treningsdata og valideringsdata.\nVerifiser (med programmering) at indeksene i treningsdata og valideringsdata er forskjellige.\nPlott treningsdata og valideringsdata i forskjellige farger for å verifisere at de er tilfeldig, og ikke systematisk, trukket!",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3209,7 +3220,7 @@
     "href": "lectures/04b_slides.html#test-train-split-5050",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Test-train-split 50/50",
-    "text": "Test-train-split 50/50\n\nNå ønsker vi å sammenligne gjennomsnittlig kvadrert feil for treningsdata og valideringsdata ved forskjellige valg av høyeste mulige grad av polynom, for eksempel om vi setter høyeste grad til 20 har vi: \\[p(x) = \\sum_{i=0}^{20} c_i x^i\\]\n\n\n\n\n\n\n\nOppgave\n\n\n\n\nSkriv opp hvordan vi konseptuelt kan gjøre dette",
+    "text": "Test-train-split 50/50\n\nNå ønsker vi å sammenligne gjennomsnittlig kvadrert feil for treningsdata og valideringsdata ved forskjellige valg av høyeste mulige grad av polynom, for eksempel om vi setter høyeste grad til 20 har vi: \\[p(x) = \\sum_{i=0}^{20} c_i x^i\\]\n\n\n\n\n\n\n\nNoteOppgave\n\n\n\n\nSkriv opp hvordan vi konseptuelt kan gjøre dette",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3221,7 +3232,7 @@
     "href": "lectures/04b_slides.html#implementasjon",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Implementasjon",
-    "text": "Implementasjon\n(her skal vi gå igjennom koden linje for linje! Rop om jeg ikke gjør det)\n\nplt.subplot(1,2,1)\nplt.plot(x,y, \"o\")\n\nN = 15\ntraining_errors = np.zeros(N+1)\nvalidation_errors = np.zeros(N+1)\nfor i in range(N+1):\n    p = np.polyfit(x_train, y_train, i)\n    xv = np.linspace(-2.5, 2.5, 200)\n    plt.subplot(1,2,1)\n    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n    training_errors[i] = np.mean((np.polyval(p, x_train)-y_train)**2)\n    validation_errors[i] = np.mean((np.polyval(p, x_validate)-y_validate)**2)\n\nplt.subplot(1,2,2)\nplt.plot(training_errors, label=\"training error\")\nplt.plot(validation_errors, label=\"test error\")\nplt.xlabel(\"Grad av polynom\")\nplt.ylabel(\"Treningsfeil\")\nplt.legend()\nplt.tight_layout()",
+    "text": "Implementasjon\n(her skal vi gå igjennom koden linje for linje! Rop om jeg ikke gjør det)\n\nplt.subplot(1,2,1)\nplt.plot(x,y, \"o\")\n\nN = 15\ntraining_errors = np.zeros(N+1)\nvalidation_errors = np.zeros(N+1)\nfor i in range(N+1):\n    p = np.polyfit(x_train, y_train, i)\n    xv = np.linspace(-2.5, 2.5, 200)\n    plt.subplot(1,2,1)\n    plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n    training_errors[i] = np.mean((np.polyval(p, x_train)-y_train)**2)\n    validation_errors[i] = np.mean((np.polyval(p, x_validate)-y_validate)**2)\n\nplt.subplot(1,2,2)\nplt.plot(training_errors, label=\"training error\")\nplt.plot(validation_errors, label=\"test error\")\nplt.xlabel(\"Grad av polynom\")\nplt.ylabel(\"Treningsfeil\")\nplt.legend()\nplt.tight_layout()\n\n\n---------------------------------------------------------------------------\nNameError                                 Traceback (most recent call last)\nCell In[11], line 11\n      9 xv = np.linspace(-2.5, 2.5, 200)\n     10 plt.subplot(1,2,1)\n---&gt; 11 plt.plot(xv, np.polyval(p, xv), c=get_color_value(i, 0, N, cmap=\"jet\"), label=f\"{i}\")\n     12 training_errors[i] = np.mean((np.polyval(p, x_train)-y_train)**2)\n     13 validation_errors[i] = np.mean((np.polyval(p, x_validate)-y_validate)**2)\n\nNameError: name 'get_color_value' is not defined",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3245,7 +3256,7 @@
     "href": "lectures/04b_slides.html#kryssvalidering-med-k-omganger-k-fold",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Kryssvalidering med k omganger (k-fold)!",
-    "text": "Kryssvalidering med k omganger (k-fold)!\n\n\n\n\n\n\n\n\n\n\n\n\nOmgang\nPartisjon 1\nPartisjon 2\nPartisjon 3\nPartisjon 4\nPartisjon 5\n\n\n\n\n1\n🟥 Validering\n🟦 Trening\n🟦 Trening\n🟦 Trening\n🟦 Trening\n\n\n2\n🟦 Trening\n🟥 Validering\n🟦 Trening\n🟦 Trening\n🟦 Trening\n\n\n3\n🟦 Trening\n🟦 Trening\n🟥 Validering\n🟦 Trening\n🟦 Trening\n\n\n4\n🟦 Trening\n🟦 Trening\n🟦 Trening\n🟥 Validering\n🟦 Trening\n\n\n5\n🟦 Trening\n🟦 Trening\n🟦 Trening\n🟦 Trening\n🟥 Validering\n\n\n\n\n\n\n\n\n\n\nOppgave\n\n\n\nDere skal nå dele opp datasettet i 5 partisjoner, og verifiser med et plott at det har gått bra.\nBeskriv først med ord hva som skal til for å dele opp i 5 partisjoner.\nDette er slik vi delte i treningsdata og valideringsdata tidligere:\n\nindices = np.random.permutation(len(x))\nidx_train, idx_validate = np.array_split(indices, 2)\nx_train = x[idx_train]\ny_train = y[idx_train]\nx_validate = x[idx_validate]\ny_validate = y[idx_validate]",
+    "text": "Kryssvalidering med k omganger (k-fold)!\n\n\n\n\n\n\n\n\n\n\n\n\nOmgang\nPartisjon 1\nPartisjon 2\nPartisjon 3\nPartisjon 4\nPartisjon 5\n\n\n\n\n1\n🟥 Validering\n🟦 Trening\n🟦 Trening\n🟦 Trening\n🟦 Trening\n\n\n2\n🟦 Trening\n🟥 Validering\n🟦 Trening\n🟦 Trening\n🟦 Trening\n\n\n3\n🟦 Trening\n🟦 Trening\n🟥 Validering\n🟦 Trening\n🟦 Trening\n\n\n4\n🟦 Trening\n🟦 Trening\n🟦 Trening\n🟥 Validering\n🟦 Trening\n\n\n5\n🟦 Trening\n🟦 Trening\n🟦 Trening\n🟦 Trening\n🟥 Validering\n\n\n\n\n\n\n\n\n\n\nNoteOppgave\n\n\n\nDere skal nå dele opp datasettet i 5 partisjoner, og verifiser med et plott at det har gått bra.\nBeskriv først med ord hva som skal til for å dele opp i 5 partisjoner.\nDette er slik vi delte i treningsdata og valideringsdata tidligere:\n\nindices = np.random.permutation(len(x))\nidx_train, idx_validate = np.array_split(indices, 2)\nx_train = x[idx_train]\ny_train = y[idx_train]\nx_validate = x[idx_validate]\ny_validate = y[idx_validate]",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3269,7 +3280,7 @@
     "href": "lectures/04b_slides.html#dele-opp-i-5-omganger",
     "title": "Forelesningsnotat: Trening, testing, kryssvalidering, overtrening",
     "section": "Dele opp i 5 omganger",
-    "text": "Dele opp i 5 omganger\nDet er kanskje ikke helt åpenbart, men det å dele opp i 5 omganger er ikke det samme som å dele opp i 5 partisjoner.\n\n\n\n\n\n\nOppgave\n\n\n\nDel opp i 5 omganger, og visualiser disse.",
+    "text": "Dele opp i 5 omganger\nDet er kanskje ikke helt åpenbart, men det å dele opp i 5 omganger er ikke det samme som å dele opp i 5 partisjoner.\n\n\n\n\n\n\nNoteOppgave\n\n\n\nDel opp i 5 omganger, og visualiser disse.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 4 – 14. februar",
@@ -3461,7 +3472,7 @@
     "href": "lectures/05b_slides_ane.revealjs.html#fra-tekst-til-tall-en-mer-generell-måte",
     "title": "Forelesningsnotat: Beslutningstrær",
     "section": "Fra tekst til tall — en mer generell måte",
-    "text": "Fra tekst til tall — en mer generell måte\nDette kalles også one-hot encoding.\n\npd.get_dummies(df[\"Quality\"]).head(6)\n\n\n\n\n\n\n\n\nbad\ngood\n\n\n\n\n0\n0\n1\n\n\n1\n0\n1\n\n\n2\n1\n0\n\n\n3\n0\n1\n\n\n4\n0\n1\n\n\n5\n1\n0\n\n\n\n\n\n\n\nget_dummies lager én kolonne per klasse. Vi bruker dette mer neste gang, I dag holder den enkle måten."
+    "text": "Fra tekst til tall — en mer generell måte\nDette kalles også one-hot encoding.\n\npd.get_dummies(df[\"Quality\"]).head(6)\n\n\n\n\n\n\n\n\nbad\ngood\n\n\n\n\n0\nFalse\nTrue\n\n\n1\nFalse\nTrue\n\n\n2\nTrue\nFalse\n\n\n3\nFalse\nTrue\n\n\n4\nFalse\nTrue\n\n\n5\nTrue\nFalse\n\n\n\n\n\n\n\nget_dummies lager én kolonne per klasse. Vi bruker dette mer neste gang, I dag holder den enkle måten."
   },
   {
     "objectID": "lectures/05b_slides_ane.revealjs.html#treningsdata-og-testsett",
@@ -3685,7 +3696,7 @@
     "href": "lectures/05b_slides_ane.html#fra-tekst-til-tall-en-mer-generell-måte",
     "title": "Forelesningsnotat: Beslutningstrær",
     "section": "Fra tekst til tall — en mer generell måte",
-    "text": "Fra tekst til tall — en mer generell måte\nDette kalles også one-hot encoding.\n\npd.get_dummies(df[\"Quality\"]).head(6)\n\n\n\n\n\n\n\n\nbad\ngood\n\n\n\n\n0\n0\n1\n\n\n1\n0\n1\n\n\n2\n1\n0\n\n\n3\n0\n1\n\n\n4\n0\n1\n\n\n5\n1\n0\n\n\n\n\n\n\n\nget_dummies lager én kolonne per klasse. Vi bruker dette mer neste gang, I dag holder den enkle måten.",
+    "text": "Fra tekst til tall — en mer generell måte\nDette kalles også one-hot encoding.\n\npd.get_dummies(df[\"Quality\"]).head(6)\n\n\n\n\n\n\n\n\nbad\ngood\n\n\n\n\n0\nFalse\nTrue\n\n\n1\nFalse\nTrue\n\n\n2\nTrue\nFalse\n\n\n3\nFalse\nTrue\n\n\n4\nFalse\nTrue\n\n\n5\nTrue\nFalse\n\n\n\n\n\n\n\nget_dummies lager én kolonne per klasse. Vi bruker dette mer neste gang, I dag holder den enkle måten.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 7 – 6. mars",
@@ -3918,6 +3929,595 @@
       "Del 1: Statistikk",
       "Uke 7 – 6. mars",
       "Forelesningsnotat: Beslutningstrær"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hva-husker-dere-fra-sist",
+    "href": "lectures/06_slides_ane.revealjs.html#hva-husker-dere-fra-sist",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§1 — Hva husker dere fra sist?",
+    "text": "§1 — Hva husker dere fra sist?\nDiskuter med sidemannen (1 minutt): Forrige gang trente vi et beslutningstre på eplekvalitet. Vi kjørte det seks ganger med ulike tilfeldige splitter. Hva skjedde?\n\n\n\n\n\n\n\n\n\n\nTreet endrer seg hver gang vi deler dataene annerledes."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#sklearn-godtar-bare-tall",
+    "href": "lectures/06_slides_ane.revealjs.html#sklearn-godtar-bare-tall",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§2 — Sklearn godtar bare tall",
+    "text": "§2 — Sklearn godtar bare tall\nEple-datasettet har bare tallverdier, men mange datasett har tekstkolonner som sklearn ikke godtar.\n\n\n\n\n\n\n\n\n\nStørrelse\nFarge\nKvalitet\n\n\n\n\n0\n7.2\nrød\ngod\n\n\n1\n5.1\ngrønn\ngod\n\n\n2\n8.4\nrød\ndårlig\n\n\n3\n6.0\ngul\ngod\n\n\n4\n4.3\ngrønn\ndårlig\n\n\n\n\n\n\n\nStørrelse er et tall. Farge og Kvalitet er tekst. Tekstkolonner må oversettes til tall før sklearn kan bruke dem."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#det-binære-tilfellet",
+    "href": "lectures/06_slides_ane.revealjs.html#det-binære-tilfellet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§3 — Det binære tilfellet",
+    "text": "§3 — Det binære tilfellet\nDet enkleste: to kategorier → 0 og 1. Dere har sett .astype(int) på en binær kolonne før.\n\ndf[\"quality_num\"] = (df[\"Quality\"] == \"good\").astype(int)\ndf[[\"Quality\", \"quality_num\"]].head(6)\n\n\n\n\n\n\n\n\nQuality\nquality_num\n\n\n\n\n0\ngood\n1\n\n\n1\ngood\n1\n\n\n2\nbad\n0\n\n\n3\ngood\n1\n\n\n4\ngood\n1\n\n\n5\nbad\n0\n\n\n\n\n\n\n\nFor to kategorier fungerer dette. Hva med Farge som har tre verdier?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#ordensfellen",
+    "href": "lectures/06_slides_ane.revealjs.html#ordensfellen",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§4 — Ordensfellen",
+    "text": "§4 — Ordensfellen\nFarge har tre verdier: rød, grønn, gul.\n\n\n\n\n\n\nTip\n\n\nGjett: Kan vi bare bruke 0, 1, 2?\n\n\n\n\n\n\n# Farlig!\nfarge_num = {\"rød\": 0, \"grønn\": 1, \"gul\": 2}\nDenne oversettelsen forteller modellen at gul &gt; grønn &gt; rød, og at avstanden mellom gul og rød er dobbelt så stor som mellom grønn og rød.\nFargene har ingen naturlig rekkefølge. Å kode dem som ordnede tall legger inn struktur som ikke finnes i dataene.\n\nOne-hot encoding\nÉn kolonne per kategori, bare 0 og 1:\n\n\n\n\n\n\n\n\n\nFarge_grønn\nFarge_gul\nFarge_rød\n\n\n\n\n0\nFalse\nFalse\nTrue\n\n\n1\nTrue\nFalse\nFalse\n\n\n2\nFalse\nFalse\nTrue\n\n\n3\nFalse\nTrue\nFalse\n\n\n4\nTrue\nFalse\nFalse"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#one-hot-i-praksis",
+    "href": "lectures/06_slides_ane.revealjs.html#one-hot-i-praksis",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§5 — One-hot i praksis",
+    "text": "§5 — One-hot i praksis\n\neksempel = pd.DataFrame({\n    \"Farge\": [\"rød\", \"grønn\", \"rød\", \"gul\", \"grønn\"]\n})\npd.get_dummies(eksempel[[\"Farge\"]], prefix=\"Farge\")\n\n\n\n\n\n\n\n\nFarge_grønn\nFarge_gul\nFarge_rød\n\n\n\n\n0\nFalse\nFalse\nTrue\n\n\n1\nTrue\nFalse\nFalse\n\n\n2\nFalse\nFalse\nTrue\n\n\n3\nFalse\nTrue\nFalse\n\n\n4\nTrue\nFalse\nFalse\n\n\n\n\n\n\n\nResultatet er tre nye kolonner, hver med verdien 0 eller 1. Et rødt eple har Farge_rød = 1 og resten lik 0."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#koding-er-et-tolkningsvalg",
+    "href": "lectures/06_slides_ane.revealjs.html#koding-er-et-tolkningsvalg",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§6 — Koding er et tolkningsvalg",
+    "text": "§6 — Koding er et tolkningsvalg\nOne-hot behandler rød, grønn og gul som tre separate, urelaterte kategorier.\n\n\n\n\n\n\nTip\n\n\nRefleksjon: Hva om kategoriene var nært beslektet, for eksempel «litt rød» og «veldig rød»? One-hot koder dem som helt uavhengige. Er det alltid riktig? Kan dere komme på et eksempel der valg av koding ville endre hva modellen lærer?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hva-skjuler-.score",
+    "href": "lectures/06_slides_ane.revealjs.html#hva-skjuler-.score",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§7 — Hva skjuler .score()?",
+    "text": "§7 — Hva skjuler .score()?\nDere har alle sett denne koden:\n\ntre_modell.score(X_test, y_test)\n\n0.74\n\n\n\n\n\n\n\n\nTip\n\n\nGjett: .score() gir ett tall tilbake. Hva tror dere skjer inni denne funksjonen?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#to-separate-steg",
+    "href": "lectures/06_slides_ane.revealjs.html#to-separate-steg",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§8 — To separate steg",
+    "text": "§8 — To separate steg\nHer er hva .score() gjør:\n\n# Steg 1: modellen lager gjetninger, én per eple\nprediksjoner = tre_modell.predict(X_test)\n\n# Steg 2: en separat funksjon sammenligner gjetningene med fasit\naccuracy_score(y_test, prediksjoner)\n\n0.74\n\n\n\naccuracy_score tar inn to lister (fasit og prediksjoner) og teller hvor mange elementer som er like."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#tre-kilder-samme-funksjon",
+    "href": "lectures/06_slides_ane.revealjs.html#tre-kilder-samme-funksjon",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§9 — Tre kilder, samme funksjon",
+    "text": "§9 — Tre kilder, samme funksjon\n\nlog_modell = LogisticRegression(max_iter=1000).fit(X_train, y_train)\n\npred_tre  = tre_modell.predict(X_test)\npred_log  = log_modell.predict(X_test)\npred_alt  = np.zeros(len(y_test), dtype=int)   # \"alle epler er dårlige\"\n\nprint(f\"Beslutningstre:     {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Logistisk regresjon:{accuracy_score(y_test, pred_log)*100:.1f}%\")\nprint(f\"«Alle er dårlige»:  {accuracy_score(y_test, pred_alt)*100:.1f}%\")\n\nBeslutningstre:     74.0%\nLogistisk regresjon:75.4%\n«Alle er dårlige»:  50.1%\n\n\n\nAlle tre linjene kaller accuracy_score med samme y_test og tre ulike prediksjonslister."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#nøyaktighetsparadokset",
+    "href": "lectures/06_slides_ane.revealjs.html#nøyaktighetsparadokset",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§10 — Nøyaktighetsparadokset",
+    "text": "§10 — Nøyaktighetsparadokset\nDen siste linjen bruker np.zeros() som prediksjoner: «alle epler er dårlige», uten noen modell. Med omtrent like mange gode og dårlige epler i testsettet gir dette ~50 % nøyaktighet.\n\n\n\n\n\n\n\nTip\n\n\nGjett: I obligen jobber dere med Titanic-data der mer enn 50% av passasjerene omkom. Hvor høy nøyaktighet får en modell som alltid predikerer «død»?\n\n\n\n\n\n\ny_titan = np.array([0]*62 + [1]*38)              # si at 62 døde, 38 overlevde\npred_alle_dør = np.zeros(100, dtype=int)          # \"alle 100 dør\"\n\nprint(f\"Nøyaktighet for «alle dør»: {accuracy_score(y_titan, pred_alle_dør)*100:.0f}%\")\n\nNøyaktighet for «alle dør»: 62%\n\n\n62 % nøyaktighet uten noen modell. En modell som får 78 % er da bare 16 prosentpoeng bedre enn ren gjetning."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#samme-prediksjoner-ulike-spørsmål",
+    "href": "lectures/06_slides_ane.revealjs.html#samme-prediksjoner-ulike-spørsmål",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§11 — Samme prediksjoner, ulike spørsmål",
+    "text": "§11 — Samme prediksjoner, ulike spørsmål\nVi kan stille ulike spørsmål om den samme listen med prediksjoner:\n\nprint(f\"Accuracy:  {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Precision: {precision_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Recall:    {recall_score(y_test, pred_tre)*100:.1f}%\")\n\nAccuracy:  74.0%\nPrecision: 81.3%\nRecall:    62.2%\n\n\n\n\n\n\nMål\nSpørsmål\n\n\n\n\nAccuracy\nHvor mange fikk du riktig totalt?\n\n\nPrecision\nAv dem du sa var gode, hvor mange var faktisk gode?\n\n\nRecall\nAv de faktisk gode, hvor mange fant du?\n\n\n\nPrediksjonene og modellen er de samme i alle tre tilfellene. Det som endres er hvilken type feil vi fokuserer på."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#forvirringsmatrisen",
+    "href": "lectures/06_slides_ane.revealjs.html#forvirringsmatrisen",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§12 — Forvirringsmatrisen",
+    "text": "§12 — Forvirringsmatrisen\nAlle tre tallene over beregnes fra den samme tabellen:\n\ncm = confusion_matrix(y_test, pred_tre)\n\n\n\n\n                    Predikert: dårlig    Predikert: god\nFaktisk dårlig          344 riktig             57 FEIL\n                     (sa dårlig,            (sa god,\n                      var dårlig)            var dårlig)\n\nFaktisk god             151 FEIL              248 riktig\n                     (sa dårlig,            (sa god,\n                      var god)               var god)\n\n\n\n\n\n\nAccuracy = (344 + 248) / 800 = 74 %\n\n\nAccuracy summerer diagonalen (de riktige). De to cellene utenfor diagonalen er de to feiltypene."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#to-typer-feil",
+    "href": "lectures/06_slides_ane.revealjs.html#to-typer-feil",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§13 — To typer feil",
+    "text": "§13 — To typer feil\n\n\nDe to feiltypene:\n  151 gode epler som modellen sa var dårlige (false negatives)\n  57 dårlige epler som modellen sa var gode (false positives)\n\n\n\n\n\n\n\n\n\nTip\n\n\nDiskuter med sidemannen (1 minutt): Dere sorterer epler for salg. Hvilken feil er verst: false negatives eller false positives? Hva betyr disse begrepene i eplesalg-praksis?\n\n\n\n\n\nHvordan ville dere oversatt dette til Titanic-datasettet hvor vi predikerer overlevelse?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#b-tilbake-til-treet",
+    "href": "lectures/06_slides_ane.revealjs.html#b-tilbake-til-treet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§13b — Tilbake til treet",
+    "text": "§13b — Tilbake til treet\nI §1 så vi dette:\n\n\n\n\n\n\n\n\n\nVi har nå verktøy for å evaluere prediksjoner. Problemet fra forrige gang gjenstår: treet endrer seg med dataene."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#en-annen-type-prosess",
+    "href": "lectures/06_slides_ane.revealjs.html#en-annen-type-prosess",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§14 — En annen type prosess",
+    "text": "§14 — En annen type prosess\nEt beslutningstre er en steg-for-steg-prosess: data kommer inn, treet stiller spørsmål, og hvert datapunkt følger én sti fra rot til blad.\n\n\n\n\n\n\n\nTip\n\n\nGjett: 100 mennesker gjetter antall gelébønner i et glass. Vil gjennomsnittet være bedre eller dårligere enn den beste enkeltgjetningen?\n\n\n\n\n\nFeilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#mange-middelmådige-trær",
+    "href": "lectures/06_slides_ane.revealjs.html#mange-middelmådige-trær",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§15 — Mange middelmådige trær",
+    "text": "§15 — Mange middelmådige trær\nEn random forest består av mange beslutningstrær. Hvert tre klassifiserer hvert datapunkt på egen hånd, fra rot til blad, og gir sitt eget endelige svar. Skogen samler svarene og returnerer det svaret flest trær ga.\nHvert enkelt tre er middelmådig alene. Fordi trærne gjør ulike feil, er flertallssvaret mer nøyaktig enn noe enkelt tre.\n\n\n\n\n\n\n\nTip\n\n\nGjett: Hva ville skjedd om alle trærne fikk nøyaktig samme data og samme features?\n\n\n\n\n\nDe ville gitt identiske svar. For at flertallet skal hjelpe, må trærne gjøre ulike feil."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#juryanalogien",
+    "href": "lectures/06_slides_ane.revealjs.html#juryanalogien",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§16 — Juryanalogien",
+    "text": "§16 — Juryanalogien\n\n\n\n\n\ngraph TD\n    A[\"🌳 Tre 1&lt;br&gt;Trent på utvalg A\"] --&gt;|god| V((Stemme))\n    B[\"🌳 Tre 2&lt;br&gt;Trent på utvalg B\"] --&gt;|dårlig| V\n    C[\"🌳 Tre 3&lt;br&gt;Trent på utvalg C\"] --&gt;|god| V\n    V --&gt; R[\"✅ Flertall: god&lt;br&gt;(2 mot 1)\"]\n    style R fill:#ccf,stroke:#333,stroke-width:2px\n\n\n\n\n\n\nHvert tre vurderer saken på egen hånd og leverer sin egen dom. Skogen teller opp dommene og returnerer flertallet.\nEn ekte jury diskuterer seg frem til enighet, mens trærne aldri kommuniserer. Uavhengige feil kansellerer hverandre fordi de går i ulike retninger. Korrelerte feil (som i en jury der medlemmene påvirker hverandre) gjør det ikke."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#to-kilder-til-tilfeldighet",
+    "href": "lectures/06_slides_ane.revealjs.html#to-kilder-til-tilfeldighet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§17 — To kilder til tilfeldighet",
+    "text": "§17 — To kilder til tilfeldighet\nFor at trærne skal bli ulike, bruker random forest to former for tilfeldighet:\n\n\n1. Tilfeldig datautvalg (bootstrap)\nHvert tre trekker et utvalg med tilbakelegging: samme eple kan dukke opp flere ganger. Ulike utvalg gir ulike feil.\n\n2. Tilfeldig feature-utvalg\nVed hvert splittepunkt velger treet blant en tilfeldig håndfull features. Ulike features gir ulike splitt."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#fra-konsept-til-kode",
+    "href": "lectures/06_slides_ane.revealjs.html#fra-konsept-til-kode",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§18 — Fra konsept til kode",
+    "text": "§18 — Fra konsept til kode\n\nfrom sklearn.ensemble import RandomForestClassifier\n\nskog = RandomForestClassifier(n_estimators=100, max_features=\"sqrt\", random_state=42)\nskog.fit(X_train, y_train)\nprint(f\"Ferdigtrent skog med {skog.n_estimators} trær, max_features={skog.max_features}\")\n\nFerdigtrent skog med 100 trær, max_features=sqrt\n\n\nn_estimators bestemmer antall trær. max_features bestemmer hvor mange features hvert tre vurderer ved hvert splittepunkt (standard: √antall features).\n\n\nprediksjoner = skog.predict(X_test)\nnøyaktighet  = skog.score(X_test, y_test)\nprint(f\"Nøyaktighet: {nøyaktighet*100:.1f}%\")\n\nNøyaktighet: 90.1%\n\n\nNår du kaller .predict(), klassifiserer hvert av de 100 trærne hvert eple fra rot til blad og gir sitt eget svar. Skogen samler de 100 svarene og returnerer flertallet. .score() sammenligner med fasit, akkurat som i Blokk 1."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#svake-læringsmodeller-weak-learners",
+    "href": "lectures/06_slides_ane.revealjs.html#svake-læringsmodeller-weak-learners",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§19 — Svake læringsmodeller (weak learners)",
+    "text": "§19 — Svake læringsmodeller (weak learners)\nHvert enkelt tre kalles en svak læringsmodell (weak learner): en modell som er bare litt bedre enn tilfeldig gjetning.\n\n\n\n\n\n\n\nTip\n\n\nGjett: Vi kan gå fra 1 tre til 3 til 100 til 500. Skisser i hodet: nøyaktighet som funksjon av antall trær. Stiger den hele tiden, flater den ut, eller går den opp og ned?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hvor-mange-trær-trengs",
+    "href": "lectures/06_slides_ane.revealjs.html#hvor-mange-trær-trengs",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§20 — Hvor mange trær trengs?",
+    "text": "§20 — Hvor mange trær trengs?\n\nantall_liste = [1, 3, 5, 10, 20, 50, 100, 200, 500]\nacc_per_n = []\n\nfor n in antall_liste:\n    rf = RandomForestClassifier(n_estimators=n, random_state=42)\n    rf.fit(X_train, y_train)\n    acc_per_n.append(rf.score(X_test, y_test))\n\n\n\n\n\n\n\n\n\n\n\nKurven stiger bratt med de første trærne og flater ut etter ca. 50. Sammenlignet med max_depth-kurven fra forrige forelesning, der mer dybde ga dårligere testresultat, er dette en annen dynamikk: flere trær gir avtakende forbedring."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#feature-importance",
+    "href": "lectures/06_slides_ane.revealjs.html#feature-importance",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§21 — Feature importance",
+    "text": "§21 — Feature importance\n\n\n\n\n\n\n\n\n\nimportance = skog.feature_importances_\n\n\n\n\n\n\nTip\n\n\nGjett: Den øverste variabelen har høyest importance. Betyr det at den forårsaker god eplekvalitet?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#b-importance-er-ikke-kausalitet",
+    "href": "lectures/06_slides_ane.revealjs.html#b-importance-er-ikke-kausalitet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§21b — Importance er ikke kausalitet",
+    "text": "§21b — Importance er ikke kausalitet\nFeature importance viser hvor mye modellen støttet seg på hver variabel. Den sier ingenting om årsak og virkning.\nEgenskaper med mange unike verdier får oppblåst importance, og korrelerte egenskaper deler importance mellom seg."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#partial-dependence",
+    "href": "lectures/06_slides_ane.revealjs.html#partial-dependence",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§22 — Partial dependence",
+    "text": "§22 — Partial dependence\nFeature importance viser hvilke variabler modellen bruker mest, men ikke retning: gjør høyere søthet eplet «godt» eller «dårlig»?\nPartial dependence svarer på dette: hva skjer med prediksjonen hvis vi endrer én variabel mens vi holder alt annet fast?\n\nSett søtheten til −3 for alle eplene (behold alt annet), kjør prediksjoner, noter gjennomsnittet\nGjenta for −2, −1, 0, 1, 2, 3 …\nPlott gjennomsnittlig prediksjon mot søthet"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hva-viser-kurven",
+    "href": "lectures/06_slides_ane.revealjs.html#hva-viser-kurven",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§23 — Hva viser kurven?",
+    "text": "§23 — Hva viser kurven?\n\n\n\n\n\n\nTip\n\n\nGjett: Tror dere partial dependence-kurven for søthet stiger, synker, eller er flat?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#pdp-for-den-viktigste-variabelen",
+    "href": "lectures/06_slides_ane.revealjs.html#pdp-for-den-viktigste-variabelen",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§24 — PDP for den viktigste variabelen",
+    "text": "§24 — PDP for den viktigste variabelen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\nLes kurven: Ved hvilken verdi skifter modellen? Er overgangen brå eller gradvis?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#pdp-for-alle-variabler",
+    "href": "lectures/06_slides_ane.revealjs.html#pdp-for-alle-variabler",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§25 — PDP for alle variabler",
+    "text": "§25 — PDP for alle variabler"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#tre-modeller-tre-avveininger",
+    "href": "lectures/06_slides_ane.revealjs.html#tre-modeller-tre-avveininger",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§26 — Tre modeller, tre avveininger",
+    "text": "§26 — Tre modeller, tre avveininger\n\n\n\n\n\n\n\n\nModell\nHva du kan se\nHva du gir opp\n\n\n\n\nLineær regresjon\nKoeffisienter: nøyaktig bidrag per variabel\nAntakelse om rette linjer\n\n\nLogistisk regresjon\nKoeffisienter + sannsynligheter\nAntakelse om lineære grenser\n\n\nBeslutningstre\nHele beslutningsstien for hvert datapunkt\nUstabilt: annen splitt gir annet svar\n\n\nRandom Forest\nGenerell logikk (importance + PDP)\nEnkeltprediksjoner er vanskelige å forklare"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#modellvalg-avhenger-av-formålet",
+    "href": "lectures/06_slides_ane.revealjs.html#modellvalg-avhenger-av-formålet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§27 — Modellvalg avhenger av formålet",
+    "text": "§27 — Modellvalg avhenger av formålet\n\n\n\n\n\n\nTip\n\n\nDiskuter med sidemannen (1 minutt): Et sykehus bruker en modell til å prioritere pasienter. Hvilken av de tre modellene ville dere valgt, og hvorfor?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#oppsummering",
+    "href": "lectures/06_slides_ane.revealjs.html#oppsummering",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§28 — Oppsummering",
+    "text": "§28 — Oppsummering\n\n\n\n\n\n\n\nKonsept\nHva det gjør\n\n\n\n\nOne-hot encoding\nOversetter kategorier til binære kolonner sklearn forstår\n\n\n.predict() → evaluering\nModell lager prediksjoner, evalueringsfunksjon bedømmer dem uavhengig\n\n\nForvirringsmatrise\nViser hvilke feil modellen gjør, ikke bare hvor mange\n\n\nSvak læringsmodell\nEtt enkelt tre, middelmådig alene\n\n\nRandom Forest\nMange svake trær med tilfeldig data og features, flertallsavstemning\n\n\nFeature importance\nHvilke variabler modellen bruker mest (ikke retning, ikke kausalitet)\n\n\nPartial dependence\nHvordan en variabel påvirker prediksjonen (gjennomsnittlig)"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#obligen",
+    "href": "lectures/06_slides_ane.revealjs.html#obligen",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§29 — Obligen",
+    "text": "§29 — Obligen\nI oppgave 4 skal dere bruke det vi har gått gjennom i dag: random forest, feature importance og partial dependence.\nHusk å one-hot-kode kategoriske variabler før dere trener modellen.\n\n\n\n\n\n\nImportant\n\n\nOblig: frist 19. mars. Orakeltimer hver torsdag i Tellefsens tårn, kl. 16:15–18:00."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#hva-husker-dere-fra-sist",
+    "href": "lectures/06_slides_ane.html#hva-husker-dere-fra-sist",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§1 — Hva husker dere fra sist?",
+    "text": "§1 — Hva husker dere fra sist?\nDiskuter med sidemannen (1 minutt): Forrige gang trente vi et beslutningstre på eplekvalitet. Vi kjørte det seks ganger med ulike tilfeldige splitter. Hva skjedde?\n. . .\n\n\n\n\n\n\n\n\n\nTreet endrer seg hver gang vi deler dataene annerledes.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#sklearn-godtar-bare-tall",
+    "href": "lectures/06_slides_ane.html#sklearn-godtar-bare-tall",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§2 — Sklearn godtar bare tall",
+    "text": "§2 — Sklearn godtar bare tall\nEple-datasettet har bare tallverdier, men mange datasett har tekstkolonner som sklearn ikke godtar.\n\n\n\n\n\n\n\n\n\nStørrelse\nFarge\nKvalitet\n\n\n\n\n0\n7.2\nrød\ngod\n\n\n1\n5.1\ngrønn\ngod\n\n\n2\n8.4\nrød\ndårlig\n\n\n3\n6.0\ngul\ngod\n\n\n4\n4.3\ngrønn\ndårlig\n\n\n\n\n\n\n\nStørrelse er et tall. Farge og Kvalitet er tekst. Tekstkolonner må oversettes til tall før sklearn kan bruke dem.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#det-binære-tilfellet",
+    "href": "lectures/06_slides_ane.html#det-binære-tilfellet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§3 — Det binære tilfellet",
+    "text": "§3 — Det binære tilfellet\nDet enkleste: to kategorier → 0 og 1. Dere har sett .astype(int) på en binær kolonne før.\n\ndf[\"quality_num\"] = (df[\"Quality\"] == \"good\").astype(int)\ndf[[\"Quality\", \"quality_num\"]].head(6)\n\n\n\n\n\n\n\n\nQuality\nquality_num\n\n\n\n\n0\ngood\n1\n\n\n1\ngood\n1\n\n\n2\nbad\n0\n\n\n3\ngood\n1\n\n\n4\ngood\n1\n\n\n5\nbad\n0\n\n\n\n\n\n\n\nFor to kategorier fungerer dette. Hva med Farge som har tre verdier?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#ordensfellen",
+    "href": "lectures/06_slides_ane.html#ordensfellen",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§4 — Ordensfellen",
+    "text": "§4 — Ordensfellen\nFarge har tre verdier: rød, grønn, gul.\n\n\n\n\n\n\nTip\n\n\n\nGjett: Kan vi bare bruke 0, 1, 2?\n\n\n. . .\n\n\n# Farlig!\nfarge_num = {\"rød\": 0, \"grønn\": 1, \"gul\": 2}\nDenne oversettelsen forteller modellen at gul &gt; grønn &gt; rød, og at avstanden mellom gul og rød er dobbelt så stor som mellom grønn og rød.\nFargene har ingen naturlig rekkefølge. Å kode dem som ordnede tall legger inn struktur som ikke finnes i dataene.\n\nOne-hot encoding\nÉn kolonne per kategori, bare 0 og 1:\n\n\n\n\n\n\n\n\n\nFarge_grønn\nFarge_gul\nFarge_rød\n\n\n\n\n0\nFalse\nFalse\nTrue\n\n\n1\nTrue\nFalse\nFalse\n\n\n2\nFalse\nFalse\nTrue\n\n\n3\nFalse\nTrue\nFalse\n\n\n4\nTrue\nFalse\nFalse",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#one-hot-i-praksis",
+    "href": "lectures/06_slides_ane.html#one-hot-i-praksis",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§5 — One-hot i praksis",
+    "text": "§5 — One-hot i praksis\n\neksempel = pd.DataFrame({\n    \"Farge\": [\"rød\", \"grønn\", \"rød\", \"gul\", \"grønn\"]\n})\npd.get_dummies(eksempel[[\"Farge\"]], prefix=\"Farge\")\n\n\n\n\n\n\n\n\nFarge_grønn\nFarge_gul\nFarge_rød\n\n\n\n\n0\nFalse\nFalse\nTrue\n\n\n1\nTrue\nFalse\nFalse\n\n\n2\nFalse\nFalse\nTrue\n\n\n3\nFalse\nTrue\nFalse\n\n\n4\nTrue\nFalse\nFalse\n\n\n\n\n\n\n\nResultatet er tre nye kolonner, hver med verdien 0 eller 1. Et rødt eple har Farge_rød = 1 og resten lik 0.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#koding-er-et-tolkningsvalg",
+    "href": "lectures/06_slides_ane.html#koding-er-et-tolkningsvalg",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§6 — Koding er et tolkningsvalg",
+    "text": "§6 — Koding er et tolkningsvalg\nOne-hot behandler rød, grønn og gul som tre separate, urelaterte kategorier.\n\n\n\n\n\n\nTip\n\n\n\nRefleksjon: Hva om kategoriene var nært beslektet, for eksempel «litt rød» og «veldig rød»? One-hot koder dem som helt uavhengige. Er det alltid riktig? Kan dere komme på et eksempel der valg av koding ville endre hva modellen lærer?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#hva-skjuler-.score",
+    "href": "lectures/06_slides_ane.html#hva-skjuler-.score",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§7 — Hva skjuler .score()?",
+    "text": "§7 — Hva skjuler .score()?\nDere har alle sett denne koden:\n\ntre_modell.score(X_test, y_test)\n\n0.74\n\n\n\n\n\n\n\n\nTip\n\n\n\nGjett: .score() gir ett tall tilbake. Hva tror dere skjer inni denne funksjonen?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#to-separate-steg",
+    "href": "lectures/06_slides_ane.html#to-separate-steg",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§8 — To separate steg",
+    "text": "§8 — To separate steg\nHer er hva .score() gjør:\n\n# Steg 1: modellen lager gjetninger, én per eple\nprediksjoner = tre_modell.predict(X_test)\n\n# Steg 2: en separat funksjon sammenligner gjetningene med fasit\naccuracy_score(y_test, prediksjoner)\n\n0.74\n\n\n. . .\naccuracy_score tar inn to lister (fasit og prediksjoner) og teller hvor mange elementer som er like.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#tre-kilder-samme-funksjon",
+    "href": "lectures/06_slides_ane.html#tre-kilder-samme-funksjon",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§9 — Tre kilder, samme funksjon",
+    "text": "§9 — Tre kilder, samme funksjon\n\nlog_modell = LogisticRegression(max_iter=1000).fit(X_train, y_train)\n\npred_tre  = tre_modell.predict(X_test)\npred_log  = log_modell.predict(X_test)\npred_alt  = np.zeros(len(y_test), dtype=int)   # \"alle epler er dårlige\"\n\nprint(f\"Beslutningstre:     {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Logistisk regresjon:{accuracy_score(y_test, pred_log)*100:.1f}%\")\nprint(f\"«Alle er dårlige»:  {accuracy_score(y_test, pred_alt)*100:.1f}%\")\n\nBeslutningstre:     74.0%\nLogistisk regresjon:75.4%\n«Alle er dårlige»:  50.1%\n\n\n. . .\nAlle tre linjene kaller accuracy_score med samme y_test og tre ulike prediksjonslister.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#nøyaktighetsparadokset",
+    "href": "lectures/06_slides_ane.html#nøyaktighetsparadokset",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§10 — Nøyaktighetsparadokset",
+    "text": "§10 — Nøyaktighetsparadokset\nDen siste linjen bruker np.zeros() som prediksjoner: «alle epler er dårlige», uten noen modell. Med omtrent like mange gode og dårlige epler i testsettet gir dette ~50 % nøyaktighet.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nGjett: I obligen jobber dere med Titanic-data der mer enn 50% av passasjerene omkom. Hvor høy nøyaktighet får en modell som alltid predikerer «død»?\n\n\n. . .\n\ny_titan = np.array([0]*62 + [1]*38)              # si at 62 døde, 38 overlevde\npred_alle_dør = np.zeros(100, dtype=int)          # \"alle 100 dør\"\n\nprint(f\"Nøyaktighet for «alle dør»: {accuracy_score(y_titan, pred_alle_dør)*100:.0f}%\")\n\nNøyaktighet for «alle dør»: 62%\n\n\n62 % nøyaktighet uten noen modell. En modell som får 78 % er da bare 16 prosentpoeng bedre enn ren gjetning.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#samme-prediksjoner-ulike-spørsmål",
+    "href": "lectures/06_slides_ane.html#samme-prediksjoner-ulike-spørsmål",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§11 — Samme prediksjoner, ulike spørsmål",
+    "text": "§11 — Samme prediksjoner, ulike spørsmål\nVi kan stille ulike spørsmål om den samme listen med prediksjoner:\n\nprint(f\"Accuracy:  {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Precision: {precision_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Recall:    {recall_score(y_test, pred_tre)*100:.1f}%\")\n\nAccuracy:  74.0%\nPrecision: 81.3%\nRecall:    62.2%\n\n\n. . .\n\n\n\nMål\nSpørsmål\n\n\n\n\nAccuracy\nHvor mange fikk du riktig totalt?\n\n\nPrecision\nAv dem du sa var gode, hvor mange var faktisk gode?\n\n\nRecall\nAv de faktisk gode, hvor mange fant du?\n\n\n\nPrediksjonene og modellen er de samme i alle tre tilfellene. Det som endres er hvilken type feil vi fokuserer på.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#forvirringsmatrisen",
+    "href": "lectures/06_slides_ane.html#forvirringsmatrisen",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§12 — Forvirringsmatrisen",
+    "text": "§12 — Forvirringsmatrisen\nAlle tre tallene over beregnes fra den samme tabellen:\n\ncm = confusion_matrix(y_test, pred_tre)\n\n. . .\n\n\n                    Predikert: dårlig    Predikert: god\nFaktisk dårlig          344 riktig             57 FEIL\n                     (sa dårlig,            (sa god,\n                      var dårlig)            var dårlig)\n\nFaktisk god             151 FEIL              248 riktig\n                     (sa dårlig,            (sa god,\n                      var god)               var god)\n\n\n. . .\n\n\nAccuracy = (344 + 248) / 800 = 74 %\n\n\nAccuracy summerer diagonalen (de riktige). De to cellene utenfor diagonalen er de to feiltypene.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#to-typer-feil",
+    "href": "lectures/06_slides_ane.html#to-typer-feil",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§13 — To typer feil",
+    "text": "§13 — To typer feil\n\n\nDe to feiltypene:\n  151 gode epler som modellen sa var dårlige (false negatives)\n  57 dårlige epler som modellen sa var gode (false positives)\n\n\n. . .\n\n\n\n\n\n\nTip\n\n\n\nDiskuter med sidemannen (1 minutt): Dere sorterer epler for salg. Hvilken feil er verst: false negatives eller false positives? Hva betyr disse begrepene i eplesalg-praksis?\n\n\n. . .\nHvordan ville dere oversatt dette til Titanic-datasettet hvor vi predikerer overlevelse?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#b-tilbake-til-treet",
+    "href": "lectures/06_slides_ane.html#b-tilbake-til-treet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§13b — Tilbake til treet",
+    "text": "§13b — Tilbake til treet\nI §1 så vi dette:\n\n\n\n\n\n\n\n\n\nVi har nå verktøy for å evaluere prediksjoner. Problemet fra forrige gang gjenstår: treet endrer seg med dataene.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#en-annen-type-prosess",
+    "href": "lectures/06_slides_ane.html#en-annen-type-prosess",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§14 — En annen type prosess",
+    "text": "§14 — En annen type prosess\nEt beslutningstre er en steg-for-steg-prosess: data kommer inn, treet stiller spørsmål, og hvert datapunkt følger én sti fra rot til blad.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nGjett: 100 mennesker gjetter antall gelébønner i et glass. Vil gjennomsnittet være bedre eller dårligere enn den beste enkeltgjetningen?\n\n\n. . .\nFeilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#mange-middelmådige-trær",
+    "href": "lectures/06_slides_ane.html#mange-middelmådige-trær",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§15 — Mange middelmådige trær",
+    "text": "§15 — Mange middelmådige trær\nEn random forest består av mange beslutningstrær. Hvert tre klassifiserer hvert datapunkt på egen hånd, fra rot til blad, og gir sitt eget endelige svar. Skogen samler svarene og returnerer det svaret flest trær ga.\nHvert enkelt tre er middelmådig alene. Fordi trærne gjør ulike feil, er flertallssvaret mer nøyaktig enn noe enkelt tre.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nGjett: Hva ville skjedd om alle trærne fikk nøyaktig samme data og samme features?\n\n\n. . .\nDe ville gitt identiske svar. For at flertallet skal hjelpe, må trærne gjøre ulike feil.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#juryanalogien",
+    "href": "lectures/06_slides_ane.html#juryanalogien",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§16 — Juryanalogien",
+    "text": "§16 — Juryanalogien\n\n\n\n\n\ngraph TD\n    A[\"🌳 Tre 1&lt;br&gt;Trent på utvalg A\"] --&gt;|god| V((Stemme))\n    B[\"🌳 Tre 2&lt;br&gt;Trent på utvalg B\"] --&gt;|dårlig| V\n    C[\"🌳 Tre 3&lt;br&gt;Trent på utvalg C\"] --&gt;|god| V\n    V --&gt; R[\"✅ Flertall: god&lt;br&gt;(2 mot 1)\"]\n    style R fill:#ccf,stroke:#333,stroke-width:2px\n\n\n\n\n\n\nHvert tre vurderer saken på egen hånd og leverer sin egen dom. Skogen teller opp dommene og returnerer flertallet.\nEn ekte jury diskuterer seg frem til enighet, mens trærne aldri kommuniserer. Uavhengige feil kansellerer hverandre fordi de går i ulike retninger. Korrelerte feil (som i en jury der medlemmene påvirker hverandre) gjør det ikke.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#to-kilder-til-tilfeldighet",
+    "href": "lectures/06_slides_ane.html#to-kilder-til-tilfeldighet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§17 — To kilder til tilfeldighet",
+    "text": "§17 — To kilder til tilfeldighet\nFor at trærne skal bli ulike, bruker random forest to former for tilfeldighet:\n\n\n1. Tilfeldig datautvalg (bootstrap)\nHvert tre trekker et utvalg med tilbakelegging: samme eple kan dukke opp flere ganger. Ulike utvalg gir ulike feil.\n\n2. Tilfeldig feature-utvalg\nVed hvert splittepunkt velger treet blant en tilfeldig håndfull features. Ulike features gir ulike splitt.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#fra-konsept-til-kode",
+    "href": "lectures/06_slides_ane.html#fra-konsept-til-kode",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§18 — Fra konsept til kode",
+    "text": "§18 — Fra konsept til kode\n\nfrom sklearn.ensemble import RandomForestClassifier\n\nskog = RandomForestClassifier(n_estimators=100, max_features=\"sqrt\", random_state=42)\nskog.fit(X_train, y_train)\nprint(f\"Ferdigtrent skog med {skog.n_estimators} trær, max_features={skog.max_features}\")\n\nFerdigtrent skog med 100 trær, max_features=sqrt\n\n\nn_estimators bestemmer antall trær. max_features bestemmer hvor mange features hvert tre vurderer ved hvert splittepunkt (standard: √antall features).\n. . .\n\nprediksjoner = skog.predict(X_test)\nnøyaktighet  = skog.score(X_test, y_test)\nprint(f\"Nøyaktighet: {nøyaktighet*100:.1f}%\")\n\nNøyaktighet: 90.1%\n\n\nNår du kaller .predict(), klassifiserer hvert av de 100 trærne hvert eple fra rot til blad og gir sitt eget svar. Skogen samler de 100 svarene og returnerer flertallet. .score() sammenligner med fasit, akkurat som i Blokk 1.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#svake-læringsmodeller-weak-learners",
+    "href": "lectures/06_slides_ane.html#svake-læringsmodeller-weak-learners",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§19 — Svake læringsmodeller (weak learners)",
+    "text": "§19 — Svake læringsmodeller (weak learners)\nHvert enkelt tre kalles en svak læringsmodell (weak learner): en modell som er bare litt bedre enn tilfeldig gjetning.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nGjett: Vi kan gå fra 1 tre til 3 til 100 til 500. Skisser i hodet: nøyaktighet som funksjon av antall trær. Stiger den hele tiden, flater den ut, eller går den opp og ned?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#hvor-mange-trær-trengs",
+    "href": "lectures/06_slides_ane.html#hvor-mange-trær-trengs",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§20 — Hvor mange trær trengs?",
+    "text": "§20 — Hvor mange trær trengs?\n\nantall_liste = [1, 3, 5, 10, 20, 50, 100, 200, 500]\nacc_per_n = []\n\nfor n in antall_liste:\n    rf = RandomForestClassifier(n_estimators=n, random_state=42)\n    rf.fit(X_train, y_train)\n    acc_per_n.append(rf.score(X_test, y_test))\n\n\n\n\n\n\n\n\n\n\n. . .\nKurven stiger bratt med de første trærne og flater ut etter ca. 50. Sammenlignet med max_depth-kurven fra forrige forelesning, der mer dybde ga dårligere testresultat, er dette en annen dynamikk: flere trær gir avtakende forbedring.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#feature-importance",
+    "href": "lectures/06_slides_ane.html#feature-importance",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§21 — Feature importance",
+    "text": "§21 — Feature importance\n\n\n\n\n\n\n\n\n\nimportance = skog.feature_importances_\n\n\n\n\n\n\nTip\n\n\n\nGjett: Den øverste variabelen har høyest importance. Betyr det at den forårsaker god eplekvalitet?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#b-importance-er-ikke-kausalitet",
+    "href": "lectures/06_slides_ane.html#b-importance-er-ikke-kausalitet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§21b — Importance er ikke kausalitet",
+    "text": "§21b — Importance er ikke kausalitet\nFeature importance viser hvor mye modellen støttet seg på hver variabel. Den sier ingenting om årsak og virkning.\nEgenskaper med mange unike verdier får oppblåst importance, og korrelerte egenskaper deler importance mellom seg.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#partial-dependence",
+    "href": "lectures/06_slides_ane.html#partial-dependence",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§22 — Partial dependence",
+    "text": "§22 — Partial dependence\nFeature importance viser hvilke variabler modellen bruker mest, men ikke retning: gjør høyere søthet eplet «godt» eller «dårlig»?\nPartial dependence svarer på dette: hva skjer med prediksjonen hvis vi endrer én variabel mens vi holder alt annet fast?\n\nSett søtheten til −3 for alle eplene (behold alt annet), kjør prediksjoner, noter gjennomsnittet\nGjenta for −2, −1, 0, 1, 2, 3 …\nPlott gjennomsnittlig prediksjon mot søthet",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#hva-viser-kurven",
+    "href": "lectures/06_slides_ane.html#hva-viser-kurven",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§23 — Hva viser kurven?",
+    "text": "§23 — Hva viser kurven?\n\n\n\n\n\n\nTip\n\n\n\nGjett: Tror dere partial dependence-kurven for søthet stiger, synker, eller er flat?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#pdp-for-den-viktigste-variabelen",
+    "href": "lectures/06_slides_ane.html#pdp-for-den-viktigste-variabelen",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§24 — PDP for den viktigste variabelen",
+    "text": "§24 — PDP for den viktigste variabelen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nLes kurven: Ved hvilken verdi skifter modellen? Er overgangen brå eller gradvis?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#pdp-for-alle-variabler",
+    "href": "lectures/06_slides_ane.html#pdp-for-alle-variabler",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§25 — PDP for alle variabler",
+    "text": "§25 — PDP for alle variabler",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#tre-modeller-tre-avveininger",
+    "href": "lectures/06_slides_ane.html#tre-modeller-tre-avveininger",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§26 — Tre modeller, tre avveininger",
+    "text": "§26 — Tre modeller, tre avveininger\n\n\n\n\n\n\n\n\nModell\nHva du kan se\nHva du gir opp\n\n\n\n\nLineær regresjon\nKoeffisienter: nøyaktig bidrag per variabel\nAntakelse om rette linjer\n\n\nLogistisk regresjon\nKoeffisienter + sannsynligheter\nAntakelse om lineære grenser\n\n\nBeslutningstre\nHele beslutningsstien for hvert datapunkt\nUstabilt: annen splitt gir annet svar\n\n\nRandom Forest\nGenerell logikk (importance + PDP)\nEnkeltprediksjoner er vanskelige å forklare",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#modellvalg-avhenger-av-formålet",
+    "href": "lectures/06_slides_ane.html#modellvalg-avhenger-av-formålet",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§27 — Modellvalg avhenger av formålet",
+    "text": "§27 — Modellvalg avhenger av formålet\n\n\n\n\n\n\nTip\n\n\n\nDiskuter med sidemannen (1 minutt): Et sykehus bruker en modell til å prioritere pasienter. Hvilken av de tre modellene ville dere valgt, og hvorfor?",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#oppsummering",
+    "href": "lectures/06_slides_ane.html#oppsummering",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§28 — Oppsummering",
+    "text": "§28 — Oppsummering\n\n\n\n\n\n\n\nKonsept\nHva det gjør\n\n\n\n\nOne-hot encoding\nOversetter kategorier til binære kolonner sklearn forstår\n\n\n.predict() → evaluering\nModell lager prediksjoner, evalueringsfunksjon bedømmer dem uavhengig\n\n\nForvirringsmatrise\nViser hvilke feil modellen gjør, ikke bare hvor mange\n\n\nSvak læringsmodell\nEtt enkelt tre, middelmådig alene\n\n\nRandom Forest\nMange svake trær med tilfeldig data og features, flertallsavstemning\n\n\nFeature importance\nHvilke variabler modellen bruker mest (ikke retning, ikke kausalitet)\n\n\nPartial dependence\nHvordan en variabel påvirker prediksjonen (gjennomsnittlig)",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
+    ]
+  },
+  {
+    "objectID": "lectures/06_slides_ane.html#obligen",
+    "href": "lectures/06_slides_ane.html#obligen",
+    "title": "Random Forest og esnsemble-metoder",
+    "section": "§29 — Obligen",
+    "text": "§29 — Obligen\nI oppgave 4 skal dere bruke det vi har gått gjennom i dag: random forest, feature importance og partial dependence.\nHusk å one-hot-kode kategoriske variabler før dere trener modellen.\n\n\n\n\n\n\nImportant\n\n\n\nOblig: frist 19. mars. Orakeltimer hver torsdag i Tellefsens tårn, kl. 16:15–18:00.",
+    "crumbs": [
+      "Del 1: Statistikk",
+      "Uke 8 – 13. mars",
+      "Random Forest og esnsemble-metoder"
     ]
   }
 ]
