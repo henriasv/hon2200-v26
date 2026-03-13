@@ -15,21 +15,21 @@ format:
     output-ext: revealjs.html # Changed
 ---
 
+::: {.content-hidden when-format="revealjs"}
 ## Slide-versjon
 
 <iframe src="02b_slides.revealjs.html" width="960" height="540"></iframe>
-
+:::
 
 ## Forrige uke 
-- Datasett
-    - Numpy 
-    - Pandas
-    - Sette opp manuel/lese inn fra fil
-- Plotting 
+- Tenke litt på data-drevne prosjekter 
+- Repetisjonsoppgaver fra tidligere programmeringskurs
+- Er det spørsmål fra repetisjonsoppgavene? 
 
 ## I dag
 Hvordan kan vi lære noe av et datasett? 
 
+- Grunnleggende numpy, pandas og plotting 
 - Lineær regresjon
 - Estimere feilen i estimerte parametre
 
@@ -37,6 +37,82 @@ Hvordan kan vi lære noe av et datasett?
 ## Husk
 Ikke alt dekkes i forelesninger. Noe er bare i boka
 :::
+
+## Numpy
+```{python}
+#| echo: true
+import numpy as np
+my_array = np.array([1, 2, 3])
+print(my_array, my_array.dtype)
+```
+
+```{python}
+#| echo: true
+a = np.array([1, 5, 7.9])
+print(a, a.dtype)
+```
+
+```{python}
+#| echo: true
+b = np.linspace(1.4, 7.9, 3)
+print(b, b.dtype)
+```
+
+```{python}
+#| echo: true
+c = a*b 
+print(c, c.dtype)
+```
+
+```{python}
+#| echo: true
+d = np.dot(a, b)
+print(d, d.dtype)
+```
+
+:::{.notes}
+Nå skal vi repetere litt numpy og pandas, og plotting. Dette gjør jeg for å gi dere en anledning til å stille spørmål og få oppklart ting som er uklart. Hva lærte vi? a er en array som holder på tall av typen float. b er også en array som holder på tall av type float. c er a ganger b, og hva slags type produkt har den gjort av a og b? 
+:::
+
+## Pandas 
+
+```{python}
+#| echo: true
+import pandas as pd
+df = pd.DataFrame({
+    "talent" : [4, 5, 3, 4, 6, 2],
+    "innsats" : [2, 4, 3, 7, 4, 1],
+    "resultat" : [24, 73, 25, 204, 93, 4]
+})
+print(df)
+```
+
+## Pandas 2 
+```{python}
+#| echo: true
+df.plot("talent", "resultat", kind="scatter")
+```
+
+## Pandas 3
+Vi kan gjøre mye med lite kode: 
+```{python}
+#| echo: true
+
+import seaborn as sns
+df = sns.load_dataset('iris')
+df.head()
+```
+
+## Pandas 3
+
+```{python}
+#| echo: true
+import matplotlib.pyplot as plt
+ax = plt.subplot(111)
+for species, data in df.groupby("species"):
+    data.plot("petal_width", "petal_length", ax=ax, label=species, marker="o", linestyle="")
+```
+
 
 ## Forrige ukes oppgaver
 :::{.incremental}
@@ -89,6 +165,7 @@ y = forbruk_per_dag["KWH 60 Forbruk"]
 
 ## Plotte
 ```{python}
+#| echo: true
 import matplotlib.pyplot as plt 
 plt.scatter(x, y)
 plt.xlabel("Utetemperatur [$^\circ$C]")
@@ -274,9 +351,9 @@ Der $\varepsilon$ representeter en usikkerhet som vi ikke klarer å plukke opp m
 
 ## Lineær regresjon
 Vi ønsker å finne parametre $\beta_0$ og $\beta_1$ i funksjonen 
-$$f(x) = \beta_1 x + \beta_0$$
+$$\hat{f}(x) = \beta_1 x + \beta_0$$
 
-Slik at når vi sier at $\hat{y} = f(x)$, så minimerer vi 
+Slik at når vi sier at $\hat{y} = \hat{f}(x)$, så minimerer vi 
 
 $$\sum_{i=0}^N (y_i - \hat{y}_i)^2$$
 
@@ -372,11 +449,14 @@ for i in range(N):
 _ = plt.hist(slopes, bins=30)
 ```
 
-## Øke antallet punkter til 100 
+## Øke antallet punkter til 100 {.smaller}
 
 ```{python}
 #| echo: true
 #| output-location: column-fragment
+#| fig-width: 6
+#| fig-height: 4
+#| out-width: 100%
 N = 10000
 slopes = []
 for i in range(N):
@@ -385,8 +465,8 @@ for i in range(N):
     p = np.polyfit(x, y, 1)
     slopes.append(p[0])
 _ = plt.hist(slopes, 30)
-plt.xticks(fontsize=20)
-plt.yticks(fontsize=20)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
 plt.savefig("figures/est_beta1.png")
 ```
 
@@ -462,37 +542,8 @@ plt.legend()
 ##
 Men om vi har målt noe, så har vi jo bare én måleserie. Hva kan vi gjøre da?  
 
+Bootstrap: Sample deler av datasettet vårt mange ganger, for å se hvordan regresjonskoeffisiente varierer.
 
-## Bootstrap
+## Video om lineær regresjon, fra StatQuest
 
-```{python}
-#| echo: true
-#| output-location: column-fragment
-np.random.seed(16)
-x = np.linspace(0, 10, 100)
-y = f(x) + np.random.normal(0, 1, 100)
-slopes = []
-for i in range(1000):
-    selection = np.random.randint(0, len(x), 50)
-    x_c = x[selection]
-    y_c = y[selection]
-    p = np.polyfit(x_c, y_c, 1)
-    slopes.append(p[0])
-_ = plt.hist(slopes, bins=30)
-plt.xticks(fontsize=20)
-plt.yticks(fontsize=20)
-plt.savefig("figures/est_bootstrap.png")
-```
-
-
-## Tolkning
-
-![Random samples](figures/est_beta1.png){width=500}
-![Bootstrap](figures/est_bootstrap.png){width=500}
-
-:::{.callout-note}
-Se nøye på figurene, hva skjer her? 
-:::
-
-## Om tid
-- Begynne på ukesoppgavene
+{{< video https://www.youtube.com/embed/7ArmBVF2dCs?si=sjvPqGg38UUUc3oa >}}

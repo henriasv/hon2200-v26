@@ -1,8 +1,7 @@
 # Forberedelser {.unnumbered}
-
 Vi starter med å se på oppgaven om lineær regresjon gitt etter forrige forelesning før vi skal begynne å se på logistisk regresjon - som vil bli hovedtema for den obligatoriske oppgaven som kommer om noen få uker. 
 
 Forberedelser til timen: 
 
 - Introduction to statistical learning (**with applications in Python**), s. 135 - 146 (Åpent tilgjengelig på [https://www.statlearning.com](https://www.statlearning.com))
-- Gjøre [oppgaven om lineær regresjon](02c_øvelse.qmd) fra forrige forelesning.
+- Gjøre [oppgaven om lineær regresjon](02c_øvelse.qmd), altså forrige ukes øvingsoppgave.

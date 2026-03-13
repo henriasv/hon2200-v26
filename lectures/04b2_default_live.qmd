@@ -1,0 +1,215 @@
+---
+title: "Live-koding: Logistisk regresjon på Default-datasettet"
+author: "Henrik Sveinsson"
+execute:
+  warning: false
+---
+
+Dette er et støttedokument for live-kodingen i starten av uke 4-forelesningen. Vi går igjennom manuell tilpasning av logistisk funksjon til Default-datasettet, som en oppsummering/repetisjon av det studentene jobbet med i tutorial-oppgaven i uke 3.
+
+## Laste inn datasettet
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+url = 'https://zenodo.org/record/6199560/files/default.csv'
+data = pd.read_csv(url)
+```
+
+## Utforske datasettet
+
+```{python}
+print(data)
+```
+
+```{python}
+print(data.columns)
+print(data.dtypes)
+```
+
+## Plotte rådataene
+
+Vi plotter `balance` mot `default` for å se om det er noen sammenheng.
+
+```{python}
+plt.scatter(data['balance'], data['default'])
+plt.xlabel('Balance')
+plt.ylabel('Default')
+plt.title('Default vs Balance')
+plt.show()
+```
+
+Vi ser at det er vanskelig å lese noe direkte ut av dette plottet fordi default-verdiene bare er "Yes" og "No". Vi trenger en måte å konvertere dette til noe mer kvantitativt.
+
+## Binning — beregne andel default per balance-intervall
+
+Ideen er å dele opp balance-aksen i intervaller, og for hvert intervall telle opp hvor mange som misligholder og ikke. Deretter kan vi beregne andelen som misligholder innenfor hvert intervall.
+
+```{python}
+# Del opp i de som misligholder og ikke
+df_yes = data[data["default"] == "Yes"]
+df_no = data[data["default"] == "No"]
+
+# Lag histogram med 100 intervaller fra 0 til 3000
+x = np.linspace(0, 3000, 100)
+hist_yes, edges = np.histogram(df_yes["balance"], bins=x)
+hist_no, edges = np.histogram(df_no["balance"], bins=x)
+
+# Regn ut midtpunktene i hvert intervall
+midpoints = edges[:-1] + np.diff(edges) / 2
+
+# Regn ut andelen som misligholder i hvert intervall
+proportions = hist_yes / (hist_yes + hist_no)
+```
+
+## Plotte andelene
+
+```{python}
+plt.plot(midpoints, proportions)
+plt.xlabel("Balance")
+plt.ylabel("Andel som misligholder")
+plt.title("Andel mislighold per balance-intervall")
+plt.show()
+```
+
+Nå ser vi en tydelig S-formet trend! Dette minner om en logistisk funksjon.
+
+## Definere den logistiske funksjonen
+
+Den logistiske funksjonen (sigmoid) er:
+
+$$p(x) = \frac{e^{\beta_0 + \beta_1 x}}{1+e^{\beta_0 + \beta_1 x}}$$
+
+```{python}
+def logistisk(x, beta_0=0, beta_1=1):
+    z = beta_0 + beta_1 * x
+    return np.exp(z) / (1 + np.exp(z))
+```
+
+## Manuell tilpasning — prøve ulike $\beta_0$ og $\beta_1$
+
+Vi prøver oss fram med forskjellige verdier. Poenget er å bygge intuisjon for hva $\beta_0$ og $\beta_1$ gjør:
+
+- $\beta_0$ flytter kurven sidelengs
+- $\beta_1$ styrer hvor bratt overgangen er
+
+```{python}
+# En rekke med forsøk, inn mot stadig bedre verdier
+beta_verdier = [
+    [-2000, 1],
+    [-100, 0.05],
+    [-10, 0.005],
+    [-10, 0.007],
+    [-12, 0.006],
+    [-13, 0.0067],
+]
+
+plt.plot(midpoints, proportions, "k", linewidth=2, label="Data (andeler)")
+
+for beta_0, beta_1 in beta_verdier:
+    y = logistisk(midpoints, beta_0=beta_0, beta_1=beta_1)
+    plt.plot(midpoints, y, label=rf"$\beta_0={beta_0}, \beta_1={beta_1}$")
+
+plt.xlabel("Balance")
+plt.ylabel("Andel / sannsynlighet")
+plt.legend()
+plt.title("Manuell tilpasning av logistisk funksjon")
+plt.show()
+```
+
+## Automatisk tilpasning med sklearn
+
+Nå lar vi scikit-learn finne de optimale verdiene av $\beta_0$ og $\beta_1$.
+
+```{python}
+from sklearn.linear_model import LogisticRegression
+
+# Forbered data: x er balance, y er True/False for mislighold
+x_data = data["balance"].values
+y_data = (data["default"] == "Yes").values
+
+# LogisticRegression forventer en 2D-array for x (én kolonne per prediktor)
+my_regressor = LogisticRegression()
+my_regressor.fit(x_data.reshape(-1, 1), y_data)
+
+# Les ut koeffisientene
+print("beta_0 (intercept):", my_regressor.intercept_)
+print("beta_1 (coef):", my_regressor.coef_)
+```
+
+## Plotte sklearn-resultatet
+
+Vi plotter den automatisk tilpassede logistiske funksjonen oppå andelene for å verifisere at den stemmer.
+
+```{python}
+beta_0_auto = my_regressor.intercept_[0]
+beta_1_auto = my_regressor.coef_[0][0]
+
+plt.plot(midpoints, proportions, "k", linewidth=2, label="Data (andeler)")
+plt.plot(
+    midpoints,
+    logistisk(midpoints, beta_0=beta_0_auto, beta_1=beta_1_auto),
+    "r",
+    linewidth=2,
+    label=rf"sklearn: $\beta_0={beta_0_auto:.2f}, \beta_1={beta_1_auto:.4f}$",
+)
+plt.xlabel("Balance")
+plt.ylabel("Andel / sannsynlighet")
+plt.legend()
+plt.title("Automatisk tilpasning med LogisticRegression")
+plt.show()
+```
+
+## Multippel logistisk regresjon — legge til studentstatus
+
+Til nå har vi modellert sannsynligheten for mislighold som funksjon av kun én forklaringsvariabel $x_1$ (balance):
+
+$$p(x) = \frac{e^{\beta_0 + \beta_1 x_1}}{1 + e^{\beta_0 + \beta_1 x_1}}$$
+
+Vi utvider nå til å ta med om personen er student eller ikke ($x_2 = 1$ for student, $x_2 = 0$ for ikke-student):
+
+$$p(x) = \frac{e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2}}{1 + e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2}}$$
+
+$\beta_2$ virker som en ekstra forskyvning av kurven for studenter sammenlignet med ikke-studenter.
+
+```{python}
+# Pakke dataene slik LogisticRegression forventer
+x_1 = data["balance"].values
+x_2 = (data["student"] == "Yes").values
+y = (data["default"] == "Yes").values
+
+# Kombiner til én matrise med to kolonner (balance, student)
+X = np.column_stack([x_1, x_2])
+print("Form på X:", X.shape)
+print(X[:5])
+```
+
+```{python}
+my_regressor = LogisticRegression()
+my_regressor.fit(X, y)
+
+print("beta_0 (intercept):", my_regressor.intercept_)
+print("beta_1, beta_2 (coef):", my_regressor.coef_)
+```
+
+## Plotte modellen for studenter vs. ikke-studenter
+
+```{python}
+plt.plot(midpoints, proportions, "k", linewidth=2, label="Data (andeler)")
+
+x_plot = np.linspace(0, 3000, 100)
+
+# Prediker sannsynlighet for studenter og ikke-studenter
+X_student = np.column_stack([x_plot, np.ones(100)])
+X_ikke_student = np.column_stack([x_plot, np.zeros(100)])
+
+plt.plot(x_plot, my_regressor.predict_proba(X_student)[:, 1], label="Student")
+plt.plot(x_plot, my_regressor.predict_proba(X_ikke_student)[:, 1], label="Ikke student")
+plt.xlabel("Balance")
+plt.ylabel("Sannsynlighet for mislighold")
+plt.legend()
+plt.title("Logistisk regresjon med studentstatus")
+plt.show()
+```

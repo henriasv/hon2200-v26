@@ -4,97 +4,85 @@ Ta utgangspunkt i det klassiske datasettet som inneholder informasjon om større
 
 ## Oppgave 1 
 **a)**
-Les inn iris-datasettet med scikit-learn:
+Les inn iris-datasettet med seaborn:
 ```{python}
-from sklearn import datasets 
 import pandas as pd
-iris_data = datasets.load_iris()
-print(iris_data.keys())
-print(iris_data["feature_names"])
-print(iris_data["target_names"])
+import seaborn as sns
+df = sns.load_dataset('iris')
 ```
 
 **b)**
-Få dataene inn i et Pandas-dataframe med riktige kolonnenavn. Man kan lage et dataframe av en numpy-array med flere kolonner ved å spesifisere hva kolonnene skal hete. Kolonnenavnene finnes i datasettet fra sklearn. Prøv deg fram og få evt. hjelp av en venn. Under er et eksempel, men du må selv finne ut hva du skal sette inn for `data` og `columns` når du lager dataframe. Lag en ny kolonne som inneholder navnet til de ulike iris-typene (target 0: setosa, 1: versicolor, 2: virginica). 
+Kontroller at dataene har blitt lastet inn som et Pandas-dataframe, og merk deg kolonnenavnene. 
 
-Eksempelkode som kanskje er litt til hjelp: 
+:::: {.content-hidden unless-meta="exercise_solutions.week_02"}
+::: {.callout-note collapse="true"}
+**Løsningsforslag:**
+ Vi kan sjekke med `type`-funksjonen for å se at det er av type `pandas.DataFrame`, og vi kan bruke `display` eller `print` for å se innholder, og dermed også kolonnenavnene. Vi kan også bruke `columns`-funksjonen. 
 ```{python}
-#| eval: false 
-import pandas as pd
-df = pd.DataFrame(data, columns=columns)
+print(type(df))
+print(df.columns)
 display(df)
 ```
+:::
+::::
 
-**Løsningsforslag:**
+**c)**
+Vi skal lage en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.
+
+Velg deg ut en type iris-blomst, og hent ut kolonnene som svarer til lengden og bredden til begerbladene for denne iris-typen. Lagre dem i variabler `X`og `y`.
+
+:::: {.content-hidden unless-meta="exercise_solutions.week_02"}
+::: {.callout-note collapse="true"}
+### Løsningsforslag
+Jeg velger meg *setosa*. 
 ```{python}
+import matplotlib.pyplot as plt
 import numpy as np
 
-# Create a DataFrame
-df = pd.DataFrame(data=iris_data.data, columns=iris_data.feature_names)
-
-# Add a column with the target names
-df['species'] = pd.Categorical.from_codes(iris_data.target, iris_data.target_names)
-
-display(df)
+df_setosa = df[df["species"]=="setosa"]
+# Fit the model
+X = df_setosa['sepal_length']
+y = df_setosa['sepal_width']
 ```
+:::
+::::
+
 
 **c)**
 Lag en lineær modell som beskriver sammenhengen mellom lengden og bredden til begerbladene for en av de tre ulike typene Iris.
 
-- Plot modellen sammen med populasjonen?
+- Plot modellen sammen med datasettet?
 - Hva blir koeffisentene til modellen?
 
+:::: {.content-hidden unless-meta="exercise_solutions.week_02"}
+::: {.callout-note collapse="true"}
 **Løsningsforslag:**
 
 ```{python}
 import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.linear_model import LinearRegression
-
-# Filter the DataFrame for one species, e.g., setosa
-setosa_df = df[df['species'] == 'setosa']
-
-# Define the model
-model = LinearRegression()
+import numpy as np
 
 # Fit the model
-X = setosa_df[['sepal length (cm)']]
-y = setosa_df[['sepal width (cm)']]
-model.fit(X, y)
+p = np.polyfit(X, y, 1) 
 
 # Get the coefficients
-intercept = model.intercept_[0]
-slope = model.coef_[0][0]
+intercept = p[1]
+slope = p[0]
+
 print(f"Intercept: {intercept}, Slope: {slope}")
+
+y_model = np.polyval(p, X)
 
 # Plot the data and the model
 plt.figure(figsize=(10, 6))
-sns.scatterplot(x='sepal length (cm)', y='sepal width (cm)', data=setosa_df, label='Data')
-plt.plot(setosa_df['sepal length (cm)'], model.predict(X), color='red', label='Linear model')
+plt.plot(X, y, "o", label="Data") 
+plt.plot(X, y_model, label="model")
 plt.xlabel('Sepal Length (cm)')
 plt.ylabel('Sepal Width (cm)')
-plt.title('Linear Regression Model for Setosa Sepal Dimensions')
+
 plt.legend()
 plt.show()
 ```
 
-**d)**
-Fortsett med modellen over og finn 95% konfidensintervall for koeffisentene.
-
-Avgjør om det er en sammenheng mellom lengden og bredden av begerbladene ved å sette opp en hypotesetest og vurder den ut fra bla. p-verdi.
-
-```{python}
-import statsmodels.api as sm
-
-X = sm.add_constant(X)
-model = sm.OLS(y, X).fit()
-
-conf_int = model.conf_int(alpha=0.05)
-print("95% confidence intervals for the coefficients:")
-print(conf_int)
-
-hypothesis_test = model.t_test([0, 1])
-print("Hypothesis test result:")
-print(hypothesis_test)
-```
-Det er helt klart en ikke-spuriøs sammenheng mellom lengde og bredde av begebladene. 
+:::
+::::

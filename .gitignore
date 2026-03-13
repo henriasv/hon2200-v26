@@ -1,6 +1,7 @@
 /.quarto/
 /_book/
 /_site/
+/_freeze/
 /site_libs
 /tmp/
 /lectures/*_files/
@@ -11,3 +12,24 @@
 
 # Quarto-rendered sidecar folders (generated)
 /oppgaver/*_files/
+
+# Python virtual environment
+.venv/
+
+# VS Code Quarto extension temp files
+lectures/.vdoc.*.py
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.tex
+
+# Rendered outputs (rebuilt by Quarto)
+lectures/*.revealjs.html
+lectures/04b2_default_live.html
+lectures/04b2_default_live.pdf
+lectures/01b1_slides.pdf
+
+# Rendered PDFs in root (generated from qmd)
+01c_øvelse.pdf
+hon2110_oppfrisking.pdf

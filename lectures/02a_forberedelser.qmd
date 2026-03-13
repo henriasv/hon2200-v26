@@ -1,4 +1,4 @@
 # Forberedelser {.unnumbered}
 
 * Gjør [øvingsoppgavene](01c_øvelse.qmd) fra forrige uke. 
-* I *Introduction to statistical learning with applications in Python*, les følgende sider: 1–13, 15–20, 69–81 (Åpent tilgjengelig på [https://www.statlearning.com](https://www.statlearning.com)). Skriv opp tre konsepter du har forstått og tre konsepter du ikke har forstått. Begrunn forstått/ikke forstått. (Det er forskjellige sidetall i bokversjonen for R og Python, og vi forholder oss gtil den som er for Python.)
+* I *Introduction to statistical learning with applications in Python*, les følgende sider: 1–13, 15–20, 69–81 (Åpent tilgjengelig på [https://www.statlearning.com](https://www.statlearning.com)). Skriv opp tre konsepter du har forstått og tre konsepter du ikke har forstått. Begrunn forstått/ikke forstått. (Det er forskjellige sidetall i bokversjonen for R og Python, og vi forholder oss til sidetallene i Python-versjonen.)

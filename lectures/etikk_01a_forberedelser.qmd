@@ -1,0 +1,19 @@
+---
+title: "Forberedelser"
+bibliography: ../references.bib
+csl: ../nature.csl
+format: html
+---
+
+Digital etikk med Aksel Sterri. 
+
+:::{.hidden}
+[@binns2018political; @yona2017gentle; @delong2024affirmative; @kleinberg2018discrimination]
+:::
+
+Les følgende artikler før timen. Særlig den første er det viktig å ha lest ordentlig.
+
+::: {#refs}
+:::
+
+Valgfri lesning: [Algorithmic Fairness](https://plato.stanford.edu/entries/algorithmic-fairness/) (Stanford Encyclopedia of Philosophy)

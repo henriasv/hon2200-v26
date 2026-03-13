@@ -15,9 +15,14 @@ format:
     output-ext: revealjs.html # Changed
 ---
 
+::: {.content-hidden when-format="revealjs"}
 ## Slide-versjon
 
 <iframe src="04b_slides.revealjs.html" width="960" height="540"></iframe>
+:::
+
+## Fra Default-tutorialen
+GÅ igjennom manuell tilpasning av logistisk funksjon til Default-datasettet. 
 
 ## Premiss 
 
@@ -27,7 +32,7 @@ $$p(x) = c_0 + c_1 x + c_2x^2 + \cdots  = \sum_{i=0}^\infty c_i x^i$$
 
 Så har jeg trukket noen tall $y = p(x) + \varepsilon$, der verdiene $\varepsilon$ er normalfordelt. 
 
-Men jeg holder c´ene hemmelige for dere, og jeg holer standardavviket i normalfordelingen hemmelig for dere. 
+Men jeg holder c´ene hemmelige for dere, og jeg holder standardavviket i normalfordelingen hemmelig for dere. 
 
 ## Datasettet
 Dette er slik det datasettet jeg har trukket ser ut: 
@@ -36,7 +41,7 @@ Dette er slik det datasettet jeg har trukket ser ut:
 import numpy as np
 import matplotlib.pyplot as plt 
 np.random.seed(0)
-np.random.random()
+np.random.random()  # Advance RNG state
 
 Cs = [0, 20, -8, -10.7, 1.2, 1.6, -0.15, -0.05]
 
@@ -58,7 +63,7 @@ with open("data/hemmelig_funksjon.txt", "w") as ofile:
 Det kan lastes ned [her](data/hemmelig_funksjon.txt).
 
 ## Overordnet oppgave for økta
-Finne best mulig estimat for $\{c_i\}$. Dette innebærer i hovedsak å finne ut hvor høye $i$ vi skal gå til, altså hvor store polynomer. 
+Finne best mulig estimat for $\{c_i\}$. Dette innebærer i hovedsak å finne ut hvor høye $i$ vi skal gå til, altså hvor store polynomer $$p(x) = c_0 + c_1 x + c_2x^2 + \cdots  = \sum_{i=0}^\infty c_i x^i$$
 
 Lese inn datasettet: 
 ```{python}
@@ -102,7 +107,7 @@ $\hat{y} = f(x)$.
 
 Vi ønsker å minimere 
 
-$$\sum_{i=1}^N (\hat{y}_i - y_i)^2 = \sum_{i=1}^N (f(x_i) - y_i)^2$$
+$$\sum_{i=1}^N (\hat{y}_i - y_i)^2 = \sum_{i=1}^N (\hat{f}(x_i) - y_i)^2$$
 
 ## Mean squared error
 
@@ -204,7 +209,7 @@ plt.legend()
 - Velge modell
 :::
 
-## Implementasjonsforslag for datasplitting
+## Eksempel på datasplitting
 ```{python}
 #| echo: true
 indices = np.random.permutation(len(x))
@@ -280,10 +285,10 @@ plt.tight_layout()
 ## Foreløpig oppsummering
 - Vi har funnet ut at et polynom av grad mellom 3 og 8 bør kunne funke. Kan vi gjøre det bedre? 
 
-## k-fold kryssvalidering! 
+## Kryssvalidering med k omganger (k-fold)!
 ::: {style="font-size: 50%;"}
 
-| Fold | Partisjon 1       | Partisjon 2       | Partisjon 3       | Partisjon 4       | Partisjon 5       |
+| Omgang | Partisjon 1       | Partisjon 2       | Partisjon 3       | Partisjon 4       | Partisjon 5       |
 |------|-------------------|-------------------|-------------------|-------------------|-------------------|
 | 1    | 🟥 Validering      | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       |
 | 2    | 🟦 Trening       | 🟥 Validering      | 🟦 Trening       | 🟦 Trening       | 🟦 Trening       |
@@ -325,20 +330,16 @@ for i, partition in enumerate(partitions):
 plt.legend()
 ```
 
-## Dele opp i 5 folds 
-Det er kanskje ikke helt åpenbart, men det å dele opp i 5 folds er ikke det samme som å dele opp i 5 partisjoner.
+## Dele opp i 5 omganger
+Det er kanskje ikke helt åpenbart, men det å dele opp i 5 omganger er ikke det samme som å dele opp i 5 partisjoner.
 
 :::{.callout-note}
 ## Oppgave
-Del opp i 5 partisjoner, og visualier disse partisjonene. 
-:::
-
-:::{.fragment}
-(Live-programmere løsning)
+Del opp i 5 omganger, og visualiser disse. 
 :::
 
 
-## Tilpasse polynom til hver fold
+## Tilpasse polynom til hver omgang
 ```{python}
 #|echo: true
 #|output-location: slide
@@ -354,15 +355,15 @@ for i, partition in enumerate(partitions):
     yv = np.polyval(p, xv)
     axs[i].plot(xv, yv, "k")
     axs[5].plot(xv, yv)
-    axs[i].set_title(f"Fold {i+1}")
+    axs[i].set_title(f"Omgang {i+1}")
     axs[i].legend()
 plt.tight_layout()
 ```
 :::{.notes}
 Hvilke data er det linja er tilpasset til i grafene over her. Er det de grå eller de blå? 
-Hva er fold og hva er partisjoner her? 
+Hva er omganger og hva er partisjoner her?
 
-I denne tilpasningen har jeg brukt et polynom av grad 4. Hva skal vi gjøre for å beregne mean squared error for den et polynom av grad 4 med 5-fold kryssvalidering? Beskriv på figuren.
+I denne tilpasningen har jeg brukt et polynom av grad 4. Hva skal vi gjøre for å beregne mean squared error for den et polynom av grad 4 med kryssvalidering med 5 omganger? Beskriv på figuren.
 :::
 
 ## Tilfellet $i_\mathrm{max}=4$
@@ -377,24 +378,24 @@ for i, partition in enumerate(partitions):
 mean_squared_error /= len(partitions)
 print(mean_squared_error)
 ```
-## Snitt av alle folds, for mange $i_\mathrm{max}$
-Vi ønsker nå å bruke k-fold kryssvalidering til å sammenligne hvor bra modellene blir med forskjellige valg av $i_\mathrm{max}$. 
+## Snitt av alle omganger, for mange $i_\mathrm{max}$
+Vi ønsker nå å bruke kryssvalidering med k omganger til å sammenligne hvor bra modellene blir med forskjellige valg av $i_\mathrm{max}$.
 
-## Snitt av alle folds, for mange $i_\mathrm{max}$
+## Snitt av alle omganger, for mange $i_\mathrm{max}$
 ```{python}
 #|echo: true
 #|output-location: slide
 folds = np.array_split(indices, 5)
 
 i_max = 15
-mse_values = np.zeros(15)
+mse_values = np.zeros(i_max)
 
-for i, fold in enumerate(folds):
+for fold in folds:
     train_idx = np.setdiff1d(indices, fold)
-    for j in range(i_max):
-        p = np.polyfit(x[train_idx], y[train_idx], j)
+    for i in range(i_max):
+        p = np.polyfit(x[train_idx], y[train_idx], i)
         mse = np.mean((np.polyval(p, x[fold])-y[fold])**2)
-        mse_values[j] += mse 
+        mse_values[i] += mse
 mse_values /= len(folds)
 plt.plot(mse_values)
 plt.plot([0, 10], [49, 49], "--", c="k")
@@ -409,7 +410,7 @@ Den stiplede linja avslører den ekte variansen til det stokastiske leddet $\var
 #|echo: false
 p5 = np.polyfit(x, y, 5)
 p7 = np.polyfit(x, y, 7)
-print(p[::-1])
+print(p5[::-1])
 plt.plot(x, y, "o")
 xv = np.linspace(-2.5, 2.5, 100)
 yv5 = np.polyval(p5, xv)
@@ -425,11 +426,11 @@ plt.legend()
 fasit = [0, 20, -8, -10.7, 1.2, 1.6, -0.15, -0.05]
 print("Fasit:",fasit)
 p = np.polyfit(x, y, 5)
-print("Beste modell: ", p)
+print("Beste modell: ", p[::-1])
 plt.plot(p[::-1], "o", label="Vår beste modell")
 plt.plot(fasit[:6], "o", label="Fasit")
 p = np.polyfit(x, y, 7)
-print("Beste modell når vi kjenner $i_{max}$: ", p)
+print("Beste modell når vi kjenner $i_{max}$: ", p[::-1])
 plt.plot(p[::-1], "o", label="Beste modell når vi vet $i_\mathrm{max}$")
 plt.legend()
 ```
@@ -485,16 +486,16 @@ Vi bruker kryssvalidering for å
 1. **Hindre overtilpasning.** Om testfeilen er mye større enn treningsfeilen har vi typisk overtilpasset
 2. **Utnytte data godt.** Kryssvalidering gir et godt estimat på hva som er usikkerheten når vi trener på alle dataene våre. 
 
-Hvorfor k-fold, og ikke leave one out kryssvalidering? 
+Hvorfor k omganger, og ikke leave one out kryssvalidering?
 
 :::{.notes}
-Eksempel på k-fold kryssvalidering med k=5:
+Eksempel på kryssvalidering med k=5 omganger:
 ```plaintext
-Fold 1: Train on [2, 3, 4, 5], Test on [1]
-Fold 2: Train on [1, 3, 4, 5], Test on [2]
-Fold 3: Train on [1, 2, 4, 5], Test on [3]
-Fold 4: Train on [1, 2, 3, 5], Test on [4]
-Fold 5: Train on [1, 2, 3, 4], Test on [5]
+Omgang 1: Train on [2, 3, 4, 5], Test on [1]
+Omgang 2: Train on [1, 3, 4, 5], Test on [2]
+Omgang 3: Train on [1, 2, 4, 5], Test on [3]
+Omgang 4: Train on [1, 2, 3, 5], Test on [4]
+Omgang 5: Train on [1, 2, 3, 4], Test on [5]
 ```
 :::
 

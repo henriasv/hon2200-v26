@@ -1,0 +1,202 @@
+---
+title: "HON2110 Oppfriskingsoppgaver"
+author: "Henrik Sveinsson med Claude Opus"
+subtitle: "Penn-og-papir-oppgaver for å friske opp grunnleggende programmering og statistikk"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    number-sections: false
+    fontcolor: black
+  pdf:
+    documentclass: article
+    geometry: margin=2cm
+    toc: false
+    number-sections: false
+    colorlinks: true
+---
+
+
+
+::: {.content-visible when-format="html"}
+[Last ned PDF-versjon](hon2110_oppfrisking.pdf)
+:::
+
+
+# Oppgave 1: Les og forstå kode
+
+## a) Hva skriver koden ut?
+
+For hver kodeblokk, skriv hva som printes til skjermen.
+
+i)
+```python
+x = 10
+y = "5"
+z = x + int(y)
+print(z)
+```
+
+ii)
+```python
+navn = "Ada"
+alder = 30
+print(f"Jeg heter {navn} og er {alder} år gammel")
+```
+
+iii)
+```python
+tall = [10, 20, 30, 40, 50]
+print(tall[0])
+print(tall[-1])
+print(tall[2])
+```
+
+iv)
+```python
+for i in range(3):
+    print(i * 2)
+```
+
+v)
+```python
+def doble(x):
+    return x * 2
+
+resultat = doble(5)
+print(resultat)
+```
+
+## b) Finn feilen
+
+Hver kodeblokk inneholder én feil. Beskriv feilen og skriv den rettede koden.
+
+i)
+```python
+x = "5"
+y = 10
+z = x + y
+print(z)
+```
+
+ii)
+```python
+liste = [1, 2, 3, 4, 5]
+for i in range(len(liste) + 1):
+    print(liste[i])
+```
+
+iii)
+```python
+def hils():
+    print("Hei verden")
+
+print(hilsen())
+```
+
+iv)
+```python
+tall = [1, 2, 3, 4, 5]
+gjennomsnitt = sum(tall) / len(tall)
+print("Gjennomsnitt:", gjennomsnittet)
+```
+
+
+# Oppgave 2: Skriv kode
+
+## a) Variabler og lister
+
+i) Lag en liste `ukedager` som inneholder alle 7 ukedager på norsk (starter med "mandag").
+
+ii) Gitt listen fra a), skriv kode som:
+
+- Henter ut "onsdag" fra listen
+- Legger til "helg" på slutten av listen
+- Finner antall elementer i listen
+
+## b) Betingelser (if-else)
+
+i) Skriv kode som sjekker om variabelen `karakter` er bestått (4 eller høyere på skala 1-6) og printer passende melding.
+
+ii) Skriv kode som klassifiserer variabelen `temp` (temperatur i celsius):
+
+- Under 0: "Frost"
+- 0-15: "Kjølig"
+- 16-25: "Behagelig"
+- Over 25: "Varmt"
+
+## c) Løkker
+
+i) Skriv en for-løkke som printer tallene 1 til og med 5.
+
+*Hint: `range(start, slutt)` gir tall fra `start` til `slutt-1`*
+
+ii) Gitt listen `navn = ["Ada", "Bob", "Cleo"]`, skriv en løkke som printer "Hei, Ada!", "Hei, Bob!", osv.
+
+## d) Funksjoner
+
+i) Skriv en funksjon `kvadrat(n)` som returnerer n².
+
+ii) Skriv en funksjon `er_partall(tall)` som returnerer `True` hvis tallet er partall, ellers `False`.
+
+iii) Skriv en funksjon `finn_maksimum(liste)` som tar inn en liste med tall og returnerer det største tallet.
+
+*Hint: Du kan bruke en løkke, eller tenke på om Python har en innebygd funksjon for dette.*
+
+iv) Hva er forskjellen mellom `print()` og `return` i en funksjon?
+
+v) Hva vil følgende kode skrive ut?
+
+```python
+def legg_til_ti(x):
+    return x + 10
+
+resultat = legg_til_ti(5)
+print(resultat)
+print(legg_til_ti(resultat))
+```
+
+
+# Oppgave 3: Statistikk med kode
+
+## a) Gjennomsnitt og median
+
+Du har datasettet: **[10, 20, 30, 40, 50]**
+
+i) Skriv kode som regner ut gjennomsnittet av datasettet.
+
+ii) Skriv kode som finner medianen.
+
+iii) Utvid koden din til å håndtere datasettet [10, 20, 30, 40, 50, 200]. Hva skjer med gjennomsnittet og medianen når vi legger til en ekstremverdi?
+
+
+## b) Standardavvik
+
+Du har datasettet: **[2, 4, 6, 7, 10]**
+
+i) Skriv kode som regner ut gjennomsnittet.
+
+ii) Skriv kode som regner ut variansen.
+
+iii) Skriv kode som regner ut standardavviket (√varians).
+
+
+# Oppgave 4: Dataanalyse
+
+## a) Jobbe med data
+
+Du har følgende data:
+
+```python
+studenter = [
+    {"navn": "Anna", "alder": 22, "karakter": 4.5},
+    {"navn": "Bo", "alder": 25, "karakter": 3.8},
+    {"navn": "Celia", "alder": 23, "karakter": 4.2},
+    {"navn": "David", "alder": 21, "karakter": 3.5},
+    {"navn": "Elin", "alder": 24, "karakter": 4.8}
+]
+```
+
+ii) Skriv kode som finner alle studenter med karakter over 4.0.
+

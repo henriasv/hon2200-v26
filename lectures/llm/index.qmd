@@ -1,0 +1,31 @@
+---
+title: "LLM-supplement"
+subtitle: "AI-genererte notater som supplement til forelesninger"
+format: html
+---
+
+## Om disse notatene
+
+Notatene i denne seksjonen er skrevet av en **stor språkmodell (LLM)** som supplement til forelesningsmateriell i HON2200. De er ment som et eksperiment for å utforske hvordan AI kan brukes i undervisning.
+
+### Hva er dette?
+
+- **AI-generert innhold**: Alle tekstene er skrevet av en LLM basert på instruksjoner fra faglærer
+- **Supplement, ikke erstatning**: Disse notatene erstatter ikke forelesninger, lærebok eller obligatoriske oppgaver
+- **Eksperimentelt**: Vi tester ut hvordan AI kan brukes til å lage pedagogisk materiale
+
+### Hvordan bruke disse notatene?
+
+✅ **Bruk dem til:**
+- Repetisjon av konsepter fra forelesning
+- Ekstra eksempler og forklaringer
+- Rask oppfriskning før øvingstimer
+
+❌ **Ikke stol blindt på dem:**
+- LLM-er kan gjøre feil, spesielt i tekniske detaljer
+- Hvis noe virker rart eller motstridende, spør faglærer/meld ifra
+- Prioriter pensum og forelesningsnotater
+
+### Tilbakemelding
+
+Har du funnet feil eller har forslag til forbedringer? Send en e-post til faglærer eller ta det opp i øvingstimene.

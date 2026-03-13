@@ -2,7 +2,7 @@
 
 I første time skal vi se litt på hva data-drevne prosjekter er for noe, snakke litt om hvordan undervisningen gjennomføres og begynne så smått å se på databehandling. 
 
-Følg instruksjonene under for å være forberedt til første time. Merk at det er en oppgave nederst på siden som kommer til å ta litt tid. 
+Følg instruksjonene under for å være forberedt til første time. 
 
 ::: {.content-hidden}
 ## Logge inn på diskusjonsforum

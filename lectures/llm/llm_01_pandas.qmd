@@ -1,0 +1,327 @@
+---
+title: "Introduksjon til Pandas"
+subtitle: "LLM-skrevet supplement til HON2200"
+format: html
+---
+
+*Dette notatet er skrevet av en LLM som supplement til forelesningsmateriell i HON2200.*
+
+## Læringsmål
+
+Etter å ha jobbet gjennom dette notatet skal du kunne:
+
+- Forstå hva en DataFrame er
+- Lese inn data fra CSV-filer og pandas' innebygde datasett
+- Velge ut rader og kolonner fra en DataFrame
+- Bruke `groupby` for å aggregere data
+- Visualisere data med matplotlib
+
+## Hva er Pandas?
+
+Pandas er et Python-bibliotek for databehandling og analyse. Navnet kommer fra "Panel Data" - et begrep fra økonometri. De to viktigste datastrukturene i Pandas er:
+
+- **Series**: En endimensjonal array med labels (som en kolonne)
+- **DataFrame**: En todimensjonal tabell med rader og kolonner
+
+## Importere Pandas
+
+Vi starter alltid med å importere pandas. Konvensjonen er å kalle det `pd`:
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+## Lage en DataFrame fra scratch
+
+La oss lage en enkel DataFrame med noen data:
+
+```{python}
+# Lage en DataFrame fra en dictionary
+data = {
+    'navn': ['Anna', 'Bjørn', 'Cecilie', 'David'],
+    'alder': [25, 32, 28, 45],
+    'by': ['Oslo', 'Bergen', 'Oslo', 'Trondheim']
+}
+
+df = pd.DataFrame(data)
+df
+```
+
+## Lese data fra innebygde datasett
+
+Pandas kommer med noen innebygde datasett som er perfekte for øving. Vi kan også laste data direkte fra nettet.
+
+### Eksempel 1: Iris-datasettet
+
+Iris-datasettet inneholder målinger av 150 iris-blomster fra tre forskjellige arter.
+
+```{python}
+# Laste Iris-datasettet direkte fra UCI Machine Learning Repository
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+column_names = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species']
+df_iris = pd.read_csv(url, names=column_names)
+df_iris.head()
+```
+
+### Eksempel 2: Penguins-datasettet
+
+Penguins-datasettet inneholder målinger av pingviner fra tre arter i Antarktis.
+
+```{python}
+# Laste penguins-datasettet
+url_penguins = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/penguins.csv"
+df_penguins = pd.read_csv(url_penguins)
+df_penguins.head()
+```
+
+### Eksempel 3: Tips-datasettet
+
+```{python}
+# Laste tips-datasettet
+url_tips = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv"
+df_tips = pd.read_csv(url_tips)
+df_tips.head()
+```
+
+Dette datasettet inneholder informasjon om tips på en restaurant.
+
+## Utforske en DataFrame
+
+Når vi har lest inn data, vil vi gjerne utforske dem:
+
+```{python}
+# Vis de første radene
+print("Første 5 rader:")
+print(df_penguins.head())
+```
+
+```{python}
+# Informasjon om kolonner og datatyper
+print("\nInformasjon om DataFrame:")
+print(df_penguins.info())
+```
+
+```{python}
+# Statistisk oppsummering
+print("\nStatistisk oppsummering:")
+print(df_penguins.describe())
+```
+
+```{python}
+# Sjekke kolonnenavn
+print("\nKolonnenavn:")
+print(df_penguins.columns.tolist())
+```
+
+## Velge ut data
+
+### Velge kolonner
+
+```{python}
+# Velge én kolonne (returnerer en Series)
+body_mass = df_penguins['body_mass_g']
+print(f"Type: {type(body_mass)}")
+print(f"\nFørste 5 verdier:")
+print(body_mass.head())
+```
+
+```{python}
+# Velge flere kolonner (returnerer en DataFrame)
+utvalg = df_penguins[['species', 'island', 'body_mass_g']]
+utvalg.head()
+```
+
+### Velge rader med betingelser
+
+```{python}
+# Filtrere rader - pingviner tyngre enn 5000g
+store_pingviner = df_penguins[df_penguins['body_mass_g'] > 5000]
+print(f"Antall pingviner over 5000g: {len(store_pingviner)}")
+store_pingviner.head()
+```
+
+```{python}
+# Flere betingelser - Adelie-pingviner på Torgersen-øya
+adelie_torgersen = df_penguins[(df_penguins['species'] == 'Adelie') & 
+                                (df_penguins['island'] == 'Torgersen')]
+print(f"Antall Adelie-pingviner på Torgersen: {len(adelie_torgersen)}")
+adelie_torgersen.head()
+```
+
+## Gruppering med groupby
+
+`groupby` er en av de kraftigste funksjonene i Pandas. Den lar oss gruppere data og beregne statistikk per gruppe.
+
+```{python}
+# Gjennomsnittlig kroppsmasse per art
+df_penguins.groupby('species')['body_mass_g'].mean()
+```
+
+```{python}
+# Gjennomsnittlig nebbdybde per øy
+df_penguins.groupby('island')['bill_depth_mm'].mean()
+```
+
+```{python}
+# Flere aggregeringer samtidig
+df_penguins.groupby('species').agg({
+    'body_mass_g': ['mean', 'min', 'max'],
+    'bill_length_mm': 'mean',
+    'flipper_length_mm': 'mean'
+})
+```
+
+### Eksempel med iris-datasettet
+
+```{python}
+# Gjennomsnittlig kronblad-lengde per art
+df_iris.groupby('species')['petal_length'].mean()
+```
+
+```{python}
+# Alle målinger per art
+df_iris.groupby('species').agg({
+    'sepal_length': 'mean',
+    'sepal_width': 'mean',
+    'petal_length': 'mean',
+    'petal_width': 'mean'
+})
+```
+
+## Visualisering
+
+Pandas har innebygd støtte for plotting via matplotlib:
+
+```{python}
+# Histogram over kroppsmasse for pingviner
+plt.figure(figsize=(10, 4))
+plt.hist(df_penguins['body_mass_g'].dropna(), bins=30, edgecolor='black', alpha=0.7, color='steelblue')
+plt.xlabel('Kroppsmasse (g)')
+plt.ylabel('Antall pingviner')
+plt.title('Fordeling av kroppsmasse hos pingviner')
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+```{python}
+# Gjennomsnittlig kroppsmasse per art
+mass_by_species = df_penguins.groupby('species')['body_mass_g'].mean()
+
+plt.figure(figsize=(8, 5))
+mass_by_species.plot(kind='bar', color='coral', edgecolor='black')
+plt.xlabel('Art')
+plt.ylabel('Gjennomsnittlig kroppsmasse (g)')
+plt.title('Gjennomsnittlig kroppsmasse per pingvinart')
+plt.xticks(rotation=45)
+plt.grid(True, alpha=0.3, axis='y')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# Scatter plot: nebbdybde vs. nebblengde
+plt.figure(figsize=(8, 5))
+for species in df_penguins['species'].unique():
+    data = df_penguins[df_penguins['species'] == species]
+    plt.scatter(data['bill_length_mm'], data['bill_depth_mm'], 
+                label=species, alpha=0.6, s=50)
+plt.xlabel('Nebblengde (mm)')
+plt.ylabel('Nebbdybde (mm)')
+plt.title('Nebbdimensjoner hos pingviner')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+```{python}
+# Tips vs. total regning
+plt.figure(figsize=(8, 5))
+plt.scatter(df_tips['total_bill'], df_tips['tip'], alpha=0.5, color='green')
+plt.xlabel('Total regning ($)')
+plt.ylabel('Tips ($)')
+plt.title('Tips vs. Total regning')
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+## Håndtere manglende data
+
+Virkelige datasett har ofte manglende verdier (NaN):
+
+```{python}
+# Sjekke for manglende verdier
+print("Manglende verdier per kolonne:")
+print(df_penguins.isnull().sum())
+```
+
+```{python}
+# Fjerne rader med manglende verdier
+df_clean = df_penguins.dropna()
+print(f"Rader før: {len(df_penguins)}, Rader etter: {len(df_clean)}")
+```
+
+```{python}
+# Fylle inn manglende verdier med gjennomsnittet
+df_filled = df_penguins.copy()
+df_filled['body_mass_g'] = df_filled['body_mass_g'].fillna(df_filled['body_mass_g'].mean())
+print(f"Manglende kroppsmasse-verdier etter fillna: {df_filled['body_mass_g'].isnull().sum()}")
+```
+
+## Sortere data
+
+```{python}
+# Sortere etter kroppsmasse (tyngste først)
+df_penguins.sort_values('body_mass_g', ascending=False).head()
+```
+
+```{python}
+# Sortere etter flere kolonner
+df_penguins.sort_values(['species', 'body_mass_g'], ascending=[True, False]).head(10)
+```
+
+## Telling og frekvenser
+
+```{python}
+# Telle antall pingviner per art
+print("Antall pingviner per art:")
+print(df_penguins['species'].value_counts())
+```
+
+```{python}
+# Telle antall pingviner per øy
+print("\nAntall pingviner per øy:")
+print(df_penguins['island'].value_counts())
+```
+
+## Oppsummering
+
+Du har nå lært:
+
+1. **Lese data**: `pd.read_csv()` fra URL
+2. **Utforske**: `.head()`, `.info()`, `.describe()`, `.columns`
+3. **Velge ut**: `df['kolonne']`, `df[['kol1', 'kol2']]`, `df[betingelse]`
+4. **Gruppere**: `df.groupby('kolonne').agg(...)`
+5. **Visualisere**: `plt.plot()`, `plt.hist()`, `plt.scatter()`
+6. **Manglende data**: `.isnull()`, `.dropna()`, `.fillna()`
+7. **Sortere**: `.sort_values()`
+8. **Telle**: `.value_counts()`
+
+## Øvingsoppgaver
+
+### Oppgaver med penguins-datasettet:
+
+1. Hva er gjennomsnittlig vippelengde (`flipper_length_mm`) for Gentoo-pingviner?
+2. Hvor mange pingviner er det på hver øy?
+3. Finn den tyngste pingvinen i datasettet. Hvilken art er det?
+4. Lag et histogram over nebbdybde (`bill_depth_mm`)
+5. Hva er forskjellen i gjennomsnittlig kroppsmasse mellom hann- og hunnpingviner?
+
+### Oppgaver med iris-datasettet:
+
+1. Hvilken art har lengst gjennomsnittlig kronblad (`petal_length`)?
+2. Lag et scatter plot av `sepal_length` vs. `sepal_width`, farget etter art
+3. Finn iris-blomsten med bredest begerblad (`sepal_width`)
+
+**Bonusoppgave**: Bruk tips-datasettet til å finne ut hvilken dag servitørene tjente mest i tips totalt.
