@@ -53,7 +53,7 @@ website:
             href: lectures/06a_forberedelser.qmd # File for Chapter 2 (Part II)
             contents:
               - lectures/06a_forberedelser.qmd # File for Chapter 2 (Part II)
-              - lectures/06b_slides.qmd
+              - lectures/06_slides_ane.qmd
           - section: "Uke 7 – 7. mars"
             href: lectures/07a_forberedelser.qmd # File for Chapter 2 (Part II)
             contents:

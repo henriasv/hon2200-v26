@@ -1,0 +1,716 @@
+---
+title: "Random Forest og esnsemble-metoder"
+subtitle: "HON2200"
+author: "Ane Kristine Espeseth"
+format:
+  revealjs:
+    theme: solarized
+    slide-number: true
+    progress: true
+    chalkboard: true
+    smaller: true
+    code-block-height: 320px
+    code-overflow: scroll
+execute:
+  echo: true
+  warning: false
+---
+
+# Blokk 1: Forberedelsene {background-color="#1a2634"}
+
+Koding av tekstdata og evaluering av prediksjoner.
+
+## §1 — Hva husker dere fra sist?
+
+**Diskuter med sidemannen (1 minutt):** Forrige gang trente vi et beslutningstre på eplekvalitet. Vi kjørte det seks ganger med ulike tilfeldige splitter. Hva skjedde?
+
+. . .
+
+```{python}
+#| echo: false
+#| fig-height: 4
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import (accuracy_score, confusion_matrix,
+                             precision_score, recall_score)
+
+df = pd.read_csv("data/apple_quality.csv").dropna()
+df["Acidity"] = pd.to_numeric(df["Acidity"])
+df["quality_num"] = (df["Quality"] == "good").astype(int)
+X = df.drop(columns=["A_id", "Quality", "quality_num"])
+y = df["quality_num"]
+
+fig, axes = plt.subplots(2, 3, figsize=(16, 4))
+for i, ax in enumerate(axes.ravel()):
+    Xt, Xe, yt, ye = train_test_split(X, y, test_size=0.2, random_state=i)
+    t = DecisionTreeClassifier(max_depth=2, random_state=42).fit(Xt, yt)
+    acc = accuracy_score(ye, t.predict(Xe))
+    plot_tree(t, feature_names=X.columns, class_names=["dårlig", "god"],
+              filled=True, rounded=True, fontsize=7, ax=ax)
+    ax.set_title(f"Splitt {i}: {acc*100:.1f}%", fontsize=9)
+plt.suptitle("Samme data, seks splitter, seks forskjellige trær", fontsize=12)
+plt.tight_layout()
+plt.show()
+```
+
+Treet endrer seg hver gang vi deler dataene annerledes.
+
+::: {.notes}
+**[~3 min]** Think-pair-share. Målet er at de sier «treet ble forskjellig hver gang». Ikke gi svaret, la dem hente det fra hukommelsen.
+
+*Retrieval opener — henter instabilitet fra forrige forelesning.*
+:::
+
+## §2 — Sklearn godtar bare tall
+
+Eple-datasettet har bare tallverdier, men mange datasett har tekstkolonner som sklearn ikke godtar.
+
+```{python}
+#| echo: false
+eksempel = pd.DataFrame({
+    "Størrelse": [7.2, 5.1, 8.4, 6.0, 4.3],
+    "Farge": ["rød", "grønn", "rød", "gul", "grønn"],
+    "Kvalitet": ["god", "god", "dårlig", "god", "dårlig"]
+})
+eksempel
+```
+
+`Størrelse` er et tall. `Farge` og `Kvalitet` er tekst. Tekstkolonner må oversettes til tall før sklearn kan bruke dem.
+
+::: {.notes}
+**[~2 min]** Syntetisk eksempel for å vise problemet rent, uten å innføre et nytt datasett.
+:::
+
+## §3 — Det binære tilfellet
+
+Det enkleste: to kategorier → 0 og 1. Dere har sett `.astype(int)` på en binær kolonne før.
+
+```{python}
+df["quality_num"] = (df["Quality"] == "good").astype(int)
+df[["Quality", "quality_num"]].head(6)
+```
+
+For to kategorier fungerer dette. Hva med `Farge` som har tre verdier?
+
+::: {.notes}
+**[~2 min]** Repetisjon. Bro til neste slide: hva gjør vi med flere enn to kategorier?
+:::
+
+## §4 — Ordensfellen
+
+`Farge` har tre verdier: rød, grønn, gul.
+
+::: {.callout-tip}
+**Gjett:** Kan vi bare bruke 0, 1, 2?
+:::
+
+. . .
+
+::::{.columns}
+:::{.column width="50%"}
+```python
+# Farlig!
+farge_num = {"rød": 0, "grønn": 1, "gul": 2}
+```
+
+Denne oversettelsen forteller modellen at gul > grønn > rød, og at avstanden mellom gul og rød er dobbelt så stor som mellom grønn og rød.
+
+Fargene har ingen naturlig rekkefølge. Å kode dem som ordnede tall legger inn struktur som ikke finnes i dataene.
+:::
+:::{.column width="50%" .fragment}
+**One-hot encoding**
+
+Én kolonne per kategori, bare 0 og 1:
+
+```{python}
+#| echo: false
+eksempel = pd.DataFrame({
+    "Farge": ["rød", "grønn", "rød", "gul", "grønn"]
+})
+pd.get_dummies(eksempel[["Farge"]])
+```
+:::
+::::
+
+::: {.notes}
+**[~4 min]** De fleste sier «ja, 0/1/2 funker». Vis hvorfor det er problematisk. Kontrast: «liten/medium/stor» *har* en naturlig rekkefølge, og der kan 0/1/2 forsvares.
+
+*Prediction prompt [Hundhausen et al. 2002]. Studentene forplikter seg til et svar før de ser problemet.*
+:::
+
+## §5 — One-hot i praksis
+
+```{python}
+eksempel = pd.DataFrame({
+    "Farge": ["rød", "grønn", "rød", "gul", "grønn"]
+})
+pd.get_dummies(eksempel[["Farge"]], prefix="Farge")
+```
+
+Resultatet er tre nye kolonner, hver med verdien 0 eller 1. Et rødt eple har `Farge_rød = 1` og resten lik 0.
+
+::: {.notes}
+**[~3 min]** Pek på at den opprinnelige kolonnen er borte. Nevn `drop_first=True` muntlig: med tre dummykolonner trenger du egentlig bare to, fordi den tredje er gitt av de andre. Ikke utdyp.
+:::
+
+## §6 — Koding er et tolkningsvalg
+
+One-hot behandler rød, grønn og gul som tre separate, urelaterte kategorier.
+
+::: {.callout-tip}
+**Refleksjon:** Hva om kategoriene var nært beslektet, for eksempel «litt rød» og «veldig rød»? One-hot koder dem som helt uavhengige. Er det alltid riktig? Kan dere komme på et eksempel der valg av koding ville endre hva modellen lærer?
+:::
+
+::: {.notes}
+**[~2 min]** Ikke løs dette. La det henge. De møter det igjen konkret når de koder Titanic-variabler i obligen.
+
+*Spine-moment [DR-22.11, S-013(q)]: lettest mulige berøring av koding-som-tolkningsvalg.*
+:::
+
+## §7 — Hva skjuler `.score()`?
+
+Dere har alle sett denne koden:
+
+```{python}
+#| echo: false
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+tre_modell = DecisionTreeClassifier(max_depth=5, random_state=42).fit(X_train, y_train)
+```
+
+```{python}
+tre_modell.score(X_test, y_test)
+```
+
+::: {.callout-tip}
+**Gjett:** `.score()` gir ett tall tilbake. Hva tror dere skjer inni denne funksjonen?
+:::
+
+::: {.notes}
+**[~2 min]** Her bruker vi beslutningstreet, en modell de allerede kjenner. La dem gjette før du viser svaret.
+
+*Lukker .predict()-gapet — studentene har brukt .score() men aldri sett .predict() eksplisitt.*
+:::
+
+## §8 — To separate steg
+
+Her er hva `.score()` gjør:
+
+```{python}
+# Steg 1: modellen lager gjetninger, én per eple
+prediksjoner = tre_modell.predict(X_test)
+
+# Steg 2: en separat funksjon sammenligner gjetningene med fasit
+accuracy_score(y_test, prediksjoner)
+```
+
+. . .
+
+`accuracy_score` tar inn to lister (fasit og prediksjoner) og teller hvor mange elementer som er like.
+
+::: {.notes}
+**[~4 min]** Separasjonen er nøkkelen. Deres mentale modell har vært `modell → score`. Nå er det `modell → prediksjoner → evalueringsfunksjon → score`.
+
+.predict() har aldri blitt vist eksplisitt tidligere.
+:::
+
+## §9 — Tre kilder, samme funksjon
+
+```{python}
+log_modell = LogisticRegression(max_iter=1000).fit(X_train, y_train)
+
+pred_tre  = tre_modell.predict(X_test)
+pred_log  = log_modell.predict(X_test)
+pred_alt  = np.zeros(len(y_test), dtype=int)   # "alle epler er dårlige"
+
+print(f"Beslutningstre:     {accuracy_score(y_test, pred_tre)*100:.1f}%")
+print(f"Logistisk regresjon:{accuracy_score(y_test, pred_log)*100:.1f}%")
+print(f"«Alle er dårlige»:  {accuracy_score(y_test, pred_alt)*100:.1f}%")
+```
+
+. . .
+
+Alle tre linjene kaller `accuracy_score` med samme `y_test` og tre ulike prediksjonslister. 
+
+::: {.notes}
+**[~3 min]** Tre kjente ting: beslutningstre (fra forrige uke), logistisk regresjon (fra tidligere), og ren gjetning.
+:::
+
+## §10 — Nøyaktighetsparadokset
+
+Den siste linjen bruker `np.zeros()` som prediksjoner: «alle epler er dårlige», uten noen modell. Med omtrent like mange gode og dårlige epler i testsettet gir dette ~50 % nøyaktighet.
+
+. . .
+
+::: {.callout-tip}
+**Gjett:** I obligen jobber dere med Titanic-data der mer enn 50% av passasjerene omkom. Hvor høy nøyaktighet får en modell som alltid predikerer «død»?
+:::
+
+. . .
+
+```{python}
+y_titan = np.array([0]*62 + [1]*38)              # si at 62 døde, 38 overlevde
+pred_alle_dør = np.zeros(100, dtype=int)          # "alle 100 dør"
+
+print(f"Nøyaktighet for «alle dør»: {accuracy_score(y_titan, pred_alle_dør)*100:.0f}%")
+```
+
+62 % nøyaktighet uten noen modell. En modell som får 78 % er da bare 16 prosentpoeng bedre enn ren gjetning.
+
+::: {.notes}
+**[~4 min]** To trinn: først vis at balanserte klasser gir ~50 %. Så vis at ubalanserte klasser gjør paradokset reelt med det syntetiske Titanic-eksemplet.
+
+*Nøyaktighetsparadokset [CA B.3b]. Gigerenzer & Hoffrage (1995): naturlige frekvenser gir bedre resonnering enn prosenter.*
+:::
+
+## §11 — Samme prediksjoner, ulike spørsmål
+
+Vi kan stille ulike spørsmål om den samme listen med prediksjoner:
+
+```{python}
+print(f"Accuracy:  {accuracy_score(y_test, pred_tre)*100:.1f}%")
+print(f"Precision: {precision_score(y_test, pred_tre)*100:.1f}%")
+print(f"Recall:    {recall_score(y_test, pred_tre)*100:.1f}%")
+```
+
+. . .
+
+| Mål | Spørsmål |
+|-----|----------|
+| Accuracy | Hvor mange fikk du riktig totalt? |
+| Precision | Av dem du sa var gode, hvor mange var faktisk gode? |
+| Recall | Av de faktisk gode, hvor mange fant du? |
+
+Prediksjonene og modellen er de samme i alle tre tilfellene. Det som endres er hvilken type feil vi fokuserer på.
+
+::: {.notes}
+**[~4 min]** Precision og recall i klartekst. Ikke dvel ved formlene.
+:::
+
+## §12 — Forvirringsmatrisen
+
+Alle tre tallene over beregnes fra den samme tabellen:
+
+```{python}
+cm = confusion_matrix(y_test, pred_tre)
+```
+
+. . .
+
+```{python}
+#| echo: false
+tn, fp, fn, tp = cm.ravel()
+print(f"                    Predikert: dårlig    Predikert: god")
+print(f"Faktisk dårlig       {tn:>6} riktig         {fp:>6} FEIL")
+print(f"                     (sa dårlig,            (sa god,")
+print(f"                      var dårlig)            var dårlig)")
+print()
+print(f"Faktisk god          {fn:>6} FEIL           {tp:>6} riktig")
+print(f"                     (sa dårlig,            (sa god,")
+print(f"                      var god)               var god)")
+```
+
+. . .
+
+```{python}
+#| echo: false
+print(f"Accuracy = ({tn} + {tp}) / {cm.sum()} = {(tn+tp)/cm.sum()*100:.0f} %")
+```
+
+Accuracy summerer diagonalen (de riktige). De to cellene utenfor diagonalen er de to feiltypene.
+
+::: {.notes}
+**[~5 min]** Les tabellen høyt med de konkrete tallene. Ikke gå videre før alle fire cellene er navngitt i klartekst. Naturlige frekvenser, ikke prosenter.
+:::
+
+## §13 — To typer feil
+
+```{python}
+#| echo: false
+tn, fp, fn, tp = cm.ravel()
+print(f"De to feiltypene:")
+print(f"  {fn} gode epler som modellen sa var dårlige (false negatives)")
+print(f"  {fp} dårlige epler som modellen sa var gode (false positives)")
+```
+
+. . .
+
+::: {.callout-tip}
+**Diskuter med sidemannen (1 minutt):** Dere sorterer epler for salg. Hvilken feil er verst: false negatives eller false positives? Hva betyr disse begrepene i eplesalg-praksis?
+:::
+
+. . .
+
+Hvordan ville dere oversatt dette til Titanic-datasettet hvor vi predikerer overlevelse?
+
+::: {.notes}
+**[~4 min]** La dem diskutere i par. Det finnes ikke ett riktig svar, og det er hele poenget.
+:::
+
+# Blokk 2: Skogen {background-color="#1a2634"}
+
+Fra ett tre til mange.
+
+## §13b — Tilbake til treet
+
+I §1 så vi dette:
+
+```{python}
+#| echo: false
+#| fig-height: 4
+fig, axes = plt.subplots(2, 3, figsize=(16, 4))
+for i, ax in enumerate(axes.ravel()):
+    Xt, Xe, yt, ye = train_test_split(X, y, test_size=0.2, random_state=i)
+    t = DecisionTreeClassifier(max_depth=2, random_state=42).fit(Xt, yt)
+    acc = accuracy_score(ye, t.predict(Xe))
+    plot_tree(t, feature_names=X.columns, class_names=["dårlig", "god"],
+              filled=True, rounded=True, fontsize=7, ax=ax)
+    ax.set_title(f"Splitt {i}: {acc*100:.1f}%", fontsize=9)
+plt.suptitle("Samme data, seks splitter, seks forskjellige trær", fontsize=12)
+plt.tight_layout()
+plt.show()
+```
+
+Vi har nå verktøy for å evaluere prediksjoner. Problemet fra forrige gang gjenstår: treet endrer seg med dataene.
+
+::: {.notes}
+**[~1 min]** Kort visuell påminnelse. Ikke repeter forklaringen. Koble Blokk 1-verktøyene til Blokk 2-problemet.
+:::
+
+## §14 — En annen type prosess
+
+Et beslutningstre er en steg-for-steg-prosess: data kommer inn, treet stiller spørsmål, og hvert datapunkt følger én sti fra rot til blad.
+
+. . .
+
+::: {.callout-tip}
+**Gjett:** 100 mennesker gjetter antall gelébønner i et glass. Vil gjennomsnittet være bedre eller dårligere enn den beste enkeltgjetningen?
+:::
+
+. . .
+
+Feilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle.
+
+::: {.notes}
+**[~3 min]** Still gelébønne-spørsmålet og vent på svar. De fleste sier «bedre». Spør: «Hvorfor?»
+
+*Ontologitrening [DR-18.2, DR-22.4, Chi 2005/2012]: Kategorien «emergent prosess» må bygges eksplisitt før innholdet kan fylle den.*
+:::
+
+## §15 — Mange middelmådige trær
+
+En random forest består av mange beslutningstrær. Hvert tre klassifiserer hvert datapunkt på egen hånd, fra rot til blad, og gir sitt eget endelige svar. Skogen samler svarene og returnerer det svaret flest trær ga.
+
+Hvert enkelt tre er middelmådig alene. Fordi trærne gjør ulike feil, er flertallssvaret mer nøyaktig enn noe enkelt tre.
+
+. . .
+
+::: {.callout-tip}
+**Gjett:** Hva ville skjedd om alle trærne fikk nøyaktig samme data og samme features?
+:::
+
+. . .
+
+De ville gitt identiske svar. For at flertallet skal hjelpe, må trærne gjøre ulike feil.
+
+::: {.notes}
+**[~3 min]** Identiske trær gir ingen gevinst. Skogen trenger diversitet, og det er derfor vi injiserer tilfeldighet.
+:::
+
+## §16 — Juryanalogien
+
+```{mermaid}
+%%| echo: false
+graph TD
+    A["🌳 Tre 1<br>Trent på utvalg A"] -->|god| V((Stemme))
+    B["🌳 Tre 2<br>Trent på utvalg B"] -->|dårlig| V
+    C["🌳 Tre 3<br>Trent på utvalg C"] -->|god| V
+    V --> R["✅ Flertall: god<br>(2 mot 1)"]
+    style R fill:#ccf,stroke:#333,stroke-width:2px
+```
+
+Hvert tre vurderer saken på egen hånd og leverer sin egen dom. Skogen teller opp dommene og returnerer flertallet.
+
+En ekte jury diskuterer seg frem til enighet, mens trærne aldri kommuniserer. Uavhengige feil kansellerer hverandre fordi de går i ulike retninger. Korrelerte feil (som i en jury der medlemmene påvirker hverandre) gjør det ikke.
+
+::: {.notes}
+**[~2 min]** Pek på diagrammet: ingen piler mellom trærne.
+:::
+
+## §17 — To kilder til tilfeldighet
+
+For at trærne skal bli ulike, bruker random forest to former for tilfeldighet:
+
+::::{.columns}
+:::{.column width="50%"}
+**1. Tilfeldig datautvalg (bootstrap)**
+
+Hvert tre trekker et utvalg *med tilbakelegging*: samme eple kan dukke opp flere ganger. Ulike utvalg gir ulike feil.
+:::
+:::{.column width="50%"}
+**2. Tilfeldig feature-utvalg**
+
+Ved hvert splittepunkt velger treet blant en tilfeldig håndfull features. Ulike features gir ulike splitt.
+:::
+::::
+
+::: {.notes}
+**[~3 min]** Navngi begge kildene eksplisitt. Forklar tilbakelegging kort: «trekke med tilbakelegging betyr at samme eple kan dukke opp flere ganger».
+
+*[DR-22.8, S-009]: Tilfeldigheten i bootstrap og feature-utvalg er en bevisst designmekanisme.*
+:::
+
+## §18 — Fra konsept til kode
+
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+
+skog = RandomForestClassifier(n_estimators=100, max_features="sqrt", random_state=42)
+skog.fit(X_train, y_train)
+print(f"Ferdigtrent skog med {skog.n_estimators} trær, max_features={skog.max_features}")
+```
+
+`n_estimators` bestemmer antall trær. `max_features` bestemmer hvor mange features hvert tre vurderer ved hvert splittepunkt (standard: √antall features).
+
+. . .
+
+```{python}
+prediksjoner = skog.predict(X_test)
+nøyaktighet  = skog.score(X_test, y_test)
+print(f"Nøyaktighet: {nøyaktighet*100:.1f}%")
+```
+
+Når du kaller `.predict()`, klassifiserer hvert av de 100 trærne hvert eple fra rot til blad og gir sitt eget svar. Skogen samler de 100 svarene og returnerer flertallet. `.score()` sammenligner med fasit, akkurat som i Blokk 1.
+
+::: {.notes}
+**[~3 min]** Koble til Blokk 1: samme pipeline. Pek på at skogen slår enkeltreet fra §1.
+:::
+
+## §19 — Svake læringsmodeller (weak learners)
+
+Hvert enkelt tre kalles en **svak læringsmodell** (*weak learner*): en modell som er bare litt bedre enn tilfeldig gjetning.
+
+. . .
+
+::: {.callout-tip}
+**Gjett:** Vi kan gå fra 1 tre til 3 til 100 til 500. Skisser i hodet: nøyaktighet som funksjon av antall trær. Stiger den hele tiden, flater den ut, eller går den opp og ned?
+:::
+
+::: {.notes}
+**[~2 min]** Rekk opp hånda for (a) stiger hele tiden, (b) flater ut, (c) går opp og ned. Koble «weak learner» til oppgaveteksten.
+:::
+
+## §20 — Hvor mange trær trengs?
+
+```{python}
+antall_liste = [1, 3, 5, 10, 20, 50, 100, 200, 500]
+acc_per_n = []
+
+for n in antall_liste:
+    rf = RandomForestClassifier(n_estimators=n, random_state=42)
+    rf.fit(X_train, y_train)
+    acc_per_n.append(rf.score(X_test, y_test))
+```
+
+```{python}
+#| echo: false
+#| fig-height: 3
+plt.figure(figsize=(10, 3))
+plt.plot(antall_liste, [a*100 for a in acc_per_n], "go-", linewidth=1.5, markersize=6)
+plt.xlabel("Antall trær (n_estimators)")
+plt.ylabel("Testnøyaktighet (%)")
+plt.title("Random Forest: nøyaktighet vs. antall trær")
+plt.xscale("log")
+plt.xticks(antall_liste, [str(n) for n in antall_liste])
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+. . .
+
+Kurven stiger bratt med de første trærne og flater ut etter ca. 50. Sammenlignet med `max_depth`-kurven fra forrige forelesning, der mer dybde ga dårligere testresultat, er dette en annen dynamikk: flere trær gir avtakende forbedring.
+
+::: {.notes}
+**[~4 min]** Koden vises! Studentene trenger dette mønsteret for oppgave (c) i obligen.
+:::
+
+## §21 — Feature importance
+
+```{python}
+#| echo: false
+#| fig-height: 3.5
+importance = skog.feature_importances_
+sortering  = np.argsort(importance)
+
+plt.figure(figsize=(8, 3.5))
+plt.barh(X.columns[sortering], importance[sortering], color="forestgreen")
+plt.xlabel("Feature importance")
+plt.title("Hvilke egenskaper bruker skogen mest?")
+plt.tight_layout()
+plt.show()
+```
+
+```python
+importance = skog.feature_importances_
+```
+
+::: {.callout-tip}
+**Gjett:** Den øverste variabelen har høyest importance. Betyr det at den *forårsaker* god eplekvalitet?
+:::
+
+::: {.notes}
+**[~2 min]** Spør dem direkte. Vent på svar før du går videre.
+:::
+
+## §21b — Importance er ikke kausalitet
+
+Feature importance viser hvor mye modellen støttet seg på hver variabel. Den sier ingenting om årsak og virkning.
+
+Egenskaper med mange unike verdier får oppblåst importance, og korrelerte egenskaper deler importance mellom seg.
+
+::: {.notes}
+**[~2 min]** Importance er et utsagn om modellen, ikke om virkeligheten.
+
+*[DR-22.9]: Mest dokumenterte tre-spesifikke feiloppfatning.*
+:::
+
+## §22 — Partial dependence
+
+Feature importance viser hvilke variabler modellen bruker mest, men ikke retning: gjør høyere søthet eplet «godt» eller «dårlig»?
+
+Partial dependence svarer på dette: hva skjer med prediksjonen hvis vi endrer én variabel mens vi holder alt annet fast?
+
+1. Sett søtheten til −3 for alle eplene (behold alt annet), kjør prediksjoner, noter gjennomsnittet
+2. Gjenta for −2, −1, 0, 1, 2, 3 ...
+3. Plott gjennomsnittlig prediksjon mot søthet
+
+::: {.notes}
+**[~3 min]** Vi isolerer én variabel, som et kontrollert eksperiment.
+:::
+
+## §23 — Hva viser kurven?
+
+::: {.callout-tip}
+**Gjett:** Tror dere partial dependence-kurven for søthet stiger, synker, eller er flat?
+:::
+
+::: {.notes}
+**[~1 min]** La dem gjette retning før du viser plottet.
+:::
+
+## §24 — PDP for den viktigste variabelen
+
+```{python}
+#| echo: false
+#| fig-height: 4
+from sklearn.inspection import PartialDependenceDisplay
+
+top_feature = X.columns[np.argmax(importance)]
+
+fig, ax = plt.subplots(figsize=(8, 4))
+PartialDependenceDisplay.from_estimator(
+    skog, X_test, features=[top_feature], ax=ax, grid_resolution=30
+)
+ax.set_ylim(0, 1)
+ax.set_title(f"Partial dependence: {top_feature}", fontsize=13)
+fig.tight_layout()
+plt.show()
+```
+
+::: {.callout-tip}
+**Les kurven:** Ved hvilken verdi skifter modellen? Er overgangen brå eller gradvis?
+:::
+
+::: {.notes}
+**[~3 min]** Vis bare *én* feature først. Gi dem tid til å lese plottet. Læringen skjer her, ikke i full-oversikten.
+:::
+
+## §25 — PDP for alle variabler
+
+```{python}
+#| echo: false
+#| fig-height: 6
+fig, ax = plt.subplots(figsize=(10, 6))
+disp = PartialDependenceDisplay.from_estimator(
+    skog, X_test, features=list(X.columns), grid_resolution=20, ax=ax
+)
+for ax_sub in disp.axes_.ravel():
+    try:
+        ax_sub.set_ylim(0, 1)
+    except AttributeError:
+        pass
+fig.suptitle("Partial dependence: effekten av hver variabel", fontsize=13, y=1.02)
+fig.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+**[~2 min]** La dem se alle kurvene sammen. Pek kort på sterkest positiv, sterkest negativ, og flatest.
+
+Koden for dette:
+
+```python
+from sklearn.inspection import PartialDependenceDisplay
+PartialDependenceDisplay.from_estimator(skog, X_test, features=list(X.columns))
+```
+:::
+
+## §26 — Tre modeller, tre avveininger
+
+| Modell | Hva du kan se | Hva du gir opp |
+|--------|---------------|-----------------|
+| Lineær regresjon | Koeffisienter: nøyaktig bidrag per variabel | Antakelse om rette linjer |
+| Logistisk regresjon | Koeffisienter + sannsynligheter | Antakelse om lineære grenser |
+| Beslutningstre | Hele beslutningsstien for hvert datapunkt | Ustabilt: annen splitt gir annet svar |
+| Random Forest | Generell logikk (importance + PDP) | Enkeltprediksjoner er vanskelige å forklare |
+
+::: {.notes}
+**[~2 min]** Les tabellen høyt. Poenget er kontrasten mellom kolonnene.
+:::
+
+## §27 — Modellvalg avhenger av formålet
+
+::: {.callout-tip}
+**Diskuter med sidemannen (1 minutt):** Et sykehus bruker en modell til å prioritere pasienter. Hvilken av de tre modellene ville dere valgt, og hvorfor?
+:::
+
+::: {.notes}
+**[~3 min]** Diskuter i par. Ikke gi et «riktig» svar.
+
+*Multiplistfelle-forebygging [DR-22.7, Rosman et al. 2018]: Uten formålsrelativ forankring leder modellsammenligning til «alle modeller er bare ulike perspektiver» i stedet for «denne modellen er bedre begrunnet for dette formålet».*
+:::
+
+## §28 — Oppsummering
+
+| Konsept | Hva det gjør |
+|---------|------------|
+| **One-hot encoding** | Oversetter kategorier til binære kolonner sklearn forstår |
+| `.predict()` → evaluering | Modell lager prediksjoner, evalueringsfunksjon bedømmer dem uavhengig |
+| Forvirringsmatrise | Viser hvilke feil modellen gjør, ikke bare hvor mange |
+| **Svak læringsmodell** | Ett enkelt tre, middelmådig alene |
+| **Random Forest** | Mange svake trær med tilfeldig data og features, flertallsavstemning |
+| Feature importance | Hvilke variabler modellen bruker mest (ikke retning, ikke kausalitet) |
+| **Partial dependence** | Hvordan en variabel påvirker prediksjonen (gjennomsnittlig) |
+
+::: {.notes}
+**[~1 min]** Stille gjennomgang. Ikke les opp alt, la dem lese selv.
+:::
+
+## §29 — Obligen
+
+I oppgave 4 skal dere bruke det vi har gått gjennom i dag: random forest, feature importance og partial dependence.
+
+Husk å one-hot-kode kategoriske variabler før dere trener modellen.
+
+::: {.callout-important}
+Oblig: frist 19. mars. Orakeltimer hver torsdag i Tellefsens tårn, kl. 16:15–18:00.
+:::
+
+::: {.notes}
+**[~1 min]** Kort påminnelse om fristen og orakeltimene.
+:::
