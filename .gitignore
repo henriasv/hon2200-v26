@@ -33,3 +33,4 @@ lectures/01b1_slides.pdf
 # Rendered PDFs in root (generated from qmd)
 01c_øvelse.pdf
 hon2110_oppfrisking.pdf
+**/*.quarto_ipynb

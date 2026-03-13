@@ -27,7 +27,7 @@ project:
     - lectures/05a_forberedelser.qmd
     - lectures/05b_slides_ane.qmd
     # - lectures/05c_øvelse.qmd
-    # - lectures/06a_forberedelser.qmd
+    - lectures/06a_forberedelser.qmd
     - lectures/06_slides_ane.qmd
     # - lectures/07a_forberedelser.qmd
     # - lectures/07b_slides.qmd
