@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.9.29">
 
   <meta name="author" content="Ane Kristine Espeseth">
-  <title>HON2200 – V2026 – Random Forest og esnsemble-metoder</title>
+  <title>HON2200 – V2026 – Random Forest og ensemblemetoder</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -205,7 +205,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Random Forest og esnsemble-metoder</h1>
+  <h1 class="title">Random Forest og ensemblemetoder</h1>
   <p class="subtitle">HON2200</p>
 
 <div class="quarto-title-authors">
@@ -226,11 +226,11 @@ Ane Kristine Espeseth
 <h2>§1 — Hva husker dere fra sist?</h2>
 <p><strong>Diskuter med sidemannen (1 minutt):</strong> Forrige gang trente vi et beslutningstre på eplekvalitet. Vi kjørte det seks ganger med ulike tilfeldige splitter. Hva skjedde?</p>
 <div class="fragment">
-<div id="248ebaeb" class="cell" data-fig-height="4" data-execution_count="1">
+<div id="5fe63eb3" class="cell" data-fig-height="4" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="06_slides_ane_files/figure-revealjs/cell-2-output-1.png" width="1517" height="381"></p>
+<p><img data-src="06_slides_ane_files/figure-html/cell-2-output-1.png" width="1517" height="381"></p>
 </figure>
 </div>
 </div>
@@ -241,8 +241,8 @@ Ane Kristine Espeseth
 <section id="sklearn-godtar-bare-tall" class="slide level2">
 <h2>§2 — Sklearn godtar bare tall</h2>
 <p>Eple-datasettet har bare tallverdier, men mange datasett har tekstkolonner som sklearn ikke godtar.</p>
-<div id="5eba0360" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div id="fcadbb04" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -309,10 +309,10 @@ Ane Kristine Espeseth
 <section id="det-binære-tilfellet" class="slide level2">
 <h2>§3 — Det binære tilfellet</h2>
 <p>Det enkleste: to kategorier → 0 og 1. Dere har sett <code>.astype(int)</code> på en binær kolonne før.</p>
-<div id="0805f262" class="cell" data-execution_count="3">
+<div id="7a0db2c1" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>df[<span class="st">"quality_num"</span>] <span class="op">=</span> (df[<span class="st">"Quality"</span>] <span class="op">==</span> <span class="st">"good"</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb1-2"><a></a>df[[<span class="st">"Quality"</span>, <span class="st">"quality_num"</span>]].head(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="49">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -401,8 +401,8 @@ Ane Kristine Espeseth
 </div><div class="column fragment" style="width:50%;">
 <p><strong>One-hot encoding</strong></p>
 <p>Én kolonne per kategori, bare 0 og 1:</p>
-<div id="8483262c" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display" data-execution_count="50">
+<div id="57f4aabb" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -469,12 +469,12 @@ Ane Kristine Espeseth
 </section>
 <section id="one-hot-i-praksis" class="slide level2">
 <h2>§5 — One-hot i praksis</h2>
-<div id="7aebe535" class="cell" data-execution_count="5">
+<div id="196de102" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>eksempel <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb3-2"><a></a>    <span class="st">"Farge"</span>: [<span class="st">"rød"</span>, <span class="st">"grønn"</span>, <span class="st">"rød"</span>, <span class="st">"gul"</span>, <span class="st">"grønn"</span>]</span>
 <span id="cb3-3"><a></a>})</span>
 <span id="cb3-4"><a></a>pd.get_dummies(eksempel[[<span class="st">"Farge"</span>]], prefix<span class="op">=</span><span class="st">"Farge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -558,9 +558,9 @@ Ane Kristine Espeseth
 <section id="hva-skjuler-.score" class="slide level2">
 <h2>§7 — Hva skjuler <code>.score()</code>?</h2>
 <p>Dere har alle sett denne koden:</p>
-<div id="eb5b3944" class="cell" data-execution_count="7">
+<div id="0c7a8b38" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>tre_modell.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="53">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>0.74</code></pre>
 </div>
 </div>
@@ -581,13 +581,14 @@ Ane Kristine Espeseth
 <section id="to-separate-steg" class="slide level2">
 <h2>§8 — To separate steg</h2>
 <p>Her er hva <code>.score()</code> gjør:</p>
-<div id="9910b978" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="co"># Steg 1: modellen lager gjetninger, én per eple</span></span>
-<span id="cb6-2"><a></a>prediksjoner <span class="op">=</span> tre_modell.predict(X_test)</span>
-<span id="cb6-3"><a></a></span>
-<span id="cb6-4"><a></a><span class="co"># Steg 2: en separat funksjon sammenligner gjetningene med fasit</span></span>
-<span id="cb6-5"><a></a>accuracy_score(y_test, prediksjoner)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, precision_score, recall_score, confusion_matrix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="36b00544" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="co"># Steg 1: modellen lager gjetninger, én per eple</span></span>
+<span id="cb7-2"><a></a>prediksjoner <span class="op">=</span> tre_modell.predict(X_test)</span>
+<span id="cb7-3"><a></a></span>
+<span id="cb7-4"><a></a><span class="co"># Steg 2: en separat funksjon sammenligner gjetningene med fasit</span></span>
+<span id="cb7-5"><a></a>accuracy_score(y_test, prediksjoner)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>0.74</code></pre>
 </div>
 </div>
@@ -597,16 +598,16 @@ Ane Kristine Espeseth
 </section>
 <section id="tre-kilder-samme-funksjon" class="slide level2">
 <h2>§9 — Tre kilder, samme funksjon</h2>
-<div id="68eccffe" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>log_modell <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>).fit(X_train, y_train)</span>
-<span id="cb8-2"><a></a></span>
-<span id="cb8-3"><a></a>pred_tre  <span class="op">=</span> tre_modell.predict(X_test)</span>
-<span id="cb8-4"><a></a>pred_log  <span class="op">=</span> log_modell.predict(X_test)</span>
-<span id="cb8-5"><a></a>pred_alt  <span class="op">=</span> np.zeros(<span class="bu">len</span>(y_test), dtype<span class="op">=</span><span class="bu">int</span>)   <span class="co"># "alle epler er dårlige"</span></span>
-<span id="cb8-6"><a></a></span>
-<span id="cb8-7"><a></a><span class="bu">print</span>(<span class="ss">f"Beslutningstre:     </span><span class="sc">{</span>accuracy_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
-<span id="cb8-8"><a></a><span class="bu">print</span>(<span class="ss">f"Logistisk regresjon:</span><span class="sc">{</span>accuracy_score(y_test, pred_log)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
-<span id="cb8-9"><a></a><span class="bu">print</span>(<span class="ss">f"«Alle er dårlige»:  </span><span class="sc">{</span>accuracy_score(y_test, pred_alt)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c834d569" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>log_modell <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>).fit(X_train, y_train)</span>
+<span id="cb9-2"><a></a></span>
+<span id="cb9-3"><a></a>pred_tre  <span class="op">=</span> tre_modell.predict(X_test)</span>
+<span id="cb9-4"><a></a>pred_log  <span class="op">=</span> log_modell.predict(X_test)</span>
+<span id="cb9-5"><a></a>pred_alt  <span class="op">=</span> np.zeros(<span class="bu">len</span>(y_test), dtype<span class="op">=</span><span class="bu">int</span>)   <span class="co"># "alle epler er dårlige"</span></span>
+<span id="cb9-6"><a></a></span>
+<span id="cb9-7"><a></a><span class="bu">print</span>(<span class="ss">f"Beslutningstre:     </span><span class="sc">{</span>accuracy_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb9-8"><a></a><span class="bu">print</span>(<span class="ss">f"Logistisk regresjon:</span><span class="sc">{</span>accuracy_score(y_test, pred_log)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb9-9"><a></a><span class="bu">print</span>(<span class="ss">f"«Alle er dårlige»:  </span><span class="sc">{</span>accuracy_score(y_test, pred_alt)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Beslutningstre:     74.0%
 Logistisk regresjon:75.4%
@@ -636,11 +637,11 @@ Logistisk regresjon:75.4%
 </div>
 </div>
 <div class="fragment">
-<div id="58de7831" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>y_titan <span class="op">=</span> np.array([<span class="dv">0</span>]<span class="op">*</span><span class="dv">62</span> <span class="op">+</span> [<span class="dv">1</span>]<span class="op">*</span><span class="dv">38</span>)              <span class="co"># si at 62 døde, 38 overlevde</span></span>
-<span id="cb10-2"><a></a>pred_alle_dør <span class="op">=</span> np.zeros(<span class="dv">100</span>, dtype<span class="op">=</span><span class="bu">int</span>)          <span class="co"># "alle 100 dør"</span></span>
-<span id="cb10-3"><a></a></span>
-<span id="cb10-4"><a></a><span class="bu">print</span>(<span class="ss">f"Nøyaktighet for «alle dør»: </span><span class="sc">{</span>accuracy_score(y_titan, pred_alle_dør)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="397b0806" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>y_titan <span class="op">=</span> np.array([<span class="dv">0</span>]<span class="op">*</span><span class="dv">62</span> <span class="op">+</span> [<span class="dv">1</span>]<span class="op">*</span><span class="dv">38</span>)              <span class="co"># si at 62 døde, 38 overlevde</span></span>
+<span id="cb11-2"><a></a>pred_alle_dør <span class="op">=</span> np.zeros(<span class="dv">100</span>, dtype<span class="op">=</span><span class="bu">int</span>)          <span class="co"># "alle 100 dør"</span></span>
+<span id="cb11-3"><a></a></span>
+<span id="cb11-4"><a></a><span class="bu">print</span>(<span class="ss">f"Nøyaktighet for «alle dør»: </span><span class="sc">{</span>accuracy_score(y_titan, pred_alle_dør)<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nøyaktighet for «alle dør»: 62%</code></pre>
 </div>
@@ -651,10 +652,10 @@ Logistisk regresjon:75.4%
 <section id="samme-prediksjoner-ulike-spørsmål" class="slide level2">
 <h2>§11 — Samme prediksjoner, ulike spørsmål</h2>
 <p>Vi kan stille ulike spørsmål om den samme listen med prediksjoner:</p>
-<div id="60749b5d" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="bu">print</span>(<span class="ss">f"Accuracy:  </span><span class="sc">{</span>accuracy_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
-<span id="cb12-2"><a></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
-<span id="cb12-3"><a></a><span class="bu">print</span>(<span class="ss">f"Recall:    </span><span class="sc">{</span>recall_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="062fa771" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="bu">print</span>(<span class="ss">f"Accuracy:  </span><span class="sc">{</span>accuracy_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb13-2"><a></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb13-3"><a></a><span class="bu">print</span>(<span class="ss">f"Recall:    </span><span class="sc">{</span>recall_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy:  74.0%
 Precision: 81.3%
@@ -690,11 +691,11 @@ Recall:    62.2%</code></pre>
 <section id="forvirringsmatrisen" class="slide level2">
 <h2>§12 — Forvirringsmatrisen</h2>
 <p>Alle tre tallene over beregnes fra den samme tabellen:</p>
-<div id="59a096d9" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>cm <span class="op">=</span> confusion_matrix(y_test, pred_tre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="bd02a2dc" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>cm <span class="op">=</span> confusion_matrix(y_test, pred_tre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
-<div id="a152ec3a" class="cell" data-execution_count="13">
+<div id="3996ba9c" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-stdout">
 <pre><code>                    Predikert: dårlig    Predikert: god
 Faktisk dårlig          344 riktig             57 FEIL
@@ -708,7 +709,7 @@ Faktisk god             151 FEIL              248 riktig
 </div>
 </div>
 <div class="fragment">
-<div id="b8f6eeee" class="cell" data-execution_count="14">
+<div id="70e061bd" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy = (344 + 248) / 800 = 74 %</code></pre>
 </div>
@@ -718,13 +719,14 @@ Faktisk god             151 FEIL              248 riktig
 </section>
 <section id="to-typer-feil" class="slide level2">
 <h2>§13 — To typer feil</h2>
-<div id="1c4debeb" class="cell" data-execution_count="15">
+<div id="d0c9d120" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-stdout">
 <pre><code>De to feiltypene:
   151 gode epler som modellen sa var dårlige (false negatives)
   57 dårlige epler som modellen sa var gode (false positives)</code></pre>
 </div>
 </div>
+<p>Huskeregel: ordene beskriver hva <em>modellen</em> sa, ikke hva eplet var. False <strong>positive</strong> betyr at modellen var positiv (sa «god»), men tok feil.</p>
 <div class="fragment">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -747,26 +749,46 @@ Faktisk god             151 FEIL              248 riktig
 <section>
 <section id="blokk-2-skogen" class="title-slide slide level1 center" data-background-color="#1a2634">
 <h1>Blokk 2: Skogen</h1>
-<p>Fra ett tre til mange.</p>
+<p>Fra enkelttrær til ensemblemetoder.</p>
 </section>
 <section id="b-tilbake-til-treet" class="slide level2">
 <h2>§13b — Tilbake til treet</h2>
 <p>I §1 så vi dette:</p>
-<div id="9b7ad29a" class="cell" data-fig-height="4" data-execution_count="16">
+<div id="7cd0bd90" class="cell" data-fig-height="4" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="06_slides_ane_files/figure-revealjs/cell-17-output-1.png" width="1517" height="381"></p>
+<p><img data-src="06_slides_ane_files/figure-html/cell-17-output-1.png" width="1517" height="381"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Vi har nå verktøy for å evaluere prediksjoner. Problemet fra forrige gang gjenstår: treet endrer seg med dataene.</p>
 </section>
-<section id="en-annen-type-prosess" class="slide level2">
-<h2>§14 — En annen type prosess</h2>
-<p>Et beslutningstre er en steg-for-steg-prosess: data kommer inn, treet stiller spørsmål, og hvert datapunkt følger én sti fra rot til blad.</p>
+<section id="to-typer-prosesser" class="slide level2">
+<h2>§14 — To typer prosesser</h2>
+<p>Noen prosesser er <strong>steg-for-steg</strong>: én aktør tar beslutninger i rekkefølge. I et beslutningstre kommer data inn, treet stiller spørsmål og hvert datapunkt følger én sti fra rot til blad. En oppskrift, en for-løkke og en sorteringsalgoritme er også steg-for-steg.</p>
 <div class="fragment">
+<p>Andre prosesser er <strong>mange-samtidig</strong>: mange aktører handler uavhengig, og det samlede resultatet har egenskaper ingen enkeltaktør har. Trafikkork oppstår uten at én sjåfør bestemmer seg for å lage kø. Wikipedia-artikler blir pålitelige fordi tusenvis av redaktører retter uavhengig av hverandre.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Diskuter med sidemannen (1 minutt):</strong> Kan dere komme på et annet eksempel der mange middelmådige bidrag gir et godt samlet resultat?</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="b-gelébønnene" class="slide level2">
+<h2>§14b — Gelébønnene</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -780,9 +802,8 @@ Faktisk god             151 FEIL              248 riktig
 </div>
 </div>
 </div>
-</div>
 <div class="fragment">
-<p>Feilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle.</p>
+<p>Feilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle. Dette er en <strong>mange-samtidig-prosess</strong>: det samlede resultatet har egenskaper ingen enkeltgjetter har.</p>
 </div>
 </section>
 <section id="mange-middelmådige-trær" class="slide level2">
@@ -830,9 +851,28 @@ Faktisk god             151 FEIL              248 riktig
 <p>Hvert tre vurderer saken på egen hånd og leverer sin egen dom. Skogen teller opp dommene og returnerer flertallet.</p>
 <p>En ekte jury diskuterer seg frem til enighet, mens trærne aldri kommuniserer. Uavhengige feil kansellerer hverandre fordi de går i ulike retninger. Korrelerte feil (som i en jury der medlemmene påvirker hverandre) gjør det ikke.</p>
 </section>
+<section id="b-korrelerte-vs.-uavhengige-feil" class="slide level2">
+<h2>§16b — Korrelerte vs.&nbsp;uavhengige feil</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Gjett:</strong> Tenk deg to scenarier: (A) 100 mennesker leser <strong>samme</strong> avisartikkel og stemmer over hva den handler om. (B) 100 mennesker leser <strong>ulike</strong> avisartikler og stemmer over dagens viktigste nyhet. Hvilken avstemning har mest nytte av flertall?</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>I scenario A er feilene korrelerte: alle leste det samme, så de bommer på samme måte. I scenario B er feilene uavhengige: ulike kilder gir ulike blindsoner. Random forest er scenario B. Hvert tre ser ulike data og stiller ulike spørsmål.</p>
+</div>
+</section>
 <section id="to-kilder-til-tilfeldighet" class="slide level2">
 <h2>§17 — To kilder til tilfeldighet</h2>
-<p>For at trærne skal bli ulike, bruker random forest to former for tilfeldighet:</p>
+<p>Hvert tre får litt ulike data og litt ulike spørsmål. Trærne gjør derfor ulike feil, og feil som peker i ulike retninger kansellerer hverandre i flertallsavstemningen.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><strong>1. Tilfeldig datautvalg (bootstrap)</strong></p>
@@ -841,25 +881,30 @@ Faktisk god             151 FEIL              248 riktig
 <p><strong>2. Tilfeldig feature-utvalg</strong></p>
 <p>Ved hvert splittepunkt velger treet blant en tilfeldig håndfull features. Ulike features gir ulike splitt.</p>
 </div></div>
+<div class="fragment">
+<blockquote>
+<p><strong>Obs: «tilfeldig» betyr her kontrollert stokastisk utvalg, reproduserbart med <code>random_state</code>.</strong> <em>(eng: random)</em></p>
+</blockquote>
+</div>
 </section>
 <section id="fra-konsept-til-kode" class="slide level2">
 <h2>§18 — Fra konsept til kode</h2>
-<div id="d6a2dd11" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
-<span id="cb18-2"><a></a></span>
-<span id="cb18-3"><a></a>skog <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, max_features<span class="op">=</span><span class="st">"sqrt"</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb18-4"><a></a>skog.fit(X_train, y_train)</span>
-<span id="cb18-5"><a></a><span class="bu">print</span>(<span class="ss">f"Ferdigtrent skog med </span><span class="sc">{</span>skog<span class="sc">.</span>n_estimators<span class="sc">}</span><span class="ss"> trær, max_features=</span><span class="sc">{</span>skog<span class="sc">.</span>max_features<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="81cfdac6" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb19-2"><a></a></span>
+<span id="cb19-3"><a></a>skog <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, max_features<span class="op">=</span><span class="st">"sqrt"</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb19-4"><a></a>skog.fit(X_train, y_train)</span>
+<span id="cb19-5"><a></a><span class="bu">print</span>(<span class="ss">f"Ferdigtrent skog med </span><span class="sc">{</span>skog<span class="sc">.</span>n_estimators<span class="sc">}</span><span class="ss"> trær, max_features=</span><span class="sc">{</span>skog<span class="sc">.</span>max_features<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Ferdigtrent skog med 100 trær, max_features=sqrt</code></pre>
 </div>
 </div>
 <p><code>n_estimators</code> bestemmer antall trær. <code>max_features</code> bestemmer hvor mange features hvert tre vurderer ved hvert splittepunkt (standard: √antall features).</p>
 <div class="fragment">
-<div id="59f675fb" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>prediksjoner <span class="op">=</span> skog.predict(X_test)</span>
-<span id="cb20-2"><a></a>nøyaktighet  <span class="op">=</span> skog.score(X_test, y_test)</span>
-<span id="cb20-3"><a></a><span class="bu">print</span>(<span class="ss">f"Nøyaktighet: </span><span class="sc">{</span>n<span class="sc">ø</span>yaktighet<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fdf9c195" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>prediksjoner <span class="op">=</span> skog.predict(X_test)</span>
+<span id="cb21-2"><a></a>nøyaktighet  <span class="op">=</span> skog.score(X_test, y_test)</span>
+<span id="cb21-3"><a></a><span class="bu">print</span>(<span class="ss">f"Nøyaktighet: </span><span class="sc">{</span>n<span class="sc">ø</span>yaktighet<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nøyaktighet: 90.1%</code></pre>
 </div>
@@ -867,9 +912,42 @@ Faktisk god             151 FEIL              248 riktig
 <p>Når du kaller <code>.predict()</code>, klassifiserer hvert av de 100 trærne hvert eple fra rot til blad og gir sitt eget svar. Skogen samler de 100 svarene og returnerer flertallet. <code>.score()</code> sammenligner med fasit, akkurat som i Blokk 1.</p>
 </div>
 </section>
+<section id="b-hjelper-tilfeldigheten-egentlig" class="slide level2">
+<h2>§18b — Hjelper tilfeldigheten egentlig?</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Gjett:</strong> Vi lager to skoger med 100 trær hver. Den ene bruker tilfeldig feature-utvalg (standard). Den andre lar hvert tre bruke <em>alle</em> features. Hvilken tror dere er best?</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div id="14e80b84" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>skog_med  <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb23-2"><a></a>skog_uten <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, max_features<span class="op">=</span><span class="va">None</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb23-3"><a></a></span>
+<span id="cb23-4"><a></a>skog_med.fit(X_train, y_train)</span>
+<span id="cb23-5"><a></a>skog_uten.fit(X_train, y_train)</span>
+<span id="cb23-6"><a></a></span>
+<span id="cb23-7"><a></a><span class="bu">print</span>(<span class="ss">f"Med tilfeldig feature-utvalg:  </span><span class="sc">{</span>skog_med<span class="sc">.</span>score(X_test, y_test)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb23-8"><a></a><span class="bu">print</span>(<span class="ss">f"Uten tilfeldig feature-utvalg: </span><span class="sc">{</span>skog_uten<span class="sc">.</span>score(X_test, y_test)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Med tilfeldig feature-utvalg:  90.1%
+Uten tilfeldig feature-utvalg: 89.8%</code></pre>
+</div>
+</div>
+<p>Mer tilfeldighet gir mer uavhengige feil og bedre flertallsavstemning.</p>
+</div>
+</section>
 <section id="svake-læringsmodeller-weak-learners" class="slide level2">
 <h2>§19 — Svake læringsmodeller (weak learners)</h2>
-<p>Hvert enkelt tre kalles en <strong>svak læringsmodell</strong> (<em>weak learner</em>): en modell som er bare litt bedre enn tilfeldig gjetning.</p>
+<p>Hvert enkelt tre kalles en <strong>svak læringsmodell</strong> (<em>weak learner</em>): en modell som er bare litt bedre enn tilfeldig gjetning. Treet er bevisst begrenset i dybde og features. Begrensningen er et designvalg: skogen trenger <em>ulike</em> trær, og begrensede trær som ser ulike data gjør ulike feil.</p>
 <div class="fragment">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -888,40 +966,43 @@ Faktisk god             151 FEIL              248 riktig
 </section>
 <section id="hvor-mange-trær-trengs" class="slide level2">
 <h2>§20 — Hvor mange trær trengs?</h2>
-<div id="8cf2ab0e" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a>antall_liste <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>]</span>
-<span id="cb22-2"><a></a>acc_per_n <span class="op">=</span> []</span>
-<span id="cb22-3"><a></a></span>
-<span id="cb22-4"><a></a><span class="cf">for</span> n <span class="kw">in</span> antall_liste:</span>
-<span id="cb22-5"><a></a>    rf <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span>n, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb22-6"><a></a>    rf.fit(X_train, y_train)</span>
-<span id="cb22-7"><a></a>    acc_per_n.append(rf.score(X_test, y_test))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6e945ace" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a>antall_liste <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>]</span>
+<span id="cb25-2"><a></a>acc_per_n <span class="op">=</span> []</span>
+<span id="cb25-3"><a></a></span>
+<span id="cb25-4"><a></a><span class="cf">for</span> n <span class="kw">in</span> antall_liste:</span>
+<span id="cb25-5"><a></a>    rf <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span>n, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb25-6"><a></a>    rf.fit(X_train, y_train)</span>
+<span id="cb25-7"><a></a>    acc_per_n.append(rf.score(X_test, y_test))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ae303400" class="cell" data-fig-height="3" data-execution_count="20">
+<div id="a866b61a" class="cell" data-fig-height="3" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="06_slides_ane_files/figure-revealjs/cell-21-output-1.png" width="963" height="278"></p>
+<p><img data-src="06_slides_ane_files/figure-html/cell-22-output-1.png" width="963" height="278"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="fragment">
-<p>Kurven stiger bratt med de første trærne og flater ut etter ca. 50. Sammenlignet med <code>max_depth</code>-kurven fra forrige forelesning, der mer dybde ga dårligere testresultat, er dette en annen dynamikk: flere trær gir avtakende forbedring.</p>
-</div>
+</section>
+<section id="b-kurven-flater-ut" class="slide level2">
+<h2>§20b — Kurven flater ut</h2>
+<p>Kurven stiger bratt med de første trærne og flater ut etter ca. 50. Kurven går aldri <em>ned</em>: hvert nytt tre bidrar med uavhengige feil, og det kan bare hjelpe eller være nøytralt.</p>
+<p>Sammenlign med <code>max_depth</code>-kurven fra forrige gang: mer dybde ga dårligere testresultat etter et punkt. Flere trær gir avtakende forbedring og aldri forverring. Kan du forklare forskjellen?</p>
 </section>
 <section id="feature-importance" class="slide level2">
 <h2>§21 — Feature importance</h2>
-<div id="6ce23028" class="cell" data-fig-height="3.5" data-execution_count="21">
+<div id="914269c5" class="cell" data-fig-height="3.5" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="06_slides_ane_files/figure-revealjs/cell-22-output-1.png" width="758" height="326"></p>
+<p><img data-src="06_slides_ane_files/figure-html/cell-23-output-1.png" width="758" height="326"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>importance <span class="op">=</span> skog.feature_importances_</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a>importance <span class="op">=</span> skog.feature_importances_</span>
+<span id="cb26-2"><a></a>plt.barh(X.columns, importance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -939,12 +1020,13 @@ Faktisk god             151 FEIL              248 riktig
 <section id="b-importance-er-ikke-kausalitet" class="slide level2">
 <h2>§21b — Importance er ikke kausalitet</h2>
 <p>Feature importance viser hvor mye modellen støttet seg på hver variabel. Den sier ingenting om årsak og virkning.</p>
+<p>I lineær regresjon betyr en koeffisient på 2.5 at variabelen bidrar med 2.5 per enhet. Feature importance viser hvor ofte modellen brukte variabelen, uten retning eller størrelse.</p>
 <p>Egenskaper med mange unike verdier får oppblåst importance, og korrelerte egenskaper deler importance mellom seg.</p>
 </section>
 <section id="partial-dependence" class="slide level2">
 <h2>§22 — Partial dependence</h2>
 <p>Feature importance viser hvilke variabler modellen bruker mest, men ikke retning: gjør høyere søthet eplet «godt» eller «dårlig»?</p>
-<p>Partial dependence svarer på dette: hva skjer med prediksjonen hvis vi endrer én variabel mens vi holder alt annet fast?</p>
+<p>Partial dependence svarer på dette, som et kontrollert eksperiment: vi endrer én variabel og holder alt annet fast.</p>
 <ol type="1">
 <li>Sett søtheten til −3 for alle eplene (behold alt annet), kjør prediksjoner, noter gjennomsnittet</li>
 <li>Gjenta for −2, −1, 0, 1, 2, 3 …</li>
@@ -969,15 +1051,17 @@ Faktisk god             151 FEIL              248 riktig
 </section>
 <section id="pdp-for-den-viktigste-variabelen" class="slide level2">
 <h2>§24 — PDP for den viktigste variabelen</h2>
-<div id="02fcd6b3" class="cell" data-fig-height="4" data-execution_count="22">
+<div id="0e5b31f7" class="cell" data-fig-height="3.5" data-execution_count="23">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="06_slides_ane_files/figure-revealjs/cell-23-output-1.png" width="758" height="374"></p>
+<p><img data-src="06_slides_ane_files/figure-html/cell-24-output-1.png" width="758" height="326"></p>
 </figure>
 </div>
 </div>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="im">from</span> sklearn.inspection <span class="im">import</span> PartialDependenceDisplay</span>
+<span id="cb27-2"><a></a>PartialDependenceDisplay.from_estimator(skog, X_test, features<span class="op">=</span>[<span class="st">"Sweetness"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -994,18 +1078,22 @@ Faktisk god             151 FEIL              248 riktig
 </section>
 <section id="pdp-for-alle-variabler" class="slide level2">
 <h2>§25 — PDP for alle variabler</h2>
-<div id="075440b2" class="cell" data-fig-height="6" data-execution_count="23">
+<div id="c669531f" class="cell" data-fig-height="5" data-execution_count="24">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="06_slides_ane_files/figure-revealjs/cell-24-output-1.png" width="942" height="592"></p>
+<p><img data-src="06_slides_ane_files/figure-html/cell-25-output-1.png" width="950" height="494"></p>
 </figure>
 </div>
 </div>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a><span class="im">from</span> sklearn.inspection <span class="im">import</span> PartialDependenceDisplay</span>
+<span id="cb28-2"><a></a>PartialDependenceDisplay.from_estimator(skog, X_test, features<span class="op">=</span><span class="bu">list</span>(X.columns))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="tre-modeller-tre-avveininger" class="slide level2">
-<h2>§26 — Tre modeller, tre avveininger</h2>
+<section id="modellvalg-avhenger-av-formålet" class="slide level2">
+<h2>§26 — Modellvalg avhenger av formålet</h2>
+<p>Vi bruker «modell» om fire ulike ting her. Alle fire forenkler virkeligheten, på helt ulike måter.</p>
+<p>Et sykehus vil bruke en modell til å prioritere pasienter. Her er avveiningene:</p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 20%">
@@ -1043,8 +1131,8 @@ Faktisk god             151 FEIL              248 riktig
 </tbody>
 </table>
 </section>
-<section id="modellvalg-avhenger-av-formålet" class="slide level2">
-<h2>§27 — Modellvalg avhenger av formålet</h2>
+<section id="hvilken-modell-for-sykehuset" class="slide level2">
+<h2>§27 — Hvilken modell for sykehuset?</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1054,13 +1142,32 @@ Faktisk god             151 FEIL              248 riktig
 <p><strong>Tip</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Diskuter med sidemannen (1 minutt):</strong> Et sykehus bruker en modell til å prioritere pasienter. Hvilken av de tre modellene ville dere valgt, og hvorfor?</p>
+<p><strong>Diskuter med sidemannen (2 minutter):</strong></p>
+<ol type="1">
+<li>Hvilken feiltype er farligst her: false positive eller false negative?</li>
+<li>Må legen kunne forklare svaret til pasienten?</li>
+<li>Basert på svarene: hvilken modell passer best?</li>
+</ol>
 </div>
 </div>
+</div>
+<div class="fragment">
+<p>«Best» avhenger av formålet, og valget kan begrunnes.</p>
 </div>
 </section>
+<section id="valg-vi-tok-i-dag" class="slide level2">
+<h2>§28 — Valg vi tok i dag</h2>
+<p>I dag har vi tatt en rekke valg som påvirker hva modellen lærer og hva vi kan konkludere:</p>
+<ul>
+<li>Vi valgte <strong>one-hot encoding</strong> over ordinal koding, noe som endrer hvilke mønstre modellen kan finne</li>
+<li>Vi brukte nøyaktighet som evalueringsmål, som kan gi et misvisende bilde for ubalanserte data</li>
+<li>Vi leste <strong>feature importance</strong> som variabelbidrag, et utsagn om modellens bruk av variablene</li>
+<li>Vi satte antall trær til 100, og kurven viste avtakende utbytte uten forverring</li>
+</ul>
+<p>Hva ville endret seg om vi hadde valgt annerledes på ett av disse punktene?</p>
+</section>
 <section id="oppsummering" class="slide level2">
-<h2>§28 — Oppsummering</h2>
+<h2>§29 — Oppsummering</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 42%">
@@ -1105,7 +1212,7 @@ Faktisk god             151 FEIL              248 riktig
 </table>
 </section>
 <section id="obligen" class="slide level2">
-<h2>§29 — Obligen</h2>
+<h2>§30 — Obligen</h2>
 <p>I oppgave 4 skal dere bruke det vi har gått gjennom i dag: random forest, feature importance og partial dependence.</p>
 <p>Husk å one-hot-kode kategoriske variabler før dere trener modellen.</p>
 <div class="callout callout-important callout-titled callout-style-default">

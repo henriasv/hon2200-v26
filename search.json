@@ -3932,11 +3932,263 @@
     ]
   },
   {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hva-husker-dere-fra-sist",
+    "href": "lectures/06_slides_ane.revealjs.html#hva-husker-dere-fra-sist",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§1 — Hva husker dere fra sist?",
+    "text": "§1 — Hva husker dere fra sist?\nDiskuter med sidemannen (1 minutt): Forrige gang trente vi et beslutningstre på eplekvalitet. Vi kjørte det seks ganger med ulike tilfeldige splitter. Hva skjedde?\n\n\n\n\n\n\n\n\n\n\nTreet endrer seg hver gang vi deler dataene annerledes."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#sklearn-godtar-bare-tall",
+    "href": "lectures/06_slides_ane.revealjs.html#sklearn-godtar-bare-tall",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§2 — Sklearn godtar bare tall",
+    "text": "§2 — Sklearn godtar bare tall\nEple-datasettet har bare tallverdier, men mange datasett har tekstkolonner som sklearn ikke godtar.\n\n\n\n\n\n\n\n\n\nStørrelse\nFarge\nKvalitet\n\n\n\n\n0\n7.2\nrød\ngod\n\n\n1\n5.1\ngrønn\ngod\n\n\n2\n8.4\nrød\ndårlig\n\n\n3\n6.0\ngul\ngod\n\n\n4\n4.3\ngrønn\ndårlig\n\n\n\n\n\n\n\nStørrelse er et tall. Farge og Kvalitet er tekst. Tekstkolonner må oversettes til tall før sklearn kan bruke dem."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#det-binære-tilfellet",
+    "href": "lectures/06_slides_ane.revealjs.html#det-binære-tilfellet",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§3 — Det binære tilfellet",
+    "text": "§3 — Det binære tilfellet\nDet enkleste: to kategorier → 0 og 1. Dere har sett .astype(int) på en binær kolonne før.\n\ndf[\"quality_num\"] = (df[\"Quality\"] == \"good\").astype(int)\ndf[[\"Quality\", \"quality_num\"]].head(6)\n\n\n\n\n\n\n\n\nQuality\nquality_num\n\n\n\n\n0\ngood\n1\n\n\n1\ngood\n1\n\n\n2\nbad\n0\n\n\n3\ngood\n1\n\n\n4\ngood\n1\n\n\n5\nbad\n0\n\n\n\n\n\n\n\nFor to kategorier fungerer dette. Hva med Farge som har tre verdier?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#ordensfellen",
+    "href": "lectures/06_slides_ane.revealjs.html#ordensfellen",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§4 — Ordensfellen",
+    "text": "§4 — Ordensfellen\nFarge har tre verdier: rød, grønn, gul.\n\n\n\n\n\n\nTip\n\n\nGjett: Kan vi bare bruke 0, 1, 2?\n\n\n\n\n\n\n# Farlig!\nfarge_num = {\"rød\": 0, \"grønn\": 1, \"gul\": 2}\nDenne oversettelsen forteller modellen at gul &gt; grønn &gt; rød, og at avstanden mellom gul og rød er dobbelt så stor som mellom grønn og rød.\nFargene har ingen naturlig rekkefølge. Å kode dem som ordnede tall legger inn struktur som ikke finnes i dataene.\n\nOne-hot encoding\nÉn kolonne per kategori, bare 0 og 1:\n\n\n\n\n\n\n\n\n\nFarge_grønn\nFarge_gul\nFarge_rød\n\n\n\n\n0\nFalse\nFalse\nTrue\n\n\n1\nTrue\nFalse\nFalse\n\n\n2\nFalse\nFalse\nTrue\n\n\n3\nFalse\nTrue\nFalse\n\n\n4\nTrue\nFalse\nFalse"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#one-hot-i-praksis",
+    "href": "lectures/06_slides_ane.revealjs.html#one-hot-i-praksis",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§5 — One-hot i praksis",
+    "text": "§5 — One-hot i praksis\n\neksempel = pd.DataFrame({\n    \"Farge\": [\"rød\", \"grønn\", \"rød\", \"gul\", \"grønn\"]\n})\npd.get_dummies(eksempel[[\"Farge\"]], prefix=\"Farge\")\n\n\n\n\n\n\n\n\nFarge_grønn\nFarge_gul\nFarge_rød\n\n\n\n\n0\nFalse\nFalse\nTrue\n\n\n1\nTrue\nFalse\nFalse\n\n\n2\nFalse\nFalse\nTrue\n\n\n3\nFalse\nTrue\nFalse\n\n\n4\nTrue\nFalse\nFalse\n\n\n\n\n\n\n\nResultatet er tre nye kolonner, hver med verdien 0 eller 1. Et rødt eple har Farge_rød = 1 og resten lik 0."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#koding-er-et-tolkningsvalg",
+    "href": "lectures/06_slides_ane.revealjs.html#koding-er-et-tolkningsvalg",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§6 — Koding er et tolkningsvalg",
+    "text": "§6 — Koding er et tolkningsvalg\nOne-hot behandler rød, grønn og gul som tre separate, urelaterte kategorier.\n\n\n\n\n\n\nTip\n\n\nRefleksjon: Hva om kategoriene var nært beslektet, for eksempel «litt rød» og «veldig rød»? One-hot koder dem som helt uavhengige. Er det alltid riktig? Kan dere komme på et eksempel der valg av koding ville endre hva modellen lærer?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hva-skjuler-.score",
+    "href": "lectures/06_slides_ane.revealjs.html#hva-skjuler-.score",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§7 — Hva skjuler .score()?",
+    "text": "§7 — Hva skjuler .score()?\nDere har alle sett denne koden:\n\ntre_modell.score(X_test, y_test)\n\n0.74\n\n\n\n\n\n\n\n\nTip\n\n\nGjett: .score() gir ett tall tilbake. Hva tror dere skjer inni denne funksjonen?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#to-separate-steg",
+    "href": "lectures/06_slides_ane.revealjs.html#to-separate-steg",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§8 — To separate steg",
+    "text": "§8 — To separate steg\nHer er hva .score() gjør:\nfrom sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix\n\n# Steg 1: modellen lager gjetninger, én per eple\nprediksjoner = tre_modell.predict(X_test)\n\n# Steg 2: en separat funksjon sammenligner gjetningene med fasit\naccuracy_score(y_test, prediksjoner)\n\n0.74\n\n\n\naccuracy_score tar inn to lister (fasit og prediksjoner) og teller hvor mange elementer som er like."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#tre-kilder-samme-funksjon",
+    "href": "lectures/06_slides_ane.revealjs.html#tre-kilder-samme-funksjon",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§9 — Tre kilder, samme funksjon",
+    "text": "§9 — Tre kilder, samme funksjon\n\nlog_modell = LogisticRegression(max_iter=1000).fit(X_train, y_train)\n\npred_tre  = tre_modell.predict(X_test)\npred_log  = log_modell.predict(X_test)\npred_alt  = np.zeros(len(y_test), dtype=int)   # \"alle epler er dårlige\"\n\nprint(f\"Beslutningstre:     {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Logistisk regresjon:{accuracy_score(y_test, pred_log)*100:.1f}%\")\nprint(f\"«Alle er dårlige»:  {accuracy_score(y_test, pred_alt)*100:.1f}%\")\n\nBeslutningstre:     74.0%\nLogistisk regresjon:75.4%\n«Alle er dårlige»:  50.1%\n\n\n\nAlle tre linjene kaller accuracy_score med samme y_test og tre ulike prediksjonslister."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#nøyaktighetsparadokset",
+    "href": "lectures/06_slides_ane.revealjs.html#nøyaktighetsparadokset",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§10 — Nøyaktighetsparadokset",
+    "text": "§10 — Nøyaktighetsparadokset\nDen siste linjen bruker np.zeros() som prediksjoner: «alle epler er dårlige», uten noen modell. Med omtrent like mange gode og dårlige epler i testsettet gir dette ~50 % nøyaktighet.\n\n\n\n\n\n\n\nTip\n\n\nGjett: I obligen jobber dere med Titanic-data der mer enn 50% av passasjerene omkom. Hvor høy nøyaktighet får en modell som alltid predikerer «død»?\n\n\n\n\n\n\ny_titan = np.array([0]*62 + [1]*38)              # si at 62 døde, 38 overlevde\npred_alle_dør = np.zeros(100, dtype=int)          # \"alle 100 dør\"\n\nprint(f\"Nøyaktighet for «alle dør»: {accuracy_score(y_titan, pred_alle_dør)*100:.0f}%\")\n\nNøyaktighet for «alle dør»: 62%\n\n\n62 % nøyaktighet uten noen modell. En modell som får 78 % er da bare 16 prosentpoeng bedre enn ren gjetning."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#samme-prediksjoner-ulike-spørsmål",
+    "href": "lectures/06_slides_ane.revealjs.html#samme-prediksjoner-ulike-spørsmål",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§11 — Samme prediksjoner, ulike spørsmål",
+    "text": "§11 — Samme prediksjoner, ulike spørsmål\nVi kan stille ulike spørsmål om den samme listen med prediksjoner:\n\nprint(f\"Accuracy:  {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Precision: {precision_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Recall:    {recall_score(y_test, pred_tre)*100:.1f}%\")\n\nAccuracy:  74.0%\nPrecision: 81.3%\nRecall:    62.2%\n\n\n\n\n\n\nMål\nSpørsmål\n\n\n\n\nAccuracy\nHvor mange fikk du riktig totalt?\n\n\nPrecision\nAv dem du sa var gode, hvor mange var faktisk gode?\n\n\nRecall\nAv de faktisk gode, hvor mange fant du?\n\n\n\nPrediksjonene og modellen er de samme i alle tre tilfellene. Det som endres er hvilken type feil vi fokuserer på."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#forvirringsmatrisen",
+    "href": "lectures/06_slides_ane.revealjs.html#forvirringsmatrisen",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§12 — Forvirringsmatrisen",
+    "text": "§12 — Forvirringsmatrisen\nAlle tre tallene over beregnes fra den samme tabellen:\n\ncm = confusion_matrix(y_test, pred_tre)\n\n\n\n\n                    Predikert: dårlig    Predikert: god\nFaktisk dårlig          344 riktig             57 FEIL\n                     (sa dårlig,            (sa god,\n                      var dårlig)            var dårlig)\n\nFaktisk god             151 FEIL              248 riktig\n                     (sa dårlig,            (sa god,\n                      var god)               var god)\n\n\n\n\n\n\nAccuracy = (344 + 248) / 800 = 74 %\n\n\nAccuracy summerer diagonalen (de riktige). De to cellene utenfor diagonalen er de to feiltypene."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#to-typer-feil",
+    "href": "lectures/06_slides_ane.revealjs.html#to-typer-feil",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§13 — To typer feil",
+    "text": "§13 — To typer feil\n\n\nDe to feiltypene:\n  151 gode epler som modellen sa var dårlige (false negatives)\n  57 dårlige epler som modellen sa var gode (false positives)\n\n\nHuskeregel: ordene beskriver hva modellen sa, ikke hva eplet var. False positive betyr at modellen var positiv (sa «god»), men tok feil.\n\n\n\n\n\n\n\nTip\n\n\nDiskuter med sidemannen (1 minutt): Dere sorterer epler for salg. Hvilken feil er verst: false negatives eller false positives? Hva betyr disse begrepene i eplesalg-praksis?\n\n\n\n\n\nHvordan ville dere oversatt dette til Titanic-datasettet hvor vi predikerer overlevelse?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#b-tilbake-til-treet",
+    "href": "lectures/06_slides_ane.revealjs.html#b-tilbake-til-treet",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§13b — Tilbake til treet",
+    "text": "§13b — Tilbake til treet\nI §1 så vi dette:\n\n\n\n\n\n\n\n\n\nVi har nå verktøy for å evaluere prediksjoner. Problemet fra forrige gang gjenstår: treet endrer seg med dataene."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#to-typer-prosesser",
+    "href": "lectures/06_slides_ane.revealjs.html#to-typer-prosesser",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§14 — To typer prosesser",
+    "text": "§14 — To typer prosesser\nNoen prosesser er steg-for-steg: én aktør tar beslutninger i rekkefølge. I et beslutningstre kommer data inn, treet stiller spørsmål og hvert datapunkt følger én sti fra rot til blad. En oppskrift, en for-løkke og en sorteringsalgoritme er også steg-for-steg.\n\nAndre prosesser er mange-samtidig: mange aktører handler uavhengig, og det samlede resultatet har egenskaper ingen enkeltaktør har. Trafikkork oppstår uten at én sjåfør bestemmer seg for å lage kø. Wikipedia-artikler blir pålitelige fordi tusenvis av redaktører retter uavhengig av hverandre.\n\n\n\n\n\n\n\n\nTip\n\n\nDiskuter med sidemannen (1 minutt): Kan dere komme på et annet eksempel der mange middelmådige bidrag gir et godt samlet resultat?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#b-gelébønnene",
+    "href": "lectures/06_slides_ane.revealjs.html#b-gelébønnene",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§14b — Gelébønnene",
+    "text": "§14b — Gelébønnene\n\n\n\n\n\n\nTip\n\n\nGjett: 100 mennesker gjetter antall gelébønner i et glass. Vil gjennomsnittet være bedre eller dårligere enn den beste enkeltgjetningen?\n\n\n\n\nFeilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle. Dette er en mange-samtidig-prosess: det samlede resultatet har egenskaper ingen enkeltgjetter har."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#mange-middelmådige-trær",
+    "href": "lectures/06_slides_ane.revealjs.html#mange-middelmådige-trær",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§15 — Mange middelmådige trær",
+    "text": "§15 — Mange middelmådige trær\nEn random forest består av mange beslutningstrær. Hvert tre klassifiserer hvert datapunkt på egen hånd, fra rot til blad, og gir sitt eget endelige svar. Skogen samler svarene og returnerer det svaret flest trær ga.\nHvert enkelt tre er middelmådig alene. Fordi trærne gjør ulike feil, er flertallssvaret mer nøyaktig enn noe enkelt tre.\n\n\n\n\n\n\n\nTip\n\n\nGjett: Hva ville skjedd om alle trærne fikk nøyaktig samme data og samme features?\n\n\n\n\n\nDe ville gitt identiske svar. For at flertallet skal hjelpe, må trærne gjøre ulike feil."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#juryanalogien",
+    "href": "lectures/06_slides_ane.revealjs.html#juryanalogien",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§16 — Juryanalogien",
+    "text": "§16 — Juryanalogien\n\n\n\n\n\ngraph TD\n    A[\"🌳 Tre 1&lt;br&gt;Trent på utvalg A\"] --&gt;|god| V((Stemme))\n    B[\"🌳 Tre 2&lt;br&gt;Trent på utvalg B\"] --&gt;|dårlig| V\n    C[\"🌳 Tre 3&lt;br&gt;Trent på utvalg C\"] --&gt;|god| V\n    V --&gt; R[\"✅ Flertall: god&lt;br&gt;(2 mot 1)\"]\n    style R fill:#ccf,stroke:#333,stroke-width:2px\n\n\n\n\n\n\nHvert tre vurderer saken på egen hånd og leverer sin egen dom. Skogen teller opp dommene og returnerer flertallet.\nEn ekte jury diskuterer seg frem til enighet, mens trærne aldri kommuniserer. Uavhengige feil kansellerer hverandre fordi de går i ulike retninger. Korrelerte feil (som i en jury der medlemmene påvirker hverandre) gjør det ikke."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#b-korrelerte-vs.-uavhengige-feil",
+    "href": "lectures/06_slides_ane.revealjs.html#b-korrelerte-vs.-uavhengige-feil",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§16b — Korrelerte vs. uavhengige feil",
+    "text": "§16b — Korrelerte vs. uavhengige feil\n\n\n\n\n\n\nTip\n\n\nGjett: Tenk deg to scenarier: (A) 100 mennesker leser samme avisartikkel og stemmer over hva den handler om. (B) 100 mennesker leser ulike avisartikler og stemmer over dagens viktigste nyhet. Hvilken avstemning har mest nytte av flertall?\n\n\n\n\nI scenario A er feilene korrelerte: alle leste det samme, så de bommer på samme måte. I scenario B er feilene uavhengige: ulike kilder gir ulike blindsoner. Random forest er scenario B. Hvert tre ser ulike data og stiller ulike spørsmål."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#to-kilder-til-tilfeldighet",
+    "href": "lectures/06_slides_ane.revealjs.html#to-kilder-til-tilfeldighet",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§17 — To kilder til tilfeldighet",
+    "text": "§17 — To kilder til tilfeldighet\nHvert tre får litt ulike data og litt ulike spørsmål. Trærne gjør derfor ulike feil, og feil som peker i ulike retninger kansellerer hverandre i flertallsavstemningen.\n\n\n1. Tilfeldig datautvalg (bootstrap)\nHvert tre trekker et utvalg med tilbakelegging: samme eple kan dukke opp flere ganger. Ulike utvalg gir ulike feil.\n\n2. Tilfeldig feature-utvalg\nVed hvert splittepunkt velger treet blant en tilfeldig håndfull features. Ulike features gir ulike splitt.\n\n\n\nObs: «tilfeldig» betyr her kontrollert stokastisk utvalg, reproduserbart med random_state. (eng: random)"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#fra-konsept-til-kode",
+    "href": "lectures/06_slides_ane.revealjs.html#fra-konsept-til-kode",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§18 — Fra konsept til kode",
+    "text": "§18 — Fra konsept til kode\n\nfrom sklearn.ensemble import RandomForestClassifier\n\nskog = RandomForestClassifier(n_estimators=100, max_features=\"sqrt\", random_state=42)\nskog.fit(X_train, y_train)\nprint(f\"Ferdigtrent skog med {skog.n_estimators} trær, max_features={skog.max_features}\")\n\nFerdigtrent skog med 100 trær, max_features=sqrt\n\n\nn_estimators bestemmer antall trær. max_features bestemmer hvor mange features hvert tre vurderer ved hvert splittepunkt (standard: √antall features).\n\n\nprediksjoner = skog.predict(X_test)\nnøyaktighet  = skog.score(X_test, y_test)\nprint(f\"Nøyaktighet: {nøyaktighet*100:.1f}%\")\n\nNøyaktighet: 90.1%\n\n\nNår du kaller .predict(), klassifiserer hvert av de 100 trærne hvert eple fra rot til blad og gir sitt eget svar. Skogen samler de 100 svarene og returnerer flertallet. .score() sammenligner med fasit, akkurat som i Blokk 1."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#b-hjelper-tilfeldigheten-egentlig",
+    "href": "lectures/06_slides_ane.revealjs.html#b-hjelper-tilfeldigheten-egentlig",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§18b — Hjelper tilfeldigheten egentlig?",
+    "text": "§18b — Hjelper tilfeldigheten egentlig?\n\n\n\n\n\n\nTip\n\n\nGjett: Vi lager to skoger med 100 trær hver. Den ene bruker tilfeldig feature-utvalg (standard). Den andre lar hvert tre bruke alle features. Hvilken tror dere er best?\n\n\n\n\n\nskog_med  = RandomForestClassifier(n_estimators=100, random_state=42)\nskog_uten = RandomForestClassifier(n_estimators=100, max_features=None, random_state=42)\n\nskog_med.fit(X_train, y_train)\nskog_uten.fit(X_train, y_train)\n\nprint(f\"Med tilfeldig feature-utvalg:  {skog_med.score(X_test, y_test)*100:.1f}%\")\nprint(f\"Uten tilfeldig feature-utvalg: {skog_uten.score(X_test, y_test)*100:.1f}%\")\n\nMed tilfeldig feature-utvalg:  90.1%\nUten tilfeldig feature-utvalg: 89.8%\n\n\nMer tilfeldighet gir mer uavhengige feil og bedre flertallsavstemning."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#svake-læringsmodeller-weak-learners",
+    "href": "lectures/06_slides_ane.revealjs.html#svake-læringsmodeller-weak-learners",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§19 — Svake læringsmodeller (weak learners)",
+    "text": "§19 — Svake læringsmodeller (weak learners)\nHvert enkelt tre kalles en svak læringsmodell (weak learner): en modell som er bare litt bedre enn tilfeldig gjetning. Treet er bevisst begrenset i dybde og features. Begrensningen er et designvalg: skogen trenger ulike trær, og begrensede trær som ser ulike data gjør ulike feil.\n\n\n\n\n\n\n\nTip\n\n\nGjett: Vi kan gå fra 1 tre til 3 til 100 til 500. Skisser i hodet: nøyaktighet som funksjon av antall trær. Stiger den hele tiden, flater den ut, eller går den opp og ned?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hvor-mange-trær-trengs",
+    "href": "lectures/06_slides_ane.revealjs.html#hvor-mange-trær-trengs",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§20 — Hvor mange trær trengs?",
+    "text": "§20 — Hvor mange trær trengs?\n\nantall_liste = [1, 3, 5, 10, 20, 50, 100, 200, 500]\nacc_per_n = []\n\nfor n in antall_liste:\n    rf = RandomForestClassifier(n_estimators=n, random_state=42)\n    rf.fit(X_train, y_train)\n    acc_per_n.append(rf.score(X_test, y_test))"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#b-kurven-flater-ut",
+    "href": "lectures/06_slides_ane.revealjs.html#b-kurven-flater-ut",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§20b — Kurven flater ut",
+    "text": "§20b — Kurven flater ut\nKurven stiger bratt med de første trærne og flater ut etter ca. 50. Kurven går aldri ned: hvert nytt tre bidrar med uavhengige feil, og det kan bare hjelpe eller være nøytralt.\nSammenlign med max_depth-kurven fra forrige gang: mer dybde ga dårligere testresultat etter et punkt. Flere trær gir avtakende forbedring og aldri forverring. Kan du forklare forskjellen?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#feature-importance",
+    "href": "lectures/06_slides_ane.revealjs.html#feature-importance",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§21 — Feature importance",
+    "text": "§21 — Feature importance\n\n\n\n\n\n\n\n\n\nimportance = skog.feature_importances_\nplt.barh(X.columns, importance)\n\n\n\n\n\n\nTip\n\n\nGjett: Den øverste variabelen har høyest importance. Betyr det at den forårsaker god eplekvalitet?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#b-importance-er-ikke-kausalitet",
+    "href": "lectures/06_slides_ane.revealjs.html#b-importance-er-ikke-kausalitet",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§21b — Importance er ikke kausalitet",
+    "text": "§21b — Importance er ikke kausalitet\nFeature importance viser hvor mye modellen støttet seg på hver variabel. Den sier ingenting om årsak og virkning.\nI lineær regresjon betyr en koeffisient på 2.5 at variabelen bidrar med 2.5 per enhet. Feature importance viser hvor ofte modellen brukte variabelen, uten retning eller størrelse.\nEgenskaper med mange unike verdier får oppblåst importance, og korrelerte egenskaper deler importance mellom seg."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#partial-dependence",
+    "href": "lectures/06_slides_ane.revealjs.html#partial-dependence",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§22 — Partial dependence",
+    "text": "§22 — Partial dependence\nFeature importance viser hvilke variabler modellen bruker mest, men ikke retning: gjør høyere søthet eplet «godt» eller «dårlig»?\nPartial dependence svarer på dette, som et kontrollert eksperiment: vi endrer én variabel og holder alt annet fast.\n\nSett søtheten til −3 for alle eplene (behold alt annet), kjør prediksjoner, noter gjennomsnittet\nGjenta for −2, −1, 0, 1, 2, 3 …\nPlott gjennomsnittlig prediksjon mot søthet"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hva-viser-kurven",
+    "href": "lectures/06_slides_ane.revealjs.html#hva-viser-kurven",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§23 — Hva viser kurven?",
+    "text": "§23 — Hva viser kurven?\n\n\n\n\n\n\nTip\n\n\nGjett: Tror dere partial dependence-kurven for søthet stiger, synker, eller er flat?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#pdp-for-den-viktigste-variabelen",
+    "href": "lectures/06_slides_ane.revealjs.html#pdp-for-den-viktigste-variabelen",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§24 — PDP for den viktigste variabelen",
+    "text": "§24 — PDP for den viktigste variabelen\n\n\n\n\n\n\n\n\n\nfrom sklearn.inspection import PartialDependenceDisplay\nPartialDependenceDisplay.from_estimator(skog, X_test, features=[\"Sweetness\"])\n\n\n\n\n\n\nTip\n\n\nLes kurven: Ved hvilken verdi skifter modellen? Er overgangen brå eller gradvis?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#pdp-for-alle-variabler",
+    "href": "lectures/06_slides_ane.revealjs.html#pdp-for-alle-variabler",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§25 — PDP for alle variabler",
+    "text": "§25 — PDP for alle variabler\n\n\n\n\n\n\n\n\n\nfrom sklearn.inspection import PartialDependenceDisplay\nPartialDependenceDisplay.from_estimator(skog, X_test, features=list(X.columns))"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#modellvalg-avhenger-av-formålet",
+    "href": "lectures/06_slides_ane.revealjs.html#modellvalg-avhenger-av-formålet",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§26 — Modellvalg avhenger av formålet",
+    "text": "§26 — Modellvalg avhenger av formålet\nVi bruker «modell» om fire ulike ting her. Alle fire forenkler virkeligheten, på helt ulike måter.\nEt sykehus vil bruke en modell til å prioritere pasienter. Her er avveiningene:\n\n\n\n\n\n\n\n\nModell\nHva du kan se\nHva du gir opp\n\n\n\n\nLineær regresjon\nKoeffisienter: nøyaktig bidrag per variabel\nAntakelse om rette linjer\n\n\nLogistisk regresjon\nKoeffisienter + sannsynligheter\nAntakelse om lineære grenser\n\n\nBeslutningstre\nHele beslutningsstien for hvert datapunkt\nUstabilt: annen splitt gir annet svar\n\n\nRandom Forest\nGenerell logikk (importance + PDP)\nEnkeltprediksjoner er vanskelige å forklare"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#hvilken-modell-for-sykehuset",
+    "href": "lectures/06_slides_ane.revealjs.html#hvilken-modell-for-sykehuset",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§27 — Hvilken modell for sykehuset?",
+    "text": "§27 — Hvilken modell for sykehuset?\n\n\n\n\n\n\nTip\n\n\nDiskuter med sidemannen (2 minutter):\n\nHvilken feiltype er farligst her: false positive eller false negative?\nMå legen kunne forklare svaret til pasienten?\nBasert på svarene: hvilken modell passer best?\n\n\n\n\n\n«Best» avhenger av formålet, og valget kan begrunnes."
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#valg-vi-tok-i-dag",
+    "href": "lectures/06_slides_ane.revealjs.html#valg-vi-tok-i-dag",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§28 — Valg vi tok i dag",
+    "text": "§28 — Valg vi tok i dag\nI dag har vi tatt en rekke valg som påvirker hva modellen lærer og hva vi kan konkludere:\n\nVi valgte one-hot encoding over ordinal koding, noe som endrer hvilke mønstre modellen kan finne\nVi brukte nøyaktighet som evalueringsmål, som kan gi et misvisende bilde for ubalanserte data\nVi leste feature importance som variabelbidrag, et utsagn om modellens bruk av variablene\nVi satte antall trær til 100, og kurven viste avtakende utbytte uten forverring\n\nHva ville endret seg om vi hadde valgt annerledes på ett av disse punktene?"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#oppsummering",
+    "href": "lectures/06_slides_ane.revealjs.html#oppsummering",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§29 — Oppsummering",
+    "text": "§29 — Oppsummering\n\n\n\n\n\n\n\nKonsept\nHva det gjør\n\n\n\n\nOne-hot encoding\nOversetter kategorier til binære kolonner sklearn forstår\n\n\n.predict() → evaluering\nModell lager prediksjoner, evalueringsfunksjon bedømmer dem uavhengig\n\n\nForvirringsmatrise\nViser hvilke feil modellen gjør, ikke bare hvor mange\n\n\nSvak læringsmodell\nEtt enkelt tre, middelmådig alene\n\n\nRandom Forest\nMange svake trær med tilfeldig data og features, flertallsavstemning\n\n\nFeature importance\nHvilke variabler modellen bruker mest (ikke retning, ikke kausalitet)\n\n\nPartial dependence\nHvordan en variabel påvirker prediksjonen (gjennomsnittlig)"
+  },
+  {
+    "objectID": "lectures/06_slides_ane.revealjs.html#obligen",
+    "href": "lectures/06_slides_ane.revealjs.html#obligen",
+    "title": "Random Forest og ensemblemetoder",
+    "section": "§30 — Obligen",
+    "text": "§30 — Obligen\nI oppgave 4 skal dere bruke det vi har gått gjennom i dag: random forest, feature importance og partial dependence.\nHusk å one-hot-kode kategoriske variabler før dere trener modellen.\n\n\n\n\n\n\nImportant\n\n\nOblig: frist 19. mars. Orakeltimer hver torsdag i Tellefsens tårn, kl. 16:15–18:00."
+  },
+  {
     "objectID": "lectures/06_slides_ane.html#hva-husker-dere-fra-sist",
     "href": "lectures/06_slides_ane.html#hva-husker-dere-fra-sist",
     "title": "Random Forest og ensemblemetoder",
     "section": "§1 — Hva husker dere fra sist?",
-    "text": "§1 — Hva husker dere fra sist?\nDiskuter med sidemannen (1 minutt): Forrige gang trente vi et beslutningstre på eplekvalitet. Vi kjørte det seks ganger med ulike tilfeldige splitter. Hva skjedde?\n\n\n\n\n\n\n\n\n\n\nTreet endrer seg hver gang vi deler dataene annerledes.",
+    "text": "§1 — Hva husker dere fra sist?\nDiskuter med sidemannen (1 minutt): Forrige gang trente vi et beslutningstre på eplekvalitet. Vi kjørte det seks ganger med ulike tilfeldige splitter. Hva skjedde?\n. . .\n\n\n\n\n\n\n\n\n\nTreet endrer seg hver gang vi deler dataene annerledes.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -3972,7 +4224,7 @@
     "href": "lectures/06_slides_ane.html#ordensfellen",
     "title": "Random Forest og ensemblemetoder",
     "section": "§4 — Ordensfellen",
-    "text": "§4 — Ordensfellen\nFarge har tre verdier: rød, grønn, gul.\n\n\n\n\n\n\nTip\n\n\nGjett: Kan vi bare bruke 0, 1, 2?\n\n\n\n\n\n\n# Farlig!\nfarge_num = {\"rød\": 0, \"grønn\": 1, \"gul\": 2}\nDenne oversettelsen forteller modellen at gul &gt; grønn &gt; rød, og at avstanden mellom gul og rød er dobbelt så stor som mellom grønn og rød.\nFargene har ingen naturlig rekkefølge. Å kode dem som ordnede tall legger inn struktur som ikke finnes i dataene.\n\nOne-hot encoding\nÉn kolonne per kategori, bare 0 og 1:\n\n\n\n\n\n\n\n\n\nFarge_grønn\nFarge_gul\nFarge_rød\n\n\n\n\n0\nFalse\nFalse\nTrue\n\n\n1\nTrue\nFalse\nFalse\n\n\n2\nFalse\nFalse\nTrue\n\n\n3\nFalse\nTrue\nFalse\n\n\n4\nTrue\nFalse\nFalse",
+    "text": "§4 — Ordensfellen\nFarge har tre verdier: rød, grønn, gul.\n\n\n\n\n\n\nTip\n\n\n\nGjett: Kan vi bare bruke 0, 1, 2?\n\n\n. . .\n\n\n# Farlig!\nfarge_num = {\"rød\": 0, \"grønn\": 1, \"gul\": 2}\nDenne oversettelsen forteller modellen at gul &gt; grønn &gt; rød, og at avstanden mellom gul og rød er dobbelt så stor som mellom grønn og rød.\nFargene har ingen naturlig rekkefølge. Å kode dem som ordnede tall legger inn struktur som ikke finnes i dataene.\n\nOne-hot encoding\nÉn kolonne per kategori, bare 0 og 1:\n\n\n\n\n\n\n\n\n\nFarge_grønn\nFarge_gul\nFarge_rød\n\n\n\n\n0\nFalse\nFalse\nTrue\n\n\n1\nTrue\nFalse\nFalse\n\n\n2\nFalse\nFalse\nTrue\n\n\n3\nFalse\nTrue\nFalse\n\n\n4\nTrue\nFalse\nFalse",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -3996,7 +4248,7 @@
     "href": "lectures/06_slides_ane.html#koding-er-et-tolkningsvalg",
     "title": "Random Forest og ensemblemetoder",
     "section": "§6 — Koding er et tolkningsvalg",
-    "text": "§6 — Koding er et tolkningsvalg\nOne-hot behandler rød, grønn og gul som tre separate, urelaterte kategorier.\n\n\n\n\n\n\nTip\n\n\nRefleksjon: Hva om kategoriene var nært beslektet, for eksempel «litt rød» og «veldig rød»? One-hot koder dem som helt uavhengige. Er det alltid riktig? Kan dere komme på et eksempel der valg av koding ville endre hva modellen lærer?",
+    "text": "§6 — Koding er et tolkningsvalg\nOne-hot behandler rød, grønn og gul som tre separate, urelaterte kategorier.\n\n\n\n\n\n\nTip\n\n\n\nRefleksjon: Hva om kategoriene var nært beslektet, for eksempel «litt rød» og «veldig rød»? One-hot koder dem som helt uavhengige. Er det alltid riktig? Kan dere komme på et eksempel der valg av koding ville endre hva modellen lærer?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4008,7 +4260,7 @@
     "href": "lectures/06_slides_ane.html#hva-skjuler-.score",
     "title": "Random Forest og ensemblemetoder",
     "section": "§7 — Hva skjuler .score()?",
-    "text": "§7 — Hva skjuler .score()?\nDere har alle sett denne koden:\n\ntre_modell.score(X_test, y_test)\n\n0.74\n\n\n\n\n\n\n\n\nTip\n\n\nGjett: .score() gir ett tall tilbake. Hva tror dere skjer inni denne funksjonen?",
+    "text": "§7 — Hva skjuler .score()?\nDere har alle sett denne koden:\n\ntre_modell.score(X_test, y_test)\n\n0.74\n\n\n\n\n\n\n\n\nTip\n\n\n\nGjett: .score() gir ett tall tilbake. Hva tror dere skjer inni denne funksjonen?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4020,7 +4272,7 @@
     "href": "lectures/06_slides_ane.html#to-separate-steg",
     "title": "Random Forest og ensemblemetoder",
     "section": "§8 — To separate steg",
-    "text": "§8 — To separate steg\nHer er hva .score() gjør:\nfrom sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix\n\n# Steg 1: modellen lager gjetninger, én per eple\nprediksjoner = tre_modell.predict(X_test)\n\n# Steg 2: en separat funksjon sammenligner gjetningene med fasit\naccuracy_score(y_test, prediksjoner)\n\n0.74\n\n\n\naccuracy_score tar inn to lister (fasit og prediksjoner) og teller hvor mange elementer som er like.",
+    "text": "§8 — To separate steg\nHer er hva .score() gjør:\nfrom sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix\n\n# Steg 1: modellen lager gjetninger, én per eple\nprediksjoner = tre_modell.predict(X_test)\n\n# Steg 2: en separat funksjon sammenligner gjetningene med fasit\naccuracy_score(y_test, prediksjoner)\n\n0.74\n\n\n. . .\naccuracy_score tar inn to lister (fasit og prediksjoner) og teller hvor mange elementer som er like.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4032,7 +4284,7 @@
     "href": "lectures/06_slides_ane.html#tre-kilder-samme-funksjon",
     "title": "Random Forest og ensemblemetoder",
     "section": "§9 — Tre kilder, samme funksjon",
-    "text": "§9 — Tre kilder, samme funksjon\n\nlog_modell = LogisticRegression(max_iter=1000).fit(X_train, y_train)\n\npred_tre  = tre_modell.predict(X_test)\npred_log  = log_modell.predict(X_test)\npred_alt  = np.zeros(len(y_test), dtype=int)   # \"alle epler er dårlige\"\n\nprint(f\"Beslutningstre:     {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Logistisk regresjon:{accuracy_score(y_test, pred_log)*100:.1f}%\")\nprint(f\"«Alle er dårlige»:  {accuracy_score(y_test, pred_alt)*100:.1f}%\")\n\nBeslutningstre:     74.0%\nLogistisk regresjon:75.4%\n«Alle er dårlige»:  50.1%\n\n\n\nAlle tre linjene kaller accuracy_score med samme y_test og tre ulike prediksjonslister.",
+    "text": "§9 — Tre kilder, samme funksjon\n\nlog_modell = LogisticRegression(max_iter=1000).fit(X_train, y_train)\n\npred_tre  = tre_modell.predict(X_test)\npred_log  = log_modell.predict(X_test)\npred_alt  = np.zeros(len(y_test), dtype=int)   # \"alle epler er dårlige\"\n\nprint(f\"Beslutningstre:     {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Logistisk regresjon:{accuracy_score(y_test, pred_log)*100:.1f}%\")\nprint(f\"«Alle er dårlige»:  {accuracy_score(y_test, pred_alt)*100:.1f}%\")\n\nBeslutningstre:     74.0%\nLogistisk regresjon:75.4%\n«Alle er dårlige»:  50.1%\n\n\n. . .\nAlle tre linjene kaller accuracy_score med samme y_test og tre ulike prediksjonslister.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4044,7 +4296,7 @@
     "href": "lectures/06_slides_ane.html#nøyaktighetsparadokset",
     "title": "Random Forest og ensemblemetoder",
     "section": "§10 — Nøyaktighetsparadokset",
-    "text": "§10 — Nøyaktighetsparadokset\nDen siste linjen bruker np.zeros() som prediksjoner: «alle epler er dårlige», uten noen modell. Med omtrent like mange gode og dårlige epler i testsettet gir dette ~50 % nøyaktighet.\n\n\n\n\n\n\n\nTip\n\n\nGjett: I obligen jobber dere med Titanic-data der mer enn 50% av passasjerene omkom. Hvor høy nøyaktighet får en modell som alltid predikerer «død»?\n\n\n\n\n\n\ny_titan = np.array([0]*62 + [1]*38)              # si at 62 døde, 38 overlevde\npred_alle_dør = np.zeros(100, dtype=int)          # \"alle 100 dør\"\n\nprint(f\"Nøyaktighet for «alle dør»: {accuracy_score(y_titan, pred_alle_dør)*100:.0f}%\")\n\nNøyaktighet for «alle dør»: 62%\n\n\n62 % nøyaktighet uten noen modell. En modell som får 78 % er da bare 16 prosentpoeng bedre enn ren gjetning.",
+    "text": "§10 — Nøyaktighetsparadokset\nDen siste linjen bruker np.zeros() som prediksjoner: «alle epler er dårlige», uten noen modell. Med omtrent like mange gode og dårlige epler i testsettet gir dette ~50 % nøyaktighet.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nGjett: I obligen jobber dere med Titanic-data der mer enn 50% av passasjerene omkom. Hvor høy nøyaktighet får en modell som alltid predikerer «død»?\n\n\n. . .\n\ny_titan = np.array([0]*62 + [1]*38)              # si at 62 døde, 38 overlevde\npred_alle_dør = np.zeros(100, dtype=int)          # \"alle 100 dør\"\n\nprint(f\"Nøyaktighet for «alle dør»: {accuracy_score(y_titan, pred_alle_dør)*100:.0f}%\")\n\nNøyaktighet for «alle dør»: 62%\n\n\n62 % nøyaktighet uten noen modell. En modell som får 78 % er da bare 16 prosentpoeng bedre enn ren gjetning.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4056,7 +4308,7 @@
     "href": "lectures/06_slides_ane.html#samme-prediksjoner-ulike-spørsmål",
     "title": "Random Forest og ensemblemetoder",
     "section": "§11 — Samme prediksjoner, ulike spørsmål",
-    "text": "§11 — Samme prediksjoner, ulike spørsmål\nVi kan stille ulike spørsmål om den samme listen med prediksjoner:\n\nprint(f\"Accuracy:  {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Precision: {precision_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Recall:    {recall_score(y_test, pred_tre)*100:.1f}%\")\n\nAccuracy:  74.0%\nPrecision: 81.3%\nRecall:    62.2%\n\n\n\n\n\n\nMål\nSpørsmål\n\n\n\n\nAccuracy\nHvor mange fikk du riktig totalt?\n\n\nPrecision\nAv dem du sa var gode, hvor mange var faktisk gode?\n\n\nRecall\nAv de faktisk gode, hvor mange fant du?\n\n\n\nPrediksjonene og modellen er de samme i alle tre tilfellene. Det som endres er hvilken type feil vi fokuserer på.",
+    "text": "§11 — Samme prediksjoner, ulike spørsmål\nVi kan stille ulike spørsmål om den samme listen med prediksjoner:\n\nprint(f\"Accuracy:  {accuracy_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Precision: {precision_score(y_test, pred_tre)*100:.1f}%\")\nprint(f\"Recall:    {recall_score(y_test, pred_tre)*100:.1f}%\")\n\nAccuracy:  74.0%\nPrecision: 81.3%\nRecall:    62.2%\n\n\n. . .\n\n\n\nMål\nSpørsmål\n\n\n\n\nAccuracy\nHvor mange fikk du riktig totalt?\n\n\nPrecision\nAv dem du sa var gode, hvor mange var faktisk gode?\n\n\nRecall\nAv de faktisk gode, hvor mange fant du?\n\n\n\nPrediksjonene og modellen er de samme i alle tre tilfellene. Det som endres er hvilken type feil vi fokuserer på.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4068,7 +4320,7 @@
     "href": "lectures/06_slides_ane.html#forvirringsmatrisen",
     "title": "Random Forest og ensemblemetoder",
     "section": "§12 — Forvirringsmatrisen",
-    "text": "§12 — Forvirringsmatrisen\nAlle tre tallene over beregnes fra den samme tabellen:\n\ncm = confusion_matrix(y_test, pred_tre)\n\n\n\n\n                    Predikert: dårlig    Predikert: god\nFaktisk dårlig          344 riktig             57 FEIL\n                     (sa dårlig,            (sa god,\n                      var dårlig)            var dårlig)\n\nFaktisk god             151 FEIL              248 riktig\n                     (sa dårlig,            (sa god,\n                      var god)               var god)\n\n\n\n\n\n\nAccuracy = (344 + 248) / 800 = 74 %\n\n\nAccuracy summerer diagonalen (de riktige). De to cellene utenfor diagonalen er de to feiltypene.",
+    "text": "§12 — Forvirringsmatrisen\nAlle tre tallene over beregnes fra den samme tabellen:\n\ncm = confusion_matrix(y_test, pred_tre)\n\n. . .\n\n\n                    Predikert: dårlig    Predikert: god\nFaktisk dårlig          344 riktig             57 FEIL\n                     (sa dårlig,            (sa god,\n                      var dårlig)            var dårlig)\n\nFaktisk god             151 FEIL              248 riktig\n                     (sa dårlig,            (sa god,\n                      var god)               var god)\n\n\n. . .\n\n\nAccuracy = (344 + 248) / 800 = 74 %\n\n\nAccuracy summerer diagonalen (de riktige). De to cellene utenfor diagonalen er de to feiltypene.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4080,7 +4332,7 @@
     "href": "lectures/06_slides_ane.html#to-typer-feil",
     "title": "Random Forest og ensemblemetoder",
     "section": "§13 — To typer feil",
-    "text": "§13 — To typer feil\n\n\nDe to feiltypene:\n  151 gode epler som modellen sa var dårlige (false negatives)\n  57 dårlige epler som modellen sa var gode (false positives)\n\n\nHuskeregel: ordene beskriver hva modellen sa, ikke hva eplet var. False positive betyr at modellen var positiv (sa «god»), men tok feil.\n\n\n\n\n\n\n\nTip\n\n\nDiskuter med sidemannen (1 minutt): Dere sorterer epler for salg. Hvilken feil er verst: false negatives eller false positives? Hva betyr disse begrepene i eplesalg-praksis?\n\n\n\n\n\nHvordan ville dere oversatt dette til Titanic-datasettet hvor vi predikerer overlevelse?",
+    "text": "§13 — To typer feil\n\n\nDe to feiltypene:\n  151 gode epler som modellen sa var dårlige (false negatives)\n  57 dårlige epler som modellen sa var gode (false positives)\n\n\nHuskeregel: ordene beskriver hva modellen sa, ikke hva eplet var. False positive betyr at modellen var positiv (sa «god»), men tok feil.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nDiskuter med sidemannen (1 minutt): Dere sorterer epler for salg. Hvilken feil er verst: false negatives eller false positives? Hva betyr disse begrepene i eplesalg-praksis?\n\n\n. . .\nHvordan ville dere oversatt dette til Titanic-datasettet hvor vi predikerer overlevelse?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4104,7 +4356,7 @@
     "href": "lectures/06_slides_ane.html#to-typer-prosesser",
     "title": "Random Forest og ensemblemetoder",
     "section": "§14 — To typer prosesser",
-    "text": "§14 — To typer prosesser\nNoen prosesser er steg-for-steg: én aktør tar beslutninger i rekkefølge. I et beslutningstre kommer data inn, treet stiller spørsmål og hvert datapunkt følger én sti fra rot til blad. En oppskrift, en for-løkke og en sorteringsalgoritme er også steg-for-steg.\n\nAndre prosesser er mange-samtidig: mange aktører handler uavhengig, og det samlede resultatet har egenskaper ingen enkeltaktør har. Trafikkork oppstår uten at én sjåfør bestemmer seg for å lage kø. Wikipedia-artikler blir pålitelige fordi tusenvis av redaktører retter uavhengig av hverandre.\n\n\n\n\n\n\n\n\nTip\n\n\nDiskuter med sidemannen (1 minutt): Kan dere komme på et annet eksempel der mange middelmådige bidrag gir et godt samlet resultat?",
+    "text": "§14 — To typer prosesser\nNoen prosesser er steg-for-steg: én aktør tar beslutninger i rekkefølge. I et beslutningstre kommer data inn, treet stiller spørsmål og hvert datapunkt følger én sti fra rot til blad. En oppskrift, en for-løkke og en sorteringsalgoritme er også steg-for-steg.\n. . .\nAndre prosesser er mange-samtidig: mange aktører handler uavhengig, og det samlede resultatet har egenskaper ingen enkeltaktør har. Trafikkork oppstår uten at én sjåfør bestemmer seg for å lage kø. Wikipedia-artikler blir pålitelige fordi tusenvis av redaktører retter uavhengig av hverandre.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nDiskuter med sidemannen (1 minutt): Kan dere komme på et annet eksempel der mange middelmådige bidrag gir et godt samlet resultat?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4116,7 +4368,7 @@
     "href": "lectures/06_slides_ane.html#b-gelébønnene",
     "title": "Random Forest og ensemblemetoder",
     "section": "§14b — Gelébønnene",
-    "text": "§14b — Gelébønnene\n\n\n\n\n\n\nTip\n\n\nGjett: 100 mennesker gjetter antall gelébønner i et glass. Vil gjennomsnittet være bedre eller dårligere enn den beste enkeltgjetningen?\n\n\n\n\nFeilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle. Dette er en mange-samtidig-prosess: det samlede resultatet har egenskaper ingen enkeltgjetter har.",
+    "text": "§14b — Gelébønnene\n\n\n\n\n\n\nTip\n\n\n\nGjett: 100 mennesker gjetter antall gelébønner i et glass. Vil gjennomsnittet være bedre eller dårligere enn den beste enkeltgjetningen?\n\n\n. . .\nFeilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle. Dette er en mange-samtidig-prosess: det samlede resultatet har egenskaper ingen enkeltgjetter har.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4128,7 +4380,7 @@
     "href": "lectures/06_slides_ane.html#mange-middelmådige-trær",
     "title": "Random Forest og ensemblemetoder",
     "section": "§15 — Mange middelmådige trær",
-    "text": "§15 — Mange middelmådige trær\nEn random forest består av mange beslutningstrær. Hvert tre klassifiserer hvert datapunkt på egen hånd, fra rot til blad, og gir sitt eget endelige svar. Skogen samler svarene og returnerer det svaret flest trær ga.\nHvert enkelt tre er middelmådig alene. Fordi trærne gjør ulike feil, er flertallssvaret mer nøyaktig enn noe enkelt tre.\n\n\n\n\n\n\n\nTip\n\n\nGjett: Hva ville skjedd om alle trærne fikk nøyaktig samme data og samme features?\n\n\n\n\n\nDe ville gitt identiske svar. For at flertallet skal hjelpe, må trærne gjøre ulike feil.",
+    "text": "§15 — Mange middelmådige trær\nEn random forest består av mange beslutningstrær. Hvert tre klassifiserer hvert datapunkt på egen hånd, fra rot til blad, og gir sitt eget endelige svar. Skogen samler svarene og returnerer det svaret flest trær ga.\nHvert enkelt tre er middelmådig alene. Fordi trærne gjør ulike feil, er flertallssvaret mer nøyaktig enn noe enkelt tre.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nGjett: Hva ville skjedd om alle trærne fikk nøyaktig samme data og samme features?\n\n\n. . .\nDe ville gitt identiske svar. For at flertallet skal hjelpe, må trærne gjøre ulike feil.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4152,7 +4404,7 @@
     "href": "lectures/06_slides_ane.html#b-korrelerte-vs.-uavhengige-feil",
     "title": "Random Forest og ensemblemetoder",
     "section": "§16b — Korrelerte vs. uavhengige feil",
-    "text": "§16b — Korrelerte vs. uavhengige feil\n\n\n\n\n\n\nTip\n\n\nGjett: Tenk deg to scenarier: (A) 100 mennesker leser samme avisartikkel og stemmer over hva den handler om. (B) 100 mennesker leser ulike avisartikler og stemmer over dagens viktigste nyhet. Hvilken avstemning har mest nytte av flertall?\n\n\n\n\nI scenario A er feilene korrelerte: alle leste det samme, så de bommer på samme måte. I scenario B er feilene uavhengige: ulike kilder gir ulike blindsoner. Random forest er scenario B. Hvert tre ser ulike data og stiller ulike spørsmål.",
+    "text": "§16b — Korrelerte vs. uavhengige feil\n\n\n\n\n\n\nTip\n\n\n\nGjett: Tenk deg to scenarier: (A) 100 mennesker leser samme avisartikkel og stemmer over hva den handler om. (B) 100 mennesker leser ulike avisartikler og stemmer over dagens viktigste nyhet. Hvilken avstemning har mest nytte av flertall?\n\n\n. . .\nI scenario A er feilene korrelerte: alle leste det samme, så de bommer på samme måte. I scenario B er feilene uavhengige: ulike kilder gir ulike blindsoner. Random forest er scenario B. Hvert tre ser ulike data og stiller ulike spørsmål.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4164,7 +4416,7 @@
     "href": "lectures/06_slides_ane.html#to-kilder-til-tilfeldighet",
     "title": "Random Forest og ensemblemetoder",
     "section": "§17 — To kilder til tilfeldighet",
-    "text": "§17 — To kilder til tilfeldighet\nHvert tre får litt ulike data og litt ulike spørsmål. Trærne gjør derfor ulike feil, og feil som peker i ulike retninger kansellerer hverandre i flertallsavstemningen.\n\n\n1. Tilfeldig datautvalg (bootstrap)\nHvert tre trekker et utvalg med tilbakelegging: samme eple kan dukke opp flere ganger. Ulike utvalg gir ulike feil.\n\n2. Tilfeldig feature-utvalg\nVed hvert splittepunkt velger treet blant en tilfeldig håndfull features. Ulike features gir ulike splitt.\n\n\n\nObs: «tilfeldig» betyr her kontrollert stokastisk utvalg, reproduserbart med random_state. (eng: random)",
+    "text": "§17 — To kilder til tilfeldighet\nHvert tre får litt ulike data og litt ulike spørsmål. Trærne gjør derfor ulike feil, og feil som peker i ulike retninger kansellerer hverandre i flertallsavstemningen.\n\n\n1. Tilfeldig datautvalg (bootstrap)\nHvert tre trekker et utvalg med tilbakelegging: samme eple kan dukke opp flere ganger. Ulike utvalg gir ulike feil.\n\n2. Tilfeldig feature-utvalg\nVed hvert splittepunkt velger treet blant en tilfeldig håndfull features. Ulike features gir ulike splitt.\n\n\n. . .\n\nObs: «tilfeldig» betyr her kontrollert stokastisk utvalg, reproduserbart med random_state. (eng: random)",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4176,7 +4428,7 @@
     "href": "lectures/06_slides_ane.html#fra-konsept-til-kode",
     "title": "Random Forest og ensemblemetoder",
     "section": "§18 — Fra konsept til kode",
-    "text": "§18 — Fra konsept til kode\n\nfrom sklearn.ensemble import RandomForestClassifier\n\nskog = RandomForestClassifier(n_estimators=100, max_features=\"sqrt\", random_state=42)\nskog.fit(X_train, y_train)\nprint(f\"Ferdigtrent skog med {skog.n_estimators} trær, max_features={skog.max_features}\")\n\nFerdigtrent skog med 100 trær, max_features=sqrt\n\n\nn_estimators bestemmer antall trær. max_features bestemmer hvor mange features hvert tre vurderer ved hvert splittepunkt (standard: √antall features).\n\n\nprediksjoner = skog.predict(X_test)\nnøyaktighet  = skog.score(X_test, y_test)\nprint(f\"Nøyaktighet: {nøyaktighet*100:.1f}%\")\n\nNøyaktighet: 90.1%\n\n\nNår du kaller .predict(), klassifiserer hvert av de 100 trærne hvert eple fra rot til blad og gir sitt eget svar. Skogen samler de 100 svarene og returnerer flertallet. .score() sammenligner med fasit, akkurat som i Blokk 1.",
+    "text": "§18 — Fra konsept til kode\n\nfrom sklearn.ensemble import RandomForestClassifier\n\nskog = RandomForestClassifier(n_estimators=100, max_features=\"sqrt\", random_state=42)\nskog.fit(X_train, y_train)\nprint(f\"Ferdigtrent skog med {skog.n_estimators} trær, max_features={skog.max_features}\")\n\nFerdigtrent skog med 100 trær, max_features=sqrt\n\n\nn_estimators bestemmer antall trær. max_features bestemmer hvor mange features hvert tre vurderer ved hvert splittepunkt (standard: √antall features).\n. . .\n\nprediksjoner = skog.predict(X_test)\nnøyaktighet  = skog.score(X_test, y_test)\nprint(f\"Nøyaktighet: {nøyaktighet*100:.1f}%\")\n\nNøyaktighet: 90.1%\n\n\nNår du kaller .predict(), klassifiserer hvert av de 100 trærne hvert eple fra rot til blad og gir sitt eget svar. Skogen samler de 100 svarene og returnerer flertallet. .score() sammenligner med fasit, akkurat som i Blokk 1.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4188,7 +4440,7 @@
     "href": "lectures/06_slides_ane.html#b-hjelper-tilfeldigheten-egentlig",
     "title": "Random Forest og ensemblemetoder",
     "section": "§18b — Hjelper tilfeldigheten egentlig?",
-    "text": "§18b — Hjelper tilfeldigheten egentlig?\n\n\n\n\n\n\nTip\n\n\nGjett: Vi lager to skoger med 100 trær hver. Den ene bruker tilfeldig feature-utvalg (standard). Den andre lar hvert tre bruke alle features. Hvilken tror dere er best?\n\n\n\n\n\nskog_med  = RandomForestClassifier(n_estimators=100, random_state=42)\nskog_uten = RandomForestClassifier(n_estimators=100, max_features=None, random_state=42)\n\nskog_med.fit(X_train, y_train)\nskog_uten.fit(X_train, y_train)\n\nprint(f\"Med tilfeldig feature-utvalg:  {skog_med.score(X_test, y_test)*100:.1f}%\")\nprint(f\"Uten tilfeldig feature-utvalg: {skog_uten.score(X_test, y_test)*100:.1f}%\")\n\nMed tilfeldig feature-utvalg:  90.1%\nUten tilfeldig feature-utvalg: 89.8%\n\n\nMer tilfeldighet gir mer uavhengige feil og bedre flertallsavstemning.",
+    "text": "§18b — Hjelper tilfeldigheten egentlig?\n\n\n\n\n\n\nTip\n\n\n\nGjett: Vi lager to skoger med 100 trær hver. Den ene bruker tilfeldig feature-utvalg (standard). Den andre lar hvert tre bruke alle features. Hvilken tror dere er best?\n\n\n. . .\n\nskog_med  = RandomForestClassifier(n_estimators=100, random_state=42)\nskog_uten = RandomForestClassifier(n_estimators=100, max_features=None, random_state=42)\n\nskog_med.fit(X_train, y_train)\nskog_uten.fit(X_train, y_train)\n\nprint(f\"Med tilfeldig feature-utvalg:  {skog_med.score(X_test, y_test)*100:.1f}%\")\nprint(f\"Uten tilfeldig feature-utvalg: {skog_uten.score(X_test, y_test)*100:.1f}%\")\n\nMed tilfeldig feature-utvalg:  90.1%\nUten tilfeldig feature-utvalg: 89.8%\n\n\nMer tilfeldighet gir mer uavhengige feil og bedre flertallsavstemning.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4200,7 +4452,7 @@
     "href": "lectures/06_slides_ane.html#svake-læringsmodeller-weak-learners",
     "title": "Random Forest og ensemblemetoder",
     "section": "§19 — Svake læringsmodeller (weak learners)",
-    "text": "§19 — Svake læringsmodeller (weak learners)\nHvert enkelt tre kalles en svak læringsmodell (weak learner): en modell som er bare litt bedre enn tilfeldig gjetning. Treet er bevisst begrenset i dybde og features. Begrensningen er et designvalg: skogen trenger ulike trær, og begrensede trær som ser ulike data gjør ulike feil.\n\n\n\n\n\n\n\nTip\n\n\nGjett: Vi kan gå fra 1 tre til 3 til 100 til 500. Skisser i hodet: nøyaktighet som funksjon av antall trær. Stiger den hele tiden, flater den ut, eller går den opp og ned?",
+    "text": "§19 — Svake læringsmodeller (weak learners)\nHvert enkelt tre kalles en svak læringsmodell (weak learner): en modell som er bare litt bedre enn tilfeldig gjetning. Treet er bevisst begrenset i dybde og features. Begrensningen er et designvalg: skogen trenger ulike trær, og begrensede trær som ser ulike data gjør ulike feil.\n. . .\n\n\n\n\n\n\nTip\n\n\n\nGjett: Vi kan gå fra 1 tre til 3 til 100 til 500. Skisser i hodet: nøyaktighet som funksjon av antall trær. Stiger den hele tiden, flater den ut, eller går den opp og ned?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4236,7 +4488,7 @@
     "href": "lectures/06_slides_ane.html#feature-importance",
     "title": "Random Forest og ensemblemetoder",
     "section": "§21 — Feature importance",
-    "text": "§21 — Feature importance\n\n\n\n\n\n\n\n\n\nimportance = skog.feature_importances_\nplt.barh(X.columns, importance)\n\n\n\n\n\n\nTip\n\n\nGjett: Den øverste variabelen har høyest importance. Betyr det at den forårsaker god eplekvalitet?",
+    "text": "§21 — Feature importance\n\n\n\n\n\n\n\n\n\nimportance = skog.feature_importances_\nplt.barh(X.columns, importance)\n\n\n\n\n\n\nTip\n\n\n\nGjett: Den øverste variabelen har høyest importance. Betyr det at den forårsaker god eplekvalitet?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4272,7 +4524,7 @@
     "href": "lectures/06_slides_ane.html#hva-viser-kurven",
     "title": "Random Forest og ensemblemetoder",
     "section": "§23 — Hva viser kurven?",
-    "text": "§23 — Hva viser kurven?\n\n\n\n\n\n\nTip\n\n\nGjett: Tror dere partial dependence-kurven for søthet stiger, synker, eller er flat?",
+    "text": "§23 — Hva viser kurven?\n\n\n\n\n\n\nTip\n\n\n\nGjett: Tror dere partial dependence-kurven for søthet stiger, synker, eller er flat?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4284,7 +4536,7 @@
     "href": "lectures/06_slides_ane.html#pdp-for-den-viktigste-variabelen",
     "title": "Random Forest og ensemblemetoder",
     "section": "§24 — PDP for den viktigste variabelen",
-    "text": "§24 — PDP for den viktigste variabelen\n\n\n\n\n\n\n\n\n\nfrom sklearn.inspection import PartialDependenceDisplay\nPartialDependenceDisplay.from_estimator(skog, X_test, features=[\"Sweetness\"])\n\n\n\n\n\n\nTip\n\n\nLes kurven: Ved hvilken verdi skifter modellen? Er overgangen brå eller gradvis?",
+    "text": "§24 — PDP for den viktigste variabelen\n\n\n\n\n\n\n\n\n\nfrom sklearn.inspection import PartialDependenceDisplay\nPartialDependenceDisplay.from_estimator(skog, X_test, features=[\"Sweetness\"])\n\n\n\n\n\n\nTip\n\n\n\nLes kurven: Ved hvilken verdi skifter modellen? Er overgangen brå eller gradvis?",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4320,7 +4572,7 @@
     "href": "lectures/06_slides_ane.html#hvilken-modell-for-sykehuset",
     "title": "Random Forest og ensemblemetoder",
     "section": "§27 — Hvilken modell for sykehuset?",
-    "text": "§27 — Hvilken modell for sykehuset?\n\n\n\n\n\n\nTip\n\n\nDiskuter med sidemannen (2 minutter):\n\nHvilken feiltype er farligst her: false positive eller false negative?\nMå legen kunne forklare svaret til pasienten?\nBasert på svarene: hvilken modell passer best?\n\n\n\n\n\n«Best» avhenger av formålet, og valget kan begrunnes.",
+    "text": "§27 — Hvilken modell for sykehuset?\n\n\n\n\n\n\nTip\n\n\n\nDiskuter med sidemannen (2 minutter):\n\nHvilken feiltype er farligst her: false positive eller false negative?\nMå legen kunne forklare svaret til pasienten?\nBasert på svarene: hvilken modell passer best?\n\n\n\n. . .\n«Best» avhenger av formålet, og valget kan begrunnes.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
@@ -4356,7 +4608,7 @@
     "href": "lectures/06_slides_ane.html#obligen",
     "title": "Random Forest og ensemblemetoder",
     "section": "§30 — Obligen",
-    "text": "§30 — Obligen\nI oppgave 4 skal dere bruke det vi har gått gjennom i dag: random forest, feature importance og partial dependence.\nHusk å one-hot-kode kategoriske variabler før dere trener modellen.\n\n\n\n\n\n\nImportant\n\n\nOblig: frist 19. mars. Orakeltimer hver torsdag i Tellefsens tårn, kl. 16:15–18:00.",
+    "text": "§30 — Obligen\nI oppgave 4 skal dere bruke det vi har gått gjennom i dag: random forest, feature importance og partial dependence.\nHusk å one-hot-kode kategoriske variabler før dere trener modellen.\n\n\n\n\n\n\nImportant\n\n\n\nOblig: frist 19. mars. Orakeltimer hver torsdag i Tellefsens tårn, kl. 16:15–18:00.",
     "crumbs": [
       "Del 1: Statistikk",
       "Uke 8 – 13. mars",
