@@ -561,7 +561,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="hva-husker-dere-fra-sist">§1 — Hva husker dere fra sist?</h2>
 <p><strong>Diskuter med sidemannen (1 minutt):</strong> Forrige gang trente vi et beslutningstre på eplekvalitet. Vi kjørte det seks ganger med ulike tilfeldige splitter. Hva skjedde?</p>
 <p>. . .</p>
-<div id="528e25aa" class="cell" data-fig-height="4" data-execution_count="1">
+<div id="3e4a43ce" class="cell" data-fig-height="4" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -575,8 +575,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sklearn-godtar-bare-tall" class="level2">
 <h2 class="anchored" data-anchor-id="sklearn-godtar-bare-tall">§2 — Sklearn godtar bare tall</h2>
 <p>Eple-datasettet har bare tallverdier, men mange datasett har tekstkolonner som sklearn ikke godtar.</p>
-<div id="2bcf89be" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="98">
+<div id="476b4eab" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -631,10 +631,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="det-binære-tilfellet" class="level2">
 <h2 class="anchored" data-anchor-id="det-binære-tilfellet">§3 — Det binære tilfellet</h2>
 <p>Det enkleste: to kategorier → 0 og 1. Dere har sett <code>.astype(int)</code> på en binær kolonne før.</p>
-<div id="f0c1974e" class="cell" data-execution_count="3">
+<div id="e874ad0f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"quality_num"</span>] <span class="op">=</span> (df[<span class="st">"Quality"</span>] <span class="op">==</span> <span class="st">"good"</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"Quality"</span>, <span class="st">"quality_num"</span>]].head(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="99">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -711,8 +711,8 @@ Tip
 </div><div class="column fragment" style="width:50%;">
 <p><strong>One-hot encoding</strong></p>
 <p>Én kolonne per kategori, bare 0 og 1:</p>
-<div id="e8c56b53" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display" data-execution_count="100">
+<div id="37138c8e" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -767,12 +767,12 @@ Tip
 </section>
 <section id="one-hot-i-praksis" class="level2">
 <h2 class="anchored" data-anchor-id="one-hot-i-praksis">§5 — One-hot i praksis</h2>
-<div id="bca7b2f4" class="cell" data-execution_count="5">
+<div id="6534a0c7" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>eksempel <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Farge"</span>: [<span class="st">"rød"</span>, <span class="st">"grønn"</span>, <span class="st">"rød"</span>, <span class="st">"gul"</span>, <span class="st">"grønn"</span>]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>pd.get_dummies(eksempel[[<span class="st">"Farge"</span>]], prefix<span class="op">=</span><span class="st">"Farge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="101">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -844,9 +844,9 @@ Tip
 <section id="hva-skjuler-.score" class="level2">
 <h2 class="anchored" data-anchor-id="hva-skjuler-.score">§7 — Hva skjuler <code>.score()</code>?</h2>
 <p>Dere har alle sett denne koden:</p>
-<div id="8273b62a" class="cell" data-execution_count="7">
+<div id="84f10d84" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tre_modell.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="103">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>0.74</code></pre>
 </div>
 </div>
@@ -868,13 +868,13 @@ Tip
 <h2 class="anchored" data-anchor-id="to-separate-steg">§8 — To separate steg</h2>
 <p>Her er hva <code>.score()</code> gjør:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, precision_score, recall_score, confusion_matrix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="6872a9f5" class="cell" data-execution_count="8">
+<div id="be35dd05" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Steg 1: modellen lager gjetninger, én per eple</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>prediksjoner <span class="op">=</span> tre_modell.predict(X_test)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Steg 2: en separat funksjon sammenligner gjetningene med fasit</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, prediksjoner)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="104">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>0.74</code></pre>
 </div>
 </div>
@@ -883,7 +883,7 @@ Tip
 </section>
 <section id="tre-kilder-samme-funksjon" class="level2">
 <h2 class="anchored" data-anchor-id="tre-kilder-samme-funksjon">§9 — Tre kilder, samme funksjon</h2>
-<div id="b65c0a2d" class="cell" data-execution_count="9">
+<div id="e6692c0f" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>log_modell <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>).fit(X_train, y_train)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pred_tre  <span class="op">=</span> tre_modell.predict(X_test)</span>
@@ -920,7 +920,7 @@ Tip
 </div>
 </div>
 <p>. . .</p>
-<div id="62913feb" class="cell" data-execution_count="10">
+<div id="5a199529" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>y_titan <span class="op">=</span> np.array([<span class="dv">0</span>]<span class="op">*</span><span class="dv">62</span> <span class="op">+</span> [<span class="dv">1</span>]<span class="op">*</span><span class="dv">38</span>)              <span class="co"># si at 62 døde, 38 overlevde</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pred_alle_dør <span class="op">=</span> np.zeros(<span class="dv">100</span>, dtype<span class="op">=</span><span class="bu">int</span>)          <span class="co"># "alle 100 dør"</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -934,7 +934,7 @@ Tip
 <section id="samme-prediksjoner-ulike-spørsmål" class="level2">
 <h2 class="anchored" data-anchor-id="samme-prediksjoner-ulike-spørsmål">§11 — Samme prediksjoner, ulike spørsmål</h2>
 <p>Vi kan stille ulike spørsmål om den samme listen med prediksjoner:</p>
-<div id="7977a1da" class="cell" data-execution_count="11">
+<div id="96edbb74" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy:  </span><span class="sc">{</span>accuracy_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Recall:    </span><span class="sc">{</span>recall_score(y_test, pred_tre)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -972,11 +972,11 @@ Recall:    62.2%</code></pre>
 <section id="forvirringsmatrisen" class="level2">
 <h2 class="anchored" data-anchor-id="forvirringsmatrisen">§12 — Forvirringsmatrisen</h2>
 <p>Alle tre tallene over beregnes fra den samme tabellen:</p>
-<div id="cc66cd3f" class="cell" data-execution_count="12">
+<div id="d6afda65" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, pred_tre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>. . .</p>
-<div id="8abe7216" class="cell" data-execution_count="13">
+<div id="7c59e2b2" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-stdout">
 <pre><code>                    Predikert: dårlig    Predikert: god
 Faktisk dårlig          344 riktig             57 FEIL
@@ -989,7 +989,7 @@ Faktisk god             151 FEIL              248 riktig
 </div>
 </div>
 <p>. . .</p>
-<div id="fd38cf73" class="cell" data-execution_count="14">
+<div id="aad46b0d" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy = (344 + 248) / 800 = 74 %</code></pre>
 </div>
@@ -998,7 +998,7 @@ Faktisk god             151 FEIL              248 riktig
 </section>
 <section id="to-typer-feil" class="level2">
 <h2 class="anchored" data-anchor-id="to-typer-feil">§13 — To typer feil</h2>
-<div id="dea43e91" class="cell" data-execution_count="15">
+<div id="83e19a58" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-stdout">
 <pre><code>De to feiltypene:
   151 gode epler som modellen sa var dårlige (false negatives)
@@ -1030,7 +1030,7 @@ Tip
 <section id="b-tilbake-til-treet" class="level2">
 <h2 class="anchored" data-anchor-id="b-tilbake-til-treet">§13b — Tilbake til treet</h2>
 <p>I §1 så vi dette:</p>
-<div id="e06d3b38" class="cell" data-fig-height="4" data-execution_count="16">
+<div id="8047783e" class="cell" data-fig-height="4" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1159,7 +1159,7 @@ Tip
 </section>
 <section id="fra-konsept-til-kode" class="level2">
 <h2 class="anchored" data-anchor-id="fra-konsept-til-kode">§18 — Fra konsept til kode</h2>
-<div id="37eb79c3" class="cell" data-execution_count="17">
+<div id="59751272" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>skog <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, max_features<span class="op">=</span><span class="st">"sqrt"</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
@@ -1171,7 +1171,7 @@ Tip
 </div>
 <p><code>n_estimators</code> bestemmer antall trær. <code>max_features</code> bestemmer hvor mange features hvert tre vurderer ved hvert splittepunkt (standard: √antall features).</p>
 <p>. . .</p>
-<div id="7d25b8e4" class="cell" data-execution_count="18">
+<div id="d2235e70" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>prediksjoner <span class="op">=</span> skog.predict(X_test)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>nøyaktighet  <span class="op">=</span> skog.score(X_test, y_test)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Nøyaktighet: </span><span class="sc">{</span>n<span class="sc">ø</span>yaktighet<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1197,7 +1197,7 @@ Tip
 </div>
 </div>
 <p>. . .</p>
-<div id="f59cbc15" class="cell" data-execution_count="19">
+<div id="daee7d30" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>skog_med  <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>skog_uten <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, max_features<span class="op">=</span><span class="va">None</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1233,7 +1233,7 @@ Tip
 </section>
 <section id="hvor-mange-trær-trengs" class="level2">
 <h2 class="anchored" data-anchor-id="hvor-mange-trær-trengs">§20 — Hvor mange trær trengs?</h2>
-<div id="5c44c8c6" class="cell" data-execution_count="20">
+<div id="04f7bc7b" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>antall_liste <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>]</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>acc_per_n <span class="op">=</span> []</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1242,7 +1242,7 @@ Tip
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    rf.fit(X_train, y_train)</span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    acc_per_n.append(rf.score(X_test, y_test))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cc997750" class="cell" data-fig-height="3" data-execution_count="21">
+<div id="825ea082" class="cell" data-fig-height="3" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1259,7 +1259,7 @@ Tip
 </section>
 <section id="feature-importance" class="level2">
 <h2 class="anchored" data-anchor-id="feature-importance">§21 — Feature importance</h2>
-<div id="af256cdd" class="cell" data-fig-height="3.5" data-execution_count="22">
+<div id="1c36d51b" class="cell" data-fig-height="3.5" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1318,7 +1318,7 @@ Tip
 </section>
 <section id="pdp-for-den-viktigste-variabelen" class="level2">
 <h2 class="anchored" data-anchor-id="pdp-for-den-viktigste-variabelen">§24 — PDP for den viktigste variabelen</h2>
-<div id="54df567a" class="cell" data-fig-height="3.5" data-execution_count="23">
+<div id="8f93bf2e" class="cell" data-fig-height="3.5" data-execution_count="23">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1345,7 +1345,7 @@ Tip
 </section>
 <section id="pdp-for-alle-variabler" class="level2">
 <h2 class="anchored" data-anchor-id="pdp-for-alle-variabler">§25 — PDP for alle variabler</h2>
-<div id="7b2befcf" class="cell" data-fig-height="5" data-execution_count="24">
+<div id="a41f20f8" class="cell" data-fig-height="5" data-execution_count="24">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
