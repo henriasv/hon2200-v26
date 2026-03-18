@@ -26,7 +26,6 @@ execute:
 
 ::: {.content-hidden when-format="revealjs"}
 ## Slide-versjon
-
 <iframe src="06_slides_ane.revealjs.html" width="960" height="540"></iframe>
 :::
 
@@ -579,6 +578,51 @@ Hvert enkelt tre kalles en **svak læringsmodell** (*weak learner*): en modell s
 
 ::: {.notes}
 **[~2 min]** Rekk opp hånda for (a) stiger hele tiden, (b) flater ut, (c) går opp og ned. Koble «weak learner» til oppgaveteksten.
+:::
+
+## §19b — Hvor svake skal trærne være?
+
+::: {.callout-tip}
+**Gjett:** Vi varierer `max_depth` for 100 trær i en random forest. Stiger nøyaktigheten hele veien, eller finnes det et optimalt punkt?
+:::
+
+. . .
+
+```{python}
+#| echo: false
+#| fig-height: 2.5
+from sklearn.tree import DecisionTreeClassifier
+
+dybder = [1, 2, 3, 5, 7, 10, 15, None]
+acc_rf = []
+acc_tre_a, acc_tre_b = [], []
+for d in dybder:
+    rf_d = RandomForestClassifier(n_estimators=100, max_depth=d, random_state=42)
+    rf_d.fit(X_train, y_train)
+    acc_rf.append(rf_d.score(X_test, y_test))
+    for seed, lst in [(42, acc_tre_a), (7, acc_tre_b)]:
+        t = DecisionTreeClassifier(max_depth=d, random_state=seed).fit(X_train, y_train)
+        lst.append(t.score(X_test, y_test))
+
+labels = [str(d) if d else "∞" for d in dybder]
+plt.figure(figsize=(10, 2.5))
+plt.plot(range(len(dybder)), [a*100 for a in acc_rf], "go-", linewidth=2, markersize=7, label="Random Forest (100 trær)")
+plt.plot(range(len(dybder)), [a*100 for a in acc_tre_a], "rs--", linewidth=1, markersize=5, alpha=0.6, label="Enkelttre (seed A)")
+plt.plot(range(len(dybder)), [a*100 for a in acc_tre_b], "r^--", linewidth=1, markersize=5, alpha=0.6, label="Enkelttre (seed B)")
+plt.xticks(range(len(dybder)), labels)
+plt.xlabel("max_depth")
+plt.ylabel("Testnøyaktighet (%)")
+plt.title("Tredybde: enkelttrær vs. random forest")
+plt.legend(fontsize=8)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+En skog med `max_depth=1` (de svakeste trærne) er allerede like god som et enkelttre med dybde 5. Flertallsavstemning og tilfeldig feature-utvalg kompenserer for individuell svakhet.
+
+::: {.notes}
+**[~3 min]** To kurver, samme x-akse. Pek på at enkeltreet *faller* etter ca. dybde 7 (overtilpasning fra forrige gang), mens skogen aldri faller. Skogen har en innebygd mekanisme (flertallsavstemning + feature-utvalg) som absorberer den økte kompleksiteten. [DR-22.4]
 :::
 
 ## §20 — Hvor mange trær trengs?
