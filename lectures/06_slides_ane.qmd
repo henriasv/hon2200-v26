@@ -1,18 +1,10 @@
 ---
-title: "Random Forest og esnsemble-metoder"
+title: "Random Forest og ensemblemetoder"
 subtitle: "HON2200"
 author: "Ane Kristine Espeseth"
 format:
-  html:
-    theme: cosmo
-    toc: true
-    toc-location: right
-    number-sections: false
-    fontcolor: black
-    show-notes: false
   revealjs:
     theme: solarized
-    output-ext: revealjs.html
     slide-number: true
     progress: true
     chalkboard: true
@@ -23,12 +15,6 @@ execute:
   echo: true
   warning: false
 ---
-
-::: {.content-hidden when-format="revealjs"}
-## Slide-versjon
-
-<iframe src="06_slides_ane.revealjs.html" width="960" height="540"></iframe>
-:::
 
 # Blokk 1: Forberedelsene {background-color="#1a2634"}
 
@@ -214,6 +200,10 @@ tre_modell.score(X_test, y_test)
 
 Her er hva `.score()` gjør:
 
+```python
+from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
+```
+
 ```{python}
 # Steg 1: modellen lager gjetninger, én per eple
 prediksjoner = tre_modell.predict(X_test)
@@ -351,6 +341,8 @@ print(f"  {fn} gode epler som modellen sa var dårlige (false negatives)")
 print(f"  {fp} dårlige epler som modellen sa var gode (false positives)")
 ```
 
+Huskeregel: ordene beskriver hva *modellen* sa, ikke hva eplet var. False **positive** betyr at modellen var positiv (sa «god»), men tok feil.
+
 . . .
 
 ::: {.callout-tip}
@@ -367,7 +359,7 @@ Hvordan ville dere oversatt dette til Titanic-datasettet hvor vi predikerer over
 
 # Blokk 2: Skogen {background-color="#1a2634"}
 
-Fra ett tre til mange.
+Fra enkelttrær til ensemblemetoder.
 
 ## §13b — Tilbake til treet
 
@@ -395,11 +387,27 @@ Vi har nå verktøy for å evaluere prediksjoner. Problemet fra forrige gang gje
 **[~1 min]** Kort visuell påminnelse. Ikke repeter forklaringen. Koble Blokk 1-verktøyene til Blokk 2-problemet.
 :::
 
-## §14 — En annen type prosess
+## §14 — To typer prosesser
 
-Et beslutningstre er en steg-for-steg-prosess: data kommer inn, treet stiller spørsmål, og hvert datapunkt følger én sti fra rot til blad.
+Noen prosesser er **steg-for-steg**: én aktør tar beslutninger i rekkefølge. I et beslutningstre kommer data inn, treet stiller spørsmål og hvert datapunkt følger én sti fra rot til blad. En oppskrift, en for-løkke og en sorteringsalgoritme er også steg-for-steg.
 
 . . .
+
+Andre prosesser er **mange-samtidig**: mange aktører handler uavhengig, og det samlede resultatet har egenskaper ingen enkeltaktør har. Trafikkork oppstår uten at én sjåfør bestemmer seg for å lage kø. Wikipedia-artikler blir pålitelige fordi tusenvis av redaktører retter uavhengig av hverandre.
+
+. . .
+
+::: {.callout-tip}
+**Diskuter med sidemannen (1 minutt):** Kan dere komme på et annet eksempel der mange middelmådige bidrag gir et godt samlet resultat?
+:::
+
+::: {.notes}
+**[~4 min]** Ontologitrening [DR-18.2, DR-22.4, Chi 2005/2012]. Kategorien «emergent prosess» må bygges eksplisitt FØR innholdet kan fylle den. Uten denne kategorien vil studentene forstå skogen som «ett veldig bra tre» (direkte-prosess-misforståelse).
+
+La dem diskutere. Typiske svar: anmeldelser på nett, meningsmålinger, immunforsvar. Alle er mange-samtidig-prosesser.
+:::
+
+## §14b — Gelébønnene
 
 ::: {.callout-tip}
 **Gjett:** 100 mennesker gjetter antall gelébønner i et glass. Vil gjennomsnittet være bedre eller dårligere enn den beste enkeltgjetningen?
@@ -407,12 +415,10 @@ Et beslutningstre er en steg-for-steg-prosess: data kommer inn, treet stiller sp
 
 . . .
 
-Feilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle.
+Feilene går i ulike retninger. Gjennomsnittet av mange uavhengige gjetninger slår som regel de fleste individuelle. Dette er en **mange-samtidig-prosess**: det samlede resultatet har egenskaper ingen enkeltgjetter har.
 
 ::: {.notes}
-**[~3 min]** Still gelébønne-spørsmålet og vent på svar. De fleste sier «bedre». Spør: «Hvorfor?»
-
-*Ontologitrening [DR-18.2, DR-22.4, Chi 2005/2012]: Kategorien «emergent prosess» må bygges eksplisitt før innholdet kan fylle den.*
+**[~2 min]** Still gelébønne-spørsmålet og vent på svar. De fleste sier «bedre». Spør: «Hvorfor?» Koble eksplisitt tilbake til kategorien de nettopp bygde: dette er en mange-samtidig-prosess.
 :::
 
 ## §15 — Mange middelmådige trær
@@ -452,12 +458,26 @@ Hvert tre vurderer saken på egen hånd og leverer sin egen dom. Skogen teller o
 En ekte jury diskuterer seg frem til enighet, mens trærne aldri kommuniserer. Uavhengige feil kansellerer hverandre fordi de går i ulike retninger. Korrelerte feil (som i en jury der medlemmene påvirker hverandre) gjør det ikke.
 
 ::: {.notes}
-**[~2 min]** Pek på diagrammet: ingen piler mellom trærne.
+**[~2 min]** Pek på diagrammet: ingen piler mellom trærne. Nøkkelforskjellen: uavhengig vs. korrelert feil.
+:::
+
+## §16b — Korrelerte vs. uavhengige feil
+
+::: {.callout-tip}
+**Gjett:** Tenk deg to scenarier: (A) 100 mennesker leser **samme** avisartikkel og stemmer over hva den handler om. (B) 100 mennesker leser **ulike** avisartikler og stemmer over dagens viktigste nyhet. Hvilken avstemning har mest nytte av flertall?
+:::
+
+. . .
+
+I scenario A er feilene korrelerte: alle leste det samme, så de bommer på samme måte. I scenario B er feilene uavhengige: ulike kilder gir ulike blindsoner. Random forest er scenario B. Hvert tre ser ulike data og stiller ulike spørsmål.
+
+::: {.notes}
+**[~2 min]** Avisanalogien tvinger studentene til å prosessere den strukturelle forskjellen, ikke bare overflatefunksjonen (flertallsavstemning). [DR-22.3, Vosniadou: delvis overlappende analogier er farligst for syntetisk modellformasjon.]
 :::
 
 ## §17 — To kilder til tilfeldighet
 
-For at trærne skal bli ulike, bruker random forest to former for tilfeldighet:
+Hvert tre får litt ulike data og litt ulike spørsmål. Trærne gjør derfor ulike feil, og feil som peker i ulike retninger kansellerer hverandre i flertallsavstemningen.
 
 ::::{.columns}
 :::{.column width="50%"}
@@ -472,10 +492,14 @@ Ved hvert splittepunkt velger treet blant en tilfeldig håndfull features. Ulike
 :::
 ::::
 
+. . .
+
+> **Obs: «tilfeldig» betyr her kontrollert stokastisk utvalg, reproduserbart med `random_state`.** *(eng: random)*
+
 ::: {.notes}
 **[~3 min]** Navngi begge kildene eksplisitt. Forklar tilbakelegging kort: «trekke med tilbakelegging betyr at samme eple kan dukke opp flere ganger».
 
-*[DR-22.8, S-009]: Tilfeldigheten i bootstrap og feature-utvalg er en bevisst designmekanisme.*
+*[DR-22.8, S-009]: Tilfeldigheten i bootstrap og feature-utvalg er en bevisst designmekanisme. [DR-9.5]: Sju evidenslinjer predikerer at deterministisk fluency hindrer stokastisk resonnering — reframing av tilfeldighet som strategi er nødvendig.*
 :::
 
 ## §18 — Fra konsept til kode
@@ -504,9 +528,34 @@ Når du kaller `.predict()`, klassifiserer hvert av de 100 trærne hvert eple fr
 **[~3 min]** Koble til Blokk 1: samme pipeline. Pek på at skogen slår enkeltreet fra §1.
 :::
 
+## §18b — Hjelper tilfeldigheten egentlig?
+
+::: {.callout-tip}
+**Gjett:** Vi lager to skoger med 100 trær hver. Den ene bruker tilfeldig feature-utvalg (standard). Den andre lar hvert tre bruke *alle* features. Hvilken tror dere er best?
+:::
+
+. . .
+
+```{python}
+skog_med  = RandomForestClassifier(n_estimators=100, random_state=42)
+skog_uten = RandomForestClassifier(n_estimators=100, max_features=None, random_state=42)
+
+skog_med.fit(X_train, y_train)
+skog_uten.fit(X_train, y_train)
+
+print(f"Med tilfeldig feature-utvalg:  {skog_med.score(X_test, y_test)*100:.1f}%")
+print(f"Uten tilfeldig feature-utvalg: {skog_uten.score(X_test, y_test)*100:.1f}%")
+```
+
+Mer tilfeldighet gir mer uavhengige feil og bedre flertallsavstemning.
+
+::: {.notes}
+**[~3 min]** De fleste tipper at «alle features» er best, fordi deres standard er at mer informasjon = bedre. Avsløringen inverterer forventningen og forsterker reframingen fra §17. [DR-22.8, DR-9.5]
+:::
+
 ## §19 — Svake læringsmodeller (weak learners)
 
-Hvert enkelt tre kalles en **svak læringsmodell** (*weak learner*): en modell som er bare litt bedre enn tilfeldig gjetning.
+Hvert enkelt tre kalles en **svak læringsmodell** (*weak learner*): en modell som er bare litt bedre enn tilfeldig gjetning. Treet er bevisst begrenset i dybde og features. Begrensningen er et designvalg: skogen trenger *ulike* trær, og begrensede trær som ser ulike data gjør ulike feil.
 
 . . .
 
@@ -545,12 +594,18 @@ plt.tight_layout()
 plt.show()
 ```
 
-. . .
+::: {.notes}
+**[~2 min]** Koden vises! Studentene trenger dette mønsteret for oppgave (c) i obligen.
+:::
 
-Kurven stiger bratt med de første trærne og flater ut etter ca. 50. Sammenlignet med `max_depth`-kurven fra forrige forelesning, der mer dybde ga dårligere testresultat, er dette en annen dynamikk: flere trær gir avtakende forbedring.
+## §20b — Kurven flater ut
+
+Kurven stiger bratt med de første trærne og flater ut etter ca. 50. Kurven går aldri *ned*: hvert nytt tre bidrar med uavhengige feil, og det kan bare hjelpe eller være nøytralt.
+
+Sammenlign med `max_depth`-kurven fra forrige gang: mer dybde ga dårligere testresultat etter et punkt. Flere trær gir avtakende forbedring og aldri forverring. Kan du forklare forskjellen?
 
 ::: {.notes}
-**[~4 min]** Koden vises! Studentene trenger dette mønsteret for oppgave (c) i obligen.
+**[~2 min]** Svar på kontrastspørsmålet: dybde øker kompleksiteten til hvert tre (overtilpasning). Flere trær øker diversiteten, som bare kan hjelpe eller være nøytralt.
 :::
 
 ## §21 — Feature importance
@@ -571,6 +626,7 @@ plt.show()
 
 ```python
 importance = skog.feature_importances_
+plt.barh(X.columns, importance)
 ```
 
 ::: {.callout-tip}
@@ -585,26 +641,26 @@ importance = skog.feature_importances_
 
 Feature importance viser hvor mye modellen støttet seg på hver variabel. Den sier ingenting om årsak og virkning.
 
+I lineær regresjon betyr en koeffisient på 2.5 at variabelen bidrar med 2.5 per enhet. Feature importance viser hvor ofte modellen brukte variabelen, uten retning eller størrelse.
+
 Egenskaper med mange unike verdier får oppblåst importance, og korrelerte egenskaper deler importance mellom seg.
 
 ::: {.notes}
-**[~2 min]** Importance er et utsagn om modellen, ikke om virkeligheten.
-
-*[DR-22.9]: Mest dokumenterte tre-spesifikke feiloppfatning.*
+**[~2 min]** Importance er et utsagn om modellen, ikke om virkeligheten. Kontrastsetningen mot regresjonskoeffisienter forebygger den predikerte syntetiske modellen «importance-as-magnitude» [DR-22.3, DR-22.9].
 :::
 
 ## §22 — Partial dependence
 
 Feature importance viser hvilke variabler modellen bruker mest, men ikke retning: gjør høyere søthet eplet «godt» eller «dårlig»?
 
-Partial dependence svarer på dette: hva skjer med prediksjonen hvis vi endrer én variabel mens vi holder alt annet fast?
+Partial dependence svarer på dette, som et kontrollert eksperiment: vi endrer én variabel og holder alt annet fast.
 
 1. Sett søtheten til −3 for alle eplene (behold alt annet), kjør prediksjoner, noter gjennomsnittet
 2. Gjenta for −2, −1, 0, 1, 2, 3 ...
 3. Plott gjennomsnittlig prediksjon mot søthet
 
 ::: {.notes}
-**[~3 min]** Vi isolerer én variabel, som et kontrollert eksperiment.
+**[~3 min]** «Kontrollert eksperiment»-framing er bevisst — for studenter fra samfunns-, helse- og naturfag er dette et dypt kjent konsept som reduserer kognitiv belastning. [DR-9.8, DR-10.4]
 :::
 
 ## §23 — Hva viser kurven?
@@ -621,12 +677,12 @@ Partial dependence svarer på dette: hva skjer med prediksjonen hvis vi endrer �
 
 ```{python}
 #| echo: false
-#| fig-height: 4
+#| fig-height: 3.5
 from sklearn.inspection import PartialDependenceDisplay
 
 top_feature = X.columns[np.argmax(importance)]
 
-fig, ax = plt.subplots(figsize=(8, 4))
+fig, ax = plt.subplots(figsize=(8, 3.5))
 PartialDependenceDisplay.from_estimator(
     skog, X_test, features=[top_feature], ax=ax, grid_resolution=30
 )
@@ -634,6 +690,11 @@ ax.set_ylim(0, 1)
 ax.set_title(f"Partial dependence: {top_feature}", fontsize=13)
 fig.tight_layout()
 plt.show()
+```
+
+```python
+from sklearn.inspection import PartialDependenceDisplay
+PartialDependenceDisplay.from_estimator(skog, X_test, features=["Sweetness"])
 ```
 
 ::: {.callout-tip}
@@ -648,8 +709,8 @@ plt.show()
 
 ```{python}
 #| echo: false
-#| fig-height: 6
-fig, ax = plt.subplots(figsize=(10, 6))
+#| fig-height: 5
+fig, ax = plt.subplots(figsize=(10, 5))
 disp = PartialDependenceDisplay.from_estimator(
     skog, X_test, features=list(X.columns), grid_resolution=20, ax=ax
 )
@@ -663,18 +724,20 @@ fig.tight_layout()
 plt.show()
 ```
 
-::: {.notes}
-**[~2 min]** La dem se alle kurvene sammen. Pek kort på sterkest positiv, sterkest negativ, og flatest.
-
-Koden for dette:
-
 ```python
 from sklearn.inspection import PartialDependenceDisplay
 PartialDependenceDisplay.from_estimator(skog, X_test, features=list(X.columns))
 ```
+
+::: {.notes}
+**[~2 min]** La dem se alle kurvene sammen. Pek kort på sterkest positiv, sterkest negativ, og flatest.
 :::
 
-## §26 — Tre modeller, tre avveininger
+## §26 — Modellvalg avhenger av formålet
+
+Vi bruker «modell» om fire ulike ting her. Alle fire forenkler virkeligheten, på helt ulike måter.
+
+Et sykehus vil bruke en modell til å prioritere pasienter. Her er avveiningene:
 
 | Modell | Hva du kan se | Hva du gir opp |
 |--------|---------------|-----------------|
@@ -684,22 +747,43 @@ PartialDependenceDisplay.from_estimator(skog, X_test, features=list(X.columns))
 | Random Forest | Generell logikk (importance + PDP) | Enkeltprediksjoner er vanskelige å forklare |
 
 ::: {.notes}
-**[~2 min]** Les tabellen høyt. Poenget er kontrasten mellom kolonnene.
+**[~2 min]** Les tabellen høyt. Poenget er at formålet kommer FØRST, deretter tabellen. [DR-10.3]: «Modell» er ett av ni kollisjonsutsatte begrep — den korte setningen om «fire ulike ting» gjør kollisjonen synlig.
 :::
 
-## §27 — Modellvalg avhenger av formålet
+## §27 — Hvilken modell for sykehuset?
 
 ::: {.callout-tip}
-**Diskuter med sidemannen (1 minutt):** Et sykehus bruker en modell til å prioritere pasienter. Hvilken av de tre modellene ville dere valgt, og hvorfor?
+**Diskuter med sidemannen (2 minutter):**
+
+1. Hvilken feiltype er farligst her: false positive eller false negative?
+2. Må legen kunne forklare svaret til pasienten?
+3. Basert på svarene: hvilken modell passer best?
 :::
+
+. . .
+
+«Best» avhenger av formålet, og valget kan begrunnes.
 
 ::: {.notes}
-**[~3 min]** Diskuter i par. Ikke gi et «riktig» svar.
-
-*Multiplistfelle-forebygging [DR-22.7, Rosman et al. 2018]: Uten formålsrelativ forankring leder modellsammenligning til «alle modeller er bare ulike perspektiver» i stedet for «denne modellen er bedre begrunnet for dette formålet».*
+**[~3 min]** De tre ledespørsmålene kanaliserer diskusjonen mot evaluativistisk resonnering. [DR-22.7, Rosman et al. 2018]: Uten formålsrelativ forankring leder modellsammenligning til «alle modeller er bare ulike perspektiver». Kuhn-diagnostikk: hvis studentene sier «det finnes ikke et riktig svar», har forelesningen produsert multiplisme.
 :::
 
-## §28 — Oppsummering
+## §28 — Valg vi tok i dag
+
+I dag har vi tatt en rekke valg som påvirker hva modellen lærer og hva vi kan konkludere:
+
+- Vi valgte **one-hot encoding** over ordinal koding, noe som endrer hvilke mønstre modellen kan finne
+- Vi brukte nøyaktighet som evalueringsmål, som kan gi et misvisende bilde for ubalanserte data
+- Vi leste **feature importance** som variabelbidrag, et utsagn om modellens bruk av variablene
+- Vi satte antall trær til 100, og kurven viste avtakende utbytte uten forverring
+
+Hva ville endret seg om vi hadde valgt annerledes på ett av disse punktene?
+
+::: {.notes}
+**[~2 min]** Ikke diskusjon — 30 sekunder stille refleksjon. Poenget er å gjøre tolkningsvalgene synlige som valg, ikke som nøytrale steg. [Finding #7, DR-16.5]: Studentene har evaluativistiske ressurser men trenger aktivering i beregningskontekster.
+:::
+
+## §29 — Oppsummering
 
 | Konsept | Hva det gjør |
 |---------|------------|
@@ -715,7 +799,7 @@ PartialDependenceDisplay.from_estimator(skog, X_test, features=list(X.columns))
 **[~1 min]** Stille gjennomgang. Ikke les opp alt, la dem lese selv.
 :::
 
-## §29 — Obligen
+## §30 — Obligen
 
 I oppgave 4 skal dere bruke det vi har gått gjennom i dag: random forest, feature importance og partial dependence.
 
