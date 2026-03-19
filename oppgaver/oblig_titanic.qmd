@@ -2,7 +2,7 @@
 
 :::{.callout-important}
 ## Bruk av kunstig intelligens
-I denne oppgaven er det **ikke tillatt** å bruke kunstig intelligens (som ChatGPT, Copilot o.l.) til å skrive kode eller tekst i innleveringen. Poenget med oppgaven er at du selv skal lære å forstå og implementere det som blir gjennomgått. Det er akkurat som en eksamen uten hjelpemidler — man lærer ikke ved å la noen andre gjøre jobben. Senere i livet vil du selvfølgelig bruke KI-verktøy i praktisk koding, men akkurat nå er det opplæring som gjelder.
+I denne oppgaven er det **ikke tillatt** å bruke kunstig intelligens (som ChatGPT, Copilot o.l.) til å skrive kode eller tekst i innleveringen. Poenget med oppgaven er at du selv skal lære å forstå og implementere det som blir gjennomgått. Det er helt greit å bruke dokumentasjon, søke på nett etter hvordan funksjoner virker, og lese eksempler — det er en naturlig del av programmering. Det som ikke er lov er å la en KI skrive koden eller teksten for deg. Senere i livet vil du selvfølgelig bruke KI-verktøy i praktisk koding, men akkurat nå er det opplæring som gjelder.
 :::
 
 Etter å ha fullført denne obligen skal studenten kunne
