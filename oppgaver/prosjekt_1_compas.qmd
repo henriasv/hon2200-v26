@@ -47,7 +47,7 @@ En mer omfattende beskrivelse av innholdet i COMPAS-algoritmen, og særlig hva n
 Vi anbefaler at dere bruker følgende artikler for å hjelpe dere med å evaluere bruk av maskinlæring til å foreta avgjørelser som diskutert over. Den første er en artikkel om å gjøre algoritmerevisjon, den andre er et eksempel på en studie som vurderer en spesifikk algoritme, og resten er de artiklene dere ble anbefalt å lese før undervisningen i digital etikk. 
 
 :::{.hidden}
-[@brownAlgorithmAuditScoring2021; @obermeyerDissectingRacialBias2019; @ballantyneHowShouldWe2020; @jonesNonrivalryEconomicsData2020; @greenEscapingImpossibilityFairness2022; @yona2017gentle; @delong2024affirmative; @kleinberg2018discrimination]
+[@brownAlgorithmAuditScoring2021; @obermeyerDissectingRacialBias2019; @binns2018political; @jonesNonrivalryEconomicsData2020; @viljoen2021relational; @lanierBlueprintBetterDigital2018; @yona2017gentle; @delong2024affirmative; @kleinberg2018discrimination]
 :::
 
 ::: {#refs}
@@ -65,7 +65,7 @@ Dere skal levere en zip-fil som inneholder hele prosjektarbeidet med en fornufti
 
 Skriv både rapporten slik at den kan leses med letthet, og uten å ha lest oppgaveteksten på forhånd. 
 
-**Dere skal levere prosjektet (inkl. mappestruktur) senest 24. april for å få tilbakemeldinger på innhold og struktur. Så går vi over i prosjektfase 2, der vi endrer eller utvider prosjektet**  
+**Dere skal levere prosjektet (inkl. mappestruktur) senest 16. april for å få tilbakemeldinger på innhold og struktur. Så går vi over i prosjektfase 2, der vi endrer eller utvider prosjektet**
 
 ## Framgangsmåte
 Under følger noen steg dere kan følge for å komme i gang. 
@@ -137,6 +137,13 @@ racialBias = np.exp( coefs["race_African-American"] ) / (1 - control + (control 
 `control` er prediksjonen til modellen gitt "standard" input, de kolonnene vi fjernet tidligere (Alle vektene blir ganget med null. Hvis alle kolonnene er 0 i X, hva slags person ser vi på da?). `b` er her bias leddet, det må alltid med i input til sigmoiden i en prediksjon. `racialBias` bør ha en verdi rundt 1.45, dette gav resultatet "45 percent more likely to be predicted to commit a future crime" i studien.
 
 :::
+
+**e)** I oppgave d) modellerte dere COMPAS sine prediksjoner. Nå skal dere prøve å lage en *egen* modell som predikerer faktisk tilbakefall. Tren en random forest-modell til å predikere `two_year_recid` direkte, basert på de samme variablene dere brukte i oppgave d) (alder, kjønn, antall tidligere domfellelser, type lovbrudd — men *uten* etnisitet som input).
+
+- Sammenlign nøyaktigheten til modellen deres med COMPAS sin treffsikkerhet (som dere fant i oppgave b).
+- Beregn falsk positiv-rate og falsk negativ-rate for hvite og svarte, og sammenlign med COMPAS sine rater.
+- Bruk feature importance til å undersøke hvilke variabler modellen legger mest vekt på.
+- Selv om etnisitet ikke er med som input: er modellen deres like «rettferdig» for hvite og svarte? Diskuter hvorfor eller hvorfor ikke — kan andre variabler fungere som proxy for etnisitet?
 
 ### Diskusjonsoppgaver
 
