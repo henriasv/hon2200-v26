@@ -32,6 +32,7 @@ project:
     # - lectures/07a_forberedelser.qmd
     # - lectures/07b_slides.qmd
     - oppgaver/oblig_titanic.qmd
+    - oppgaver/prosjekt_1_compas.qmd
     # - oppgaver/oblig_strompris/oblig_strompris.qmd
 
 
@@ -110,8 +111,8 @@ website:
       - section: "Del 3: Oblig og prosjekt"
         contents:
           - oppgaver/oblig_titanic.qmd
+          - oppgaver/prosjekt_1_compas.qmd
       #     - oppgaver/oblig_strompris/oblig_strompris.qmd
-      #     - oppgaver/prosjekt_1_compas.qmd
       #     - oppgaver/prosjekt_2.qmd
 
       - section: "LLM-supplement"
