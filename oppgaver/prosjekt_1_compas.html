@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Prosjekt 1 – COMPAS – HON2200 – V2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../hon_logo.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-aadbdd34b63a8619be62941c6a9b2204.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-079dae96ee513acaaaf5e7535a33b516.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../oppgaver/oblig_titanic.html">Del 3: Oblig og prosjekt</a></li><li class="breadcrumb-item"><a href="../oppgaver/prosjekt_1_compas.html">Prosjekt 1 – COMPAS</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../hon_logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">HON2200 – V2026</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kursinformasjon</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Velkommen til HON2200</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../undervisningsplan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Undervisningsplan</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Del 1: Statistikk</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uke 1 – 23. januar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/01a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forberedelser</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/01b1_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forelesningsnotat</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/llm/hon2110_oppfrisking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HON2110 Oppfriskingsoppgaver</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/01c_øvelse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Øvingsoppgaver</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/02a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uke 2 – 30. januar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/02a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forberedelser</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/02b_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forelesningsnotat: Lineær regresjon og modellering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/02c_øvelse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Øvingsoppgaver</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/03a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uke 3 – 7. februar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/03a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forberedelser</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/03b_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forelesningsnotat: Logistisk regresjon</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/03b2_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Øvingsoppgave/Tutorial i logistisk regresjon (Gjøres i timen + som øvelse utenom)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/04a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uke 4 – 14. februar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/04a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forberedelser</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/04b_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forelesningsnotat: Trening, testing, kryssvalidering, overtrening</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/05a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uke 7 – 6. mars</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/05a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forberedelser</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/05b_slides_ane.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forelesningsnotat: Beslutningstrær</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/06a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uke 8 – 13. mars</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/06a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forberedelser</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/06_slides_ane.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Random Forest og ensemblemetoder</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Del 2: Digital etikk</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/etikk_01a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uke 5 – 20. februar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/etikk_01a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forberedelser</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../lectures/etikk_02a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uke 6 – 27. februar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/etikk_02a_forberedelser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Forberedelser</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Del 3: Oblig og prosjekt</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../oppgaver/oblig_titanic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Obligatorisk oppgave om Titanic (frist 19. mars kl. 23:59)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../oppgaver/prosjekt_1_compas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Prosjekt 1 – COMPAS</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true">
+ <span class="menu-text">LLM-supplement</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/llm/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LLM-supplement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/llm/llm_01_pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduksjon til Pandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/llm/llm_02_linreg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lineær regresjon</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/llm/llm_03_logreg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logistisk regresjon</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/llm/llm_04_kryssvalidering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kryssvalidering og overtrening</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/llm/llm_05_beslutningstraer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Beslutningstrær</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#innlevering" id="toc-innlevering" class="nav-link active" data-scroll-target="#innlevering">Innlevering</a></li>
+  <li><a href="#framgangsmåte" id="toc-framgangsmåte" class="nav-link" data-scroll-target="#framgangsmåte">Framgangsmåte</a>
+  <ul class="collapse">
+  <li><a href="#diskusjonsoppgaver" id="toc-diskusjonsoppgaver" class="nav-link" data-scroll-target="#diskusjonsoppgaver">Diskusjonsoppgaver</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../oppgaver/oblig_titanic.html">Del 3: Oblig og prosjekt</a></li><li class="breadcrumb-item"><a href="../oppgaver/prosjekt_1_compas.html">Prosjekt 1 – COMPAS</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Prosjekt 1 – COMPAS</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Læringsmål
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I dette prosjektet skal dere gjennomføre en slags algoritmerevisjon av COMPAS-algoritmen. Vi har valgt denne algoritmen fordi det fortsatt er ekte faglig uenighet om hvorvidt denne algoritmen er adekvat å bruke.</p>
+<p>Målet med prosjektet er at dere skal trenes i å:</p>
+<ul>
+<li>visualisere forskjeller i undergrupper av data ved hjelp av pandas</li>
+<li>gjøre en statistisk analyse av data ved hjelp av pandas</li>
+<li>bruke en statistisk modell til å analysere data</li>
+<li>kunne identifisere ulike faktorer som gjør en beslutning rettferdig og ha en begrunnet oppfatning av deres relative betydning.</li>
+<li>begrunne om bruk av algoritmer er rettferdig og hva som skal til for at bruken er rettferdig.</li>
+</ul>
+<p>Dette faller innunder kursets overordnede læringsmål:</p>
+<ul>
+<li>forstå og anvende sentrale konsepter innenfor statistikk.</li>
+<li>forstå, bearbeide, analysere og visualisere datasett av moderat størrelse på en informert måte, samt trekke etterprøvbare konklusjoner.</li>
+<li>vurdere etiske utfordringer med bruk av ulike typer KI-algoritmer på en systematisk og stringent måte.</li>
+<li>se hvordan opprinnelsen til et datasett legger føringer og begrensninger på hva man kan bruke datasettet til.</li>
+<li>jobbe med prosjekter i et tverrfaglig team og kommunisere arbeidet og konklusjonene skriftlig/digitalt og muntlig.</li>
+</ul>
+</div>
+</div>
+<p>Hvordan bestemmer vi om en siktet skal varetektsfengsles eller om domfelte skal løslates før tiden (prøveløslatelse) eller sitte i forvaring? I disse spørsmålene er det ikke bare hva personen er dømt for som er avgjørende, men også hvilken risiko det er for at vedkommende vil forspille bevis eller stikke av (varetektfengsling) eller begå nye straffbare handlinger (prøveløslatelse og forvaring). Hvordan kan vi avgjøre slike risikoer?</p>
+<p>For å spare tid og eliminere dommeres mulige fordommer, bruker deler av det amerikanske rettsvesenet idag algoritmer til å risikovurdere personer. Dere skal i dette prosjektet gjennomføre en del av en algoritmerevisjon (algorithmic audit) på en slik algoritme. Algoritmerevisjon kan omfatte kontrollering av flere sider av en algoritme (på flere stadier av utviklingen).</p>
+<p>Dere skal analysere COMPAS-algoritmen som idag brukes i USA til å gjøre viktige beslutninger i rettssystemet. Dere skal kun basere vurderingen på dens resultater. Dere har nemlig ikke tilgang til algoritmen fordi innholdet i den er en forretningshemmelighet. Nettavisen ProPublica har en <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">artikkel</a> om hvordan denne algoritmen brukes og om hvorvidt bruken er rettferdig. De har også en <a href="https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm">artikkel</a> som går mer i detalj på hvordan de utførte analysen. Dere skal gjøre mye av den samme analysen som ProPublica gjorde, så les begge disse og notér hvilke resultater dere mener er viktige.</p>
+<p>Dataene ProPublica brukte i analysen, og som dere skal bruke, kan dere finne på <a href="https://github.com/propublica/compas-analysis/blob/master/compas-scores-two-years.csv">denne Github-siden</a>.</p>
+<p>En mer omfattende beskrivelse av innholdet i COMPAS-algoritmen, og særlig hva noen av kolonnene i datasettet betyr, finnes <a href="https://s3.documentcloud.org/documents/2840784/Practitioner-s-Guide-to-COMPAS-Core.pdf">her</a>.</p>
+<p>Vi anbefaler at dere bruker følgende artikler for å hjelpe dere med å evaluere bruk av maskinlæring til å foreta avgjørelser som diskutert over. Den første er en artikkel om å gjøre algoritmerevisjon, den andre er et eksempel på en studie som vurderer en spesifikk algoritme, og resten er de artiklene dere ble anbefalt å lese før undervisningen i digital etikk.</p>
+<div class="hidden">
+<p><span class="citation" data-cites="brownAlgorithmAuditScoring2021 obermeyerDissectingRacialBias2019 binns2018political jonesNonrivalryEconomicsData2020 viljoen2021relational lanierBlueprintBetterDigital2018 yona2017gentle delong2024affirmative kleinberg2018discrimination"><sup><a href="#ref-brownAlgorithmAuditScoring2021" role="doc-biblioref">1</a>–<a href="#ref-kleinberg2018discrimination" role="doc-biblioref">9</a></sup></span></p>
+</div>
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-brownAlgorithmAuditScoring2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Brown, S., Davidovic, J. &amp; Hasan, A. <a href="https://doi.org/10.1177/2053951720983865">The algorithm audit: <span>Scoring</span> the algorithms that score us</a>. <em>Big Data &amp; Society</em> <strong>8</strong>, 205395172098386 (2021).</div>
+</div>
+<div id="ref-obermeyerDissectingRacialBias2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Obermeyer, Z., Powers, B., Vogeli, C. &amp; Mullainathan, S. Dissecting racial bias in an algorithm used to manage the health of populations. 8 (2019) doi:<a href="https://doi.org/10.1126/science.aax2342">10.1126/science.aax2342</a>.</div>
+</div>
+<div id="ref-binns2018political" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Binns, R. <a href="https://doi.org/10.1109/MSP.2018.2701147">What can political philosophy teach us about algorithmic fairness?</a> <em>IEEE Security &amp; Privacy</em> <strong>16</strong>, 73–80 (2018).</div>
+</div>
+<div id="ref-jonesNonrivalryEconomicsData2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Jones, C. I. &amp; Tonetti, C. <a href="https://doi.org/10.1257/aer.20191330">Nonrivalry and the <span>Economics</span> of <span>Data</span></a>. <em>American Economic Review</em> <strong>110</strong>, 2819–2858 (2020).</div>
+</div>
+<div id="ref-viljoen2021relational" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Viljoen, S. <a href="https://yalelawjournal.org/feature/a-relational-theory-of-data-governance">A relational theory of data governance</a>. <em>Yale Law Journal</em> <strong>131</strong>, (2021).</div>
+</div>
+<div id="ref-lanierBlueprintBetterDigital2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Lanier, J. &amp; Weyl, E. G. <a href="https://hbr.org/2018/09/a-blueprint-for-a-better-digital-society">A blueprint for a better digital society</a>. <em>Harvard Business Review</em> (2018).</div>
+</div>
+<div id="ref-yona2017gentle" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Yona, G. <a href="https://medium.com/towards-data-science/a-gentle-introduction-to-the-discussion-on-algorithmic-fairness-740bbb469b6">A gentle introduction to the discussion on algorithmic fairness</a>. <em>TDS Archive</em> (2017).</div>
+</div>
+<div id="ref-delong2024affirmative" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">DeLong, J. B. <a href="https://braddelong.substack.com/p/affirmative-action-a-primer-and-a">Affirmative action: A primer, &amp; a finger exercise</a>. <em>Brad DeLong’s Grasping Reality</em> (2024).</div>
+</div>
+<div id="ref-kleinberg2018discrimination" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Kleinberg, J., Ludwig, J., Mullainathan, S. &amp; Sunstein, C. R. <a href="https://doi.org/10.3386/w25548">Discrimination in the age of algorithms</a>. <em>Journal of Legal Analysis</em> <strong>10</strong>, 113–174 (2018).</div>
+</div>
+</div>
+<section id="innlevering" class="level2">
+<h2 class="anchored" data-anchor-id="innlevering">Innlevering</h2>
+<p>Dere skal levere en zip-fil som inneholder hele prosjektarbeidet med en fornuftig mappestruktur. Vi skal gå gjennom dette på forelesning. Prosjektarbeidet skal ha følgende deler: - Endelig rapport som PDF med relevante numeriske analyser, figurer og forklaringer som svarer på deloppgavene under. Rapporten skal skrives med en fornuftig struktur, og skal ikke følge oppgaveinndelingen under. Rapporten skal også inneholde en human- og samfunnsvitenskapelig diskusjon av spørsmålene som er gitt nederst i oppgaveteksten. (I mappen <code>reports</code>). - Utforskende notebooks. (I mappen <code>notebooks</code>) - Datasettet dere har brukt. (I mappen <code>data</code>) - En fil <code>requirements.txt</code> som lister python-pakkene som må installeres for å kunne kjøre koden i prosjektet.</p>
+<p>Skriv både rapporten slik at den kan leses med letthet, og uten å ha lest oppgaveteksten på forhånd.</p>
+<p><strong>Dere skal levere prosjektet (inkl. mappestruktur) senest 16. april for å få tilbakemeldinger på innhold og struktur. Så går vi over i prosjektfase 2, der vi endrer eller utvider prosjektet</strong></p>
+</section>
+<section id="framgangsmåte" class="level2">
+<h2 class="anchored" data-anchor-id="framgangsmåte">Framgangsmåte</h2>
+<p>Under følger noen steg dere kan følge for å komme i gang.</p>
+<p>Selve rapporten skal <em>ikke</em> følge oppgaveinndelingen under, oppgaveinndelingen er der bare for å hjelpe dere med å komme i gang med en fungerende framgangsmåte.</p>
+<p>Se på oppgavene under som et forslag til hvordan dere kan gjøre prosjektet. Dersom dere finner ut at dere vil gjøre noe litt annerledes er det helt greit. Pass bare på at prosjektet blir omtrent like stort i omfang som det vi har skissert, samt at dere oppfyller læringsmålene.</p>
+<p><strong>a)</strong> <strong>Les inn og forstå dataene.</strong> Se hvilke kolonner som finnes og fjern kolonnene dere ikke kommer til å trenge til plottingen eller analysen. Plot deretter følgende:</p>
+<ul>
+<li>hvor ofte ulike grupperinger av mennesker (kvinner, menn, hvite og svarte) gjentar forbrytelser</li>
+<li>hvor ofte ulike grupperinger av mennesker (kvinner, menn, hvite og svarte) blir predikert av algoritmen til å begå straffbare handlinger i framtiden.</li>
+<li>hvor ofte ulike grupper fikk ulike risikoskårer.</li>
+<li>hvor ofte de som begikk nye straffbare hadlinger (og de som ikke gjorde det) fikk ulike risikoskårer, og hvordan dette ser ut hvis du kun ser på hvite eller svarte.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hvordan leste de inn dataene i ProPublica studien?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ikke alle dataene ble ansett til å være brukbare i ProPublica studien, så de fjernet flere datapunkter. Datasettet dere lastet ned har allerede de fleste av disse radene fjernet, men det gjenstår å fjerne de som bryter følgende krav i studien:</p>
+<p>“If the charge date of a defendants Compas scored crime was not within 30 days from when the person was arrested, we assume that because of data quality reasons, that we do not have the right offense.”</p>
+<p>Radene dette angår kan fjernes slik:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[data[<span class="st">"days_b_screening_arrest"</span>] <span class="op">&lt;=</span> <span class="dv">30</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[data[<span class="st">"days_b_screening_arrest"</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">30</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p><strong>b)</strong> Vi definerer nå at personer med risikokategori (<code>score_text</code>) “High” eller “Medium” ble predikert til å ha høy risiko, og resten ikke. De som utførte en forbrytelse innen to år (<code>two_year_recid</code>) og ble predikert å ha høy risiko sier vi ble predikert riktig. Disse kaller vi da <em>sanne positive</em> for COMPAS. Finn raten av falske positive, falske negative, sanne positive og sanne negative, samt positiv prediktiv verdi (<span class="math inline">\(P(recid|high)\)</span>) for: - hele befolkningen - kvinner - menn - hvite - svarte</p>
+<p>Her må man lage funksjoner og bruke for-løkker for å ikke bli gal.</p>
+<p><strong>c)</strong> Det er sammenheng mellom presisjonen til COMPAS og graden av diskriminering den påfører forskjellige grupper mennesker. Bruk Bayes’ setning til å forklare hvorfor dette er tilfelle:</p>
+<p><span class="math display">\[P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}\]</span></p>
+<p><strong>d)</strong> Undersøk skjevheter i COMPAS på bakgrunn av etnisitet ved å kontrollere for kjønn, alder, kriminell historie og eventuell gjentatt forbrytelse. Dere skal her gjenskape følgende resultat fra ProPublica-studien:</p>
+<p>“Could this disparity be explained by defendants’ prior crimes or the type of crimes they were arrested for? No.&nbsp;We ran a statistical test that isolated the effect of race from criminal history and recidivism, as well as from defendants’ age and gender. Black defendants were still […] 45 percent more likely to be predicted to commit a future crime of any kind.”</p>
+<p>Lag en figur som viser <em>partial dependance</em> for modellen for å se hvilken innflytelse de andre parametrene har, som f.eks “priors_count”.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hvordan gjorde de det i ProPublica studien?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>De trente en logistisk modell for å forutsi COMPAS algoritmen sine predisksjoner gitt etnisitet, kriminell historie og eventuell gjentatt forbrytelse. Dere lærte å implementere en logistisk modell i obligen, men vi fraråder <strong>sterkt</strong> å bruke deres egen logistiske modell i denne oppgaven. Bruk scikit-learn sin <code>LogisticRegression</code> modell istedet (med minst 1000 iterasjoner). For å gjenskape ProPublica sine resultater anbefaler vi å sette opp input og output til modellen som gitt i koden under. Dette er nøyaktig de samme dataene de valgte ut i studien. Vi fjerner noen av de kategoriske kolonnene slik at disse blir “standard” input til modellen når vi skal undersøke hvordan modellen reagerer på en endring av etnisitet senere. <code>Y</code> vil her holde verdien <code>True</code> for mennesker med “Medium” eller “High” risiko kategori, og <code>False</code> for de med “Low”.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data[[<span class="st">"age_cat"</span>, <span class="st">"race"</span>, <span class="st">"sex"</span>, <span class="st">"priors_count"</span>, <span class="st">"c_charge_degree"</span>, <span class="st">"two_year_recid"</span>]]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>categorical_cols <span class="op">=</span> [<span class="st">"age_cat"</span>, <span class="st">"race"</span>, <span class="st">"sex"</span>, <span class="st">"c_charge_degree"</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(X, columns<span class="op">=</span>categorical_cols, prefix<span class="op">=</span>categorical_cols, prefix_sep<span class="op">=</span><span class="st">'_'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> X.drop([<span class="st">"age_cat_25 - 45"</span>, <span class="st">"race_Caucasian"</span>, <span class="st">"sex_Male"</span>, <span class="st">"c_charge_degree_F"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> data[<span class="st">"score_text"</span>] <span class="op">!=</span> <span class="st">"Low"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Når den logisktiske modellen er trent på dataene har den vekter og bias som skal forutsi hvordan COMPAS gjør prediksjoner basert på input variablene vi trente modellen på. For å undersøke om den behandler hvite og svarte mennesker ulikt gjør vi følgende utregning med bias og vektene til modellen: (Merk at å få ut vekten som tilsvarer “race_African-American” ikke nødvendigvis blir så lett som i kodesnutten under, så google/spør gpt.uio.no hvordan du henter vektene til en slik modell)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>control <span class="op">=</span> sigmoid( b )</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>racialBias <span class="op">=</span> np.exp( coefs[<span class="st">"race_African-American"</span>] ) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> control <span class="op">+</span> (control <span class="op">*</span> np.exp(coefs[<span class="st">"race_African-American"</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>control</code> er prediksjonen til modellen gitt “standard” input, de kolonnene vi fjernet tidligere (Alle vektene blir ganget med null. Hvis alle kolonnene er 0 i X, hva slags person ser vi på da?). <code>b</code> er her bias leddet, det må alltid med i input til sigmoiden i en prediksjon. <code>racialBias</code> bør ha en verdi rundt 1.45, dette gav resultatet “45 percent more likely to be predicted to commit a future crime” i studien.</p>
+</div>
+</div>
+<p><strong>e)</strong> I oppgave d) modellerte dere COMPAS sine prediksjoner. Nå skal dere prøve å lage en <em>egen</em> modell som predikerer faktisk tilbakefall. Tren en random forest-modell til å predikere <code>two_year_recid</code> direkte, basert på de samme variablene dere brukte i oppgave d) (alder, kjønn, antall tidligere domfellelser, type lovbrudd — men <em>uten</em> etnisitet som input).</p>
+<ul>
+<li>Sammenlign nøyaktigheten til modellen deres med COMPAS sin treffsikkerhet (som dere fant i oppgave b).</li>
+<li>Beregn falsk positiv-rate og falsk negativ-rate for hvite og svarte, og sammenlign med COMPAS sine rater.</li>
+<li>Bruk feature importance til å undersøke hvilke variabler modellen legger mest vekt på.</li>
+<li>Selv om etnisitet ikke er med som input: er modellen deres like «rettferdig» for hvite og svarte? Diskuter hvorfor eller hvorfor ikke — kan andre variabler fungere som proxy for etnisitet?</li>
+</ul>
+<section id="diskusjonsoppgaver" class="level3">
+<h3 class="anchored" data-anchor-id="diskusjonsoppgaver">Diskusjonsoppgaver</h3>
+<p><strong>a)</strong> Hva er de beste grunnene for å bruke en algoritme, slik som f.eks. COMPAS, til å vurdere risiko i rettsvesenet? Spesifiser hvilke formål dere har i tankene.</p>
+<p><strong>b)</strong> Hvordan vil en rettferdig algoritme se ut? Hvilke hensyn må den ivareta, og hvilke virkninger må den ha (og ikke ha)?</p>
+<p><strong>c)</strong> Hvis det finnes eksisterende urettferdigheter i samfunnet, er det mulig for en algoritme å gi rettferdige utslag? 1. Hvordan kan man evt. gjøre opp for urettferdighet i en algoritme? 2. Vil det å gjøre opp for urettferdighet i en algoritme kune føre til andre problemer?</p>
+<p><strong>d)</strong> Northpointe, leverandøren av COMPAS, kom med et <a href="http://go.volarisgroup.com/rs/430-MBX-989/images/ProPublica_Commentary_Final_070616.pdf">tilsvar</a> til ProPublica sin studie. Her hevder Northpointe at COMPAS ikke diskriminerer arfikansk-amerikanere. Hvordan belegger de denne påstanden. Forsøk å komme til kjernen av uenigheten mellom Northpointe og ProPublica.</p>
+<p><strong>e)</strong> Skisser opp hvordan et system for tredjeparts-algoritmerevisjon kunne sett ut med hensikt om å sikre rettferdige algoritmer i rettsvesenet.</p>
+<p><strong>For å besvare spørsmålene over kan det være lurt å tenke på:</strong></p>
+<ul>
+<li>Hva er alternativet til å bruke en algoritme?</li>
+<li>Hva er rettferdighet? Finnes det flere forståelser av rettferdighet som kan være komplimenterede?</li>
+<li>Kan en algoritme som gir helt presise prediksjoner være urettferdig?</li>
+<li>Er rettferdighet noe vi kan ha mer eller mindre av, eller er noe enten rettferdig eller ikke?</li>
+<li>Finnes det et mål på hvor rettferdig noe er? Er rate av falske positive dette? Positiv prediktiv verdi?</li>
+<li>Har det betydning for om en algoritme er rettferdig eller ikke, om den brukes i én domstol versus om den brukes i alle domstoler i landet?</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tverrfaglig integrasjon
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I denne oppgaven krever vi en viss grad av tverrfaglig interaksjon. Det betyr at flere fag kommer sammen og gjør noe som ikke var mulig om fagene holdt på hver for seg. Det kan (og vil typisk) være at svarene på diskusjonsoppgavene deres konkret inneholder informasjon fra den statistiske analysen, samt at arbeidet med diskusjonsspørsmålene informerer hva dere trenger å hente inn av informasjon i den statistiske analysen. Det vil være fullt mulig å finne ut av i løpet av veiledningstimene om dere har kommet til en tilstrekkelig grad av tverrfaglig integrasjon.</p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/henriasv\.github\.io\/hon2200-v26\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
