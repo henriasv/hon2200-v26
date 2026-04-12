@@ -1,0 +1,98 @@
+---
+title: "Tverrfaglig integrasjon i COMPAS-prosjektet"
+format:
+  pdf:
+    toc: false
+    number-sections: false
+    geometry:
+      - margin=2.5cm
+    fontsize: 11pt
+    lang: nb
+    latex-auto-install: false
+  typst:
+    toc: false
+    number-sections: false
+    margin:
+      x: 2.5cm
+      y: 2.5cm
+    fontsize: 11pt
+    lang: nb
+---
+
+Denne økten hjelper dere med å integrere den statistiske analysen og den etiske diskusjonen i COMPAS-prosjektet. Målet er *syntese*, slik at fagene deres til sammen skaper noe nytt som ikke var mulig for hvert fag separat.
+
+:::: {.notes}
+:::{.callout-note icon=false}
+## Undervisernote — før du starter
+Studentene skal helst *oppdage* koblingene mellom statistikk og etikk selv. Ikke forklare for tidlig, stille heller oppfølgingsspørsmål, ikke gi svar. Hvis en gruppe sitter fast, spør: «Hva sier tallene deres om dette?» eller «Hvilket etisk argument støtter det tallet?» Unngå å gi bort at PPV og FPR kan peke i ulik retning.
+
+Ha Post-it-lapper og penner klart.
+:::
+::::
+
+## Brainwriting
+
+### Individuelt (4 min)
+Skriv på Post-it-lapper (én idé per lapp) svar på følgende spørsmål:
+
+> Hvilke *konkrete tall eller figurer* fra analysen vår endrer, styrker eller kompliserer et argument i diskusjonsdelen?
+
+Eksempler på tall:
+
+- «Falsk positiv rate for svarte er X% vs. Y% for hvite — dette konkretiserer diskusjonen om strukturell urettferdighet»
+- «Vår egen modell uten etnisitet har/har ikke skjev falsk positiv rate — proxy-variabler gjør (ikke?) 'fargeblindhet' utilstrekkelig»
+- «Positiv prediktiv verdi er lik/ulik? på tvers av grupper»
+
+### I gruppe (6 min)
+Sirkuler lappene i gruppen deres, og bygg videre med kulepunkter på andres lapper. Marker deretter med pil opp/pil sidelengs/pil ned hvor viktig integrasjonspunktet er for rapporten. Se om det gir mening å fokusere på pil opp inn mot fullføring av oppgaven.
+
+:::: {.notes}
+:::{.callout-note icon=false}
+## Undervisernote — brainwriting
+Sirkuler mellom gruppene under denne delen. Se etter lapper som *bare* er statistiske («FPR er 44%») uten kobling til etikk, eller *bare* etiske («COMPAS er urettferdig») uten tall. Pek på slike lapper og spør: «Hva mangler her for at dette skal bli et argument i rapporten?»
+
+Hvis en gruppe produserer få lapper, hjelp dem i gang med å spørre: «Hva fant dere ut i oppgave b? Hva betyr det for diskusjonsoppgave c?»
+:::
+::::
+
+\newpage
+
+## Northpointe vs. ProPublica (15 min)
+
+Del gruppen i to lag:
+
+- **Team ProPublica:** «COMPAS diskriminerer.»
+- **Team Northpointe:** «COMPAS er rettferdig.»
+
+### Begrunnelse (2 min)
+Begrunn deres tildelte ståsted (diskriminerer/diskriminerer ikke) med *et konkret tall fra analysen deres* og *et etisk argument fra pensum*.
+
+### Debatt (5 min)
+Hver side presenterer (2 min), deretter åpen diskusjon.
+
+:::: {.notes}
+:::{.callout-note icon=false}
+## Undervisernote — debatten
+Denne øvelsen fungerer bare hvis begge lag bruker *sine egne tall*. Hvis et lag argumenterer rent prinsipielt uten å vise til analysen, bryt inn og be om tall som støtte til analysen. Tilsvarende, hvis de bare viser tall uten å koble det til et rettferdighetsargument, be om svar på hvorfor tallet er urettferdig. 
+
+Det er helt ok at noen studenter må argumentere *mot* det de egentlig mener. Det er en vanlig øvelse for å forstå motargumenter bedre. 
+:::
+::::
+
+### Integrasjon (8 min)
+Gruppen samles og jobber med:
+
+Kan begge ha rett samtidig? Hvordan får dere det hele til å henge sammen, og hvordan avgjør dere svaret på spørsmålet om det er greit å bruke COMPAS-algoritmen?
+
+Skriv opp konkrete forbedringspunkter for rapporten deres.
+
+:::: {.notes}
+:::{.callout-note icon=false}
+## Undervisernote — integrasjon
+Dette er den viktigste delen. Hvis gruppen raskt lander på at COMPAS er urettferdig, utfordre dem vha positiv prediktiv verdi. Hvis de lander på at begge har rett, det kommer an på definisjonen, krev at de skal argumentere for hva som er det riktige defisjonen. Vi må jo, gitt forutsetninger avgjøre om ja eller nei kan vi bruke COMPAS!
+:::
+::::
+
+Her bruker dere sannsynligvis statistikk for å forklare en etisk uenighet. Det er nettopp denne typen kobling som utgjør tverrfaglig *syntese*, noe som ikke var mulig med bare ett av fagene alene.
+
+\vspace{1cm}
